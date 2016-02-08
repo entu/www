@@ -1,1 +1,1 @@
-www.entu.ee page
+entu.ee page
