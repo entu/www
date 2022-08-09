@@ -1,0 +1,118 @@
+title: Entu
+subtitle: Tuleviku andmehaldus
+
+menu:
+    info: Info
+    price: Hind
+    signin: Sisene
+
+features:
+    -
+        title: Lihtne
+        text: Infosüsteemi juurutamine ja kasutamine ei peaks olema keeruline. Entu disaini juures oleme lähtunud põhimõttest, et lihtne on alati parem.
+    -
+        title: Paindlik
+        text: Enamik infosüsteeme on mõeldud katma vaid kitsast ärivaldkonda. Nende muutmine on võimatu või kulukas. Entu saad seadistada just oma vajadustest lähtuvalt.
+    -
+        title: Turvaline
+        text: Kogu andmevahetus Sinu arvuti ja Entu serveri vahel on krüpteeritud. Kõikidest andmetest tehakse varukoopia kolme erinevasse serverisse.
+    -
+        title: Liidestatav
+        text: Kui Entu veel ei kata kõiki vajadusi või kasutad mõnd spetsiaalrakendust, siis saad selle Entuga siduda API kaudu.
+    -
+        title: Pilvel
+        text: Entu on veebipõhine ja kättesaadav igast internetiühendusega arvutist. Sa ei pea muretsema tarkvara paigaldamise ega uuendamise pärast. Entu on pidevas arendamises. Kuulame klientide tagasisidet ja lisame pidevalt uusi võimalusi.
+    -
+        title: Soodne
+        text: Infosüsteemi(de) haldamine või uue rätsepatööna tellimine on kallis. Entuga saad alustada tasuta ning andmemahu kasvades valida soodsa kuumaksuga paketi.
+
+info: |
+    ## Kergesti kohaldatav
+    Iga üksikisik, asutus, ettevõte, organisatsioon tekitab mingeid andmeid, mida on vaja korrastada, hoida, kasutajatele tagasi jagada vaatamiseks või toimetamiseks. Enamik infosüsteeme on mõeldud katma vaid kitsast ärivaldkonda. Nende muutmine on kulukas. Muutuvate vajaduste jaoks luuakse aina uusi, eraldiseisvaid andmebaase. Enamasti on raskendatud ka nende omavaheline liidestamine ja andmete liigutamine ühest süsteemist teise käib käsitsi.
+
+    Entu kohaneb kergesti Sinu andmete koosseisuga. Hõlpsasti kirjeldad andmeobjektide tüüpe, nende parameetreid ja omavahelisi seosed. Seda kõike saad hiljem täiendada ja muuta. Tänu Entu paindlikkusele saad kogu oma info siia kokku koondada ja jääb ära eri süsteemide liidestamine või käsitsi infovahetus.
+
+    ## Andmeobjektid
+    Entu hoiab andmeid objektides. Objekti tüüpe (näiteks raamat, persoon, artikkel, kaust, tegevus) saad ise defineerida ja hiljem alati täiendada ning muuta. Objekti tüüpi defineerides saad anda sellele nime ja kirjelduse; määrata, mis moodulis (või menüüpunktis) seda tüüpi objekte kuvatakse; milliste teist tüüpi objektidega on ta seotud jne. Üks objekt saab sisaldada ka teisi objekte (näiteks kaust dokumente, õpik peatükke jne).
+
+    Igal objektil on parameetrid (näiteks raamatul on pealkiri, autor, ilmumisaasta). Parameetrid võivad olla teksti, numbri, kuupäeva, viite (teisele objektile) jm tüüpi. Igal parameetril saad seadistada nime ja kirjelduse; kas see on avalikus vaates nähtav; kas selle järgi saab otsida ja/või sorteerida; mis on vaikeväärtus; kas seda parameetrit võib sisestada ühe või mitu (näiteks raamatul on üks pealkiri, aga mitu autorit) jm. Lisaks staatilistele andmeväljadele on olemas ka dünaamilised, teiste andmeväljade või teiste objektide väljade järgi arvutatavad väljad.
+
+    ## Õigused
+    Kasutajate tuvastamine käib Google, Apple, LHV Panga, Mobiil-ID ja ID-Kaardi abil ning kasutajaõigused on objektipõhised - rolli mõistet süsteemis pole. Igal objektil on omanik(ud). Omanik saab määrata, kes sellele objektile ligi pääsevad, kes saab seda muuta, täiendada, kustutada.
+
+    ## Turvalisus
+    Kogu liiklus Sinu brauseri ja Entu serveri vahel on krüpteeritud. Entus Sinu salalsõna ei salvestata - see ei käi meie juurest isegi läbi. Sinu andmebaasist tehakse kord ööpäevas koopia, mida säilitatakse serverites kolmes erinevas maailmaosas.
+
+    ## Eelseadistatud moodulid
+    Entu kasutuselevõtu hõlbustamiseks on mitmeid mooduleid eelseadistatud. Neis moodulites olevad objektide tüübid püüavad katta erinevaid infovajadusi ja ilmutada Sulle Entu võimalusi. Eelseadistatud mooduleid ja objekte saad ise muuta ning laiendada, aga ka kustutada. Mõned eelseadistatud moodulid on näiteks personal ja kontaktid; dokumendihaldus; raamatukogu; ruumid ja inventar.
+
+plans:
+    title: Hind
+    text: majutusteenuse ühe kuu käibemaksuga hind
+    list:
+        -
+            title: Tasuta
+            features:
+                - Eelseadistatud moodulid
+                - Piiramatult kasutajaid
+                - Kuni 1000 objekti
+                - Kuni 100MB andmeid
+        -
+            title: 9 €
+            features:
+                - Eelseadistatud moodulid
+                - Piiramatult kasutajaid
+                - Kuni 10 000 objekti
+                - Kuni 1GB andmeid
+                - Igapäevane varukoopia
+
+        -
+            title: 39 €
+            features:
+                - Eelseadistatud moodulid
+                - Piiramatult kasutajaid
+                - Kuni 100 000 objekti
+                - Kuni 5GB andmeid
+                - Igapäevane varukoopia
+                - ID-kaardi ja Mobiil-ID tugi
+                - Oma aadress
+
+        -
+            title: 198 €
+            features:
+                - Eelseadistatud moodulid
+                - Piiramatult kasutajaid
+                - Kuni 500 000 objekti
+                - Kuni 50GB andmeid
+                - Igapäevane varukoopia
+                - ID-kaardi ja Mobiil-ID tugi
+                - Oma aadress
+                - Personaalteenindus
+
+customers:
+    title: Kliendid ja partnerid
+    list:
+        -
+            - Are Põhikool
+            - Aseri Kool
+            - August Kitzbergi nimeline Gümnaasium
+            - Eesti Keele Instituut
+            - Eesti Keeleressursside Keskus
+            - Eesti Kunstiakadeemia
+            - Entusiastid OÜ
+        -
+            - Kunda Hariduse Toetusselts
+            - MTÜ Pillimuuseum
+            - Okupatsioonide ja vabaduse muuseum Vabamu
+            - Piletilevi AS
+            - Tallinna Ehituskool
+            - Tallinna Läänemere Gümnaasium
+            - Tallinna Linnamäe Vene Lütseum
+        -
+            - Tallinna Mustamäe Gümnaasium
+            - Tallinna Nõmme Gümnaasium
+            - Tallinna Tondi Põhikool
+            - Toidu- ja Fermentatsioonitehnoloogia Arenduskeskus
+            - Vasalemma Põhikool
+            - Virtsu Kool
+            - Wõrgu Wõlurid OÜ

@@ -1,0 +1,93 @@
+-
+    const background = `background-image:url('/assets/images/backgrounds/bg-${Math.ceil(Math.random() * 14)}.jpg')`
+
+mixin markdown(text = '')
+    | !{ self.md(text) }
+
+doctype html
+html(lang=self.locale)
+    head
+        meta(charset='utf-8')
+        meta(name='viewport' content='width=device-width, initial-scale=1, shrink-to-fit=no, viewport-fit=cover')
+        title= `${self.title} · ${self.subtitle}`
+        link(href='/assets/css/bootstrap.min.css' rel='stylesheet')
+        link(href='/style.css' rel='stylesheet')
+
+        script(src='https://plausible.io/js/plausible.js' defer data-domain='entu.ee')
+    body
+        .container-fluid.h-100
+            .row.h-100
+                #start.col-12
+                    #background(style=background)
+                    #nav.fixed-top
+                        .container
+                            nav.navbar.navbar-expand-sm.navbar-dark.row
+                                a.navbar-brand.mr-auto(href='/')
+                                    strong= self.title
+                                ul.navbar-nav
+                                    li.nav-item.d-none.d-sm-block
+                                        a.nav-link.text-white(href='#info')= self.menu.info
+                                    li.nav-item.d-none.d-sm-block
+                                        a.nav-link.text-white(href='#price')= self.menu.price
+                                    //- li.nav-item
+                                    //-     router-link.btn.btn-outline-success.text-light.ml-2.px-3(:to="{ name: 'auth' }")= self.menu.signin
+                                    li.nav-item.d-none.d-sm-block
+                                        if self.locale === 'en'
+                                            a.nav-link.text-white(href='/')
+                                                strong EST
+                                        if self.locale === 'et'
+                                            a.nav-link.text-white(href='/en')
+                                                strong ENG
+
+                    .row
+                        .col-12.mb-0.jumbotron.jumbotron-fluid.d-flex.align-items-center.justify-content-center.text-center
+                            h1= self.subtitle
+
+                    .row.bg-white
+                        .container
+                            .row.mt-3.pt-5
+                                each f in self.features
+                                    .col-12.col-sm-6.col-md-4.mb-5
+                                        h2.text-center
+                                            strong= f.title
+                                        p= f.text
+
+                    #info.row.gray-row
+                        .container
+                            .row.mt-3.py-5
+                                .col-12.col-md-7
+                                    +markdown(self.info)
+
+                    #price.row
+                        .container
+                            .row.mt-3.py-5
+                                .col-12.mb-3.text-center
+                                    h2
+                                        strong= self.plans.title
+                                    p= self.plans.text
+
+                                each p in self.plans.list
+                                    .col-10.offset-1.col-sm-6.offset-sm-0.col-md-3.d-flex.mb-3.align-items-stretch
+                                        .card.w-100
+                                            .card-body
+                                                h3.card-title.text-center= p.title
+                                                ul.list-unstyled.card-text
+                                                    each f in p.features
+                                                        li= f
+
+                    #customers.row.bg-white
+                        .container
+                            .row.mt-3.py-5
+                                h2.col-12.mb-3.text-center
+                                    strong= self.customers.title
+
+                                each g in self.customers.list
+                                    ul.col-12.col-sm-4.mb-0.list-unstyled
+                                        each c in g
+                                            li= c
+
+                    #footer.row.py-3
+                        .container
+                            .row
+                                .col-12.text-center
+                                    a(href='mailto:info@entu.ee') info@entu.ee

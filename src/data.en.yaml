@@ -1,0 +1,118 @@
+title: Entu
+subtitle: Futuristic data management
+
+menu:
+    info: Info
+    price: Price
+    signin: Sign In
+
+features:
+    -
+        title: Simple
+        text: The implementation and use of an information system cannot not be complicated. We design Entu by the principle that simple is always better.
+    -
+        title: Flexible
+        text: Most information systems are designed to fitonly a narrow business area. Modifying them is impossible or costly. Entu can be configured to your specific needs.
+    -
+        title: Secure
+        text: All data exchange between your computer and the Entu servers is encrypted. All data is backed up daily to three locations.
+    -
+        title: API
+        text: If Entu does not yet cover all your needs or you are using a dedicated application, you can link it to Entu ​​via the API.
+    -
+        title: Cloud
+        text: Entu is web-based and accessible from any computer with an Internet connection. You do not have to worry about installing or updating software. Entu is  constantly developed. We listen to feedback from clients and are constantly adding new features.
+    -
+        title: Affordable
+        text: Managing your information system(s) or ordering a new tailored one is expensive. With Entu you can get started for free and as data volume grows, choose a low cost monthly plan.
+
+info: |
+    ## Easy application
+    Every individual, institution, company, organization creates data that needs to be organized, stored, shared with users for viewing or editing. Most information systems are designed to fit only a narrow business area. Modifying them is expensive. New, stand-alone databases are being created for changing needs. In most cases, it is also difficult to interconnect them and movement of data between systems is done manually.
+
+    Entu  adapts easily to the composition of your data. The types of data objects, their parameters and relationships can described quickly All of this can be changed and added anytime. Thanks to Entu's flexibility, all your information is gathered here, eliminating the need for interfacing between different systems or  exchanging information manually.
+
+    ## Data objects
+    Entu stores data in objects. Object types can be defined (for example book, person, article, folder, activity) and always added or changed later. When defining an object type you can give it a name and description; determine in which module (or menu item) objects of this type are displayed; what other types of objects it is related to, etc. One object can contain other objects (for example, a folder of documents, textbook chapters, etc.).
+
+    Each object has parameters (for example, a book has a title, author, year of publication). Parameters can be text, number, date, reference (to another object), and more. You can set a name and description for each parameter; whether it is visible to the public; whether it can be searched and / or sorted; what is the default value; whether this parameter can be entered once  or more (for example, a book has one title but several authors) and so on. In addition to static data fields, there are dynamic fields calculated from other data fields or other object fields.
+
+    ## Rights
+    User authentication is done through Google, Apple, LHV Bank, (Estonian) Mobile ID and (Estonian) ID Card and user permissions are object based - there is no definition of role in the system. Each object has an owner(s). The owner can determine who has access to this object, who can modify, add, delete.
+
+    ## Security
+    All traffic between your browser and the Entu server is encrypted. Your password is not saved in Entu - it will not even flow through us. A daily copy of your database is stored on servers in three different parts of the world.
+
+    ## Preset modules
+    Several modules have been pre-configured to facilitate deployment. The object types in these modules try to cover different information needs and show you the power of Entu. You can modify and expand these preset modules and objects, or delete them. Some of the preset modules are for example, staff and contacts; document management; library; premises and stock.
+
+plans:
+    title: Pricing Plans
+    text: hosting price per month (including VAT)
+    list:
+        -
+            title: Free
+            features:
+                - Predefined data modules
+                - Unlimited users
+                - Up to 1,000 objects
+                - Up to 100MB storage
+        -
+            title: 9 €
+            features:
+                - Predefined data modules
+                - Unlimited users
+                - Up to 10,000 objects
+                - Up to 1GB storage
+                - Daily backup
+
+        -
+            title: 39 €
+            features:
+                - Predefined data modules
+                - Unlimited users
+                - Up to 100,000 objects
+                - Up to 5GB storage
+                - Daily backup
+                - ID-card and Mobile-ID authentication
+                - Own domain
+
+        -
+            title: 198 €
+            features:
+                - Predefined data modules
+                - Unlimited users
+                - Up to 500,000 objects
+                - Up to 50GB storage
+                - Daily backup
+                - ID-card and Mobile-ID authentication
+                - Own domain
+                - Priority support
+
+customers:
+    title: Clients And Partners
+    list:
+        -
+            - Are Elementary School
+            - Aseri School
+            - August Kitzberg Gymnasium
+            - Center of Estonian Language Resources
+            - Center of Food and Fermentation Technologies
+            - Entusiastid OÜ
+            - Estonian Academy of Arts
+        -
+            - Institute of the Estonian Language
+            - Kunda Education Support Society
+            - Museum of Occupations and Freedom
+            - Piletilevi Ltd
+            - Pillimuuseum
+            - Tallinn Construction School
+            - Tallinn Läänemere Gymnasium
+        -
+            - Tallinn Linnamäe Russian Lyceum
+            - Tallinn Mustamäe Gymnasium
+            - Tallinn Nõmme Gymnasium
+            - Tallinn Tondi Elementary School
+            - Vasalemma Elementary School
+            - Virtsu School
+            - Wõrgu Wõlurid Ltd

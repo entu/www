@@ -1,0 +1,143 @@
+html
+body
+    height 100%
+
+body
+    font-family Avenir, 'Helvetica Neue', Helvetica, Arial, sans-serif !important
+    -webkit-font-smoothing antialiased
+    -moz-osx-font-smoothing grayscale
+
+    .fade-enter-active
+    .fade-leave-active
+        transition opacity .4s
+
+    .fade-enter
+    .fade-leave-to
+        opacity 0
+
+a
+input
+textarea
+select
+    outline 0
+
+a
+    color inherit
+
+    &:hover
+        color #1e434c
+        text-decoration none
+
+h1
+h2
+    color #1e434c
+
+h1
+    font-size 28px
+
+h2
+    font-size 20px
+
+h3
+    font-size 18px
+
+@media (prefers-color-scheme: dark)
+    body
+        color #ffffff
+        background-color #373838
+
+    h1
+    h2
+        color #c8ccce
+
+    a
+        &:hover
+            color #697278
+
+    .loader
+        border-color #697278
+        border-top-color #ffffff
+
+
+
+h1
+    font-size 42px
+    font-weight 100
+
+h2
+h3
+p
+a
+li
+    color #42415c
+
+.gray-row
+    background #f9f8f6
+
+#nav
+    background rgba(66, 65, 92, .6)
+
+    .navbar-brand
+        color #ffffff
+        font-size 32px
+        line-height 32px
+
+#background
+    z-index -1
+    position fixed
+    top 0
+    right 0
+    bottom 0
+    left 0
+
+    background-repeat no-repeat
+    background-position center
+    background-size cover
+
+.jumbotron
+    height 400px
+
+    background rgba(66, 65, 92, .8)
+
+    h1
+        padding-top 40px
+        color #ffffff
+
+#info
+    background-image url('/assets/images/screenshot.png')
+
+    background-repeat no-repeat
+    background-position right center
+    background-size 40%
+
+#price
+    color #ffffff
+    background rgba(66, 65, 92, .8)
+
+    h2
+    p
+    li
+        color #ffffff
+        margin-top 10px
+
+.card
+    color #ffffff
+    background rgba(66, 65, 92, .9)
+    border none
+    border-radius 0px
+
+    h3
+        color #ffffff
+
+#customers
+    li
+        padding-bottom 16px
+        font-size 16px
+        line-height 18px
+
+#footer
+    background #f4f4f4
+
+@media only screen and (max-width: 768px)
+    #info
+        background-image none

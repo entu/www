@@ -1,0 +1,23 @@
+locales:
+    - en
+    - et
+defaultLocale: et
+
+source: ./src
+# js: ./src/_scripts
+styl: ./src/_styles
+build: ./_site
+assets: ./assets
+
+protectedFromCleanup:
+    - .git
+    - assets
+    - index.html
+
+server:
+    port: 4000
+    assets: /assets/
+
+dev:
+    aliases: true
+    paths:
