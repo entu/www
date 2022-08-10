@@ -32,15 +32,15 @@ jobs:
       with:
         node-version: 16.x
 
+    - name: Copy public assets
+      run: |
+        mkdir ./_site
+        cp -r ./public/* ./_site
+
     - name: Build
       run: |
         npm install
         npm run build
-
-    - name: Copy assets
-      run: |
-        mkdir -p ./_site/assets
-        cp -r ./assets/* ./_site/assets
 
     - name: Upload artifact
       uses: actions/upload-pages-artifact@v1

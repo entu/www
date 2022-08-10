@@ -7,7 +7,7 @@ source: ./src
 # js: ./src/_scripts
 styl: ./src/_styles
 build: ./_site
-assets: ./assets
+assets: ./public
 
 protectedFromCleanup:
     - .git
@@ -16,7 +16,7 @@ protectedFromCleanup:
 
 server:
     port: 4000
-    assets: /assets/
+    assets: ''
 
 dev:
     aliases: true
