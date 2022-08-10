@@ -1,7 +1,6 @@
-name: Entu SSG
+name: Entu SSG Build
 
 on:
-  # Runs on pushes targeting the default branch
   push:
     branches:
       - main
@@ -17,7 +16,7 @@ permissions:
 
 # Allow one concurrent deployment
 concurrency:
-  group: "pages"
+  group: pages
   cancel-in-progress: true
 
 jobs:
@@ -44,6 +43,8 @@ jobs:
 
     - name: Upload artifact
       uses: actions/upload-pages-artifact@v1
+      with:
+        path: dist
 
   # Deployment job
   deploy:

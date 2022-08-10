@@ -6,18 +6,11 @@ defaultLocale: et
 source: ./src
 # js: ./src/_scripts
 styl: ./src/_styles
-build: ./_site
-assets: ./public
-
-protectedFromCleanup:
-    - .git
-    - assets
-    - index.html
+build: ./dist
 
 server:
     port: 4000
-    assets: ''
+    public: ./public
 
 dev:
     aliases: true
-    paths:
