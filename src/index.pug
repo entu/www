@@ -1,6 +1,3 @@
--
-    const background = `background-image:url('/assets/images/backgrounds/bg-${Math.ceil(Math.random() * 14)}.jpg')`
-
 mixin markdown(text = '')
     | !{ self.md(text) }
 
@@ -18,7 +15,7 @@ html(lang=self.locale)
         .container-fluid.h-100
             .row.h-100
                 #start.col-12
-                    #background(style=background)
+                    #background
                     #nav.fixed-top
                         .container
                             nav.navbar.navbar-expand-sm.navbar-dark.row
