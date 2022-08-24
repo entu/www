@@ -13,6 +13,9 @@ html(lang=self.locale)
         link(href='/style.css' rel='stylesheet')
         link(href='/images/favicon.png' rel='icon' type='image/png' sizes='300x300')
 
+        each path, locale in self.otherLocalePaths
+            link(href=path rel='alternate' hreflang=locale)
+
         script(src='https://plausible.io/js/plausible.js' defer data-domain='entu.ee')
     body
         .container-fluid.h-100
