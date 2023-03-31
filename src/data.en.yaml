@@ -93,7 +93,6 @@ customers:
     title: Clients And Partners
     list:
         -
-            - Are Elementary School
             - Aseri School
             - August Kitzberg Gymnasium
             - Center of Estonian Language Resources
@@ -102,14 +101,13 @@ customers:
             - Estonian Academy of Arts
         -
             - Institute of the Estonian Language
-            - Kunda Education Support Society
             - Museum of Occupations and Freedom
             - Piletilevi Ltd
             - Pillimuuseum
             - Tallinn Construction School
             - Tallinn Läänemere Gymnasium
-        -
             - Tallinn Linnamäe Russian Lyceum
+        -
             - Tallinn Mustamäe Gymnasium
             - Tallinn Nõmme Gymnasium
             - Tallinn Tondi Elementary School
