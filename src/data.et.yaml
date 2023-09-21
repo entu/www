@@ -93,24 +93,23 @@ customers:
     title: Kliendid ja partnerid
     list:
         -
+            - Are Põhikool
             - Aseri Kool
             - August Kitzbergi nimeline Gümnaasium
             - Eesti Keele Instituut
-            - Eesti Keeleressursside Keskus
             - Eesti Kunstiakadeemia
-            - Entusiastid OÜ
+            - Eesti Mälu Instituut
         -
+            - Entusiastid OÜ
             - MTÜ Pillimuuseum
             - Okupatsioonide ja vabaduse muuseum Vabamu
             - Piletilevi AS
             - Tallinna Ehituskool
             - Tallinna Läänemere Gümnaasium
+        -
             - Tallinna Linnamäe Vene Lütseum
             - Tallinna Mustamäe Gümnaasium
-        -
             - Tallinna Nõmme Gümnaasium
-            - Tallinna Tondi Põhikool
             - Toidu- ja Fermentatsioonitehnoloogia Arenduskeskus
             - Vasalemma Põhikool
-            - Virtsu Kool
             - Wõrgu Wõlurid OÜ
