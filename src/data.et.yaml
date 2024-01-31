@@ -41,7 +41,7 @@ info: |
     Kasutajate tuvastamine käib Google, Apple, LHV Panga, Mobiil-ID ja ID-Kaardi abil ning kasutajaõigused on objektipõhised - rolli mõistet süsteemis pole. Igal objektil on omanik(ud). Omanik saab määrata, kes sellele objektile ligi pääsevad, kes saab seda muuta, täiendada, kustutada.
 
     ## Turvalisus
-    Kogu liiklus Sinu brauseri ja Entu serveri vahel on krüpteeritud. Entus Sinu salalsõna ei salvestata - see ei käi meie juurest isegi läbi. Sinu andmebaasist tehakse kord ööpäevas koopia, mida säilitatakse serverites kolmes erinevas maailmaosas.
+    Kogu liiklus Sinu brauseri ja Entu serveri vahel on krüpteeritud. Entus Sinu salasõna ei salvestata - see ei käi meie juurest isegi läbi. Sinu andmebaasist tehakse kord ööpäevas koopia, mida säilitatakse serverites kolmes erinevas maailmaosas.
 
     ## Eelseadistatud moodulid
     Entu kasutuselevõtu hõlbustamiseks on mitmeid mooduleid eelseadistatud. Neis moodulites olevad objektide tüübid püüavad katta erinevaid infovajadusi ja ilmutada Sulle Entu võimalusi. Eelseadistatud mooduleid ja objekte saad ise muuta ning laiendada, aga ka kustutada. Mõned eelseadistatud moodulid on näiteks personal ja kontaktid; dokumendihaldus; raamatukogu; ruumid ja inventar.
