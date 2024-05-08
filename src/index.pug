@@ -72,8 +72,7 @@ html(lang=self.locale)
                                         strong= self.plans.title
                                     p.pb-5= self.plans.text
 
-                                    stripe-pricing-table(pricing-table-id='prctbl_1PE99tKgiA8KsSUOcaFkuL91'
-publishable-key='pk_live_51PE8bEKgiA8KsSUOJd9z0F7W1NhYnlsxJJgVkAr9qnSJUnzSnXAeIApXq3PPoGMrXmfLJRGeXUhcMLLQq4lgo0td00kVGECIin')
+                                    stripe-pricing-table(pricing-table-id=self.stripe.id publishable-key=self.stripe.key)
 
                     #customers.row.gray-row
                         .container

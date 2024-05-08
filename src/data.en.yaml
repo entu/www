@@ -6,6 +6,10 @@ menu:
     price: Price
     signin: Sign In
 
+stripe:
+    id: prctbl_1PE99tKgiA8KsSUOcaFkuL91
+    key: pk_live_51PE8bEKgiA8KsSUOJd9z0F7W1NhYnlsxJJgVkAr9qnSJUnzSnXAeIApXq3PPoGMrXmfLJRGeXUhcMLLQq4lgo0td00kVGECIin
+
 features:
     -
         title: Simple
