@@ -6,9 +6,7 @@ menu:
     price: Hind
     signin: Sisene
 
-stripe:
-    id: prctbl_1PEAFMKgiA8KsSUORP88tN5l
-    key: pk_live_51PE8bEKgiA8KsSUOJd9z0F7W1NhYnlsxJJgVkAr9qnSJUnzSnXAeIApXq3PPoGMrXmfLJRGeXUhcMLLQq4lgo0td00kVGECIin
+subscribe: Tellimine
 
 features:
     -
@@ -55,13 +53,15 @@ plans:
     text: majutusteenuse ühe kuu käibemaksuga hind
     list:
         -
-            title: Tasuta
+            id: 1
+            title: 1 €
             features:
                 - Eelseadistatud moodulid
                 - Piiramatult kasutajaid
                 - Kuni 1000 objekti
                 - Kuni 100MB andmeid
         -
+            id: 2
             title: 10 €
             features:
                 - Eelseadistatud moodulid
@@ -71,6 +71,7 @@ plans:
                 - Igapäevane varukoopia
 
         -
+            id: 3
             title: 40 €
             features:
                 - Eelseadistatud moodulid
@@ -82,6 +83,7 @@ plans:
                 - Oma aadress
 
         -
+            id: 4
             title: 200 €
             features:
                 - Eelseadistatud moodulid

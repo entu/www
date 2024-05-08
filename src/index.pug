@@ -17,9 +17,6 @@ html(lang=self.locale)
             link(href=path rel='alternate' hreflang=locale)
 
         script(src='https://plausible.io/js/plausible.js' defer data-domain='entu.ee')
-
-        script(src='https://js.stripe.com/v3/pricing-table.js' async)
-</stripe-pricing-table>
     body
         .container-fluid.h-100
             .row.h-100
@@ -64,17 +61,26 @@ html(lang=self.locale)
                                 .col-12.col-md-7
                                     +markdown(self.info)
 
-                    #price.row.bg-white
-                        .container-fluid
+                    #price.row
+                        .container
                             .row.mt-3.py-5
                                 .col-12.mb-3.text-center
                                     h2
                                         strong= self.plans.title
-                                    p.pb-5= self.plans.text
+                                    p= self.plans.text
 
-                                    stripe-pricing-table(pricing-table-id=self.stripe.id publishable-key=self.stripe.key)
+                                each p in self.plans.list
+                                    .col-10.offset-1.col-sm-6.offset-sm-0.col-md-3.d-flex.mb-3.align-items-stretch
+                                        .card.w-100
+                                            .card-body
+                                                h3.card-title.text-center= p.title
+                                                ul.list-unstyled.card-text
+                                                    each f in p.features
+                                                        li= f
+                                            .card-footer.text-center.p-0
+                                                a.subscribe(href='https://entu.app/new?plan=' + p.id)= self.subscribe
 
-                    #customers.row.gray-row
+                    #customers.row.bg-white
                         .container
                             .row.mt-3.py-5
                                 h2.col-12.mb-3.text-center
