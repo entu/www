@@ -17,6 +17,9 @@ html(lang=self.locale)
             link(href=path rel='alternate' hreflang=locale)
 
         script(src='https://plausible.io/js/plausible.js' defer data-domain='entu.ee')
+
+        script(src='https://js.stripe.com/v3/pricing-table.js' async)
+</stripe-pricing-table>
     body
         .container-fluid.h-100
             .row.h-100
@@ -61,24 +64,18 @@ html(lang=self.locale)
                                 .col-12.col-md-7
                                     +markdown(self.info)
 
-                    #price.row
-                        .container
+                    #price.row.bg-white
+                        .container-fluid
                             .row.mt-3.py-5
                                 .col-12.mb-3.text-center
                                     h2
                                         strong= self.plans.title
-                                    p= self.plans.text
+                                    p.pb-5= self.plans.text
 
-                                each p in self.plans.list
-                                    .col-10.offset-1.col-sm-6.offset-sm-0.col-md-3.d-flex.mb-3.align-items-stretch
-                                        .card.w-100
-                                            .card-body
-                                                h3.card-title.text-center= p.title
-                                                ul.list-unstyled.card-text
-                                                    each f in p.features
-                                                        li= f
+                                    stripe-pricing-table(pricing-table-id='prctbl_1PE99tKgiA8KsSUOcaFkuL91'
+publishable-key='pk_live_51PE8bEKgiA8KsSUOJd9z0F7W1NhYnlsxJJgVkAr9qnSJUnzSnXAeIApXq3PPoGMrXmfLJRGeXUhcMLLQq4lgo0td00kVGECIin')
 
-                    #customers.row.bg-white
+                    #customers.row.gray-row
                         .container
                             .row.mt-3.py-5
                                 h2.col-12.mb-3.text-center
