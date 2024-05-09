@@ -54,7 +54,7 @@ plans:
     list:
         -
             id: 1
-            title: 1 €
+            title: 2 €
             features:
                 - Eelseadistatud moodulid
                 - Piiramatult kasutajaid
