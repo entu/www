@@ -40,7 +40,7 @@ info: |
     Each object has parameters (for example, a book has a title, author, year of publication). Parameters can be text, number, date, reference (to another object), and more. You can set a name and description for each parameter; whether it is visible to the public; whether it can be searched and / or sorted; what is the default value; whether this parameter can be entered once  or more (for example, a book has one title but several authors) and so on. In addition to static data fields, there are dynamic fields calculated from other data fields or other object fields.
 
     ## Rights
-    User authentication is done through Apple, Google and (Estonian) Smart-ID, Mobile ID, ID Card. User permissions are object based - there is no definition of role in the system. Each object has an owner(s). The owner can determine who has access to this object, who can modify, add, delete.
+    User authentication is done through Apple, Google and (Estonian) Smart-ID, Mobile-ID, ID-Card. User permissions are object based - there is no definition of role in the system. Each object has an owner(s). The owner can determine who has access to this object, who can modify, add, delete.
 
     ## Security
     All traffic between your browser and the Entu server is encrypted. Your password is not saved in Entu - it will not even flow through us. A daily copy of your database is stored on servers in three different parts of the world.
