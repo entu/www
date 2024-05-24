@@ -40,7 +40,7 @@ info: |
     Igal objektil on parameetrid (näiteks raamatul on pealkiri, autor, ilmumisaasta). Parameetrid võivad olla teksti, numbri, kuupäeva, viite (teisele objektile) jm tüüpi. Igal parameetril saad seadistada nime ja kirjelduse; kas see on avalikus vaates nähtav; kas selle järgi saab otsida ja/või sorteerida; mis on vaikeväärtus; kas seda parameetrit võib sisestada ühe või mitu (näiteks raamatul on üks pealkiri, aga mitu autorit) jm. Lisaks staatilistele andmeväljadele on olemas ka dünaamilised, teiste andmeväljade või teiste objektide väljade järgi arvutatavad väljad.
 
     ## Õigused
-    Kasutajate tuvastamine käib Google, Apple, LHV Panga, Mobiil-ID ja ID-Kaardi abil ning kasutajaõigused on objektipõhised - rolli mõistet süsteemis pole. Igal objektil on omanik(ud). Omanik saab määrata, kes sellele objektile ligi pääsevad, kes saab seda muuta, täiendada, kustutada.
+    Kasutajate tuvastamine käib Apple, Google ning Smart-ID, Mobiil-ID ja ID-Kaardi abil. Kasutajaõigused on objektipõhised - rolli mõistet süsteemis pole. Igal objektil on omanik(ud). Omanik saab määrata, kes sellele objektile ligi pääsevad, kes saab seda muuta, täiendada, kustutada.
 
     ## Turvalisus
     Kogu liiklus Sinu brauseri ja Entu serveri vahel on krüpteeritud. Entus Sinu salasõna ei salvestata - see ei käi meie juurest isegi läbi. Sinu andmebaasist tehakse kord ööpäevas koopia, mida säilitatakse serverites kolmes erinevas maailmaosas.
