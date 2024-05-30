@@ -1,0 +1,12 @@
+title: Entu
+subtitle: Futuristic data management
+
+menu:
+    info: Info
+    price: Price
+    signin: Sign In
+
+footer:
+    terms:
+        label: Terms of Service
+        url: /en/terms

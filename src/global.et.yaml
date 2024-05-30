@@ -1,0 +1,12 @@
+title: Entu
+subtitle: Tuleviku andmehaldus
+
+menu:
+    info: Info
+    price: Hind
+    signin: Sisene
+
+footer:
+    terms:
+        label: Kasutustingimused
+        url: /tingimused

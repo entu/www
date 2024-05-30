@@ -1,0 +1,52 @@
+extends /_templates/main.pug
+
+
+block content
+    .row
+        .col-12.mb-0.jumbotron.jumbotron-fluid.d-flex.align-items-center.justify-content-center.text-center
+            h1= self.subtitle
+
+    .row.bg-white
+        .container
+            .row.mt-3.pt-5
+                each f in self.features
+                    .col-12.col-sm-6.col-md-4.mb-5
+                        h2.text-center
+                            strong= f.title
+                        p= f.text
+
+    #info.row.gray-row
+        .container
+            .row.mt-3.py-5
+                .col-12.col-md-7
+                    +markdown(self.info)
+
+    #price.row
+        .container
+            .row.mt-3.py-5
+                .col-12.mb-3.text-center
+                    h2
+                        strong= self.plans.title
+                    p= self.plans.text
+
+                each p in self.plans.list
+                    .col-10.offset-1.col-sm-6.offset-sm-0.col-md-3.d-flex.mb-3.align-items-stretch
+                        .card.w-100
+                            .card-body
+                                h3.card-title.text-center= p.title
+                                ul.list-unstyled.card-text
+                                    each f in p.features
+                                        li= f
+                            .card-footer.text-center.p-0
+                                a.subscribe(href='https://entu.app/new?plan=' + p.id)= self.subscribe
+
+    #customers.row.bg-white
+        .container
+            .row.mt-3.py-5
+                h2.col-12.mb-3.text-center
+                    strong= self.customers.title
+
+                each g in self.customers.list
+                    ul.col-12.col-sm-4.mb-0.list-unstyled
+                        each c in g
+                            li= c
