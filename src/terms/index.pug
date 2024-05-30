@@ -2,8 +2,9 @@ extends /_templates/main.pug
 
 
 block content
-    #terms.row.gray-row
-        .container.d-flex
-            .row.mt-3.py-5
-                .col-12.col-md-7
-                    +markdown(self.tos)
+    .row.gray-row
+        .container
+            .row.mt-3
+                #terms.col-12.col-md-8.offset-md-2.d-flex.align-items-center
+                    div
+                        +markdown(self.tos)

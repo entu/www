@@ -9,7 +9,7 @@ function adjustHeight() {
 
     adjustedHeight = adjustedHeight - footerHeight
 
-    document.getElementById('terms').style.height = adjustedHeight + 'px'
+    document.getElementById('terms').style.minHeight = adjustedHeight + 'px'
 }
 
 window.onload = adjustHeight
