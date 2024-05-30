@@ -28,6 +28,8 @@ html(lang=self.locale)
                                 a.navbar-brand.mr-auto(href='/')
                                     strong= self.title
                                 ul.navbar-nav
+                                    li.nav-item
+                                        a.btn.btn-outline-dark.mr-2.px-3(href='https://entu.app')= self.menu.signin
                                     li.nav-item.d-none.d-sm-block
                                         a.nav-link.text-white(href=self.homePath + '#info')= self.menu.info
                                     li.nav-item.d-none.d-sm-block
