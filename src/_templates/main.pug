@@ -20,7 +20,7 @@ html(lang=self.locale)
     body
         .container-fluid.h-100
             .row.h-100
-                #start.col-12
+                .col-12
                     #background
                     #nav.fixed-top
                         .container
@@ -29,28 +29,30 @@ html(lang=self.locale)
                                     strong= self.title
                                 ul.navbar-nav
                                     li.nav-item.d-none.d-sm-block
-                                        a.nav-link.text-white(href='#info')= self.menu.info
+                                        a.nav-link.text-white(href=self.homePath + '#info')= self.menu.info
                                     li.nav-item.d-none.d-sm-block
-                                        a.nav-link.text-white(href='#price')= self.menu.price
-                                    //- li.nav-item
-                                    //-     router-link.btn.btn-outline-success.text-light.ml-2.px-3(:to="{ name: 'auth' }")= self.menu.signin
+                                        a.nav-link.text-white(href=self.homePath + '#price')= self.menu.price
                                     li.nav-item.d-none.d-sm-block
                                         if self.locale === 'en'
-                                            a.nav-link.text-white(href='/')
-                                                strong EST
+                                            a.nav-link.text-white(href=self.otherLocalePaths.et)
+                                                strong ET
                                         if self.locale === 'et'
-                                            a.nav-link.text-white(href='/en')
-                                                strong ENG
+                                            a.nav-link.text-white(href=self.otherLocalePaths.en)
+                                                strong EN
+
+                    #title.row
+                        .col-12.mb-0.jumbotron.jumbotron-fluid.d-flex.align-items-center.justify-content-center.text-center
+                            h1= self.subtitle
 
                     block content
 
                     #footer.row.py-3
                         .container
                             .row
-                                .col-12.col-md-6
+                                .col-6
                                     +markdown(self.footer.left)
 
-                                .col-12.col-md-6.text-right
+                                .col-6.text-right
                                     +markdown(self.footer.right)
 
         script(src='/script.js')
