@@ -7,6 +7,9 @@ menu:
     signin: Sisene
 
 footer:
-    terms:
-        label: Kasutustingimused
-        url: /tingimused
+    left: |
+        **Entusiastid OÜ**
+        Saturni 3-3, 10142 Tallinn
+        <info@entu.ee>
+    right: |
+        [Kasutustingimused](/tingimused)
