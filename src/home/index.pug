@@ -34,7 +34,7 @@ block content
                                     each f in p.features
                                         li= f
                             .card-footer.text-center.p-0
-                                a.subscribe(href='https://entu.app/new?plan=' + p.id)= self.subscribe
+                                a.subscribe(href=`https://entu.app/new?plan=${p.id}&locale=${self.locale}`)= self.subscribe
 
     #customers.row.bg-white
         .container
