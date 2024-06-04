@@ -31,6 +31,11 @@ jobs:
       with:
         node-version: 16.x
 
+    - name: Copy public assets
+      run: |
+        mkdir ./dist
+        cp -r ./public/* ./dist
+
     - name: Build
       run: |
         npm install
@@ -39,7 +44,7 @@ jobs:
     - name: Upload artifact
       uses: actions/upload-pages-artifact@v1
       with:
-        path: public
+        path: dist
 
   # Deployment job
   deploy:
