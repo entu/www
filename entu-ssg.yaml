@@ -1,7 +1,7 @@
 locales:
     - en
     - et
-defaultLocale: et
+defaultLocale: en
 
 source: ./src
 js: ./src/_scripts
