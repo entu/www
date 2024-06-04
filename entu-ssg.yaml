@@ -6,7 +6,7 @@ defaultLocale: et
 source: ./src
 js: ./src/_scripts
 styl: ./src/_styles
-build: ./public
+build: ./dist
 
 server:
     port: 4000
