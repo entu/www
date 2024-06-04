@@ -1,7 +1,7 @@
 title: Entu
 subtitle: Futuristic data management
 
-homePath: /en/
+homePath: ''
 
 menu:
     info: Info
@@ -14,4 +14,4 @@ footer:
         Saturni 3-3, 10142 Tallinn
         <info@entu.ee>
     right: |
-        [Terms of Service](/en/terms)
+        [Terms of Service](/terms)

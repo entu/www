@@ -1,7 +1,7 @@
 title: Entu
 subtitle: Tuleviku andmehaldus
 
-homePath: /
+homePath: /et
 
 menu:
     info: Info
@@ -14,4 +14,4 @@ footer:
         Saturni 3-3, 10142 Tallinn
         <info@entu.ee>
     right: |
-        [Kasutustingimused](/tingimused)
+        [Kasutustingimused](/et/tingimused)
