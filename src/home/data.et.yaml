@@ -53,7 +53,7 @@ plans:
                 - Eelseadistatud moodulid
                 - Piiramatult kasutajaid
                 - Kuni 1000 objekti
-                - Kuni 100MB andmeid
+                - Kuni 1GB andmeid
         -
             id: 2
             title: 10 €
@@ -61,7 +61,7 @@ plans:
                 - Eelseadistatud moodulid
                 - Piiramatult kasutajaid
                 - Kuni 10 000 objekti
-                - Kuni 1GB andmeid
+                - Kuni 10GB andmeid
                 - Igapäevane varukoopia
 
         -
@@ -71,7 +71,7 @@ plans:
                 - Eelseadistatud moodulid
                 - Piiramatult kasutajaid
                 - Kuni 100 000 objekti
-                - Kuni 10GB andmeid
+                - Kuni 100GB andmeid
                 - Igapäevane varukoopia
                 - ID-kaardi ja Mobiil-ID tugi
                 - E-arve võimalus
@@ -84,7 +84,7 @@ plans:
                 - Eelseadistatud moodulid
                 - Piiramatult kasutajaid
                 - Kuni 500 000 objekti
-                - Kuni 50GB andmeid
+                - Kuni 500GB andmeid
                 - Igapäevane varukoopia
                 - ID-kaardi ja Mobiil-ID tugi
                 - E-arve võimalus
