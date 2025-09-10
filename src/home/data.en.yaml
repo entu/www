@@ -55,7 +55,7 @@ plans:
                 - Predefined data modules
                 - Unlimited users
                 - Up to 1,000 objects
-                - Up to 100MB storage
+                - Up to 1GB storage
         -
             id: 2
             title: 10 €
@@ -63,7 +63,7 @@ plans:
                 - Predefined data modules
                 - Unlimited users
                 - Up to 10,000 objects
-                - Up to 1GB storage
+                - Up to 10GB storage
                 - Daily backup
 
         -
@@ -73,7 +73,7 @@ plans:
                 - Predefined data modules
                 - Unlimited users
                 - Up to 100,000 objects
-                - Up to 10GB storage
+                - Up to 100GB storage
                 - Daily backup
                 - ID-card and Mobile-ID authentication
                 - Option for Estonian e-invoices
@@ -86,7 +86,7 @@ plans:
                 - Predefined data modules
                 - Unlimited users
                 - Up to 500,000 objects
-                - Up to 50GB storage
+                - Up to 500GB storage
                 - Daily backup
                 - ID-card and Mobile-ID authentication
                 - Option for Estonian e-invoices
