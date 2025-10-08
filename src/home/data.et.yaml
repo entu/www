@@ -44,7 +44,7 @@ info: |
 
 plans:
     title: Hind
-    text: majutusteenuse ühe kuu käibemaksuga hind
+    text: majutusteenuse ühe kuu käibemaksuta hind
     list:
         -
             id: 1
