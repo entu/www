@@ -46,7 +46,7 @@ info: |
 
 plans:
     title: Pricing Plans
-    text: hosting price per month (including VAT)
+    text: hosting price per month (excluding VAT)
     list:
         -
             id: 1
