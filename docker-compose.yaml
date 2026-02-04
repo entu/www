@@ -1,0 +1,17 @@
+services:
+  web:
+    build: .
+    restart: unless-stopped
+    network_mode: bridge
+    ports:
+      - "${PORT:-8080}:80"
+    environment:
+      - PORT=${PORT:-8080}
+    deploy:
+      resources:
+        limits:
+          cpus: '0.5'
+          memory: 256M
+        reservations:
+          cpus: '0.25'
+          memory: 128M
