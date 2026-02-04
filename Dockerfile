@@ -27,6 +27,12 @@ COPY --from=builder /app/dist /usr/share/nginx/html
 # Copy static public files
 COPY --from=builder /app/public /usr/share/nginx/html
 
-EXPOSE 80
+# Run as non-root user
+RUN chown -R nginx:nginx /usr/share/nginx/html /var/cache/nginx /var/run \
+    && chmod -R 755 /usr/share/nginx/html
+
+USER nginx
+
+EXPOSE 8080
 
 CMD ["nginx", "-g", "daemon off;"]
