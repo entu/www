@@ -27,9 +27,6 @@ COPY --from=builder /app/dist /usr/share/nginx/html
 # Copy static public files
 COPY --from=builder /app/public /usr/share/nginx/html
 
-# Override main nginx.conf to set PID location to /tmp
-RUN sed -i 's|pid /run/nginx.pid;|pid /tmp/nginx.pid;|g' /etc/nginx/nginx.conf
-
 # Create cache directories and set permissions for non-root nginx user
 RUN chown -R nginx:nginx /usr/share/nginx/html /var/cache/nginx /var/run \
     && chmod -R 755 /usr/share/nginx/html \
