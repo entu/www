@@ -33,8 +33,6 @@ services:
           cpus: '0.25'
           memory: 128M
 
-    read_only: true
-
     cap_drop:
       - ALL
     cap_add:
@@ -42,9 +40,6 @@ services:
 
     security_opt:
       - no-new-privileges:true
-
-    tmpfs:
-      - /tmp
 
     healthcheck:
       test: ["CMD", "wget", "-qO-", "http://127.0.0.1:8080/"]

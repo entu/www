@@ -18,16 +18,6 @@ RUN npm run build
 # Production stage
 FROM nginx:alpine
 
-# Configure for non-root user with read-only filesystem
-RUN sed -i '/^user /d' /etc/nginx/nginx.conf \
-    && sed -i 's|/run/nginx.pid|/tmp/nginx.pid|' /etc/nginx/nginx.conf \
-    && sed -i '/http {/a \
-    proxy_temp_path /tmp/proxy_temp; \
-    client_body_temp_path /tmp/client_temp; \
-    fastcgi_temp_path /tmp/fastcgi_temp; \
-    uwsgi_temp_path /tmp/uwsgi_temp; \
-    scgi_temp_path /tmp/scgi_temp;' /etc/nginx/nginx.conf
-
 # Copy server block configuration
 COPY nginx.conf /etc/nginx/conf.d/default.conf
 
@@ -36,6 +26,10 @@ COPY --from=builder /app/dist /usr/share/nginx/html
 
 # Copy static public files
 COPY --from=builder /app/public /usr/share/nginx/html
+
+# Configure for non-root nginx user
+RUN sed -i 's|/run/nginx.pid|/tmp/nginx.pid|' /etc/nginx/nginx.conf \
+    && chown -R nginx:nginx /usr/share/nginx/html /var/cache/nginx
 
 USER nginx
 
