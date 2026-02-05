@@ -37,6 +37,7 @@ services:
     tmpfs:
       - /var/cache/nginx:uid=101,gid=101
       - /var/run:uid=101,gid=101
+      - /run:uid=101,gid=101
       - /tmp:uid=101,gid=101
 
 networks:
