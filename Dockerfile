@@ -18,6 +18,10 @@ RUN npm run build
 # Production stage
 FROM nginx:alpine
 
+# Configure for non-root: PID to /tmp, remove user directive
+RUN sed -i 's|/run/nginx.pid|/tmp/nginx.pid|' /etc/nginx/nginx.conf \
+    && sed -i '/^user /d' /etc/nginx/nginx.conf
+
 # Copy server block configuration
 COPY nginx.conf /etc/nginx/conf.d/default.conf
 
@@ -26,14 +30,6 @@ COPY --from=builder /app/dist /usr/share/nginx/html
 
 # Copy static public files
 COPY --from=builder /app/public /usr/share/nginx/html
-
-# Create cache directories and set permissions for non-root nginx user
-RUN chown -R nginx:nginx /usr/share/nginx/html /var/cache/nginx /var/run \
-    && chmod -R 755 /usr/share/nginx/html \
-    && mkdir -p /var/cache/nginx/client_temp /var/cache/nginx/proxy_temp \
-       /var/cache/nginx/fastcgi_temp /var/cache/nginx/uwsgi_temp \
-       /var/cache/nginx/scgi_temp \
-    && chown -R nginx:nginx /var/cache/nginx
 
 USER nginx
 

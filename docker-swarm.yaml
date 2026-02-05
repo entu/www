@@ -44,10 +44,8 @@ services:
       - no-new-privileges:true
 
     tmpfs:
-      - /tmp:uid=101,gid=101
-      - /run:uid=101,gid=101
-      - /var/cache/nginx:uid=101,gid=101
-      - /var/run:uid=101,gid=101
+      - /tmp
+      - /var/cache/nginx
 
     healthcheck:
       test: ["CMD", "wget", "-qO-", "http://127.0.0.1:8080/"]
