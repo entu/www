@@ -18,9 +18,10 @@ RUN npm run build
 # Production stage
 FROM nginx:alpine
 
-# Configure for non-root: PID to /tmp, remove user directive
+# Configure for non-root: PID and cache to /tmp
 RUN sed -i 's|/run/nginx.pid|/tmp/nginx.pid|' /etc/nginx/nginx.conf \
-    && sed -i '/^user /d' /etc/nginx/nginx.conf
+    && sed -i '/^user /d' /etc/nginx/nginx.conf \
+    && sed -i 's|/var/cache/nginx|/tmp/nginx/cache|g' /etc/nginx/nginx.conf
 
 # Copy server block configuration
 COPY nginx.conf /etc/nginx/conf.d/default.conf
