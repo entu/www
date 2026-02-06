@@ -10,6 +10,7 @@ services:
 
     networks:
       - vpc-overlay
+      - ingress
 
     deploy:
       replicas: 2
