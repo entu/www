@@ -6,7 +6,7 @@
   "author": "Argo Roots <argo@roots.ee>",
   "license": "MIT",
   "scripts": {
-    "build": "entu-ssg build entu-ssg.yaml full",
+    "build": "entu-ssg build entu-ssg.yaml full && cp -r public/* dist/",
     "dev": "entu-ssg serve entu-ssg.yaml full"
   },
   "devDependencies": {
