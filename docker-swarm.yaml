@@ -1,25 +1,17 @@
-version: "3.8"
-
 services:
   web:
     image: ghcr.io/entu/www:latest
 
-    # Published in ingress mode
     ports:
       - target: 8080
         published: ${PORT:-8080}
         mode: ingress
-        protocol: tcp
 
-    # Attach to both your overlay network and ingress
     networks:
       - vpc-overlay
-      - ingress
 
     deploy:
       replicas: 2
-      placement:
-        max_replicas_per_node: 1
       update_config:
         parallelism: 1
         delay: 10s
@@ -31,6 +23,8 @@ services:
         condition: any
         delay: 5s
         max_attempts: 3
+      placement:
+        max_replicas_per_node: 1
       resources:
         limits:
           cpus: '0.5'
@@ -43,6 +37,7 @@ services:
       - ALL
     cap_add:
       - CHOWN
+
     security_opt:
       - no-new-privileges:true
 
@@ -52,9 +47,6 @@ services:
       timeout: 2s
       retries: 3
 
-# Networks
 networks:
   vpc-overlay:
-    external: true
-  ingress:
     external: true
