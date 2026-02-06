@@ -5,7 +5,7 @@ services:
     ports:
       - target: 8080
         published: ${PORT:-8080}
-        mode: host
+        mode: ingress
 
     networks:
       - webnet
