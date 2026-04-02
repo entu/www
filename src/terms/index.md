@@ -1,0 +1,28 @@
+---
+sidebar: false
+aside: false
+prev: false
+next: false
+---
+
+# Terms of Service
+
+By utilizing Entu, you agree to abide by these terms and conditions. It is essential that you carefully review and accept these policies before proceeding with the use of our service. If you have any questions or concerns regarding these terms, please contact us for clarification before continuing.
+
+1. **User Responsibility**: Users bear sole responsibility for the data they store and manage within the Entu platform. This includes ensuring that the data is appropriately backed up and maintained according to the user's requirements and standards.
+
+2. **Data Accuracy and Legality**: Entu does not hold responsibility for the accuracy, completeness, appropriateness, or legality of any data stored by the user. Users must ensure that their data complies with all relevant laws and regulations.
+
+3. **Account Termination**: Entu reserves the right to terminate user accounts at any time and without prior notice. This action can be taken for any reason deemed necessary by Entu, including but not limited to violations of these terms and conditions or any conduct that Entu determines to be harmful to the service or its users.
+
+4. **Service Modification**: Entu reserves the right to modify or discontinue the service at any time, either temporarily or permanently. Such changes may be made with or without prior notice to users.
+
+5. **Pricing and Costs**: The cost of using Entu's services is dependent on the number of objects and the volume of data stored, in accordance with the pricing tiers outlined on our website.
+
+6. **Service Warranty**: Entu is provided on an "as is" basis, without any warranties of any kind, either express or implied. This includes, but is not limited to, implied warranties of merchantability, fitness for a particular purpose, and non-infringement.
+
+7. **Limitation of Liability**: Under no circumstances will Entu be liable for any direct, indirect, incidental, special, or consequential damages that may arise from the use or inability to use the service. This includes, but is not limited to, damages for loss of profits, data, or other intangible losses.
+
+8. **Terms Modification**: Entu reserves the right to update or modify these terms at any time. Users will be notified of significant changes through appropriate channels. Continued use of the service after such modifications indicates acceptance of the new terms.
+
+By continuing to use Entu, you confirm that you have read, understood, and agreed to these terms and conditions. Your commitment to adhering to these policies helps ensure a safe and effective environment for all users. If you do not agree with any part of these terms, please discontinue the use of the service immediately.

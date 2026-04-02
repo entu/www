@@ -1,3 +1,4 @@
 User-agent: *
 Allow: /
+
 Sitemap: https://entu.ee/sitemap.xml

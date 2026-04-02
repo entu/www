@@ -2,14 +2,19 @@
   "name": "entu-www",
   "version": "1.0.0",
   "private": true,
-  "description": "www.entu.ee site source",
+  "description": "entu.ee site source",
   "author": "Argo Roots <argo@roots.ee>",
   "license": "MIT",
+  "type": "module",
+  "engines": {
+    "node": "22.x"
+  },
   "scripts": {
-    "build": "entu-ssg build entu-ssg.yaml full",
-    "dev": "entu-ssg serve entu-ssg.yaml full"
+    "dev": "vitepress dev",
+    "build": "vitepress build",
+    "preview": "vitepress preview"
   },
   "devDependencies": {
-    "entu-ssg": "5.6.13"
+    "vitepress": "1.6.4"
   }
 }
