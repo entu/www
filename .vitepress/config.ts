@@ -64,7 +64,7 @@ export default defineConfig({
               { text: 'Parameetrid', link: '/et/api/properties' },
               { text: 'Valemid', link: '/et/api/formulas' },
               { text: 'Failid', link: '/et/api/files' },
-              { text: 'API viide', link: 'https://entu.dev' }
+              { text: 'API viide', link: 'https://entu.app/api/docs' }
             ]
           },
           {
@@ -132,7 +132,7 @@ export default defineConfig({
           { text: 'Properties', link: '/api/properties' },
           { text: 'Formulas', link: '/api/formulas' },
           { text: 'Files', link: '/api/files' },
-          { text: 'API Reference', link: 'https://entu.dev' }
+          { text: 'API Reference', link: 'https://entu.app/api/docs' }
         ]
       },
       {
