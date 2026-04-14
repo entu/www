@@ -42,9 +42,9 @@ const { labels, tiers } = frontmatter.value.pricing
   <div class="pricing-cta-wrap">
     <a
       class="pricing-cta"
-      :href="`https://entu.app/new?locale=${lang}`"
-      target="_blank"
       rel="noopener"
+      target="_blank"
+      :href="`https://entu.app/new?locale=${lang}`"
       @click="window.analytics?.track('signup_click')"
     >{{ labels.cta }}</a>
   </div>

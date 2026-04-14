@@ -10,11 +10,17 @@
     "node": "22.x"
   },
   "scripts": {
+    "lint": "eslint . --fix --config .config/eslint.config.js",
     "dev": "vitepress dev",
     "build": "vitepress build",
     "preview": "vitepress preview"
   },
   "devDependencies": {
-    "vitepress": "1.6.4"
+    "@stylistic/eslint-plugin": "5.10.0",
+    "eslint": "10.2.0",
+    "eslint-plugin-unicorn": "64.0.0",
+    "eslint-plugin-vue": "10.8.0",
+    "vitepress": "1.6.4",
+    "vue-eslint-parser": "10.4.0"
   }
 }

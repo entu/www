@@ -37,7 +37,7 @@ Called by:
 - `POST /api/[db]/entity` — one per submitted property + auto `_owner` and `_created`
 - `POST /api/[db]/entity/[_id]` — one per submitted property
 - `POST /api/[db]/entity/[_id]/duplicate` — one per copied property per duplicate
-- `POST /api/[db]/passkey` — inserts `{ type: 'entu_passkey', passkey_id, passkey_public_key, passkey_counter }`
+- `POST /api/[db]/passkey` — inserts `{ type: 'entu_passkey', passkey_id, passkey_public, passkey_counter }`
 - `POST /api/stripe` — one per billing property updated from the Stripe webhook
 
 Appends a new property record to an entity. Existing values are never overwritten — old ones are soft-deleted instead.

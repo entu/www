@@ -28,8 +28,8 @@ const iconMap = {
     >
       <div class="use-case-header">
         <div
-          class="use-case-icon"
           v-html="iconMap[item.icon]"
+          class="use-case-icon"
         />
         <p class="use-case-title">
           {{ item.title }}

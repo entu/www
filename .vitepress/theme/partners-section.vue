@@ -29,8 +29,8 @@ const iconMap = {
       :style="{ '--partner-color': partner.color, '--partner-dark-color': partner.darkColor }"
     >
       <span
-        class="partner-icon"
         v-html="iconMap[partner.icon]"
+        class="partner-icon"
       />
       {{ partner.name }}
     </span>
