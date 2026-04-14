@@ -3,9 +3,9 @@ import { defineConfig } from 'vitepress'
 export default defineConfig({
   srcDir: './src',
   outDir: './dist',
-  vite: { 
-    server: { port: 3003 }, 
-    publicDir: '../public' 
+  vite: {
+    server: { port: 3003 },
+    publicDir: '../public'
   },
   sitemap: { hostname: 'https://entu.ee' },
   cleanUrls: true,
