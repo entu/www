@@ -53,7 +53,7 @@ features:
       src: /icons/code.svg
       width: 32
       height: 32
-    details: Täielik REST API sisseehitatud autentimisega ja interaktiivne dokumentatsioon aadressil [api.entu.app/docs](https://api.entu.app/docs).
+    details: Täielik REST API sisseehitatud autentimisega ja interaktiivne dokumentatsioon.
 
 pricing:
   labels:

@@ -53,7 +53,7 @@ features:
       src: /icons/code.svg
       width: 32
       height: 32
-    details: Full CRUD API with JWT authentication and an interactive OpenAPI explorer at [api.entu.app/docs](https://api.entu.app/docs).
+    details: Full CRUD API with JWT authentication and an interactive OpenAPI explorer.
 
 pricing:
   labels:
