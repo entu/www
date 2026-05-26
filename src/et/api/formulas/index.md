@@ -12,28 +12,46 @@ Kaheetapiline hindamine tähendab, et valem võib turvaliselt viidata teisele sa
 
 ## Süntaks
 
-Valem kirjutatakse tühikutega eraldatud väärtustena, millele järgneb valikuline funktsiooni nimi:
+Valemid kasutavad **Pöördpoola notatsiooni** (Reverse Polish Notation, RPN, tuntud ka postfiksnotatsioonina): väärtused tulevad esimesena, operaator viimasena. Mootor liigub valemis vasakult paremale ühe väärtustepinuga. Iga teigend kas:
+
+- **Lükkab** väärtuse pinusse (literaal või väljaviide), või
+- **Käivitab operaatori**, mis võtab pinust väärtusi ja lükkab tulemuse tagasi.
 
 ```
-field1 field2 field3 FUNCTION
+first_name " " last_name CONCAT
+│           │   │         └── võta kogu pinu, ühenda väärtused, lükka ühendatud string
+│           │   └── lükka välja `last_name` väärtus
+│           └── lükka stringiliteraal " "
+└── lükka välja `first_name` väärtus
 ```
 
-Kui funktsiooni pole määratud, kasutatakse vaikimisi `CONCAT`.
+Keeles **ei ole sulge** ega **kandilisi sulge**. Komposeerumine toimub loomulikult pinul — iga operaator toodab ühe väärtuse, mille järgmine operaator tarbib.
 
-### Pesastatud valemid
+### Vaikimisi `CONCAT`
 
-Kasuta sulge valemite pesastamiseks ja keeruliste arvutuste loomiseks:
+Kui valem ei lõpe tuntud operaatori võtmesõnaga, lisab mootor vaikimisi `CONCAT` ja ühendab kogu pinu stringina. See teeb lihtsad stringikompositsioonid lühikeseks:
 
 ```
-(field1 field2 SUM) (field3 field4 SUM) MULTIPLY
+first_name " " last_name                  → "John Doe"          (vaikimisi CONCAT)
+first_name " " last_name CONCAT           → "John Doe"          (selgesõnaline, sama tulemus)
+'Nr ' vr_nr '. ' otsuse_kp                → "Nr 12. 2026-01-01"
 ```
 
-Sisemised valemid hinnatakse esmalt, seejärel kasutatakse nende tulemusi välimises valemis. Pesastamine võib olla mitmetasemeline.
+### Operaatorite klassid
 
-**Näited:**
-- `(price tax SUM) quantity MULTIPLY` — Arvuta kogusumma maksuga koguse kohta
-- `((a b SUM) (c d SUM) MULTIPLY) 100 DIVIDE` — Keeruline pesastatud arvutus
-- `(min_value max_value SUM) 2 DIVIDE` — Miinimumi ja maksimumi keskmine
+Iga operaator kuulub ühte järgmistest klassidest:
+
+- **Muutuva arvuga reduktorid** tarbivad **kogu pinu** ja lükkavad ühe tulemuse. Enamik koondoperaatoreid on reduktorid — `CONCAT`, `SUM`, `MIN`, `IN` jne.
+- **Fikseeritud arvuga operaatorid** võtavad pinust teadaoleva arvu pilusid. `EQ` võtab 2, `ABS` võtab 1, `IF` võtab 3 jne.
+- **Väärtuste kaupa operaatorid** (`ABS`, `ROUND`) võtavad ühe sisendpilu ja rakendavad operatsiooni iga selle väärtuse suhtes, lükkades tagasi sama pikkusega pilu.
+
+### Mitme väärtusega (loend) parameetrid
+
+Entu parameetrid on mitme väärtusega: üks väljaviide võib lükata ühe pinupiluna N väärtusest koosneva loendi. Operaatorid käsitlevad loendeid nii:
+
+- **Muutuva arvuga reduktorid** lamendavad pilud üheks väärtusjadaks enne operatsiooni rakendamist. `_child.*.price SUM` on lihtsalt loendipilu redutseerimine — alusväärtused summeeritakse.
+- **Väärtuste kaupa operaatorid** rakenduvad iga väärtusele sisendpilus — `_child.*.delta ABS` tagastab absoluutsete deltade loendi, sama pikkusega kui sisend.
+- **Binaarvõrdlused** (`EQ`, `GT`, …) kasutavad **ANY** semantikat ristkorrutise üle: tõene, kui mõni vasak väärtus rahuldab operaatorit mõne parema väärtuse suhtes.
 
 ## Väljaviited
 
@@ -44,7 +62,8 @@ Sisemised valemid hinnatakse esmalt, seejärel kasutatakse nende tulemusi välim
 | `propertyName` | Selle parameetri väärtus(ed) praegusel objektil |
 | `_id` | Praeguse objekti ID |
 | `'literal'` või `"literal"` | Stringiliteraal |
-| `123` / `45.67` | Arvliteraal |
+| `123` / `45.67` / `-2` | Arvliteraal |
+| `true` / `false` | Tõeväärtuse literaal |
 
 ### Viidatavad objektid
 
@@ -76,74 +95,170 @@ Objektid, mis viitavad sellele objektile enda viiteparameetrite kaudu:
 | `_referrer.typeName._id` | Konkreetset tüüpi viitajate ID-d |
 
 ::: info
-`typeName` viiakse vastavusse viitaja objektitüübi `name` parameetriga (nt `invoice`), mitte selle kuvanimeduse `label`-iga. Kui tüübi `name` ja `label` erinevad, kasuta `name` väärtust.
+`typeName` viiakse vastavusse viitaja objektitüübi `name` parameetriga (nt `invoice`), mitte kuvanimega `label`. Kui tüübi `name` ja `label` erinevad, kasuta `name` väärtust.
 :::
 
-## Funktsioonid
+## Operaatorid
 
-| Funktsioon | Kirjeldus |
+### Muutuva arvuga reduktorid (tarbivad kogu pinu)
+
+| Operaator | Tulemus | Märkused |
+|---|---|---|
+| `CONCAT` | string | Lamenda kõik pinu väärtused, teisenda stringiks, ühenda eraldajata. |
+| `CONCAT_WS` | string | Lamenda kõik pinu väärtused; **viimane** väärtus on eraldaja; ülejäänud ühendatakse sellega. |
+| `SUM` | number | Range arvutüüp — mitte-arv kuskil → väärtust pole. |
+| `SUBTRACT` | number | Vasakult paremale: esimesest lahutatakse ülejäänud. Range arvutüüp. |
+| `MULTIPLY` | number | Kõigi väärtuste korrutis. Range arvutüüp. |
+| `DIVIDE` | number | Esimene jagatud ülejäänutega järjest. Range arvutüüp. Nulliga jagamine → väärtust pole. |
+| `COUNT` | number | Kõigi alusväärtuste arv. Tühi pinu → `0`. |
+| `AVERAGE` | number | Aritmeetiline keskmine. Range arvutüüp. |
+| `MIN`, `MAX` | number või string | Võrdle `<` / `>` abil. Kõik väärtused peavad olema sama primitiivtüüpi (kõik arvud või kõik stringid — ISO 8601 kuupäevad võrdluvad õigesti stringidena). |
+| `IN`, `NIN` | tõeväärtus | Esimene pilu = otsitav, ülejäänud pilud = otsingulist. `IN` on tõene, kui **mõni** otsitav väärtus on rangelt võrdne **mõne** loendi väärtusega; `NIN` on eitus. |
+
+### Binaarvõrdlused (tagastavad tõeväärtuse)
+
+| Operaator | Käitumine |
 |---|---|
-| `CONCAT` | Ühendab kõik väärtused stringidena (vaikimisi, kui ühtegi funktsiooni pole määratud) |
-| `CONCAT_WS` | Ühendab väärtused eraldajaga — viimast väärtust kasutatakse eraldajana |
-| `COUNT` | Tagastab väärtuste arvu |
-| `SUM` | Summeerib kõik arvväärtused |
-| `SUBTRACT` | Lahutab ülejäänud väärtused esimesest |
-| `MULTIPLY` | Korrutab kõik väärtused omavahel |
-| `DIVIDE` | Jagab esimese väärtuse ülejäänud väärtustega. Tagastab `undefined`, kui mõni jagaja on null. |
-| `AVERAGE` | Tagastab aritmeetilise keskmise |
-| `MIN` | Tagastab väikseima väärtuse |
-| `MAX` | Tagastab suurima väärtuse |
-| `ABS` | Tagastab esimese väärtuse absoluutväärtuse |
-| `ROUND` | Ümardab N kümnendkohani — viimast väärtust kasutatakse N-na |
+| `EQ`, `NE` | Range `===` / `!==` ristkorrutise üle. |
+| `GT`, `GTE`, `LT`, `LTE` | Järjestus ristkorrutise üle. Mõlemad pooled peavad olema arvud või mõlemad stringid — sobimatu tüübiga paarid jäetakse vahele. |
 
-::: warning
-`DIVIDE` tagastab `undefined`, kui mõni väärtus pärast esimest on null. Käitle seda allavoolu valemites või veendu, et jagaja on alati nullist erinev.
-:::
+Kõik kuus kasutavad **ANY** semantikat: tõene, kui mõni vasak väärtus rahuldab operaatorit mõne parema väärtuse suhtes.
+
+### Tingimuslik
+
+| Operaator | Arv | Käitumine |
+|---|---|---|
+| `IF` | 3 | Võtab `else`, `then`, `cond`. Tagastab `then`, kui `cond` on `true`, `else`, kui `false`. |
+| `WHEN` | 2 | Võtab `then`, `cond`. Tagastab `then`, kui `cond` on `true`; muidu parameetrit ei kirjutata. |
+
+Mõlemad nõuavad, et `cond` lahendaks täpselt üheks tõeväärtuseks. Mõlemad harud arvutatakse enne tingimuse käivitamist (laisk hindamine puudub).
+
+### Väärtuste kaupa
+
+| Operaator | Arv | Käitumine |
+|---|---|---|
+| `ABS` | 1 | Iga arvu absoluutväärtus sisendpilus. |
+| `ROUND` | 2 | Võtab `decimals` (üks arv) ja `value`. Ümardab iga arvu väärtusest `decimals` kümnendkohani. |
+
+### Muud
+
+| Operaator | Arv | Käitumine |
+|---|---|---|
+| `EXISTS` | 1 | Tõene, kui sisendpilu laheneb vähemalt üheks väärtuseks. |
 
 ## Tühja sisendi käitumine
 
-Kui ühtegi väärtust ei lahendata (nt viidatav parameeter on tühi või määramata), tagastavad enamik funktsioone `undefined` ja parameetrit lihtsalt ei kirjutata. Kolm funktsiooni tagastavad väärtuse ka tühja sisendi korral:
+Enamik operaatoreid tagastab väärtuseta (parameetrit ei kirjutata), kui sisendid lahenevad tühjaks:
 
-| Funktsioon | Tühja sisendi tulemus |
+| Operaator | Tühi sisend |
 |---|---|
 | `COUNT` | `0` |
-| `SUM` | `0` |
-| `MULTIPLY` | `1` (korrutisidentiteet) |
-| Kõik teised | `undefined` — parameetrit ei seadistata |
+| `CONCAT`, `CONCAT_WS`, `SUM`, `SUBTRACT`, `MULTIPLY`, `DIVIDE`, `AVERAGE`, `MIN`, `MAX` | väärtust pole (parameetrit ei kirjutata) |
+| `ABS`, `ROUND` | väärtust pole |
+| `IN`, `NIN` | tühi otsitav või tühi otsingulist → vastavalt `false` / `true` |
+| `EQ`, `NE`, `GT`, `GTE`, `LT`, `LTE` | tühi pool → väärtust pole |
+| `EXISTS` | tagastab alati tõeväärtuse |
+| `IF`, `WHEN` | väärtust pole, kui `cond` on tühi või mitte üks tõeväärtus; `WHEN` tagastab väärtuseta, kui `cond` on `false` |
 
 ## Näited
 
-**Täisnimi kahest väljast:**
+### Koondamine
+
+**Summa alam-objektide üleselt:**
 ```
-first_name last_name ' ' CONCAT_WS
+_child.*.price SUM
 ```
 
-**Koguhind:**
+**Konkreetset tüüpi alam-objektide loendamine:**
 ```
-price quantity MULTIPLY
-```
-
-**Hind maksuga, koguse kohta:**
-```
-(price tax SUM) quantity MULTIPLY
+_child.invoice._id COUNT
 ```
 
-**Alam-objektide loendamine:**
-```
-_child.*._id COUNT
-```
-
-**Keskmine hind alam-objektide üleselt:**
+**Keskmine hind:**
 ```
 _child.*.price AVERAGE
 ```
 
-**Tulemuse ümardamine 2 kümnendkohani:**
+**Varaseim tähtaeg:**
 ```
-(total quantity DIVIDE) 2 ROUND
+_child.*.due_date MIN
 ```
 
-**Kasum viidatavatest arvetest:**
+### Aritmeetika
+
+**Kasum:**
 ```
-_referrer.invoice.amount SUM
+income expenses SUBTRACT
 ```
+
+**Maksuga koguhind:**
+```
+price tax SUM quantity MULTIPLY
+```
+
+**Ümarda 2 kümnendkohani:**
+```
+total quantity DIVIDE 2 ROUND
+```
+
+**Absoluutne erinevus, ümardatud:**
+```
+sum ABS invoice_sum ABS SUBTRACT 2 ROUND
+```
+
+### Stringid
+
+**Täisnimi (vaikimisi `CONCAT`):**
+```
+first_name " " last_name
+```
+
+**Täisnimi selgesõnalise `CONCAT_WS`-iga:**
+```
+first_name last_name " " CONCAT_WS
+```
+
+**Kahekihiline ühendamine — esinejate loend ühendatakse `", "`-ga, seejärel pealkirjale eelistatakse:**
+```
+artist ", " CONCAT_WS title " - " CONCAT_WS
+```
+
+### Tingimused
+
+**Silt hinnaläve järgi:**
+```
+price 100 GT "expensive" "cheap" IF
+```
+
+**Märgista ainult eelarve ületamisel (else puudub):**
+```
+total budget GT "over budget" WHEN
+```
+
+**Kuuluvuse kontroll sisemise loendiga:**
+```
+status_code 10 20 30 IN "active" "inactive" IF
+```
+
+**Märgi, kas kuupäev on määratud:**
+```
+paid_date EXISTS "✓" "—" IF
+```
+
+**Tähtaja ületamise kontroll kuupäeva järgi:**
+```
+due_date "2026-01-01" LT "overdue" "ok" IF
+```
+
+**Välista keelatud staatused (väli elementide loendina):**
+```
+status banned_status.*.code NIN "ok" "blocked" IF
+```
+
+## Komposeerumise reeglid
+
+Kuna muutuva arvuga reduktorid tarbivad **kogu** pinu, võib valem praktiliselt sisaldada **ainult ühte reduktorit** enne fikseeritud arvuga operatsioone. Kui reduktor on käivitunud, asetub kõik järgnevalt lükatav selle tulemuse peale — ja järgmine reduktor neelab mõlemad.
+
+Kui vajad kahe eraldiseisva reduktoritulemuse kombinatsiooni (nt loendus ja summa kokku stringiks renderdatud), jaga arvutus mitmeks valemiparameetriks: defineeri üks parameeter, mille valem toodab loenduse, teine parameeter summa jaoks, ja kolmas parameeter, mis viitab mõlemale. Kaheetapiline hindaja lahendab sõltuvuse.
+
+Fikseeritud arvuga operaatoreid (`EQ`, `GT`, `IN`, `IF`, `ROUND`, `ABS`, …) saab vabalt aheldada.

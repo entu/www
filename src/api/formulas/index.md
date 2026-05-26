@@ -12,28 +12,46 @@ Two-pass evaluation means a formula can safely reference another computed proper
 
 ## Syntax
 
-A formula is written as space-separated values followed by an optional function name:
+Formulas use **Reverse Polish Notation** (RPN, also known as postfix notation): values come first, the operator comes last. The engine walks the formula left to right with a single value stack. Each token either:
+
+- **Pushes** a value onto the stack (a literal, a field reference), or
+- **Runs an operator** that pops values from the stack and pushes a result back.
 
 ```
-field1 field2 field3 FUNCTION
+first_name " " last_name CONCAT
+│           │   │         └── pop the whole stack, join the values, push the joined string
+│           │   └── push the value of `last_name`
+│           └── push the string literal " "
+└── push the value of `first_name`
 ```
 
-If no function is specified, `CONCAT` is used by default.
+There are **no parentheses** and **no brackets** in the language. Composition happens naturally on the stack — each operator produces one value that the next operator consumes.
 
-### Nested Formulas
+### Implicit `CONCAT`
 
-Use parentheses to nest formulas and create complex calculations:
+If a formula does **not** end with a recognized operator keyword, the engine implicitly appends `CONCAT` and joins everything on the stack as a string. This makes simple string compositions short to write:
 
 ```
-(field1 field2 SUM) (field3 field4 SUM) MULTIPLY
+first_name " " last_name                  → "John Doe"          (implicit CONCAT)
+first_name " " last_name CONCAT           → "John Doe"          (explicit, same result)
+'Nr ' vr_nr '. ' otsuse_kp                → "Nr 12. 2026-01-01"
 ```
 
-Inner formulas are evaluated first, then their results are used in the outer formula. Nesting can be multiple levels deep.
+### Operator categories
 
-**Examples:**
-- `(price tax SUM) quantity MULTIPLY` — Calculate total with tax per quantity
-- `((a b SUM) (c d SUM) MULTIPLY) 100 DIVIDE` — Complex nested calculation
-- `(min_value max_value SUM) 2 DIVIDE` — Average of min and max
+Every operator falls into one of these classes:
+
+- **Variadic reducers** consume the **entire current stack** and push one result. Most aggregating operators are reducers — `CONCAT`, `SUM`, `MIN`, `IN`, etc.
+- **Fixed-arity operators** pop a known number of stack slots. `EQ` pops 2, `ABS` pops 1, `IF` pops 3, and so on.
+- **Per-value operators** (`ABS`, `ROUND`) take one input slot and apply the operation to every underlying value in it, pushing back a slot of the same length.
+
+### Multi-value (list) properties
+
+Entu properties are multi-value: a single field reference may push a list of N values as one stack slot. Operators handle lists like this:
+
+- **Variadic reducers** flatten popped slots into a single value sequence before applying the operation. `_child.*.price SUM` is just a list slot being reduced — the underlying values are summed.
+- **Per-value operators** apply to every value in their input slot — `_child.*.delta ABS` returns a list of absolute deltas, same length as the input.
+- **Binary comparisons** (`EQ`, `GT`, …) use **ANY** semantics across the cross product: true if any left value satisfies the operator against any right value.
 
 ## Field References
 
@@ -44,7 +62,8 @@ Inner formulas are evaluated first, then their results are used in the outer for
 | `propertyName` | Value(s) of that property on the current entity |
 | `_id` | The current entity's ID |
 | `'literal'` or `"literal"` | A string literal |
-| `123` / `45.67` | A numeric literal |
+| `123` / `45.67` / `-2` | A numeric literal |
+| `true` / `false` | A boolean literal |
 
 ### Referenced Entities
 
@@ -79,71 +98,167 @@ Entities that reference this entity through their own reference properties:
 `typeName` is matched against the referrer entity type's `name` property (e.g. `invoice`), not its display `label`. If a type's `name` and `label` differ, use the `name` value.
 :::
 
-## Functions
+## Operators
 
-| Function | Description |
+### Variadic reducers (consume the whole stack)
+
+| Operator | Result | Notes |
+|---|---|---|
+| `CONCAT` | string | Flatten all stack values, stringify, join with no separator. |
+| `CONCAT_WS` | string | Flatten all stack values; the **last** value is the separator; the rest are joined with it. |
+| `SUM` | number | Strict numeric — any non-number anywhere → no value. |
+| `SUBTRACT` | number | Left-to-right: first value minus the rest. Strict numeric. |
+| `MULTIPLY` | number | Product of all values. Strict numeric. |
+| `DIVIDE` | number | First value divided by the rest, in order. Strict numeric. Division by zero → no value. |
+| `COUNT` | number | Total count of all underlying values. Empty stack → `0`. |
+| `AVERAGE` | number | Arithmetic mean. Strict numeric. |
+| `MIN`, `MAX` | number or string | Compare with `<` / `>`. All values must be the same primitive type (all numbers or all strings — ISO 8601 dates compare correctly as strings). |
+| `IN`, `NIN` | boolean | First slot = needle, remaining slots = haystack. `IN` is true if **any** needle value strict-equals **any** haystack value; `NIN` is the negation. |
+
+### Binary comparisons (return boolean)
+
+| Operator | Behavior |
 |---|---|
-| `CONCAT` | Joins all values as strings (default when no function is specified) |
-| `CONCAT_WS` | Joins values with a separator — the last value is used as the separator |
-| `COUNT` | Returns the number of values |
-| `SUM` | Sums all numeric values |
-| `SUBTRACT` | Subtracts remaining values from the first |
-| `MULTIPLY` | Multiplies all values together |
-| `DIVIDE` | Divides the first value by the rest. Returns `undefined` if any divisor is zero. |
-| `AVERAGE` | Returns the arithmetic mean |
-| `MIN` | Returns the smallest value |
-| `MAX` | Returns the largest value |
-| `ABS` | Returns the absolute value of the first value |
-| `ROUND` | Rounds to N decimal places — the last value is used as N |
+| `EQ`, `NE` | Strict `===` / `!==` across the cross product. |
+| `GT`, `GTE`, `LT`, `LTE` | Ordering across the cross product. Both sides must be numbers or both strings — pairs of incompatible types are skipped. |
 
-::: warning
-`DIVIDE` returns `undefined` when any value after the first is zero. Handle this in downstream formulas or ensure the divisor is always non-zero.
-:::
+All six use **ANY** semantics: true if any left value satisfies the operator against any right value.
+
+### Conditional
+
+| Operator | Arity | Behavior |
+|---|---|---|
+| `IF` | 3 | Pops `else`, `then`, `cond`. Returns `then` if `cond` is `true`, `else` if `false`. |
+| `WHEN` | 2 | Pops `then`, `cond`. Returns `then` if `cond` is `true`; otherwise no property is written. |
+
+Both require `cond` to resolve to exactly one boolean value. Both branches are evaluated before the conditional runs (no lazy evaluation).
+
+### Per-value
+
+| Operator | Arity | Behavior |
+|---|---|---|
+| `ABS` | 1 | Absolute value of every number in the input slot. |
+| `ROUND` | 2 | Pops `decimals` (a single number) and `value`. Rounds every number in `value` to `decimals` decimal places. |
+
+### Other
+
+| Operator | Arity | Behavior |
+|---|---|---|
+| `EXISTS` | 1 | True if the input slot resolves to at least one value. |
 
 ## Empty Input Behaviour
 
-When no values resolve (e.g. the referenced property is empty or unset), most functions return `undefined` and the property is simply not written. Three functions return a value even for empty input:
+Most operators return no value (the property is not written) when their inputs resolve to nothing:
 
-| Function | Empty-input result |
+| Operator | Empty input |
 |---|---|
 | `COUNT` | `0` |
-| `SUM` | `0` |
-| `MULTIPLY` | `1` (multiplicative identity) |
-| All others | `undefined` — property is not set |
+| `CONCAT`, `CONCAT_WS`, `SUM`, `SUBTRACT`, `MULTIPLY`, `DIVIDE`, `AVERAGE`, `MIN`, `MAX` | no value (property not written) |
+| `ABS`, `ROUND` | no value |
+| `IN`, `NIN` | empty needle or empty haystack → `false` / `true` respectively |
+| `EQ`, `NE`, `GT`, `GTE`, `LT`, `LTE` | empty side → no value |
+| `EXISTS` | always returns a boolean |
+| `IF`, `WHEN` | no value if `cond` is empty or not a single boolean; `WHEN` returns no value when `cond` is `false` |
 
 ## Examples
 
-**Full name from two fields:**
+### Aggregations
+
+**Sum across children:**
 ```
-first_name last_name ' ' CONCAT_WS
+_child.*.price SUM
 ```
 
-**Total price:**
+**Count children of a specific type:**
 ```
-price quantity MULTIPLY
-```
-
-**Price with tax, per quantity:**
-```
-(price tax SUM) quantity MULTIPLY
+_child.invoice._id COUNT
 ```
 
-**Count child entities:**
-```
-_child.*._id COUNT
-```
-
-**Average price across children:**
+**Average price:**
 ```
 _child.*.price AVERAGE
 ```
 
-**Round result to 2 decimals:**
+**Earliest due date:**
 ```
-(total quantity DIVIDE) 2 ROUND
+_child.*.due_date MIN
 ```
 
-**Profit from referrer invoices:**
+### Arithmetic
+
+**Profit:**
 ```
-_referrer.invoice.amount SUM
+income expenses SUBTRACT
 ```
+
+**Total with tax:**
+```
+price tax SUM quantity MULTIPLY
+```
+
+**Round to 2 decimals:**
+```
+total quantity DIVIDE 2 ROUND
+```
+
+**Absolute difference, rounded:**
+```
+sum ABS invoice_sum ABS SUBTRACT 2 ROUND
+```
+
+### Strings
+
+**Full name (implicit `CONCAT`):**
+```
+first_name " " last_name
+```
+
+**Full name with explicit `CONCAT_WS`:**
+```
+first_name last_name " " CONCAT_WS
+```
+
+**Two-level join — list of artists joined with `", "`, then prefixed to a title:**
+```
+artist ", " CONCAT_WS title " - " CONCAT_WS
+```
+
+### Conditionals
+
+**Label by price threshold:**
+```
+price 100 GT "expensive" "cheap" IF
+```
+
+**Flag only when over budget (no else):**
+```
+total budget GT "over budget" WHEN
+```
+
+**Membership check with inline list:**
+```
+status_code 10 20 30 IN "active" "inactive" IF
+```
+
+**Mark whether a date is set:**
+```
+paid_date EXISTS "✓" "—" IF
+```
+
+**Overdue check by date:**
+```
+due_date "2026-01-01" LT "overdue" "ok" IF
+```
+
+**Exclude banned statuses (field as item list):**
+```
+status banned_status.*.code NIN "ok" "blocked" IF
+```
+
+## Composition rules
+
+Because variadic reducers consume the **entire** stack, a formula can practically contain **only one reducer** before fixed-arity operations. Once a reducer runs, anything pushed after it sits on top of its result — and the next reducer will swallow both.
+
+If you need two independent reducer results combined together (e.g. a count and a sum each rendered to a string), split the calculation into two formula properties: define one property whose formula produces the count, another whose formula produces the sum, and a third whose formula references both. The two-pass evaluator resolves the dependency.
+
+Fixed-arity operators (`EQ`, `GT`, `IN`, `IF`, `ROUND`, `ABS`, …) can be chained freely.
