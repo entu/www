@@ -85,6 +85,41 @@ Vastus sisaldab välja `url` ajalimiitidega allkirjastatud URL-iga — kehtib 60
 
 Otsese brauseri allalaadimise käivitamiseks lisa `?download=true` — see suunab kohe allkirjastatud URL-ile.
 
+## Pisipildid
+
+Loo objekti `photo` parameetri esimesest failist ruudukujuline pisipilt:
+
+```
+GET /api/{db}/entity/{_id}/thumbnail?size=200
+```
+
+Endpoint võtab esimese `photo` faili, renderdab selle, kärbib keskelt ruuduks (cover-sobitus) ja toodab **JPEG**-i. Toetatud on nii **pildid** (`image/*`, välja arvatud SVG) kui ka **PDF**-failid — PDF-i puhul renderdatakse esimene lehekülg.
+
+Päringuparameeter `size` on **kohustuslik** ja peab olema üks lubatud väärtustest (ruudu laius ja kõrgus pikslites):
+
+```
+200, 400, 800
+```
+
+Mis tahes muu väärtus tagastab `400`. Lubatud väärtuste loend piirab failikohaste vahemällu salvestatud variantide arvu.
+
+Vastus sisaldab ajalimiidiga allkirjastatud välja `url` (kehtib 60 sekundit), sama kujul nagu faili allalaadimine:
+
+```json
+{
+  "url": "https://s3.amazonaws.com/bucket/path?signature..."
+}
+```
+
+Loodud pisipildid salvestatakse objektihoidlasse, seega on esimene päring antud faili ja suuruse kohta aeglasem (genereerimine) ning järgmised serveeritakse vahemälust. Igal päringul kehtivad samad juurdepääsureeglid mis lähteobjektil.
+
+| Vastus | Tähendus |
+|---|---|
+| `200` | JSON `{ url }` allkirjastatud pisipildi URL-iga |
+| `400` | Vigane `size`, toetamata failitüüp või faili ei õnnestunud dekodeerida |
+| `403` | Puudub juurdepääs objektile |
+| `404` | Objekti ei leitud või sellel puudub `photo` |
+
 ## Failiparameetri kustutamine
 
 Kustuta failiparameeter samal viisil nagu mis tahes muu parameetriväärtus:
