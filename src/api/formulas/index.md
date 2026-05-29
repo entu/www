@@ -94,8 +94,14 @@ Entities that reference this entity through their own reference properties:
 | `_referrer.*._id` | IDs of all referrer entities |
 | `_referrer.typeName._id` | IDs of referrer entities of a specific type |
 
+A referrer is an entity that points at the current entity through a user-defined `reference`-type property. System reference properties (`_parent`, `_owner`, `_editor`, `_viewer`, `_expander`) are **not** counted by `_referrer`.
+
 ::: info
 `typeName` is matched against the referrer entity type's `name` property (e.g. `invoice`), not its display `label`. If a type's `name` and `label` differ, use the `name` value.
+:::
+
+::: info
+Unlike same-entity formulas, a `_referrer` formula depends on **other** entities. Its value updates when a referencing entity is created, changed, deleted, or has its reference changed — Entu then queues the target entity for automatic re-aggregation so its `_referrer` (and `_child`) formulas recompute. The result is eventually consistent: it may not be updated within the same request that changed the referencing entity.
 :::
 
 ## Operators

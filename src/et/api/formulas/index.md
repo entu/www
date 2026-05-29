@@ -94,8 +94,14 @@ Objektid, mis viitavad sellele objektile enda viiteparameetrite kaudu:
 | `_referrer.*._id` | Kõigi viitajate ID-d |
 | `_referrer.typeName._id` | Konkreetset tüüpi viitajate ID-d |
 
+Viitaja on objekt, mis osutab praegusele objektile kasutaja määratud `reference`-tüüpi parameetri kaudu. Süsteemsed viiteparameetrid (`_parent`, `_owner`, `_editor`, `_viewer`, `_expander`) **ei** lähe `_referrer`-i arvestusse.
+
 ::: info
 `typeName` viiakse vastavusse viitaja objektitüübi `name` parameetriga (nt `invoice`), mitte kuvanimega `label`. Kui tüübi `name` ja `label` erinevad, kasuta `name` väärtust.
+:::
+
+::: info
+Erinevalt sama objekti valemitest sõltub `_referrer` valem **teistest** objektidest. Selle väärtus uueneb, kui viitav objekt luuakse, muudetakse, kustutatakse või selle viide muutub — Entu paneb seejärel sihtobjekti automaatsesse uuesti-koondamise järjekorda, et selle `_referrer` (ja `_child`) valemid ümber arvutada. Tulemus on lõppkokkuvõttes järjepidev: see ei pruugi uueneda samas päringus, mis viitavat objekti muutis.
 :::
 
 ## Operaatorid
