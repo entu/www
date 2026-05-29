@@ -1,6 +1,6 @@
 # Authentication
 
-All API requests require a JWT token passed in the `Authorization: Bearer <token>` header. Tokens are valid for 48 hours.
+All API requests require a JWT token passed in the `Authorization: Bearer <token>` header. Tokens are valid for 12 hours. The auth response includes an `expires` field (ISO 8601 datetime) so you know when to refresh.
 
 ## Getting a Token
 
@@ -43,15 +43,31 @@ The provider returns a user ID and profile info that is matched against the enti
 1. Authenticate using your OAuth provider or API key
 2. Exchange the credential at `GET /api/auth` for a JWT token
 3. Use the JWT in `Authorization: Bearer <token>` on all subsequent requests
-4. Refresh before the 48-hour expiry
+4. Refresh before the 12-hour expiry (see [Refreshing a Token](#refreshing-a-token))
 
 ::: warning
 JWT tokens are bound to the IP address used when the token was issued. If your IP changes (e.g. switching networks, VPN, or mobile roaming), the token is immediately rejected with `401 Invalid JWT audience` and you must re-authenticate. Cache tokens per IP context if your environment changes addresses frequently.
 :::
 
 ::: tip
-Cache the JWT and reuse it across requests. Exchanging the credential on every call is wasteful — only refresh when the token expires.
+Cache the JWT and reuse it across requests. Exchanging the credential on every call is wasteful — only refresh when the token nears expiry.
 :::
+
+## Refreshing a Token
+
+Instead of re-authenticating, exchange a still-valid (or recently expired) token for a fresh 12-hour one at `GET /api/auth/refresh`:
+
+```bash
+curl -X GET "https://entu.app/api/auth/refresh" \
+  -H "Authorization: Bearer YOUR_CURRENT_TOKEN"
+```
+
+The response has the same shape as `GET /api/auth` — `accounts`, `user`, `token`, and `expires`. The signature and IP binding are enforced, and account access is re-validated against the databases.
+
+Refresh keeps a session alive as long as you refresh regularly, but two limits apply:
+
+- **Idle limit (14 days)** — measured from the presented token's own issue time. A token left unused (not refreshed) for more than 14 days is rejected with `401 Token too old, re-authenticate`. A client that refreshes within each 12-hour window never hits this.
+- **Absolute limit (30 days)** — measured from your original sign-in, which the token carries unchanged through every refresh. Once that is over 30 days old, refresh is rejected with `401 Session expired, re-authenticate` and you must sign in again — no matter how often you refreshed.
 
 ## Third-Party App Integration
 

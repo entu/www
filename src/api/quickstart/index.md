@@ -29,7 +29,7 @@ Response:
 }
 ```
 
-The JWT token is valid for 48 hours. Use it in all subsequent requests. For OAuth and Passkey flows, see [Authentication](/api/authentication/).
+The JWT token is valid for 12 hours. Use it in all subsequent requests. For OAuth and Passkey flows, see [Authentication](/api/authentication/).
 
 ::: tip
 Cache the JWT and reuse it across requests. Only refresh when the token expires.

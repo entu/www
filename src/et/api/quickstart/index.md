@@ -29,7 +29,7 @@ Vastus:
 }
 ```
 
-JWT token kehtib 48 tundi. Kasuta seda kõigis järgnevates päringutes. OAuth ja Passkey voogude kohta vaata [Autentimine](/et/api/authentication/).
+JWT token kehtib 12 tundi. Kasuta seda kõigis järgnevates päringutes. OAuth ja Passkey voogude kohta vaata [Autentimine](/et/api/authentication/).
 
 ::: tip
 Vahemällu salvesta JWT ja kasuta seda uuesti päringutes. Uuenda ainult siis, kui token aegub.

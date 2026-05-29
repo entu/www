@@ -54,7 +54,7 @@ Lae failid otse S3-sse üles, kasutades allkirjastatud URL-i — ära vahenda fa
 
 ## Tokeni haldamine
 
-**Vahemällu salvesta JWT tokenid** — kehtivad 48 tundi. Kasuta neid uuesti, ära küsi operatsiooni kohta uusi. Rakenda aegumise eelse uuendamise loogika.
+**Vahemällu salvesta JWT tokenid** — kehtivad 12 tundi. Kasuta neid uuesti, ära küsi operatsiooni kohta uusi. Uuenda enne aegumist `GET /api/auth/refresh` kaudu.
 
 ::: warning
 Ära lisa kunagi API võtmeid lähtekoodi. Kasuta keskkonna muutujaid või saladuste haldurit. Kui võti on paljastunud, kustuta see isikuobjektist ja genereeri kohe uus.

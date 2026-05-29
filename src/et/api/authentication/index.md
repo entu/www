@@ -1,6 +1,6 @@
 # Autentimine
 
-Kõik API päringud nõuavad JWT tokenit, mis edastatakse päises `Authorization: Bearer <token>`. Tokenid kehtivad 48 tundi.
+Kõik API päringud nõuavad JWT tokenit, mis edastatakse päises `Authorization: Bearer <token>`. Tokenid kehtivad 12 tundi. Autentimisvastus sisaldab `expires` välja (ISO 8601 kuupäev-kellaaeg), mis näitab, millal token tuleb uuendada.
 
 ## Tokeni hankimine
 
@@ -43,15 +43,31 @@ Pakkuja tagastab kasutaja ID ja profiiliinfo, mis viiakse vastavusse objekti `en
 1. Autendi OAuth-pakkuja või API võtmega
 2. Vaheta mandaat aadressil `GET /api/auth` JWT tokeni vastu
 3. Kasuta JWT-d päisena `Authorization: Bearer <token>` kõigis järgnevates päringutes
-4. Uuenda enne 48-tunnise kehtivuse lõppu
+4. Uuenda enne 12-tunnise kehtivuse lõppu (vaata [Tokeni uuendamine](#tokeni-uuendamine))
 
 ::: warning
 JWT tokenid on seotud IP-aadressiga, mida kasutati tokeni väljastamisel. Kui su IP muutub (nt võrgu vahetus, VPN või mobiilroaming), lükatakse token kohe tagasi veaga `401 Invalid JWT audience` ja sa pead uuesti autentima. Vahemällu salvesta tokenid IP-konteksti kohta, kui sinu keskkond vahetab sageli aadresse.
 :::
 
 ::: tip
-Vahemällu salvesta JWT ja kasuta seda uuesti päringutes. Mandaadi vahetamine iga kõne puhul on ebaotstarbekas — uuenda ainult siis, kui token aegub.
+Vahemällu salvesta JWT ja kasuta seda uuesti päringutes. Mandaadi vahetamine iga kõne puhul on ebaotstarbekas — uuenda ainult siis, kui token läheneb aegumisele.
 :::
+
+## Tokeni uuendamine
+
+Uuesti autentimise asemel vaheta veel kehtiv (või hiljuti aegunud) token värske 12-tunnise vastu aadressil `GET /api/auth/refresh`:
+
+```bash
+curl -X GET "https://entu.app/api/auth/refresh" \
+  -H "Authorization: Bearer YOUR_CURRENT_TOKEN"
+```
+
+Vastusel on sama kuju nagu `GET /api/auth` puhul — `accounts`, `user`, `token` ja `expires`. Allkiri ja IP-seos kontrollitakse ning ligipääs kontodele valideeritakse andmebaaside vastu uuesti.
+
+Uuendamine hoiab sessiooni elus, kui uuendad regulaarselt, kuid kehtib kaks piirangut:
+
+- **Jõudeoleku piir (14 päeva)** — mõõdetakse esitatud tokeni enda väljastusajast. Token, mida pole üle 14 päeva uuendatud, lükatakse tagasi veaga `401 Token too old, re-authenticate`. Klient, mis uuendab iga 12-tunnise akna jooksul, ei jõua selle piirini.
+- **Absoluutne piir (30 päeva)** — mõõdetakse algsest sisselogimisest, mille token kannab läbi iga uuenduse muutmata. Kui see on üle 30 päeva vana, lükatakse uuendus tagasi veaga `401 Session expired, re-authenticate` ja tuleb uuesti sisse logida — sõltumata sellest, kui tihti uuendasid.
 
 ## Kolmanda osapoole rakenduse integratsioon
 
