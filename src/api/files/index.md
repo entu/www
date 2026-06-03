@@ -90,12 +90,12 @@ To trigger a direct browser download, append `?download=true` — this redirects
 Generate a square thumbnail from the first file of an entity's `photo` property:
 
 ```
-GET /api/{db}/entity/{_id}/thumbnail?size=200
+GET /api/{db}/entity/{_id}/thumbnail/{size}
 ```
 
 The endpoint takes the first `photo` file, renders it, center-crops it to a square (cover fit), and produces a **JPEG**. Both **images** (`image/*`, except SVG) and **PDF** sources are supported — for PDFs, the first page is rendered.
 
-The `size` query parameter is **required** and must be one of the allowed values (width and height of the square, in pixels):
+The `size` path segment must be one of the allowed values (width and height of the square, in pixels):
 
 ```
 200, 400, 800

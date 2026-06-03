@@ -90,12 +90,12 @@ Otsese brauseri allalaadimise käivitamiseks lisa `?download=true` — see suuna
 Loo objekti `photo` parameetri esimesest failist ruudukujuline pisipilt:
 
 ```
-GET /api/{db}/entity/{_id}/thumbnail?size=200
+GET /api/{db}/entity/{_id}/thumbnail/{size}
 ```
 
 Endpoint võtab esimese `photo` faili, renderdab selle, kärbib keskelt ruuduks (cover-sobitus) ja toodab **JPEG**-i. Toetatud on nii **pildid** (`image/*`, välja arvatud SVG) kui ka **PDF**-failid — PDF-i puhul renderdatakse esimene lehekülg.
 
-Päringuparameeter `size` on **kohustuslik** ja peab olema üks lubatud väärtustest (ruudu laius ja kõrgus pikslites):
+Tee `size` peab olema üks lubatud väärtustest (ruudu laius ja kõrgus pikslites):
 
 ```
 200, 400, 800
