@@ -143,3 +143,7 @@ Returns `{ "deleted": true }` on success. Deletion is a soft-delete — the prop
 ::: warning
 Deleting `_type` always returns `403`. To change an entity's type, overwrite the existing value by POSTing with the old property `_id` and a new reference — see [Overwriting a Property Value](#overwriting-a-property-value).
 :::
+
+::: warning The last-`_owner` guard is direct-delete only
+The "at least one `_owner` must remain" rule is enforced on a direct `DELETE /property/{_id}` of the last owner (it returns `403`). It does not guard the indirect paths: deleting a parent entity, or flipping `_inheritrights` on a child whose only `_owner` was inherited, can leave an entity with no effective owner. When you rely on inheritance for ownership, make sure each entity also retains an explicit `_owner`.
+:::

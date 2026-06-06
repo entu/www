@@ -100,6 +100,24 @@ The exchange must originate from the same browser that completed the login — s
 Always validate the `next` URL in your app before using the token. Only accept HTTPS URLs and reject any redirect to an origin you do not control.
 :::
 
+## Adding a Login Method to an Existing Account
+
+A signed-in user can attach an additional OAuth identity — a second email, a Google account, an Apple ID — to their existing person entity, without administrator involvement. The mechanism reuses the invite flow as a self-link:
+
+1. The app adds a placeholder `entu_user` property to the user's own person entity, carrying an invite token and the new email:
+   ```json
+   { "type": "entu_user", "invite": "<token>", "email": "new@example.com" }
+   ```
+2. The app emails an invite link (referencing that person entity) to the new address.
+3. The user opens the link and completes the e-mail (or other provider) OAuth flow. Because the invited entity is the user's own person, Entu links the new credential onto it rather than creating a new person.
+4. The person entity now carries two (or more) `entu_user` entries; a future login through either identity resolves to the same person.
+
+This works for any supported provider and needs only `_editor` rights on the person entity — which users hold on their own entity by default.
+
+::: info
+This reuses the same path as new-user invite acceptance. A dedicated account-linking endpoint is under discussion — see [entu/api#39](https://github.com/entu/api/issues/39).
+:::
+
 ## Auth Properties
 
 Authentication credentials are stored as properties on an entity. By default these are used on person entities — each person entity represents a human user. But the same properties can be added to any entity type, which lets non-human actors authenticate too. A `robot` entity in an IoT setup, a `screen` entity in a digital signage system, or a `service` entity for a backend integration can all have their own API key and authenticate independently.

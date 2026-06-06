@@ -18,6 +18,20 @@ To define your data model in the UI, see [Entity Types](/configuration/entity-ty
 
 **Audit trail** — All property values carry creation metadata (timestamp and user), making it traceable who set what and when.
 
+## What Propagates Between Entities
+
+Entities relate to each other in two ways, and they behave differently at runtime:
+
+| Relationship | What propagates at runtime |
+|---|---|
+| **Entity type ↔ instance** | The type is a blueprint and UI hint, not a parent. Property *definitions* on the type shape how instances behave, but the type entity's own system properties (its `_sharing`, its rights) are **not** inherited by instances, and editing a definition does **not** retroactively rewrite existing instances. |
+| **Parent ↔ child** | Access rights (`_owner` / `_editor` / `_expander` / `_viewer`) cascade — and only when the child has `_inheritrights: true`. This is Entu's only built-in entity-to-entity cascade. |
+
+**Practical implications**
+
+- `_sharing: public` on an entity *type* does not make its instances public. The type's `_sharing` only caps property projection (see [Entity Type Visibility](/configuration/entity-types/#visibility)); each instance's accessibility is governed by `_sharing` and rights on that instance.
+- Editing a property's `formula` on the type does not retroactively recompute existing instances — re-save an instance (or let a referenced change trigger re-aggregation) to materialise the new value.
+
 ## Hierarchy and Relationships
 
 Entities are organised into hierarchies using the `_parent` system property.
@@ -70,6 +84,18 @@ Set `_inheritrights: true` on an entity to inherit rights from its parent. Right
 
 ::: info
 Right evaluation order: explicit rights on the entity → inherited rights from parent → `_sharing` level. `_noaccess` overrides all other rights on the same entity — including direct positive rights. It is not propagated to children via `_inheritrights`; only `_viewer`, `_expander`, `_editor`, and `_owner` are inherited.
+:::
+
+### Multi-parent inheritance
+
+When `_inheritrights: true` is set on an entity with more than one parent, the child's effective rights are the **union** of all parents' rights. An entity parented under both A and B inherits every right that either parent grants.
+
+Inherited rights are **materialised** — physically written onto the child — not computed at read time. They appear in `GET /entity/{id}` responses just like directly-set rights. Granting a higher tier also materialises the lower tiers it includes: an inherited `_editor` appears alongside `_expander` and `_viewer` for the same person.
+
+Each rights entry the API returns may carry an `inherited: true` field, marking it as materialised from a parent rather than set explicitly on this entity. Directly-granted entries do not carry the field; if a person is granted both explicitly and by inheritance, the entries merge into a single explicit entry. To read only directly-granted rights, filter out entries where `inherited` is `true`.
+
+::: info
+Rights propagation is eventually consistent, not synchronous. Through a chain of `_inheritrights: true` entities it applies sequentially, one level at a time, so a grant near the root of a deep chain can take a few seconds to reach the leaf. Allow for this before relying on freshly-changed rights.
 :::
 
 ## Deletion
