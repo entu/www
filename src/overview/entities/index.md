@@ -64,6 +64,10 @@ Editing always requires `_editor` or `_owner` rights regardless of sharing level
 Setting `_sharing: public` makes the entity visible to anyone on the internet without authentication. Only use it for intentionally public content.
 :::
 
+::: info
+`_sharing` is per-entity only — it is **not** propagated to children via `_inheritrights`. An entity with no explicit `_sharing` value defaults to `private`, regardless of its parent's `_sharing` setting.
+:::
+
 ### Rights Inheritance
 
 Set `_inheritrights: true` on an entity to inherit rights from its parent. Rights defined directly on the child override inherited ones. Use `_noaccess` to block a user who would otherwise inherit access from a parent.
