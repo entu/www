@@ -87,6 +87,8 @@ To trigger a direct browser download, append `?download=true` — this redirects
 
 ## Thumbnails
 
+### Entity thumbnail
+
 Generate a square thumbnail from the first file of an entity's `photo` property:
 
 ```
@@ -119,6 +121,41 @@ Generated thumbnails are cached in object storage, so the first request for a gi
 | `400` | Invalid `size`, unsupported file type, or the file could not be decoded |
 | `403` | No access to the entity |
 | `404` | Entity not found, or it has no `photo` |
+
+### Property thumbnail
+
+Generate a square thumbnail from **any** individual file property — not just `photo` — addressed by its property `_id`:
+
+```
+GET /api/{db}/property/{_id}/thumbnail/{size}
+```
+
+Where the entity endpoint always uses the entity's first `photo` file, this endpoint thumbnails the specific file property you reference. Behaviour is otherwise identical: it center-crops to a square (cover fit) and produces a **JPEG**. Both **images** (`image/*`) and **PDF** sources are supported — for PDFs, the first page is rendered. This is what powers the filename-hover thumbnail preview in the UI.
+
+The `size` path segment must be one of the allowed values (width and height of the square, in pixels):
+
+```
+200, 400, 800
+```
+
+Any other value returns `400`.
+
+The response contains a time-limited signed `url` (valid for 60 seconds), the same shape as a file download:
+
+```json
+{
+  "url": "https://s3.amazonaws.com/bucket/path?signature..."
+}
+```
+
+Generated thumbnails are cached in object storage, so the first request for a given property and size is slower (generation) and subsequent ones are served from cache. The property's access rules are enforced on every request — the same access check as `GET /api/{db}/property/{_id}`.
+
+| Response | Meaning |
+|---|---|
+| `200` | JSON `{ url }` with the signed thumbnail URL |
+| `400` | Invalid `size`, the property is not a previewable file (not an image or PDF), or the file could not be decoded |
+| `403` | No access to the property |
+| `404` | Property not found |
 
 ## Deleting a File Property
 

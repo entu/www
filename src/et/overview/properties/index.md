@@ -83,7 +83,7 @@ Järgmistel parameetrite nimedel on kasutajaliideses eriline tähendus. Saad nei
 | Parameeter | Tüüp | Käitumine |
 |---|---|---|
 | `name` | string | Kasutatakse objekti kuvanimedena kogu kasutajaliideses — loendites, leivarajas, otsingutulemetes ja lehe pealkirjana. Kui see puudub, kuvatakse objekti `_id`. |
-| `photo` | file | Esimest väärtust kasutatakse objekti pisipildina loendites ja objekti lehe päises. Süsteem teeb selle kättesaadavaks ka `_thumbnail`-na — valmis kasutamiseks mõeldud allkirjastatud allalaadimise URL. |
+| `photo` | file | Esimest väärtust kasutatakse objekti pisipildina loendites ja objekti lehe päises. Pisipildid genereeritakse nõudmisel objekti pisipildi endpointi kaudu — vaata [Failid → Pisipildid](/et/api/files/#pisipildid). |
 
 ## Süsteemparameetrid
 
@@ -103,7 +103,6 @@ Süsteemparameetrid algavad `_`-ga ja kontrollivad objekti käitumist, juurdepä
 | `_noaccess` | Selgesõnaliselt kõik juurdepääsud keelatud. Tühistab ülemobjektilt päritavad õigused. |
 | `_created` | Loomise ajatempel ja kasutaja. Ainult lugemine, automaatselt genereeritud. |
 | `_deleted` | Kustutamise ajatempel ja kasutaja. Seadistatakse objekti kustutamisel. |
-| `_thumbnail` | Allkirjastatud, ajalimiitidega allalaadimise URL, genereeritud objekti `photo` parameetrist. Ainult lugemine, automaatselt genereeritud. |
 
 ## Kustutamine
 

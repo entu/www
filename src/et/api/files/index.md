@@ -87,6 +87,8 @@ Otsese brauseri allalaadimise käivitamiseks lisa `?download=true` — see suuna
 
 ## Pisipildid
 
+### Objekti pisipilt
+
 Loo objekti `photo` parameetri esimesest failist ruudukujuline pisipilt:
 
 ```
@@ -119,6 +121,41 @@ Loodud pisipildid salvestatakse objektihoidlasse, seega on esimene päring antud
 | `400` | Vigane `size`, toetamata failitüüp või faili ei õnnestunud dekodeerida |
 | `403` | Puudub juurdepääs objektile |
 | `404` | Objekti ei leitud või sellel puudub `photo` |
+
+### Parameetri pisipilt
+
+Loo ruudukujuline pisipilt **mis tahes** üksikust failiparameetrist — mitte ainult `photo`-st — viidatuna selle parameetri `_id` järgi:
+
+```
+GET /api/{db}/property/{_id}/thumbnail/{size}
+```
+
+Kui objekti endpoint kasutab alati objekti esimest `photo` faili, siis see endpoint teeb pisipildi konkreetsest failiparameetrist, millele viitad. Muus osas on käitumine identne: kärbib keskelt ruuduks (cover-sobitus) ja toodab **JPEG**-i. Toetatud on nii **pildid** (`image/*`) kui ka **PDF**-failid — PDF-i puhul renderdatakse esimene lehekülg. See toidab kasutajaliideses failinime kohal hõljudes kuvatavat pisipildi eelvaadet.
+
+Tee `size` peab olema üks lubatud väärtustest (ruudu laius ja kõrgus pikslites):
+
+```
+200, 400, 800
+```
+
+Mis tahes muu väärtus tagastab `400`.
+
+Vastus sisaldab ajalimiidiga allkirjastatud välja `url` (kehtib 60 sekundit), sama kujul nagu faili allalaadimine:
+
+```json
+{
+  "url": "https://s3.amazonaws.com/bucket/path?signature..."
+}
+```
+
+Loodud pisipildid salvestatakse objektihoidlasse, seega on esimene päring antud parameetri ja suuruse kohta aeglasem (genereerimine) ning järgmised serveeritakse vahemälust. Igal päringul kehtivad parameetri juurdepääsureeglid — sama juurdepääsukontroll nagu `GET /api/{db}/property/{_id}`.
+
+| Vastus | Tähendus |
+|---|---|
+| `200` | JSON `{ url }` allkirjastatud pisipildi URL-iga |
+| `400` | Vigane `size`, parameeter ei ole eelvaadatav fail (ei ole pilt ega PDF) või faili ei õnnestunud dekodeerida |
+| `403` | Puudub juurdepääs parameetrile |
+| `404` | Parameetrit ei leitud |
 
 ## Failiparameetri kustutamine
 
