@@ -100,7 +100,7 @@ The endpoint takes the first `photo` file, renders it, center-crops it to a squa
 The `size` path segment must be one of the allowed values (width and height of the square, in pixels):
 
 ```
-200, 400, 800
+50, 200, 400
 ```
 
 Any other value returns `400`. Restricting to an allowlist bounds the number of cached variants per file.
@@ -135,7 +135,7 @@ Where the entity endpoint always uses the entity's first `photo` file, this endp
 The `size` path segment must be one of the allowed values (width and height of the square, in pixels):
 
 ```
-200, 400, 800
+50, 200, 400
 ```
 
 Any other value returns `400`.

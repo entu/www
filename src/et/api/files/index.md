@@ -100,7 +100,7 @@ Endpoint võtab esimese `photo` faili, renderdab selle, kärbib keskelt ruuduks 
 Tee `size` peab olema üks lubatud väärtustest (ruudu laius ja kõrgus pikslites):
 
 ```
-200, 400, 800
+50, 200, 400
 ```
 
 Mis tahes muu väärtus tagastab `400`. Lubatud väärtuste loend piirab failikohaste vahemällu salvestatud variantide arvu.
@@ -135,7 +135,7 @@ Kui objekti endpoint kasutab alati objekti esimest `photo` faili, siis see endpo
 Tee `size` peab olema üks lubatud väärtustest (ruudu laius ja kõrgus pikslites):
 
 ```
-200, 400, 800
+50, 200, 400
 ```
 
 Mis tahes muu väärtus tagastab `400`.
