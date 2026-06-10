@@ -188,6 +188,11 @@
   margin-top: 96px !important;
 }
 
+/* Inline so the App Store badge (home-hero-actions-after slot) sits on the same line */
+.VPHero .actions {
+  display: inline-flex;
+}
+
 .VPHero .VPImage.image-src {
   border: 1px solid #e0e0e0;
   border-radius: 2px;

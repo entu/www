@@ -177,7 +177,9 @@ usecases:
 
 Most organisations end up with a patchwork of narrow, purpose-built tools — one for contacts, another for documents, a third for assets — each rigid and expensive to change, with data siloed between them.
 
-Entu takes a different approach: you describe your data model directly in the UI, and the system adapts to you. Entity types, properties, and relationships can be added or changed at any time, without code or migrations. Users work through a web browser; developers and external tools connect via the REST API.
+Entu takes a different approach: you describe your data model directly in the UI, and the system adapts to you. Entity types, properties, and relationships can be added or changed at any time, without code or migrations.
+
+Users work through a web browser — nothing to install, just sign in and start working. On Apple devices there is also a native [iPhone, iPad, and Mac app](https://apps.apple.com/app/apple-store/id1520575542?pt=120355100&ct=www&mt=8). Developers and external tools connect via the REST API to power custom web apps, integrations, and automated workflows.
 
 ## Built for the real world
 

@@ -177,7 +177,9 @@ usecases:
 
 Paljudes organisatsioonides on kasutusel hulk kitsaid, eriotstarbelisi infosüsteeme — üks kontaktide, teine dokumentide, kolmas varade jaoks —, kõik jäigad ja raskesti muudetavad, andmetega üksteisest eraldatult.
 
-Entu läheneb teisiti: kirjeldad oma andmemudeli otse kasutajaliideses ja süsteem kohandub sinu järgi. Objektitüüpe, parameetreid ja seoseid saab igal ajal lisada või muuta programmeerimata ja migratsioonideta. Kasutajad töötavad veebilehitsejas; arendajad ja välised tööriistad ühenduvad REST API kaudu.
+Entu läheneb teisiti: kirjeldad oma andmemudeli otse kasutajaliideses ja süsteem kohandub sinu järgi. Objektitüüpe, parameetreid ja seoseid saab igal ajal lisada või muuta programmeerimata ja migratsioonideta.
+
+Kasutajad töötavad veebilehitsejas — midagi pole vaja paigaldada, lihtsalt logi sisse ja alusta tööd. Apple'i seadmetes saab kasutada ka [iPhone'i, iPadi ja Maci rakendust](https://apps.apple.com/app/apple-store/id1520575542?pt=120355100&ct=www&mt=8). Arendajad ja välised tööriistad ühenduvad REST API kaudu, mis sobib kohandatud veebirakenduste, liidestuste ja automatiseeritud töövoogude aluseks.
 
 ## Loodud päriselu jaoks
 
