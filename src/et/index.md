@@ -18,6 +18,12 @@ hero:
       link: /et/overview/
 
 features:
+  - title: Entu AI
+    icon:
+      src: /icons/sparkles.svg
+      width: 32
+      height: 32
+    details: Küsi tavakeeles, et uurida oma andmeid või seada üles objekte, parameetreid ja valemeid. Entu AI pakub muudatused välja ja rakendab need pärast sinu kinnitust.
   - title: Koodivaba andmemudelleerimine
     icon:
       src: /icons/database.svg
@@ -48,18 +54,13 @@ features:
       width: 32
       height: 32
     details: Lisa kohandatud kasutajaliidese vahekaarte (iframes) või käivita veebikonksu päästikuid mis tahes objektitüübi korral — laienda Entut tuumikut puutumata.
-  - title: REST API
-    icon:
-      src: /icons/code.svg
-      width: 32
-      height: 32
-    details: Täielik REST API sisseehitatud autentimisega ja interaktiivne dokumentatsioon.
 
 pricing:
   labels:
     period: /kuus
     objects: objekti
     storage: salvestusruumi
+    ai: AI tokenit
     cta: Alusta
     badge: Populaarseim
     vat: '* Hinnad ei sisalda käibemaksu'
@@ -68,16 +69,19 @@ pricing:
       price: 2
       objects: '1 000'
       storage: 1 GB
+      ai: '10 000'
       extras: []
     - plan: 2
       price: 10
       objects: '10 000'
       storage: 10 GB
+      ai: '100 000'
       extras: []
     - plan: 3
       price: 40
       objects: '100 000'
       storage: 100 GB
+      ai: '1 000 000'
       extras:
         - ID-autentimine
       featured: true
@@ -85,6 +89,7 @@ pricing:
       price: 200
       objects: '500 000'
       storage: 500 GB
+      ai: '5 000 000'
       extras:
         - ID-autentimine
         - Oma domeen

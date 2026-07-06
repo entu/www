@@ -50,6 +50,7 @@ export default defineConfig({
               { text: 'Kasutajad', link: '/et/configuration/users' },
               { text: 'Menüüd', link: '/et/configuration/menus' },
               { text: 'Pluginad', link: '/et/configuration/plugins' },
+              { text: 'Entu AI', link: '/et/configuration/ai' },
               { text: 'Parimad praktikad', link: '/et/configuration/best-practices' },
               { text: 'Kasutusnäited', link: '/et/examples' }
             ]
@@ -64,6 +65,7 @@ export default defineConfig({
               { text: 'Parameetrid', link: '/et/api/properties' },
               { text: 'Valemid', link: '/et/api/formulas' },
               { text: 'Failid', link: '/et/api/files' },
+              { text: 'AI assistent', link: '/et/api/ai' },
               { text: 'API viide', link: 'https://api.entu.app/docs' }
             ]
           },
@@ -118,6 +120,7 @@ export default defineConfig({
           { text: 'Users', link: '/configuration/users' },
           { text: 'Menus', link: '/configuration/menus' },
           { text: 'Plugins', link: '/configuration/plugins' },
+          { text: 'Entu AI', link: '/configuration/ai' },
           { text: 'Best Practices', link: '/configuration/best-practices' },
           { text: 'Examples', link: '/examples' }
         ]
@@ -132,6 +135,7 @@ export default defineConfig({
           { text: 'Properties', link: '/api/properties' },
           { text: 'Formulas', link: '/api/formulas' },
           { text: 'Files', link: '/api/files' },
+          { text: 'AI Assistant', link: '/api/ai' },
           { text: 'API Reference', link: 'https://api.entu.app/docs' }
         ]
       },

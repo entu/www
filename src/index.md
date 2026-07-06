@@ -18,6 +18,12 @@ hero:
       link: /overview/
 
 features:
+  - title: Entu AI
+    icon:
+      src: /icons/sparkles.svg
+      width: 32
+      height: 32
+    details: Ask in plain language to explore your data or set up entities, properties, and formulas. Entu AI proposes the changes and applies them once you confirm.
   - title: No-code data modelling
     icon:
       src: /icons/database.svg
@@ -48,18 +54,13 @@ features:
       width: 32
       height: 32
     details: Embed custom UI tabs (iframes) or fire webhook triggers on any entity type — extend Entu without touching the core.
-  - title: REST API
-    icon:
-      src: /icons/code.svg
-      width: 32
-      height: 32
-    details: Full CRUD API with JWT authentication and an interactive OpenAPI explorer.
 
 pricing:
   labels:
     period: /month
     objects: objects
     storage: storage
+    ai: AI tokens
     cta: Get Started
     badge: Most Popular
     vat: '* Prices do not include VAT'
@@ -68,16 +69,19 @@ pricing:
       price: 2
       objects: '1,000'
       storage: 1 GB
+      ai: '10,000'
       extras: []
     - plan: 2
       price: 10
       objects: '10,000'
       storage: 10 GB
+      ai: '100,000'
       extras: []
     - plan: 3
       price: 40
       objects: '100,000'
       storage: 100 GB
+      ai: '1,000,000'
       extras:
         - ID authentication
       featured: true
@@ -85,6 +89,7 @@ pricing:
       price: 200
       objects: '500,000'
       storage: 500 GB
+      ai: '5,000,000'
       extras:
         - ID authentication
         - Own domain

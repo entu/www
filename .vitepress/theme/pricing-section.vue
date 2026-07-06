@@ -25,6 +25,7 @@ const { labels, tiers } = frontmatter.value.pricing
       <ul class="pricing-features">
         <li>{{ tier.objects }} {{ labels.objects }}</li>
         <li>{{ tier.storage }} {{ labels.storage }}</li>
+        <li v-if="tier.ai">{{ tier.ai }} {{ labels.ai }}</li>
         <li
           v-for="extra in tier.extras"
           :key="extra"
