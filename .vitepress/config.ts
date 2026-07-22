@@ -89,7 +89,7 @@ export default defineConfig({
         lightModeSwitchTitle: 'Lülitu heledasse teemasse',
         darkModeSwitchTitle: 'Lülitu tumedasse teemasse',
         footer: {
-          message: '<a href="/et/terms">Kasutustingimused</a> &nbsp;·&nbsp; <a href="https://climate.stripe.com/GdfbXF" target="_blank" rel="noopener">Stripe Climate</a><br><strong>Entusiastid OÜ</strong> &nbsp;·&nbsp; Saturni 3-3, 10142 Tallinn &nbsp;·&nbsp; <a href="mailto:info@entu.ee">info@entu.ee</a>'
+          message: '<span class="footer-links"><a href="/et/terms">Kasutustingimused</a> · <a href="https://climate.stripe.com/GdfbXF" target="_blank" rel="noopener">Stripe Climate</a></span><span class="footer-company"><strong>Entusiastid OÜ</strong> · Saturni 3-3, 10142 Tallinn · <a href="mailto:info@entu.ee">info@entu.ee</a></span>'
         }
       }
     }
@@ -148,7 +148,7 @@ export default defineConfig({
     ],
     search: { provider: 'local' },
     footer: {
-      message: '<a href="/terms">Terms of Service</a> &nbsp;·&nbsp; <a href="https://climate.stripe.com/GdfbXF" target="_blank" rel="noopener">Stripe Climate</a><br><strong>Entusiastid OÜ</strong> &nbsp;·&nbsp; Saturni 3-3, 10142 Tallinn &nbsp;·&nbsp; <a href="mailto:info@entu.ee">info@entu.ee</a>'
+      message: '<span class="footer-links"><a href="/terms">Terms of Service</a> · <a href="https://climate.stripe.com/GdfbXF" target="_blank" rel="noopener">Stripe Climate</a></span><span class="footer-company"><strong>Entusiastid OÜ</strong> · Saturni 3-3, 10142 Tallinn · <a href="mailto:info@entu.ee">info@entu.ee</a></span>'
     }
   }
 })

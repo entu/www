@@ -1,174 +1,193 @@
 <script setup>
+import { computed } from 'vue'
 import { useData } from 'vitepress'
 
 const { frontmatter, lang } = useData()
-const { labels, tiers } = frontmatter.value.pricing
+
+const pricing = computed(() => frontmatter.value.pricing)
+
+function trackSignup () {
+  window.analytics?.track('signup_click')
+}
 </script>
 
 <template>
-  <div class="pricing-grid">
-    <div
-      v-for="tier in tiers"
-      :key="tier.plan"
-      :class="['pricing-card', { featured: tier.featured }]"
-    >
+  <section
+    :id="pricing.anchor"
+    class="pricing"
+  >
+    <h2>{{ pricing.heading }}</h2>
+    <div class="pricing-grid">
       <div
-        v-if="tier.featured"
-        class="pricing-badge"
+        v-for="tier in pricing.tiers"
+        :key="tier.plan"
+        :class="['pricing-card', { popular: tier.featured }]"
       >
-        {{ labels.badge }}
-      </div>
-      <div class="pricing-price">
-        <span class="amount">€{{ tier.price }}</span>
-        <span class="period">{{ labels.period }}</span>
-      </div>
-      <ul class="pricing-features">
-        <li>{{ tier.objects }} {{ labels.objects }}</li>
-        <li>{{ tier.storage }} {{ labels.storage }}</li>
-        <li v-if="tier.ai">{{ tier.ai }} {{ labels.ai }}</li>
-        <li
-          v-for="extra in tier.extras"
-          :key="extra"
+        <div
+          v-if="tier.featured"
+          class="pricing-badge"
         >
-          {{ extra }}
-        </li>
-      </ul>
+          {{ pricing.labels.badge }}
+        </div>
+        <div class="pricing-price">
+          €{{ tier.price }}<span class="pricing-period">{{ pricing.labels.period }}</span>
+        </div>
+        <div class="pricing-items">
+          <div class="pricing-item">
+            — {{ tier.objects }} {{ pricing.labels.objects }}
+          </div>
+          <div class="pricing-item">
+            — {{ tier.storage }} {{ pricing.labels.storage }}
+          </div>
+          <div class="pricing-item">
+            — {{ tier.ai }} {{ pricing.labels.ai }}
+          </div>
+          <div
+            v-for="extra in tier.extras"
+            :key="extra"
+            class="pricing-item"
+          >
+            — {{ extra }}
+          </div>
+        </div>
+      </div>
     </div>
-  </div>
-
-  <p class="pricing-vat">
-    {{ labels.vat }}
-  </p>
-
-  <div class="pricing-cta-wrap">
-    <a
-      class="pricing-cta"
-      rel="noopener"
-      target="_blank"
-      :href="`https://entu.app/new?locale=${lang}`"
-      @click="window.analytics?.track('signup_click')"
-    >{{ labels.cta }}</a>
-  </div>
+    <div class="pricing-footer">
+      <span class="pricing-vat">{{ pricing.labels.vat }}</span>
+      <a
+        class="pricing-cta"
+        rel="noopener"
+        target="_blank"
+        :href="`https://entu.app/new?locale=${lang}`"
+        @click="trackSignup"
+      >{{ pricing.labels.cta }}</a>
+    </div>
+  </section>
 </template>
 
 <style scoped>
+.pricing {
+  margin: 0 64px;
+  border-top: 1px solid var(--e-rule);
+  padding: 64px 0;
+}
+
+.pricing h2 {
+  font: 700 38px var(--e-font-display);
+  color: var(--e-text);
+  margin: 0 0 40px;
+  letter-spacing: -0.02em;
+}
+
 .pricing-grid {
   display: grid;
   grid-template-columns: repeat(4, 1fr);
   gap: 16px;
-  margin: 24px 0 8px;
-}
-
-@media (max-width: 768px) {
-  .pricing-grid {
-    grid-template-columns: repeat(2, 1fr);
-  }
-}
-
-@media (max-width: 480px) {
-  .pricing-grid {
-    grid-template-columns: 1fr;
-  }
+  align-items: stretch;
 }
 
 .pricing-card {
+  background: var(--e-card-bg);
+  color: var(--e-text);
+  border: 1px solid var(--e-tier-border);
+  border-radius: 8px;
+  padding: 30px 26px;
   position: relative;
-  display: flex;
-  flex-direction: column;
-  padding: 24px 20px;
-  border: 1px solid var(--vp-c-divider);
-  background: var(--vp-c-bg);
-  transition: box-shadow 0.2s;
+}
+
+.pricing-card.popular {
+  background: var(--e-tier-popular-bg);
+  color: var(--e-tier-popular-fg);
 }
 
 .pricing-badge {
   position: absolute;
-  top: -13px;
-  left: 50%;
-  transform: translateX(-50%);
-  background-color: #f59e0b;
+  top: -12px;
+  left: 22px;
+  background: var(--e-accent);
   color: #fff;
-  font-size: 0.6rem;
-  font-weight: 700;
-  letter-spacing: 0.05em;
+  font: 600 11px var(--e-font-mono);
   text-transform: uppercase;
-  padding: 0px 8px;
-  border-radius: 20px;
-  white-space: nowrap;
-}
-
-.pricing-card:hover {
-  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.08);
-}
-
-.pricing-card.featured {
-  border-color: #f59e0b;
-  border-width: 2px;
+  padding: 4px 12px;
+  border-radius: 4px;
 }
 
 .pricing-price {
-  margin-bottom: 16px;
+  font: 700 40px var(--e-font-display);
+  margin-bottom: 22px;
+  letter-spacing: -0.02em;
 }
 
-.amount {
-  font-size: 2rem;
-  font-weight: 700;
-  color: var(--vp-c-text-1);
+.pricing-period {
+  font: 400 14px var(--e-font-body);
+  color: var(--e-tier-sub);
+  letter-spacing: 0;
 }
 
-.period {
-  font-size: 0.875rem;
-  color: var(--vp-c-text-2);
-  margin-left: 2px;
+.pricing-card.popular .pricing-period {
+  color: var(--e-tier-popular-sub);
 }
 
-.pricing-features {
-  list-style: none;
-  padding: 0;
-  margin: 0;
-  flex: 1;
-}
-
-.pricing-features li {
-  padding: 4px 0;
-  font-size: 0.9rem;
-  color: var(--vp-c-text-2);
-  border-bottom: 1px solid var(--vp-c-divider);
-}
-
-.pricing-features li:last-child {
-  border-bottom: none;
-}
-
-.pricing-cta {
-  display: block;
-  text-align: center;
-  padding: 8px 32px;
-  font-size: 0.875rem;
-  font-weight: 700;
-  text-decoration: none;
-  background-color: #f59e0b;
-  color: #fff;
-  border-radius: 24px;
-  transition: background-color 0.2s;
-}
-
-.pricing-cta:hover {
-  background-color: #d97706;
-  color: #fff;
-  text-decoration: none;
-}
-
-.pricing-cta-wrap {
+.pricing-items {
   display: flex;
-  justify-content: center;
-  margin: 24px 0 12px;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.pricing-item {
+  font: 400 14px var(--e-font-body);
+  color: var(--e-tier-sub);
+}
+
+.pricing-card.popular .pricing-item {
+  color: var(--e-tier-popular-sub);
+}
+
+.pricing-footer {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-top: 32px;
 }
 
 .pricing-vat {
-  margin: 0 0 40px;
-  font-size: 0.8rem;
-  color: var(--vp-c-text-3);
-  text-align: center;
+  font: 400 13px var(--e-font-body);
+  color: var(--e-muted);
+}
+
+.pricing-cta {
+  background: var(--e-button-bg);
+  color: var(--e-button-fg);
+  font: 600 15px var(--e-font-body);
+  padding: 13px 32px;
+  border-radius: 6px;
+  text-decoration: none;
+  transition: opacity 0.2s;
+}
+
+.pricing-cta:hover {
+  opacity: 0.85;
+}
+
+@media (max-width: 1100px) {
+  .pricing-grid {
+    grid-template-columns: 1fr 1fr;
+    gap: 20px;
+  }
+}
+
+@media (max-width: 768px) {
+  .pricing {
+    margin: 0 24px;
+    padding: 48px 0;
+  }
+
+  .pricing h2 {
+    font-size: 30px;
+  }
+
+  .pricing-grid {
+    grid-template-columns: 1fr;
+  }
 }
 </style>

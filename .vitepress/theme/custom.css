@@ -1,154 +1,274 @@
+/* ============================================================
+   Entu design tokens — "Swiss clarity"
+   Light: 4a/9a · Dark: 8a
+   ============================================================ */
+
 :root {
-  --vp-c-brand-1: #f59e0b;
-  --vp-c-brand-2: #d97706;
-  --vp-c-brand-3: #b45309;
-  --vp-c-brand-soft: rgba(245, 158, 11, 0.14);
+  --e-bg: #fbfbfa;
+  --e-text: #141414;
+  --e-body: #333;
+  --e-secondary: #555;
+  --e-muted: #999;
+  --e-faint: #c9c9c4;
+  --e-card-bg: #fff;
+  --e-fill: #f2f2ee;
+  --e-hover: #f7f7f3;
+  --e-rule: #141414;
+  --e-border: #ddd;
+  --e-border-subtle: #e4e4e0;
+  --e-connector: #d9d9d4;
+  --e-accent: #e8452c;
+  --e-accent-soft: #ff7a5c;
+  --e-prop-value: #141414;
+  --e-panel-bg: #141414;
+  --e-panel-text: #fbfbfa;
+  --e-panel-muted: #aaa;
+  --e-panel-border: #333;
+  --e-panel-hover: #201e1e;
+  --e-panel-active: #262322;
+  --e-preview-bg: #fbfbfa;
+  --e-active-item: #f2f2ee;
+  --e-dashed: #c9c9c4;
+  --e-tier-border: #141414;
+  --e-tier-popular-bg: #141414;
+  --e-tier-popular-fg: #fff;
+  --e-tier-popular-sub: #9a9a9a;
+  --e-tier-sub: #6b6b6b;
+  --e-button-bg: #141414;
+  --e-button-fg: #fff;
+  --e-org-arrow: #555;
+  --e-icon-filter: none;
+  --e-badge-filter: none;
+  --e-card-shadow: 0 16px 40px rgba(20, 20, 20, 0.06);
+  --e-card-shadow-sm: 0 12px 30px rgba(20, 20, 20, 0.06);
+
+  --e-font-display: 'Space Grotesk', 'Avenir', 'Helvetica Neue', Helvetica, Arial, sans-serif;
+  --e-font-body: 'Archivo', 'Avenir', 'Helvetica Neue', Helvetica, Arial, sans-serif;
+  --e-font-mono: 'IBM Plex Mono', ui-monospace, SFMono-Regular, Menlo, monospace;
+}
+
+.dark {
+  --e-bg: #151513;
+  --e-text: #f2f1ed;
+  --e-body: #b3b1a8;
+  --e-secondary: #a5a39a;
+  --e-muted: #807e75;
+  --e-faint: #4a4942;
+  --e-card-bg: #1f1e1b;
+  --e-fill: #232220;
+  --e-hover: #23221f;
+  --e-rule: #8b897f;
+  --e-border: #33322d;
+  --e-border-subtle: #2b2a26;
+  --e-connector: #3c3b35;
+  --e-accent: #e8452c;
+  --e-accent-soft: #ff7a5c;
+  --e-prop-value: #e8e6df;
+  --e-panel-bg: #0d0d0c;
+  --e-panel-text: #f2f1ed;
+  --e-panel-muted: #aaa;
+  --e-panel-border: #33322d;
+  --e-panel-hover: #201e1e;
+  --e-panel-active: #262322;
+  --e-preview-bg: #1a1917;
+  --e-active-item: #2c2b27;
+  --e-dashed: #4a4942;
+  --e-tier-border: #45443e;
+  --e-tier-popular-bg: #f2f1ed;
+  --e-tier-popular-fg: #141414;
+  --e-tier-popular-sub: #55534d;
+  --e-tier-sub: #a5a39a;
+  --e-button-bg: #f2f1ed;
+  --e-button-fg: #141414;
+  --e-org-arrow: #a5a39a;
+  --e-icon-filter: invert(1);
+  --e-badge-filter: invert(1) brightness(1.85);
+}
+
+/* ============================================================
+   VitePress variable mapping
+   ============================================================ */
+
+:root {
+  --vp-c-brand-1: #e8452c;
+  --vp-c-brand-2: #d13d26;
+  --vp-c-brand-3: #b93520;
+  --vp-c-brand-soft: rgba(232, 69, 44, 0.14);
+
+  --vp-c-bg: var(--e-bg);
+  --vp-c-bg-alt: var(--e-bg);
+  --vp-c-bg-elv: var(--e-card-bg);
+  --vp-c-bg-soft: var(--e-fill);
+
+  --vp-c-divider: var(--e-border-subtle);
+  --vp-c-border: var(--e-border);
+  --vp-c-gutter: var(--e-border-subtle);
+
+  --vp-c-text-1: var(--e-text);
+  --vp-c-text-2: var(--e-secondary);
+  --vp-c-text-3: var(--e-muted);
+
+  --vp-font-family-base: var(--e-font-body);
+  --vp-font-family-mono: var(--e-font-mono);
 
   --vp-button-brand-border: transparent;
   --vp-button-brand-text: #fff;
-  --vp-button-brand-bg: #f59e0b;
+  --vp-button-brand-bg: #e8452c;
   --vp-button-brand-hover-border: transparent;
   --vp-button-brand-hover-text: #fff;
-  --vp-button-brand-hover-bg: #d97706;
+  --vp-button-brand-hover-bg: #d13d26;
   --vp-button-brand-active-border: transparent;
   --vp-button-brand-active-text: #fff;
-  --vp-button-brand-active-bg: #b45309;
+  --vp-button-brand-active-bg: #b93520;
 
-  --vp-font-family-base: 'Avenir', 'Helvetica Neue', Helvetica, Arial, sans-serif;
+  --vp-nav-bg-color: var(--e-bg);
+  --vp-sidebar-bg-color: var(--e-bg);
 
-  --vp-home-hero-image-width: 480px;
+  --vp-c-default-soft: var(--e-fill);
+
+  --vp-code-color: var(--e-text);
+  --vp-code-bg: var(--e-fill);
+
+  --vp-custom-block-tip-border: transparent;
+  --vp-custom-block-tip-bg: var(--e-fill);
+  --vp-custom-block-tip-text: var(--e-body);
 }
 
-/* Light mode nav styling */
-:root:not(.dark) .VPNav {
-  background-color: #1E434C !important;
-  border-bottom: none !important;
+.dark {
+  --vp-code-color: #e8e6df;
+  --vp-code-bg: var(--e-fill);
 }
 
-:root:not(.dark) .VPNavBar {
-  background-color: #1E434C !important;
-  border-bottom: none !important;
+/* ============================================================
+   Nav
+   ============================================================ */
+
+.VPNav {
+  border-bottom: 1px solid var(--e-border-subtle);
 }
 
-:root:not(.dark) .VPNavBar .content-body,
-:root:not(.dark) .VPNavBar .curtain {
-  background-color: #1E434C !important;
+.VPNavBar,
+.VPNavBar:not(.home),
+.VPNavBar.has-sidebar .content-body,
+.VPNavBar .content-body,
+.VPNavBar .curtain {
+  background-color: var(--e-bg) !important;
+  border-bottom: none;
 }
 
-:root:not(.dark) .VPNavBar .title,
-:root:not(.dark) .VPNavBar .VPNavBarTitle .title {
-  color: #fff !important;
+.VPNavBar .divider {
+  display: none;
 }
 
-:root:not(.dark) .VPNavBar .VPNavBarMenu .VPNavBarMenuLink,
-:root:not(.dark) .VPNavBar .VPNavBarMenuLink {
-  color: rgba(255, 255, 255, 0.85) !important;
-}
-
-:root:not(.dark) .VPNavBar .VPNavBarMenuLink:hover,
-:root:not(.dark) .VPNavBar .VPNavBarMenuLink.active {
-  color: #fff !important;
-}
-
-:root:not(.dark) .VPNavBar .VPNavBarAppearance .VPSwitch,
-:root:not(.dark) .VPNavBar .VPNavBarSearch,
-:root:not(.dark) .VPNavBar .VPNavBarHamburger {
-  color: #fff !important;
-}
-
-:root:not(.dark) .VPNavBar .DocSearch-Button {
-  color: rgba(255, 255, 255, 0.7) !important;
-  background-color: transparent !important;
-  border-color: rgba(255, 255, 255, 0.3) !important;
-  box-shadow: none !important;
-}
-
-:root:not(.dark) .VPNavBar .DocSearch-Button-Placeholder {
-  color: rgba(255, 255, 255, 0.7) !important;
-  background-color: transparent !important;
-}
-
-/* DocSearch-Search-Icon is a mask icon - background-color controls the icon fill color */
-:root:not(.dark) .VPNavBar .DocSearch-Search-Icon {
-  color: rgba(255, 255, 255, 0.7) !important;
-  background-color: rgba(255, 255, 255, 0.7) !important;
-}
-
-:root:not(.dark) .VPNavBar .DocSearch-Button-Key {
-  color: rgba(255, 255, 255, 0.7) !important;
-  background-color: transparent !important;
-  border-color: rgba(255, 255, 255, 0.3) !important;
-  box-shadow: none !important;
-}
-
-:root:not(.dark) .VPNavBar .DocSearch-Button-Key::after,
-:root:not(.dark) .VPNavBar .DocSearch-Button-Key::before {
-  color: rgba(255, 255, 255, 0.7) !important;
-}
-
-:root:not(.dark) .VPNavBar .DocSearch-Button:hover {
-  border-color: rgba(255, 255, 255, 0.5) !important;
-}
-
-:root:not(.dark) .VPNavBar .VPNavBarTranslations .button,
-:root:not(.dark) .VPNavBar .VPNavBarTranslations .text,
-:root:not(.dark) .VPNavBar .VPFlyout > .button,
-:root:not(.dark) .VPNavBar .VPNavBarAppearance button {
-  color: rgba(255, 255, 255, 0.85) !important;
-}
-
-:root:not(.dark) .VPNavBar .VPFlyout .menu .title,
-:root:not(.dark) .VPNavBar .VPFlyout .menu .VPMenuLink a {
-  color: var(--vp-c-text-1) !important;
-}
-
-:root:not(.dark) .VPNavBar .VPNavBarTranslations .vpi-languages,
-:root:not(.dark) .VPNavBar .icon svg {
-  fill: rgba(255, 255, 255, 0.85) !important;
-  color: rgba(255, 255, 255, 0.85) !important;
-  background-color: rgba(255, 255, 255, 0.85) !important;
-}
-
-/* Sun/moon icons inside the white toggle circle need to be dark (light mode only) */
-:root:not(.dark) .VPNavBar .VPSwitch .vpi-sun,
-:root:not(.dark) .VPNavBar .VPSwitch .vpi-moon {
-  background-color: #1E434C !important;
-  color: #1E434C !important;
-}
-
-/* Hamburger/close icon lines — background-color controls visibility, not color */
-:root:not(.dark) .VPNavBar .VPNavBarHamburger .top,
-:root:not(.dark) .VPNavBar .VPNavBarHamburger .middle,
-:root:not(.dark) .VPNavBar .VPNavBarHamburger .bottom {
-  background-color: #fff !important;
-}
-
-/* Push nav links + search to the right */
-.VPNavBar .VPNavBarMenu {
-  margin-left: auto !important;
-}
-
-.VPNavBar .VPNavBarSearch {
-  order: 99;
-  flex-grow: 0 !important;
-}
-
-/* Title border-bottom line */
 .VPNavBarTitle .title {
+  font: 700 19px var(--e-font-display);
+  color: var(--e-text);
   border-bottom: none !important;
 }
 
-/* Remove divider between nav links and appearance toggle */
+.VPNavBarMenu .VPNavBarMenuLink {
+  font: 500 14px var(--e-font-body);
+  color: var(--e-secondary);
+}
+
+.VPNavBarMenu .VPNavBarMenuLink:hover {
+  color: var(--e-text);
+}
+
+.VPNavBarMenu .VPNavBarMenuLink.active {
+  color: var(--e-accent);
+}
+
+/* Sign In nav button — light: solid #141414/white; dark: light button with dark text */
+.VPNavBarMenuLink[href="https://entu.app"] {
+  background-color: var(--e-button-bg) !important;
+  color: var(--e-button-fg) !important;
+  border-radius: 6px;
+  padding: 0 20px !important;
+  height: 36px;
+  align-self: center;
+  font-weight: 600 !important;
+  margin-left: 16px;
+  margin-right: 8px;
+  transition: opacity 0.2s;
+}
+
+.VPNavBarMenuLink[href="https://entu.app"]:hover {
+  opacity: 0.85;
+  color: var(--e-button-fg) !important;
+}
+
+.VPNavBarMenuLink[href="https://entu.app"] .vpi-external-link-icon,
+.VPNavBarMenuLink[href="https://entu.app"]::after {
+  display: none !important;
+}
+
+/* Search — subtle fill box with ⌘K chip, placed left near the logo */
+.VPNavBarSearch {
+  order: -1;
+  flex-grow: 0 !important;
+  margin-right: auto;
+  padding-left: 16px;
+}
+
+.VPNavBarSearch .DocSearch-Button {
+  background-color: var(--e-fill) !important;
+  border: 1px solid var(--e-border-subtle);
+  border-radius: 6px;
+  width: 240px;
+  justify-content: flex-start;
+  gap: 8px;
+  padding: 0 14px;
+}
+
+.VPNavBarSearch .DocSearch-Button:hover {
+  box-shadow: none;
+  border-color: var(--e-border);
+}
+
+.VPNavBarSearch .DocSearch-Button .DocSearch-Button-Placeholder {
+  font: 400 13px var(--e-font-body);
+  color: var(--e-muted);
+  padding: 0;
+}
+
+.VPNavBarSearch .DocSearch-Button .DocSearch-Search-Icon {
+  width: 14px;
+  height: 14px;
+  color: var(--e-muted);
+  margin-right: 0;
+}
+
+.VPNavBarSearch .DocSearch-Button .DocSearch-Button-Keys {
+  margin-left: auto;
+  min-width: auto;
+  border: 1px solid var(--e-border);
+  border-radius: 4px;
+  background: var(--e-card-bg);
+  padding: 2px 6px;
+}
+
+.VPNavBarSearch .DocSearch-Button .DocSearch-Button-Key {
+  font: 500 11px var(--e-font-mono);
+  color: var(--e-muted);
+  background: none;
+  border: none;
+  box-shadow: none;
+  width: auto;
+  min-width: auto;
+  height: auto;
+  padding: 0;
+  margin: 0;
+}
+
+/* Nav flyouts / appearance toggle */
 .VPNavBarAppearance {
   border-left: none !important;
   padding-left: 0 !important;
   margin-left: 16px !important;
 }
 
-.VPNavBarAppearance::before {
-  display: none !important;
-}
-
+.VPNavBarAppearance::before,
 .VPNavBarTranslations::before {
   display: none !important;
 }
@@ -158,66 +278,258 @@
   padding-left: 0 !important;
 }
 
+/* Hide the mobile local nav on the landing page */
+.Layout:has(.landing) .VPLocalNav {
+  display: none;
+}
+
+/* ============================================================
+   Sidebar
+   ============================================================ */
+
+.VPSidebar {
+  border-right: 1px solid var(--e-border-subtle);
+}
+
 .VPSidebar .group {
   border-top: none !important;
 }
 
-:root:not(.dark) .VPFooter {
-  background-color: #1E434C !important;
-  border-top: none !important;
+.VPSidebarItem.level-0 > .item > .text {
+  font: 600 12px var(--e-font-mono);
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--e-muted);
 }
 
-:root:not(.dark) .VPFooter .message,
-:root:not(.dark) .VPFooter .copyright {
-  color: rgba(255, 255, 255, 0.65) !important;
+.VPSidebarItem.level-1 > .item {
+  padding: 0;
+}
+
+.VPSidebarItem.level-1 > .item > .link {
+  padding: 7px 12px;
+  margin-left: -12px;
+  border-radius: 6px;
+}
+
+.VPSidebarItem.level-1 > .item > .link > .text {
+  font: 500 14px var(--e-font-body);
+  color: var(--e-secondary);
+  transition: color 0.2s;
+}
+
+.VPSidebarItem.level-1 > .item > .link:hover {
+  background-color: var(--e-hover);
+}
+
+.VPSidebarItem.level-1 > .item > .link:hover > .text {
+  color: var(--e-text);
+}
+
+.VPSidebarItem.level-1.is-active > .item > .link {
+  background-color: var(--e-fill);
+}
+
+.VPSidebarItem.level-1.is-active > .item > .link > .text {
+  color: var(--e-accent);
+}
+
+/* ============================================================
+   Doc content
+   ============================================================ */
+
+.vp-doc h1,
+.vp-doc h2,
+.vp-doc h3,
+.vp-doc h4,
+.vp-doc h5,
+.vp-doc h6 {
+  font-family: var(--e-font-display);
+}
+
+.vp-doc h1 {
+  font-size: 44px;
+  font-weight: 700;
+  letter-spacing: -0.025em;
+  line-height: 1.15;
+}
+
+.vp-doc h2 {
+  font-size: 26px;
+  font-weight: 700;
+  letter-spacing: -0.015em;
+  border-top: 1px solid var(--e-border-subtle) !important;
+  padding-top: 24px;
+  margin-top: 48px !important;
+}
+
+.vp-doc h3 {
+  font-size: 19px;
+  letter-spacing: -0.01em;
+}
+
+.vp-doc p,
+.vp-doc li {
+  font-size: 15.5px;
+  line-height: 1.75;
+  color: var(--e-body);
+}
+
+.vp-doc h1 + p {
+  font-size: 17px;
+  line-height: 1.7;
+}
+
+.vp-doc a {
+  color: var(--e-accent);
+  font-weight: 500;
+  text-decoration: none;
+}
+
+.vp-doc a:hover {
+  opacity: 0.75;
+  text-decoration: underline;
+}
+
+.vp-doc :not(pre) > code {
+  font: 500 13px var(--e-font-mono);
+  background-color: var(--e-fill);
+  border: 1px solid var(--e-border-subtle);
+  border-radius: 4px;
+  padding: 2px 6px;
+}
+
+/* Docs kicker (group label above H1, injected via layout slot) */
+.doc-kicker {
+  font: 500 12px var(--e-font-mono);
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--e-accent);
+  margin-bottom: 16px;
+}
+
+/* "Next Steps" links as cards */
+.vp-doc h2[id^="next-steps"] + ul,
+.vp-doc h2[id^="jargmised-sammud"] + ul,
+.vp-doc h2[id^="järgmised-sammud"] + ul {
+  list-style: none;
+  margin: 16px 0;
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.vp-doc h2[id^="next-steps"] + ul > li,
+.vp-doc h2[id^="jargmised-sammud"] + ul > li,
+.vp-doc h2[id^="järgmised-sammud"] + ul > li {
+  display: flex;
+  align-items: baseline;
+  gap: 6px;
+  background: var(--e-card-bg);
+  border: 1px solid var(--e-border);
+  border-radius: 8px;
+  padding: 16px 20px;
+  margin: 0 !important;
+  font-size: 14px;
+  color: var(--e-secondary);
+}
+
+.vp-doc h2[id^="next-steps"] + ul > li::after,
+.vp-doc h2[id^="jargmised-sammud"] + ul > li::after,
+.vp-doc h2[id^="järgmised-sammud"] + ul > li::after {
+  content: '→';
+  margin-left: auto;
+  color: var(--e-faint);
+  padding-left: 12px;
+}
+
+.vp-doc h2[id^="next-steps"] + ul > li > a,
+.vp-doc h2[id^="jargmised-sammud"] + ul > li > a,
+.vp-doc h2[id^="järgmised-sammud"] + ul > li > a {
+  font: 700 15px var(--e-font-display);
+  color: var(--e-accent);
+  flex-shrink: 0;
+}
+
+/* ============================================================
+   Outline (right rail)
+   ============================================================ */
+
+.VPDocAsideOutline .outline-title {
+  font: 600 12px var(--e-font-mono);
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--e-muted);
+}
+
+.VPDocAsideOutline .outline-link {
+  font: 500 13px var(--e-font-body);
+  color: var(--e-secondary);
+}
+
+.VPDocAsideOutline .outline-link:hover {
+  color: var(--e-text);
+}
+
+.VPDocAsideOutline .outline-link.active {
+  color: var(--e-accent);
+}
+
+/* ============================================================
+   Pager
+   ============================================================ */
+
+.VPDocFooter .prev-next {
+  border-top: 1px solid var(--e-border-subtle);
+}
+
+.VPDocFooter .pager-link {
+  border: none;
+  background: none;
+  padding: 8px 0;
+}
+
+.VPDocFooter .pager-link .desc {
+  font: 500 12px var(--e-font-mono);
+  color: var(--e-muted);
+  margin-bottom: 4px;
+}
+
+.VPDocFooter .pager-link .title {
+  font: 700 16px var(--e-font-display);
+  color: var(--e-accent);
+}
+
+/* ============================================================
+   Footer
+   ============================================================ */
+
+.VPFooter {
+  border-top: 1px solid var(--e-border-subtle) !important;
+  background-color: var(--e-bg) !important;
+  padding: 26px 64px !important;
+}
+
+.VPFooter .message {
+  font: 400 13px var(--e-font-body);
+  color: var(--e-muted);
+  display: flex;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: 8px 24px;
+}
+
+.VPFooter .message strong {
+  color: var(--e-text);
 }
 
 .VPFooter a {
-  color: rgba(255, 255, 255, 0.85) !important;
-  text-decoration: none !important;
+  color: var(--e-muted) !important;
+  text-decoration: underline !important;
+  transition: color 0.2s;
 }
 
 .VPFooter a:hover {
-  color: #fff !important;
-  text-decoration: underline !important;
-}
-
-
-.vp-doc h2 {
-  border-top: none !important;
-  margin-top: 96px !important;
-}
-
-/* Inline so the App Store badge (home-hero-actions-after slot) sits on the same line */
-.VPHero .actions {
-  display: inline-flex;
-}
-
-.VPHero .VPImage.image-src {
-  border: 1px solid #e0e0e0;
-  border-radius: 2px;
-  max-width: var(--vp-home-hero-image-width);
-  width: 100%;
-}
-
-/* Sign In nav button */
-.VPNavBarMenuLink[href="https://entu.app"] {
-  background-color: #f59e0b !important;
-  color: #fff !important;
-  border-radius: 4px;
-  padding: 7px 14px 5px !important;
-  font-weight: 700 !important;
-  margin-left: 8px;
-  margin-right: 12px;
-  transition: background-color 0.2s;
-}
-
-.VPNavBarMenuLink[href="https://entu.app"] .vpi-external-link-icon,
-.VPNavBarMenuLink[href="https://entu.app"]::after {
-  display: none !important;
-}
-
-.VPNavBarMenuLink[href="https://entu.app"]:hover {
-  background-color: #d97706 !important;
-  color: #fff !important;
+  color: var(--e-text) !important;
 }
