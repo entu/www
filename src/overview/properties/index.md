@@ -4,7 +4,7 @@ description: "Properties are the typed fields describing an entity — string, n
 
 # Properties
 
-Every entity is described by its **properties** — named fields that hold values. Properties are what make each entity type unique: a `person` entity has a `name` and an `email`; an `invoice` has an `amount` and a `due_date`.
+Properties are the fields on the card — the named values that describe an entity. They are what make each entity type unique: a `person` has a `name` and an `email`; an `invoice` has an `amount` and a `due_date`. You choose the fields, their types, and their rules — and you can change them whenever your needs change.
 
 Properties are defined on the entity type (as child entities of type `property`). See [Entity Types](/configuration/entity-types/#adding-property-definitions) for how to set them up in the UI.
 

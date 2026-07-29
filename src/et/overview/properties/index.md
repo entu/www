@@ -4,7 +4,7 @@ description: "Parameetrid on tüübitud väljad, mis kirjeldavad objekti — tek
 
 # Parameetrid
 
-Iga objekti kirjeldavad selle **parameetrid** — nimega väljad, mis hoiavad väärtusi. Parameetrid on see, mis teeb iga objektitüübi ainulaadseks: `person` objektil on `name` ja `email`; `invoice` objektil on `amount` ja `due_date`.
+Parameetrid on kaardi väljad — nimega väärtused, mis objekti kirjeldavad. Just nemad teevad iga objektitüübi ainulaadseks: `person` objektil on `name` ja `email`; `invoice` objektil on `amount` ja `due_date`. Väljad, nende tüübid ja reeglid valid sina — ja saad neid muuta alati, kui vajadused muutuvad.
 
 Parameetrid on määratletud objektitüübil (objektitüübi `property` tüüpi alam-objektidena). Vaata, kuidas neid kasutajaliideses seadistada [Objektitüübid](/et/configuration/entity-types/#parameetrite-definitsioonide-lisamine) alt.
 

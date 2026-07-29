@@ -4,20 +4,23 @@ description: "What Entu is: a no-code object database for storing, organising, a
 
 # What is Entu
 
-Entu is a **no-code object database** — a system for storing, organising, and querying structured data without writing migrations, schema files, or backend code.
+Entu is a place to keep organised records of the things that matter to you — books, artefacts, invoices, people, equipment, photos. Like a card file, each thing gets its own card with exactly the fields you choose; unlike a card file, everything is searchable, linkable, and shareable.
+
+In technical terms, Entu is a **no-code object database**: you design and change your data structure entirely in the browser, without programmers, database migrations, or schema files.
 
 ## Core Idea
 
-Everything in Entu is an **entity**. An entity is a record of any kind — a person, a project, a document, a product — defined by the properties it carries. You decide what properties each entity type has by configuring **property definitions** through the UI. No deploy, no restart.
+Everything in Entu is an **entity** — one record of any kind: a person, a project, a document, a product. What an entity can hold is decided by its fields, called **properties**, and you define those yourself, through the UI. Change them any time — no deploy, no restart.
 
-Properties are typed (`string`, `number`, `date`, `file`, `reference`, …), can hold multiple values, and can be computed automatically using **formulas** that reference other properties, child entities, or related records.
+Properties are typed (`string`, `number`, `date`, `file`, `reference`, …), can hold multiple values or translations, and can even be computed automatically with **formulas** — a total from invoice lines, a due date, a warranty countdown.
 
-Entities are organised in a **parent–child hierarchy**. A child can have multiple parents, so the same record can appear in several contexts simultaneously without being duplicated. Access rights (`_owner`, `_editor`, `_expander`, `_viewer`) are set per entity and cascade down the hierarchy automatically.
+Entities are organised in a **parent–child hierarchy**, like folders — books under a bookshelf, invoice lines under an invoice. A child can have multiple parents, so the same record can appear in several contexts without being duplicated. Access rights are set per entity, and entities can be set to inherit rights from their parent — so you manage sharing in one place.
 
-The same data model powers the built-in UI — there is no separate admin interface; configuration and content live in the same entity tree.
+The same data model powers the built-in UI — there is no separate admin interface; configuration and content live in the same entity tree. Developers can reach everything through the REST API, but nothing in Entu requires one.
 
 ## Next Steps
 
+- [Getting Started](/getting-started/) — create an account and add your first entries
 - [Entities](/overview/entities/) — hierarchy, rights, and deletion in detail
 - [Properties](/overview/properties/) — types, multi-value, multilingual, and system properties
 - [Entity Types](/configuration/entity-types/) — how to configure your data model

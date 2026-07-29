@@ -4,9 +4,11 @@ description: "Läbitöötatud näited, kuidas modelleerida elulisi olukordi Entu
 
 # Kasutusnäited
 
-Need juhendid näitavad, kuidas modelleerida levinud reaalelu stsenaariume Entus, kasutades objektitüüpe, parameetreid ja viiteid.
+Need juhendid näitavad, kuidas modelleerida levinud reaalelu stsenaariume Entus, kasutades objektitüüpe, parameetreid ja viiteid. Iga näide on terviklik retsept — võta kasutusse sellisena või kohanda oma vajaduste järgi.
 
 ## CRM — Kontaktid ja ettevõtted
+
+Sul on väikeettevõte ja teadmine klientidest elab kolmes kohas: telefoni kontaktides, postkastis ja kellegi mälus. Sa tahad ühte kohta, mis teab, millised inimesed millisesse ettevõttesse kuuluvad ja mida kellelegi viimati räägiti.
 
 **Eesmärk:** Jälgida ettevõtteid, nende kontakte ning iga kontaktiga seotud märkmeid ja tegevusi.
 
@@ -52,6 +54,8 @@ Anna müügimeeskonnale `_editor` õigused Ettevõtete konteineril ja luba kõig
 
 ## Projektijälgija
 
+Sinu tiim žongleerib tosina projektiga ja küsimusele "mis seis on?" vastatakse vestlusajalugu kerides. Sa tahad, et igal projektil oleks oma staatus, vastutaja, tähtaeg ja eelarve — ning et projektinumber ja tundide summa tekiksid ilma, et keegi neid käsitsi peaks.
+
 **Eesmärk:** Hallata projekte koos parameetrite, loendurite ja valemiga arvutatud väljaga.
 
 ### Objektitüüp
@@ -88,6 +92,8 @@ Anna müügimeeskonnale `_editor` õigused Ettevõtete konteineril ja luba kõig
 ---
 
 ## Meediakogu
+
+Aastate fotod, videod ja dokumendid on laiali ketastel ja pilvekaustades ning "selle ühe pildi" leidmine tähendab kolmekümne avamist. Sa tahad albumeid päris metaandmetega — kes tegi, mida kujutab, millised märgendid käivad — ja võimalust teha valitud kogud avalikuks.
 
 **Eesmärk:** Salvestada ja organiseerida pilte, videoid ja dokumente koos metaandmete ning märgenditega.
 
@@ -127,6 +133,8 @@ GET /api/{db}/entity?_type.string=media-item&tags.string=loodus
 ---
 
 ## Raamatukogu — Raamatud, Isikud ja Laenutused
+
+Kooli raamatukogu, kontori raamaturiiul või klubi varustusruum — asjad lähevad välja ja keegi ei mäleta täpselt, kelle kätte. Sa tahad kataloogi sellest, mis sul on, kes mida laenanud on, ja automaatset märget, kui miski on üle tähtaja.
 
 **Eesmärk:** Hallata raamatute ja audiovisuaalsete materjalide kogu, jälgida laenutajate andmeid ning salvestada laenutuste ajalugu koos tähtaegade ja tagastustega.
 

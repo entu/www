@@ -4,7 +4,9 @@ description: "Objektid on Entu põhilised ehituskivid — kirjed nagu inimesed, 
 
 # Objektid
 
-Objektid on Entu põhilised ehituskivid. Objekt on kirje — inimene, projekt, arve, toode — mis tahes asi, mida tuleb hallata. Iga objekt kuulub **objektitüüpi**, mis toimib tema andmemallina.
+Objekt on üks kirje — üks kaart kartoteegis: inimene, projekt, arve, toode. Kõik, mida Entus hoiad, on objekt — seepärast ongi objektid kogu süsteemi põhiline ehituskivi.
+
+Iga objekt kuulub **objektitüüpi** — malli, mis ütleb, milliseid välju seda liiki kaart kannab. `Raamatul` on autor ja ISBN; `arvel` on summa ja tähtaeg.
 
 Andmemudeli määratlemiseks kasutajaliideses vaata [Objektitüübid](/et/configuration/entity-types/).
 

@@ -99,6 +99,12 @@ function toggleExpanded (key) {
         </div>
       </div>
     </div>
+    <div
+      v-if="personas.more"
+      class="personas-more"
+    >
+      <a :href="personas.more.link">{{ personas.more.text }} →</a>
+    </div>
   </section>
 </template>
 
@@ -230,6 +236,20 @@ function toggleExpanded (key) {
 .personas-item-graph {
   display: none;
   margin-top: 16px;
+}
+
+.personas-more {
+  margin-top: 28px;
+}
+
+.personas-more a {
+  font: 600 15px var(--e-font-body);
+  color: var(--e-accent);
+  text-decoration: none;
+}
+
+.personas-more a:hover {
+  opacity: 0.8;
 }
 
 .graph-fade-enter-active,

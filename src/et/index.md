@@ -36,6 +36,9 @@ hero:
 personas:
   heading: Mida saad Entuga ehitada?
   intro: Peaaegu kõike, mida vajad talletada. Sama paindlik mudel skaleerub isiklikust kogust terve organisatsiooni andmeteni.
+  more:
+    text: Vaata terviklikke läbimänge kasutusnäidetest
+    link: /et/examples/
   hint: Liigu näite kohale — nii näeb see välja Entus
   personalLabel: Eraisikud
   orgLabel: Organisatsioonid

@@ -4,7 +4,9 @@ description: "Entities are Entu's core building blocks — records like people, 
 
 # Entities
 
-Entities are the core building blocks of Entu. An entity is a record — a person, a project, an invoice, a product — any object you need to manage. Every entity belongs to an **entity type** that acts as a blueprint for what kind of data it holds.
+An entity is one record — one card in the card file: a person, a project, an invoice, a product. Everything you store in Entu is an entity, which is why they're the core building block of the whole system.
+
+Every entity belongs to an **entity type** — the blueprint that says what fields a card of this kind carries. A `book` has an author and an ISBN; an `invoice` has an amount and a due date.
 
 To define your data model in the UI, see [Entity Types](/configuration/entity-types/).
 

@@ -36,6 +36,9 @@ hero:
 personas:
   heading: What can you build with Entu?
   intro: Almost anything you need to keep track of. The same flexible model scales from a personal collection to an entire organisation's records.
+  more:
+    text: See complete walkthroughs in the examples
+    link: /examples/
   hint: Hover an example — how it looks in Entu
   personalLabel: Private persons
   orgLabel: Organisations

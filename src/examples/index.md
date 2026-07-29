@@ -4,9 +4,11 @@ description: "Worked examples showing how to model real-world scenarios in Entu 
 
 # Use-Case Examples
 
-These walkthroughs show how to model common real-world scenarios in Entu using entity types, properties, and references.
+These walkthroughs show how to model common real-world scenarios in Entu using entity types, properties, and references. Each one is a complete recipe — copy it as-is or adapt it to your needs.
 
 ## CRM — Contacts & Companies
+
+You run a small business and your customer knowledge lives in three places: a phone's contact list, an inbox, and someone's memory. You want one place that knows which people belong to which company, and what was last said to whom.
 
 **Goal:** Track companies, the contacts within them, and any notes or activities linked to each contact.
 
@@ -52,6 +54,8 @@ Grant `_editor` rights on the Companies container to your sales team and enable 
 
 ## Project Tracker
 
+Your team juggles a dozen projects, and "what's the status?" is answered by scrolling chat history. You want every project to carry its own status, owner, deadline, and budget — and get a project number and hour totals without anyone maintaining them by hand.
+
 **Goal:** Manage projects with properties, counters, and a formula-computed field.
 
 ### Entity type
@@ -88,6 +92,8 @@ Grant `_editor` rights on the Companies container to your sales team and enable 
 ---
 
 ## Media Library
+
+Years of photos, videos, and documents are scattered across drives and cloud folders, and finding "that one picture" means opening thirty. You want albums with real metadata — who made it, what it shows, which tags apply — and the option to make chosen collections public.
 
 **Goal:** Store and organise images, videos, and documents with metadata and tags.
 
@@ -127,6 +133,8 @@ GET /api/{db}/entity?_type.string=media-item&tags.string=nature
 ---
 
 ## Library — Books, Patrons & Lendings
+
+A school library, a company bookshelf, or a club's equipment room — things go out, and nobody quite remembers to whom. You want a catalogue of what you own, who has borrowed what, and an automatic flag when something is overdue.
 
 **Goal:** Manage a book and audio-visual collection, track patron records, and record lending history including due dates and returns.
 
