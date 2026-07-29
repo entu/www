@@ -37,7 +37,7 @@ personas:
   heading: Mida saad Entuga ehitada?
   intro: Peaaegu kõike, mille üle on vaja arvet pidada. Sama paindlik mudel sobib nii isiklikule kogule kui ka terve organisatsiooni andmetele.
   more:
-    text: Vaata terviklikke läbimänge kasutusnäidetest
+    text: Vaata põhjalikke kasutusnäiteid
     link: /et/examples/
   hint: Liigu näite kohale — nii näeb see välja Entus
   personalLabel: Eraisikud
