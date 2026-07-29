@@ -28,7 +28,7 @@ See ongi soovitatav viis juurdepääsu haldamiseks: anna õigused ülemobjektil,
 
 ## Kutsu keegi
 
-1. Loo talle **Persooni** kirje.
+1. Loo talle **isiku** kirje.
 2. Sisesta tema e-posti aadress.
 3. Klõpsa **Saada kutse** — ta saab lingi, logib sisse oma Google'i/Apple'i/e-postiga ja näeb täpselt seda, mida sina jagasid. Ei midagi enamat.
 

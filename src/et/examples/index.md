@@ -54,7 +54,7 @@ Anna müügimeeskonnale `_editor` õigused Ettevõtete konteineril ja luba kõig
 
 ## Projektijälgija
 
-Sinu tiim žongleerib tosina projektiga ja küsimusele "mis seis on?" vastatakse vestlusajalugu kerides. Sa tahad, et igal projektil oleks oma staatus, vastutaja, tähtaeg ja eelarve — ning et projektinumber ja tundide summa tekiksid ilma, et keegi neid käsitsi peaks.
+Sinu tiim žongleerib tosina projektiga ja küsimusele "mis seis on?" vastatakse vestlusajalugu kerides. Sa tahad, et igal projektil oleks oma staatus, vastutaja, tähtaeg ja eelarve — ning et projektinumber ja tundide summa tekiksid iseenesest, ilma et keegi peaks neid käsitsi haldama.
 
 **Eesmärk:** Hallata projekte koos parameetrite, loendurite ja valemiga arvutatud väljaga.
 

@@ -10,7 +10,7 @@ Kui andmed on Entus, on nende ülesleidmine lihtsaim osa.
 
 ## Otsi kõike ühest kastist
 
-Tööriistariba otsing vaatab läbi **kogu** sinu andmestiku korraga — sa ei pea teadma, kas miski sai kirja raamatu, dokumendi või kontaktina. Kirjuta nimi, sõna kirjeldusest, ükskõik mis meeles on.
+Tööriistariba otsing vaatab läbi **kogu** sinu andmestiku korraga — sa ei pea teadma, kas miski sai kirja raamatu, dokumendi või kontaktina. Kirjuta nimi, sõna kirjeldusest, ükskõik mida mäletad.
 
 ## Sirvi menüü abil
 
@@ -27,7 +27,7 @@ Tööriistariba nupp vahetab kahe vaate vahel:
 
 ## Iga muudatus jääb meelde
 
-Iga kirje hoiab oma täielikku ajalugu — kes mida ja millal muutis. Kui miski tundub kahtlane, ava tööriistaribalt kirje ajalugu ja vaata täpselt, mis juhtus.
+Iga kirje hoiab oma täielikku ajalugu — kes mida ja millal muutis. Kui midagi tundub paigast ära, ava tööriistaribalt kirje ajalugu ja vaata täpselt, mis juhtus.
 
 ## Järgmine samm
 

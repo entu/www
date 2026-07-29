@@ -1,5 +1,5 @@
 ---
-description: "REST-otspunktid, mis toidavad Entu AI assistenti — kahesammuline vestle-ja-rakenda voog AI pakutud andmemuudatusteks."
+description: "Entu AI assistendi REST-otspunktid — kahesammuline voog, kus vestlus pakub muudatused ja need rakenduvad pärast kinnitust."
 ---
 
 # AI assistent

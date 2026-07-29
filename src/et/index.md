@@ -10,7 +10,7 @@ hero:
   lead: Raamatud, arved, museaalid, inimesed — Entu hoiab neid kõiki objektidena just nende väljadega, mille ise valid. Loo ja muuda oma andmemudelit otse kasutajaliideses. Ei mingeid migratsioone, skeemifaile ega juurutamisi.
   signup: Registreeru
   signupLink: https://entu.app/new?locale=et
-  docs: Vaata, kuidas kasutatakse
+  docs: Vaata näiteid
   docsLink: '#use-cases'
   graph:
     type: projekt
@@ -35,7 +35,7 @@ hero:
 
 personas:
   heading: Mida saad Entuga ehitada?
-  intro: Peaaegu kõike, mida vajad talletada. Sama paindlik mudel skaleerub isiklikust kogust terve organisatsiooni andmeteni.
+  intro: Peaaegu kõike, mille üle on vaja arvet pidada. Sama paindlik mudel sobib nii isiklikule kogule kui ka terve organisatsiooni andmetele.
   more:
     text: Vaata terviklikke läbimänge kasutusnäidetest
     link: /et/examples/
@@ -340,13 +340,13 @@ faq:
     - q: Kas ma pean oskama programmeerida?
       a: Ei. Kogu andmemudeli — objektitüübid, väljad, seosed ja õigused — ehitad kasutajaliideses. Arendajad saavad soovi korral ühenduda REST API kaudu.
     - q: Mille poolest erineb Entu tabelarvutusest?
-      a: Tabelid on lamedad ega pea vastu seostele, failidele ega juurdepääsukontrollile. Entu hoiab tüübitud objekte hierarhias, seob kirjeid, hoiab faile ja pärandab õigusi.
+      a: Tabelarvutus on üks lame leht ega tule toime seoste, failide ega juurdepääsuõigustega. Entu hoiab tüübitud objekte hierarhias, seob kirjed omavahel, hoiab faile ja laseb õigustel ülemobjektilt edasi kanduda.
     - q: Mille poolest erineb see Airtable'ist või kohandatud andmebaasist?
       a: Entu on skeemivaba ja muutub jooksvalt — lisa või muuda objektitüüpe ja välju igal ajal, ilma migratsioonideta. Sellega on kaasas nii kasutajaliides kui ka REST API, seega haldusliidest pole vaja ehitada.
     - q: Kas saan oma olemasolevad andmed importida?
       a: Jah — impordi CSV-st ja muudest allikatest pluginate abil või loo objekte hulgi API kaudu.
     - q: Kes näeb minu andmeid?
-      a: Juurdepääsu määrad objekti kaupa nelja tasemega — omanik, toimetaja, laiendaja, vaataja — mis kanduvad hierarhias edasi. Igal kontol on oma eraldiseisev andmebaas.
+      a: Juurdepääsu määrad objekti kaupa nelja tasemega — omanik, toimetaja, laiendaja, vaataja — ja objektid saab seadistada õigusi ülemobjektilt pärima. Igal kontol on oma eraldiseisev andmebaas.
     - q: Kas saan seda kasutada telefonis?
       a: Jah — Entu töötab igas veebilehitsejas ning sellel on natiivrakendused iPhone'ile, iPadile ja Macile.
     - q: Kui palju see maksab?

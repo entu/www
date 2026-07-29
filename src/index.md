@@ -346,7 +346,7 @@ faq:
     - q: Can I import my existing data?
       a: Yes — import from CSV and other sources via plugins, or bulk-create entities through the API.
     - q: Who can see my data?
-      a: You control access per entity with four levels — owner, editor, expander, viewer — that cascade down the hierarchy. Each account has its own isolated database.
+      a: You control access per entity with four levels — owner, editor, expander, viewer — and entities can be set to inherit rights from their parent. Each account has its own isolated database.
     - q: Can I use it on my phone?
       a: Yes — Entu runs in any browser and has native apps for iPhone, iPad, and Mac.
     - q: What does it cost?

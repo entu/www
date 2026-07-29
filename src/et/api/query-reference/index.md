@@ -1,5 +1,5 @@
 ---
-description: "Pärid Entu objekte REST API kaudu URL-parameetritega — täielik filtrisüntaks loendite, menüüde ja viitepäringute jaoks."
+description: "Päringud Entu objektidele REST API kaudu URL-parameetritega — täielik filtrisüntaks loendite, menüüde ja viitepäringute jaoks."
 ---
 
 # Päringu viide

@@ -24,7 +24,7 @@ Registreerumisel loob Entu sulle **oma andmebaasi** — privaatse ruumi sinu and
 
 ## 3. Alusta mallist
 
-Sa ei pea midagi nullist kavandama. Vali valmis mall — **kontaktid, dokumendid, raamatukogu või inventar** — ja saad töötava struktuuri, mida kohe täitma hakata. Kõike, mille mall üles seab, saab hiljem muuta — see on lähtepunkt, mitte lubadus.
+Sa ei pea midagi nullist kavandama. Vali valmis mall — **kontaktid, dokumendid, raamatukogu või inventar** — ja saad töötava struktuuri, mida kohe täitma hakata. Kõike, mille mall üles seab, saab hiljem muuta — see on lähtepunkt, mitte kohustus.
 
 ## Järgmine samm
 

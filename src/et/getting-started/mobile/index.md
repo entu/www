@@ -12,7 +12,7 @@ Sinu andmed ei ole ühe arvuti küljes kinni. Entu töötab seal, kus sina oled.
 
 ## Natiivrakendus iPhone'ile, iPadile ja Macile
 
-Apple'i seadmetele on olemas natiivne Entu rakendus — sama konto ja samad andmed, aga kiirem ja koduse tundega.
+Apple'i seadmetele on olemas natiivne Entu rakendus — sama konto ja samad andmed, aga sujuvam ja seadmes omasem.
 
 <!-- screenshot: iPhone'i raam, Entu rakenduses objektide loend -->
 
@@ -24,7 +24,7 @@ Tihti on telefon täpselt see koht, kus Entu kõige rohkem abiks on:
 
 - Kontrolli raamatupoes seistes, kas see raamat on sul juba olemas.
 - Pildista ostutšekk ja lisa see kohe ostu juurde.
-- Vaata seerianumbrit keldris, mitte tagantjärele töölaua taga.
+- Vaata seerianumber üle otse keldris, mitte hiljem arvuti taga.
 
 ## Kuhu edasi?
 
