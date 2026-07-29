@@ -1,3 +1,7 @@
+---
+description: "Mustrid ja soovitused Entu REST API tõhusaks kasutamiseks."
+---
+
 # API parimad praktikad
 
 Mustrid ja soovitused Entu API-ga tõhusaks töötamiseks.

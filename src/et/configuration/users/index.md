@@ -1,3 +1,7 @@
+---
+description: "Halda Entu kasutajaid isikuobjektidega — igaüks autendib end ning on aluseks õiguste määramisel ja omandi jälgimisel kogu süsteemis."
+---
+
 # Kasutajad
 
 Isikuobjektid esindavad Entus kasutajakontosid. Iga isik saab autentida ja talle viidatakse kogu süsteemis õiguste määramiseks ja omandiõiguse jälgimiseks.

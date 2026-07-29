@@ -1,3 +1,7 @@
+---
+description: "Mis on Entu: koodivaba objektiandmebaas struktuursete andmete hoidmiseks, korrastamiseks ja päringuteks ilma migratsioonide või taustakoodita."
+---
+
 # Mis on Entu
 
 Entu on **koodivaba objekti andmebaas** — süsteem struktureeritud andmete salvestamiseks, korraldamiseks ja pärimiseks ilma migratsioonide, skeemifailide või taustaprogrammi koodita.

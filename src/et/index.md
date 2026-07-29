@@ -1,16 +1,17 @@
 ---
 layout: page
 title: Struktuursed andmed ilma programmeerimata
+description: Entu on koodivaba objektiandmebaas. Modelleeri objektid, parameetrid ja juurdepääsuõigused kasutajaliideses — ilma migratsioonide, skeemifailide ja taustakoodita.
 sidebar: false
 
 hero:
-  kicker: Koodivaba objektiandmebaas
+  kicker: Ehita oma andmebaas — koodivabalt
   heading: Struktuursed andmed, ilma programmeerimata.
   lead: Raamatud, arved, museaalid, inimesed — Entu hoiab neid kõiki objektidena just nende väljadega, mille ise valid. Loo ja muuda oma andmemudelit otse kasutajaliideses. Ei mingeid migratsioone, skeemifaile ega juurutamisi.
   signup: Registreeru
   signupLink: https://entu.app/new?locale=et
-  docs: Dokumentatsioon
-  docsLink: /et/overview/
+  docs: Vaata, kuidas kasutatakse
+  docsLink: '#use-cases'
   graph:
     type: projekt
     name: Kevadnäitus 2027
@@ -32,20 +33,9 @@ hero:
         note: kokku €2140
     rights: 'toimetaja: projektitiim · vaataja: juhtkond'
 
-concepts:
-  - num: '01'
-    title: Objektid
-    text: Iga kirje on objekt — inimene, projekt, dokument, toode — mille määravad tema parameetrid.
-  - num: '02'
-    title: Parameetrid
-    text: Tüübitud väljad (tekst, number, kuupäev, fail, viide…), mis võivad hoida mitut väärtust, tõlkeid või arvutatud valemeid.
-  - num: '03'
-    title: Hierarhia ja õigused
-    text: Objektid moodustavad ülem-alam puu. Alam-objektil võib olla mitu ülemobjekti ja õigused kanduvad automaatselt edasi.
-
 personas:
-  heading: Ühele inimesele või tervele organisatsioonile
-  intro: Sama paindlik mudel töötab igas mõõtkavas — alusta isikliku koguga või halda selles oma organisatsiooni andmeid.
+  heading: Mida saad Entuga ehitada?
+  intro: Peaaegu kõike, mida vajad talletada. Sama paindlik mudel skaleerub isiklikust kogust terve organisatsiooni andmeteni.
   hint: Liigu näite kohale — nii näeb see välja Entus
   personalLabel: Eraisikud
   orgLabel: Organisatsioonid
@@ -265,22 +255,6 @@ personas:
         rights:
           - 'API: lugemisõigusega võti'
 
-uiapi:
-  heading: Sinu tiim klõpsab. Sinu kood kutsub.
-  intro: Sama objekt, muudetuna veebilehitsejas ja serveerituna üle REST API — üks mudel, ilma eraldi haldusliideseta.
-  uiLabel: Kasutajaliideses — sinu tiim
-  apiLabel: API kaudu — sinu rakendused
-  card:
-    title: Ekraan · Fuajee ekraan
-    rows:
-      - k: esitusloend
-        v: viide → Esitusloend
-      - k: graafik
-        v: tekst × 7
-      - k: toimetaja
-        v: turundustiim
-        accent: true
-
 why:
   heading: Miks Entu?
   paragraphs:
@@ -355,6 +329,25 @@ pricing:
         - ID-autentimine
         - Oma domeen
         - Prioriteetne tugi
+
+faq:
+  anchor: faq
+  heading: Korduma kippuvad küsimused
+  items:
+    - q: Kas ma pean oskama programmeerida?
+      a: Ei. Kogu andmemudeli — objektitüübid, väljad, seosed ja õigused — ehitad kasutajaliideses. Arendajad saavad soovi korral ühenduda REST API kaudu.
+    - q: Mille poolest erineb Entu tabelarvutusest?
+      a: Tabelid on lamedad ega pea vastu seostele, failidele ega juurdepääsukontrollile. Entu hoiab tüübitud objekte hierarhias, seob kirjeid, hoiab faile ja pärandab õigusi.
+    - q: Mille poolest erineb see Airtable'ist või kohandatud andmebaasist?
+      a: Entu on skeemivaba ja muutub jooksvalt — lisa või muuda objektitüüpe ja välju igal ajal, ilma migratsioonideta. Sellega on kaasas nii kasutajaliides kui ka REST API, seega haldusliidest pole vaja ehitada.
+    - q: Kas saan oma olemasolevad andmed importida?
+      a: Jah — impordi CSV-st ja muudest allikatest pluginate abil või loo objekte hulgi API kaudu.
+    - q: Kes näeb minu andmeid?
+      a: Juurdepääsu määrad objekti kaupa nelja tasemega — omanik, toimetaja, laiendaja, vaataja — mis kanduvad hierarhias edasi. Igal kontol on oma eraldiseisev andmebaas.
+    - q: Kas saan seda kasutada telefonis?
+      a: Jah — Entu töötab igas veebilehitsejas ning sellel on natiivrakendused iPhone'ile, iPadile ja Macile.
+    - q: Kui palju see maksab?
+      a: Paketid algavad 2 €/kuus. Kõik astmed leiad allolevast hinnatabelist.
 
 partners:
   heading: Partnerid ja kliendid

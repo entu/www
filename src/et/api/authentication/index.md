@@ -1,3 +1,7 @@
+---
+description: "Autendi Entu API päringud JWT bearer-tokeniga, mis kehtib 12 tundi — kuidas seda hankida ja kasutada."
+---
+
 # Autentimine
 
 Kõik API päringud nõuavad JWT tokenit, mis edastatakse päises `Authorization: Bearer <token>`. Tokenid kehtivad 12 tundi. Autentimisvastus sisaldab `expires` välja (ISO 8601 kuupäev-kellaaeg), mis näitab, millal token tuleb uuendada.

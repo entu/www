@@ -1,4 +1,27 @@
-import { defineConfig } from 'vitepress'
+import { defineConfig, type HeadConfig } from 'vitepress'
+
+const HOSTNAME = 'https://entu.ee'
+const OG_IMAGE = `${HOSTNAME}/og-image.png`
+const OG_IMAGE_ET = `${HOSTNAME}/og-image-et.png`
+
+// Turn a source relativePath into its clean site path ('' for the homepage).
+function cleanPath (relativePath: string): string {
+  return relativePath
+    .replace(/(^|\/)index\.md$/, '$1')
+    .replace(/\.md$/, '')
+}
+
+// Map an EN path to its ET counterpart and vice versa.
+function localeCounterparts (path: string): { en: string, et: string } {
+  const en = path.startsWith('et/') ? path.slice(3) : path
+  const et = path.startsWith('et/') ? path : `et/${path}`
+
+  return { en, et }
+}
+
+function abs (path: string): string {
+  return `${HOSTNAME}/${path}`
+}
 
 export default defineConfig({
   srcDir: './src',
@@ -14,8 +37,91 @@ export default defineConfig({
   description: 'Build your data model without code — configure entities, properties, and access rights entirely through the UI',
   head: [
     ['link', { rel: 'icon', type: 'image/png', href: '/logo.png' }],
+    ['meta', { property: 'og:site_name', content: 'Entu' }],
+    ['meta', { name: 'twitter:card', content: 'summary_large_image' }],
     ['script', { src: 'https://analytics.entu.dev/ea.min.js', 'data-site': 'entu.ee', crossorigin: 'anonymous', defer: '' }]
   ],
+  transformHead ({ pageData, title, description }) {
+    const path = cleanPath(pageData.relativePath)
+    const isEt = path.startsWith('et/')
+    const url = abs(path)
+    const image = isEt ? OG_IMAGE_ET : OG_IMAGE
+    const isHome = path === '' || path === 'et/'
+    const { en, et } = localeCounterparts(path)
+
+    const head: HeadConfig[] = [
+      ['link', { rel: 'canonical', href: url }],
+      ['link', { rel: 'alternate', hreflang: 'en', href: abs(en) }],
+      ['link', { rel: 'alternate', hreflang: 'et', href: abs(et) }],
+      ['link', { rel: 'alternate', hreflang: 'x-default', href: abs(en) }],
+      ['meta', { property: 'og:type', content: isHome ? 'website' : 'article' }],
+      ['meta', { property: 'og:url', content: url }],
+      ['meta', { property: 'og:title', content: title }],
+      ['meta', { property: 'og:description', content: description }],
+      ['meta', { property: 'og:image', content: image }],
+      ['meta', { property: 'og:locale', content: isEt ? 'et_EE' : 'en' }],
+      ['meta', { property: 'og:locale:alternate', content: isEt ? 'en' : 'et_EE' }],
+      ['meta', { name: 'twitter:title', content: title }],
+      ['meta', { name: 'twitter:description', content: description }],
+      ['meta', { name: 'twitter:image', content: image }]
+    ]
+
+    if (isHome) {
+      const graph: object[] = [
+        {
+          '@type': 'Organization',
+          '@id': `${HOSTNAME}/#organization`,
+          name: 'Entusiastid OÜ',
+          url: HOSTNAME,
+          logo: `${HOSTNAME}/logo.png`,
+          email: 'info@entu.ee',
+          address: {
+            '@type': 'PostalAddress',
+            streetAddress: 'Saturni 3-3',
+            postalCode: '10142',
+            addressLocality: 'Tallinn',
+            addressCountry: 'EE'
+          }
+        },
+        {
+          '@type': 'SoftwareApplication',
+          '@id': `${HOSTNAME}/#software`,
+          name: 'Entu',
+          url: HOSTNAME,
+          applicationCategory: 'BusinessApplication',
+          operatingSystem: 'Web, iOS, iPadOS, macOS',
+          publisher: { '@id': `${HOSTNAME}/#organization` },
+          offers: [
+            { '@type': 'Offer', price: '2', priceCurrency: 'EUR' },
+            { '@type': 'Offer', price: '10', priceCurrency: 'EUR' },
+            { '@type': 'Offer', price: '40', priceCurrency: 'EUR' },
+            { '@type': 'Offer', price: '200', priceCurrency: 'EUR' }
+          ]
+        }
+      ]
+
+      const faqItems = (pageData.frontmatter.faq?.items || []) as { q: string, a: string }[]
+
+      if (faqItems.length) {
+        graph.push({
+          '@type': 'FAQPage',
+          '@id': `${url}#faq`,
+          mainEntity: faqItems.map((item) => ({
+            '@type': 'Question',
+            name: item.q,
+            acceptedAnswer: { '@type': 'Answer', text: item.a }
+          }))
+        })
+      }
+
+      head.push(['script', { type: 'application/ld+json' }, JSON.stringify({
+        '@context': 'https://schema.org',
+        '@graph': graph
+      })])
+    }
+
+    return head
+  },
   locales: {
     root: {
       label: 'English',

@@ -1,3 +1,7 @@
+---
+description: "Store and serve files with the Entu API — attachments kept in S3-compatible storage, accessed via signed, time-limited URLs."
+---
+
 # Files
 
 File properties let entities store attachments, documents, images, and other binary data. Files are stored in object storage (S3-compatible) and accessed via signed, time-limited URLs.

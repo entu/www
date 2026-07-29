@@ -1,3 +1,7 @@
+---
+description: "Parameetrid on tüübitud väljad, mis kirjeldavad objekti — tekst, number, kuupäev, fail, viide — koos mitme väärtuse, mitmekeelsuse ja valemitoega."
+---
+
 # Parameetrid
 
 Iga objekti kirjeldavad selle **parameetrid** — nimega väljad, mis hoiavad väärtusi. Parameetrid on see, mis teeb iga objektitüübi ainulaadseks: `person` objektil on `name` ja `email`; `invoice` objektil on `amount` ja `due_date`.

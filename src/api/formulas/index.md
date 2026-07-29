@@ -1,3 +1,7 @@
+---
+description: "Formulas compute property values automatically on every save, using the entity, its parents, children, or referencing entities."
+---
+
 # Formulas
 
 Formulas let a property compute its value automatically on every save, based on data from the same entity, its parents, its children, or entities that reference it.

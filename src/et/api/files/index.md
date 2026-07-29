@@ -1,3 +1,7 @@
+---
+description: "Hoia ja serveeri faile Entu API-ga — manused S3-ühilduvas salvestis, ligipääs allkirjastatud ja ajapiiranguga URL-ide kaudu."
+---
+
 # Failid
 
 Failiparameetrid võimaldavad objektidel salvestada manuseid, dokumente, pilte ja muid binaarseid andmeid. Failid salvestatakse objektisalvestusse (S3-ühilduv) ja neile pääseb ligi allkirjastatud, ajalimiitidega URLide kaudu.

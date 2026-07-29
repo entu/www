@@ -1,3 +1,7 @@
+---
+description: "Configure the Entu sidebar with menu entities — each item links to a filtered list of entities for quick navigation."
+---
+
 # Menus
 
 Menus are the navigation items shown in the sidebar. Each menu item links to a filtered list of entities. They are entities of type `menu` — create them in the Configuration area.

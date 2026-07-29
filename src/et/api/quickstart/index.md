@@ -1,3 +1,7 @@
+---
+description: "Alusta Entu REST API-ga 5 minutiga — hangi token, loo esimene objekt ja tee andmepäringuid."
+---
+
 # API kiire algus
 
 Alusta Entu API-ga 5 minutiga. See juhend käib läbi tokeni hankimise, esimese objekti loomise ja andmete pärimise.

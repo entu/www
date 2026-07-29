@@ -1,3 +1,7 @@
+---
+description: "Objektid on Entu põhilised ehituskivid — kirjed nagu inimesed, projektid või arved, korrastatud ülem-alam hierarhias, kus õigused kanduvad edasi."
+---
+
 # Objektid
 
 Objektid on Entu põhilised ehituskivid. Objekt on kirje — inimene, projekt, arve, toode — mis tahes asi, mida tuleb hallata. Iga objekt kuulub **objektitüüpi**, mis toimib tema andmemallina.

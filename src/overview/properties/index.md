@@ -1,3 +1,7 @@
+---
+description: "Properties are the typed fields describing an entity — string, number, date, file, reference — with multi-value, multilingual, and formula support."
+---
+
 # Properties
 
 Every entity is described by its **properties** — named fields that hold values. Properties are what make each entity type unique: a `person` entity has a `name` and an `email`; an `invoice` has an `amount` and a `due_date`.

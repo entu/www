@@ -1,3 +1,7 @@
+---
+description: "A planned feature for sharing entities between Entu databases, published to gather design feedback before implementation."
+---
+
 # Entity Sharing Between Databases
 
 ::: warning Concept proposal

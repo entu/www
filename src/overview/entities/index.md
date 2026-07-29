@@ -1,3 +1,7 @@
+---
+description: "Entities are Entu's core building blocks — records like people, projects, or invoices, organised in a parent–child hierarchy with cascading rights."
+---
+
 # Entities
 
 Entities are the core building blocks of Entu. An entity is a record — a person, a project, an invoice, a product — any object you need to manage. Every entity belongs to an **entity type** that acts as a blueprint for what kind of data it holds.

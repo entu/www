@@ -1,3 +1,7 @@
+---
+description: "REST endpoints powering the Entu AI assistant — a two-step chat-and-apply flow for AI-suggested data changes."
+---
+
 # AI Assistant
 
 These endpoints power the [Entu AI](/configuration/ai/) assistant. The flow has two steps: the chat endpoint returns the assistant's reply and, when it suggests changes, a proposal of write operations — nothing is applied yet. After the user confirms, the proposal's operations are passed unchanged to the execute endpoint, which applies them.

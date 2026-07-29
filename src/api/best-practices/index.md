@@ -1,3 +1,7 @@
+---
+description: "Patterns and recommendations for working efficiently with the Entu REST API."
+---
+
 # API Best Practices
 
 Patterns and recommendations for working efficiently with the Entu API.

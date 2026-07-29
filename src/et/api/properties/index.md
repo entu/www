@@ -1,3 +1,7 @@
+---
+description: "Entu API parameetriväärtuse objektide viide — millised väljad iga parameetri kohta tagastatakse ja kuidas väärtused on struktureeritud."
+---
+
 # Parameetrid
 
 Iga API tagastatav parameetriväärtus on objekt järgmiste väljadega:

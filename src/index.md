@@ -1,16 +1,17 @@
 ---
 layout: page
 title: Structured data, without backend code
+description: Entu is a no-code object database. Model entities, properties, and access rights in the UI — no migrations, no schema files, no backend code.
 sidebar: false
 
 hero:
-  kicker: No-code object database
+  kicker: Build your own database — no code
   heading: Structured data, without backend code.
   lead: Books, invoices, artefacts, people — Entu stores them all as entities with the fields you choose. Build and change your data model right in the UI. No migrations, no schema files, no deployments.
   signup: Sign Up
   signupLink: https://entu.app/new?locale=en
-  docs: Documentation
-  docsLink: /overview/
+  docs: See how it's used
+  docsLink: '#use-cases'
   graph:
     type: project
     name: Spring exhibition 2027
@@ -32,20 +33,9 @@ hero:
         note: €2,140 total
     rights: 'editor: project team · viewer: management'
 
-concepts:
-  - num: '01'
-    title: Entities
-    text: Every record is an entity — a person, a project, a document, a product — defined by the properties it carries.
-  - num: '02'
-    title: Properties
-    text: Typed fields (string, number, date, file, reference…) that can hold multiple values, translations, or computed formulas.
-  - num: '03'
-    title: Hierarchy & rights
-    text: Entities form a parent–child tree. A child can have several parents, and access rights cascade down automatically.
-
 personas:
-  heading: For one person or a whole organisation
-  intro: The same flexible model works at any scale — start with a personal collection, or run your organisation's records on it.
+  heading: What can you build with Entu?
+  intro: Almost anything you need to keep track of. The same flexible model scales from a personal collection to an entire organisation's records.
   hint: Hover an example — how it looks in Entu
   personalLabel: Private persons
   orgLabel: Organisations
@@ -265,22 +255,6 @@ personas:
         rights:
           - 'API: read-only key'
 
-uiapi:
-  heading: Your team clicks. Your code calls.
-  intro: The same entity, edited in the browser and served over the REST API — one model, no admin backend to build.
-  uiLabel: In the UI — your team
-  apiLabel: Via the API — your apps
-  card:
-    title: Screen · Lobby display
-    rows:
-      - k: playlist
-        v: reference → Playlist
-      - k: schedule
-        v: string × 7
-      - k: editor
-        v: marketing team
-        accent: true
-
 why:
   heading: Why Entu?
   paragraphs:
@@ -355,6 +329,25 @@ pricing:
         - ID authentication
         - Own domain
         - Priority support
+
+faq:
+  anchor: faq
+  heading: Frequently asked questions
+  items:
+    - q: Do I need to know how to code?
+      a: No. You build your whole data model — types, fields, relationships, and rights — through the UI. Developers can optionally connect via the REST API.
+    - q: How is Entu different from a spreadsheet?
+      a: Spreadsheets are flat and buckle under relationships, files, and access control. Entu stores typed entities in a hierarchy, links records together, holds files, and cascades permissions.
+    - q: How is it different from Airtable or a custom database?
+      a: Entu is schema-less and changes live — add or alter types and fields at any time, with no migrations. It ships with both a UI and a REST API, so you never build an admin backend.
+    - q: Can I import my existing data?
+      a: Yes — import from CSV and other sources via plugins, or bulk-create entities through the API.
+    - q: Who can see my data?
+      a: You control access per entity with four levels — owner, editor, expander, viewer — that cascade down the hierarchy. Each account has its own isolated database.
+    - q: Can I use it on my phone?
+      a: Yes — Entu runs in any browser and has native apps for iPhone, iPad, and Mac.
+    - q: What does it cost?
+      a: Plans start at €2 per month. See the pricing table below for all tiers.
 
 partners:
   heading: Partners & Customers

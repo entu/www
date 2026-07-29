@@ -121,72 +121,8 @@ function trackSignup () {
       </div>
     </section>
 
-    <!-- Concept strip -->
-    <section class="concepts">
-      <div
-        v-for="concept in fm.concepts"
-        :key="concept.num"
-        class="concept"
-      >
-        <div class="concept-num">
-          {{ concept.num }}
-        </div>
-        <h2>{{ concept.title }}</h2>
-        <p>{{ concept.text }}</p>
-      </div>
-    </section>
-
     <!-- Personas -->
-    <personas-section />
-
-    <!-- UI vs API -->
-    <section class="uiapi">
-      <h2>{{ fm.uiapi.heading }}</h2>
-      <p class="uiapi-intro">
-        {{ fm.uiapi.intro }}
-      </p>
-      <div class="uiapi-grid">
-        <div class="uiapi-card">
-          <div class="uiapi-kicker">
-            {{ fm.uiapi.uiLabel }}
-          </div>
-          <div class="uiapi-entity">
-            <div class="uiapi-entity-title">
-              {{ fm.uiapi.card.title }}
-            </div>
-            <div class="uiapi-entity-rows">
-              <div
-                v-for="(row, index) in fm.uiapi.card.rows"
-                :key="row.k"
-                :class="['uiapi-row', { last: index === fm.uiapi.card.rows.length - 1 }]"
-              >
-                <span class="uiapi-row-key">{{ row.k }}</span>
-                <span :class="['uiapi-row-value', { accent: row.accent }]">{{ row.v }}</span>
-              </div>
-            </div>
-          </div>
-        </div>
-        <div class="uiapi-panel">
-          <div class="uiapi-kicker api">
-            {{ fm.uiapi.apiLabel }}
-          </div>
-          <div class="uiapi-code">
-            <div><span class="method">GET</span> <span class="path">/api/entity?_type=screen</span></div>
-            <div class="status">
-              → 200 OK
-            </div>
-            <div>{ "entities": [ {</div>
-            <div class="indent">
-              "name": <span class="string">"Lobby display"</span>,
-            </div>
-            <div class="indent">
-              "playlist": <span class="string">"spring-campaign"</span>
-            </div>
-            <div>} ] }</div>
-          </div>
-        </div>
-      </div>
-    </section>
+    <personas-section id="use-cases" />
 
     <!-- Why Entu + features -->
     <section class="why">
@@ -215,6 +151,24 @@ function trackSignup () {
           </div>
           <h3>{{ feature.title }}</h3>
           <p>{{ feature.details }}</p>
+        </div>
+      </div>
+    </section>
+
+    <!-- FAQ -->
+    <section
+      :id="fm.faq.anchor"
+      class="faq"
+    >
+      <h2>{{ fm.faq.heading }}</h2>
+      <div class="faq-list">
+        <div
+          v-for="item in fm.faq.items"
+          :key="item.q"
+          class="faq-item"
+        >
+          <h3>{{ item.q }}</h3>
+          <p>{{ item.a }}</p>
         </div>
       </div>
     </section>
@@ -446,158 +400,6 @@ function trackSignup () {
   color: var(--e-secondary);
 }
 
-/* ============ Concept strip ============ */
-
-.concepts {
-  display: grid;
-  grid-template-columns: 1fr 1fr 1fr;
-  border-top: 1px solid var(--e-rule);
-}
-
-.concept {
-  padding: 36px 40px;
-  border-right: 1px solid var(--e-border-subtle);
-}
-
-.concept:last-child {
-  border-right: none;
-}
-
-.concept-num {
-  font: 500 12px var(--e-font-mono);
-  color: var(--e-accent);
-  margin-bottom: 12px;
-}
-
-.concept h2 {
-  font: 700 22px var(--e-font-display);
-  margin: 0 0 8px;
-}
-
-.concept p {
-  font: 400 14px/1.65 var(--e-font-body);
-  color: var(--e-secondary);
-  margin: 0;
-  text-wrap: pretty;
-}
-
-/* ============ UI vs API ============ */
-
-.uiapi {
-  margin: 0 64px;
-  border-top: 1px solid var(--e-rule);
-  padding: 64px 0 72px;
-}
-
-.uiapi h2 {
-  font: 700 38px var(--e-font-display);
-  margin: 0 0 12px;
-  letter-spacing: -0.02em;
-}
-
-.uiapi-intro {
-  font: 400 17px/1.65 var(--e-font-body);
-  color: var(--e-secondary);
-  max-width: 680px;
-  margin: 0 0 40px;
-  text-wrap: pretty;
-}
-
-.uiapi-grid {
-  display: grid;
-  grid-template-columns: 1fr 1fr;
-  gap: 24px;
-}
-
-.uiapi-card {
-  background: var(--e-card-bg);
-  border: 1px solid var(--e-border);
-  border-radius: 10px;
-  padding: 28px 30px;
-}
-
-.uiapi-kicker {
-  font: 600 12px var(--e-font-mono);
-  text-transform: uppercase;
-  color: var(--e-accent);
-  margin-bottom: 18px;
-}
-
-.uiapi-kicker.api {
-  color: var(--e-accent-soft);
-}
-
-.uiapi-entity {
-  background: var(--e-preview-bg);
-  border: 1px solid var(--e-border-subtle);
-  border-radius: 8px;
-  padding: 18px 20px;
-}
-
-.uiapi-entity-title {
-  font: 700 16px var(--e-font-display);
-  margin-bottom: 12px;
-}
-
-.uiapi-entity-rows {
-  display: flex;
-  flex-direction: column;
-  gap: 8px;
-  font: 400 13px var(--e-font-mono);
-  color: var(--e-secondary);
-}
-
-.uiapi-row {
-  display: flex;
-  justify-content: space-between;
-  border-bottom: 1px solid var(--e-border-subtle);
-  padding-bottom: 8px;
-}
-
-.uiapi-row.last {
-  border-bottom: none;
-  padding-bottom: 0;
-}
-
-.uiapi-row-key {
-  color: var(--e-muted);
-}
-
-.uiapi-row-value.accent {
-  color: var(--e-accent);
-}
-
-.uiapi-panel {
-  background: var(--e-panel-bg);
-  border-radius: 10px;
-  padding: 28px 30px;
-}
-
-.uiapi-code {
-  font: 400 13px/1.8 var(--e-font-mono);
-  color: #bbb;
-}
-
-.uiapi-code .method {
-  color: #7dd3a8;
-}
-
-.uiapi-code .path {
-  color: #ddd;
-}
-
-.uiapi-code .status {
-  color: #777;
-}
-
-.uiapi-code .string {
-  color: #e8b96f;
-}
-
-.uiapi-code .indent {
-  padding-left: 18px;
-}
-
 /* ============ Why + features ============ */
 
 .why {
@@ -668,9 +470,42 @@ function trackSignup () {
   grid-column: 2;
 }
 
+/* ============ FAQ ============ */
+
+.faq {
+  margin: 0 64px;
+  border-top: 1px solid var(--e-rule);
+  padding: 64px 0 72px;
+}
+
+.faq h2 {
+  font: 700 38px var(--e-font-display);
+  margin: 0 0 40px;
+  letter-spacing: -0.02em;
+}
+
+.faq-list {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 32px 48px;
+}
+
+.faq-item h3 {
+  font: 700 17px var(--e-font-display);
+  margin: 0 0 8px;
+}
+
+.faq-item p {
+  font: 400 14px/1.65 var(--e-font-body);
+  color: var(--e-secondary);
+  margin: 0;
+  text-wrap: pretty;
+}
+
 /* ============ Responsive ============ */
 
 @media (max-width: 1100px) {
+
   .hero {
     grid-template-columns: 1fr;
     gap: 56px;
@@ -706,36 +541,19 @@ function trackSignup () {
     font-size: 17px;
   }
 
-  .concepts {
-    grid-template-columns: 1fr;
-  }
-
-  .concept {
-    border-right: none;
-    border-bottom: 1px solid var(--e-border-subtle);
-    padding: 28px 24px;
-  }
-
-  .concept:last-child {
-    border-bottom: none;
-  }
-
-  .uiapi,
-  .why {
+  .why,
+  .faq {
     margin: 0 24px;
     padding: 48px 0;
   }
 
-  .uiapi h2,
-  .why h2 {
+  .why h2,
+  .faq h2 {
     font-size: 30px;
   }
 
-  .uiapi-grid {
-    grid-template-columns: 1fr;
-  }
-
-  .features {
+  .features,
+  .faq-list {
     grid-template-columns: 1fr;
   }
 }

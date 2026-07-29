@@ -1,3 +1,7 @@
+---
+description: "Sign in to Entu with OAuth providers, passkeys, or email magic links — each method tied to your person entity, several allowed per account."
+---
+
 # Authentication
 
 Entu supports several ways to sign in. Each is tied to your **person entity** — the record in the database that represents you. You can use multiple sign-in methods on the same account.

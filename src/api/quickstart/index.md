@@ -1,3 +1,7 @@
+---
+description: "Get started with the Entu REST API in 5 minutes — get a token, create your first entity, and query data."
+---
+
 # API Quick Start
 
 Get started with the Entu API in 5 minutes. This guide walks through getting a token, creating your first entity, and querying data.

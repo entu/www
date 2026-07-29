@@ -1,3 +1,7 @@
+---
+description: "Extend entity types with Entu plugins — embed custom UI tabs via iframes or fire webhooks, attached per entity type."
+---
+
 # Plugins
 
 Plugins extend what Entu can do at the entity type level. A plugin is an entity of type `plugin`, attached to an entity type via the entity type's `plugin` property.

@@ -1,3 +1,7 @@
+---
+description: "Define entity types in Entu to categorise your data — create types like project, invoice, or product and configure their properties in the UI."
+---
+
 # Entity Types
 
 An entity type defines a category of objects in your database. Create one for each kind of thing you need to store — for example `project`, `invoice`, or `product`. The fields each entity carries are defined by **property definitions**, which are child entities of the entity type.

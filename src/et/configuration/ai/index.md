@@ -1,3 +1,7 @@
+---
+description: "Entu AI on sisseehitatud vestlusassistent — küsi tavakeeles, et uurida andmeid või seada üles objekte, parameetreid ja valemeid; muudatused rakenduvad pärast kinnitust."
+---
+
 # Entu AI
 
 Entu AI on Entu rakendusse sisseehitatud vestlusassistent. Ava see tööriistariba **sädemete nupust** — see on saadaval sisselogitud kasutajatele. Assistent tunneb sinu konto praegust seadistust — objektitüüpe ja nende parameetrite definitsioone — nii et saad selle kohta küsimusi esitada ja kirjeldada muudatusi tavakeeles, selle asemel et seadistusvaadetes klõpsida.

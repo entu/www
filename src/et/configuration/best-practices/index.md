@@ -1,3 +1,7 @@
+---
+description: "Kujunduspõhimõtted ja tavad puhta ning hooldatava andmemudeli loomiseks Entus."
+---
+
 # Parimad praktikad
 
 Disainipõhimõtted ja konventsioonid puhta, hooldatava andmemudeli loomiseks Entus.

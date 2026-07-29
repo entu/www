@@ -1,3 +1,7 @@
+---
+description: "Entu AI is a built-in chat assistant — ask in plain language to explore data or set up entities, properties, and formulas; changes apply once you confirm."
+---
+
 # Entu AI
 
 Entu AI is a chat assistant built into the Entu app. Open it with the **sparkles button** in the toolbar — it is available to signed-in users. The assistant knows your account's current configuration — entity types and their property definitions — so you can ask questions about it and describe changes in plain language instead of clicking through configuration screens.

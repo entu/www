@@ -1,3 +1,7 @@
+---
+description: "Reference for Entu API property value objects — the fields returned for each property and how values are structured."
+---
+
 # Properties
 
 Each property value returned by the API is an object with the following fields:

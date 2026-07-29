@@ -1,3 +1,7 @@
+---
+description: "Authenticate Entu API requests with a JWT bearer token valid for 12 hours — how to obtain and use it."
+---
+
 # Authentication
 
 All API requests require a JWT token passed in the `Authorization: Bearer <token>` header. Tokens are valid for 12 hours. The auth response includes an `expires` field (ISO 8601 datetime) so you know when to refresh.

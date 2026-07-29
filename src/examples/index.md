@@ -1,3 +1,7 @@
+---
+description: "Worked examples showing how to model real-world scenarios in Entu with entity types, properties, and references."
+---
+
 # Use-Case Examples
 
 These walkthroughs show how to model common real-world scenarios in Entu using entity types, properties, and references.

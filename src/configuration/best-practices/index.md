@@ -1,3 +1,7 @@
+---
+description: "Design principles and conventions for building a clean, maintainable data model in Entu."
+---
+
 # Best Practices
 
 Design principles and conventions for building a clean, maintainable data model in Entu.

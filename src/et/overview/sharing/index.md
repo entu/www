@@ -1,3 +1,7 @@
+---
+description: "Kavandatav funktsioon objektide jagamiseks Entu andmebaaside vahel, avaldatud tagasiside kogumiseks enne teostust."
+---
+
 # Objektide jagamine andmebaaside vahel
 
 ::: warning Kontseptsiooni ettepanek

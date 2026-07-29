@@ -1,3 +1,7 @@
+---
+description: "Seadista Entu külgriba menüüobjektidega — iga kirje viitab filtreeritud objektide loendile kiireks navigeerimiseks."
+---
+
 # Menüüd
 
 Menüüd on külgribal kuvatavad navigatsioonipunktid. Iga menüüelement viib objektide filtreeritud nimekirjani. Need on tüübi `menu` objektid — loo need Seadistamise alas.

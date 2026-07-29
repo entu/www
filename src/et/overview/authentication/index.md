@@ -1,3 +1,7 @@
+---
+description: "Logi Entusse OAuth-teenustega, pääsuvõtmetega või e-posti maagilise lingiga — iga viis on seotud sinu isikuobjektiga, ühel kontol võib olla mitu."
+---
+
 # Autentimine
 
 Entu toetab mitut viisi sisselogimiseks. Iga meetod on seotud sinu **isikuobjektiga** — kirjega andmebaasis, mis esindab sind. Saad kasutada mitut sisselogimismeetodit samas kontol.

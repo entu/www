@@ -1,3 +1,7 @@
+---
+description: "Määra Entus objektitüübid oma andmete liigitamiseks — loo tüüpe nagu projekt, arve või toode ja seadista nende parameetrid kasutajaliideses."
+---
+
 # Objektitüübid
 
 Objektitüüp määratleb objektide kategooria sinu andmebaasis. Loo üks iga asja kohta, mida pead salvestama — näiteks `project`, `invoice` või `product`. Välju, mida iga objekt kannab, määratlevad **parameetrite definitsioonid**, mis on objektitüübi alam-objektid.

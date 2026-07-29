@@ -1,3 +1,7 @@
+---
+description: "Pärid Entu objekte REST API kaudu URL-parameetritega — täielik filtrisüntaks loendite, menüüde ja viitepäringute jaoks."
+---
+
 # Päringu viide
 
 Objekte päritakse läbi `GET /api/{db}/entity`, kasutades URL-päringuparameetreid. Sama filtrisüntaksit kasutatakse menüü `query` parameetrites ja `reference_query`-s viiteparameetrite definitsioonidel.

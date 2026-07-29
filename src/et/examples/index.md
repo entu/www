@@ -1,3 +1,7 @@
+---
+description: "Läbitöötatud näited, kuidas modelleerida elulisi olukordi Entus objektitüüpide, parameetrite ja viidetega."
+---
+
 # Kasutusnäited
 
 Need juhendid näitavad, kuidas modelleerida levinud reaalelu stsenaariume Entus, kasutades objektitüüpe, parameetreid ja viiteid.

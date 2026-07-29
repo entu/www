@@ -1,3 +1,7 @@
+---
+description: "Laienda objektitüüpe Entu pluginatega — lisa kohandatud kasutajaliidese vahekaarte (iframe) või käivita veebikonkse, seotuna objektitüübiga."
+---
+
 # Pluginad
 
 Pluginad laiendavad Entu võimalusi objektitüübi tasandil. Plugin on tüübi `plugin` objekt, mis on lisatud objektitüübile selle `plugin` parameetri kaudu.

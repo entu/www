@@ -1,3 +1,7 @@
+---
+description: "REST-otspunktid, mis toidavad Entu AI assistenti — kahesammuline vestle-ja-rakenda voog AI pakutud andmemuudatusteks."
+---
+
 # AI assistent
 
 Need lõpp-punktid on [Entu AI](/et/configuration/ai/) assistendi aluseks. Voog koosneb kahest sammust: vestluse lõpp-punkt tagastab assistendi vastuse ja — kui ta pakub muudatusi — kirjutamistoimingute ettepaneku, kuid midagi veel ei rakendata. Pärast kasutaja kinnitust edastatakse ettepaneku toimingud muutmata kujul käivitamise lõpp-punktile, mis need rakendab.

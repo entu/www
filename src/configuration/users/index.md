@@ -1,3 +1,7 @@
+---
+description: "Manage users in Entu with person entities — each authenticates and is referenced for rights assignment and ownership across the system."
+---
+
 # Users
 
 Person entities represent user accounts in Entu. Each person can authenticate and is referenced throughout the system for rights assignment and ownership tracking.

@@ -1,3 +1,7 @@
+---
+description: "Valemid arvutavad parameetri väärtuse automaatselt igal salvestusel, kasutades objekti, selle ülem- või alam-objekte või viitavaid objekte."
+---
+
 # Valemid
 
 Valemid võimaldavad parameetril arvutada oma väärtuse automaatselt iga salvestamisega, tuginedes sama objekti andmetele, selle ülemobjektidele, alam-objektidele või sellele viitavatele objektidele.

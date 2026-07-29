@@ -1,3 +1,7 @@
+---
+description: "What Entu is: a no-code object database for storing, organising, and querying structured data without migrations or backend code."
+---
+
 # What is Entu
 
 Entu is a **no-code object database** — a system for storing, organising, and querying structured data without writing migrations, schema files, or backend code.

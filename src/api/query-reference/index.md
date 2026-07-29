@@ -1,3 +1,7 @@
+---
+description: "Query Entu entities over the REST API with URL parameters — the full filter syntax for lists, menus, and reference queries."
+---
+
 # Query Reference
 
 Entities are queried via `GET /api/{db}/entity` using URL query parameters. The same filter syntax is used in menu `query` parameters and in `reference_query` on reference property definitions.
