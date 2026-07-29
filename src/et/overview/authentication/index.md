@@ -28,11 +28,11 @@ Logi sisse oma Apple ID-ga. Apple annab sulle võimaluse varjata oma päris e-po
 
 ### Smart-ID
 
-Smart-ID on mobiilirakendus, mida kasutatakse Balti riikides ja Kesk-Euroopas tugevaks elektrooniliseks identifitseerimiseks. Pärast isikukoodi sisestamist kinnitad sisselogimise Smart-ID rakenduses oma telefonis. Tagab seaduslikult tunnustatud elektroonilise identiteedi Eestis, Lätis ja Leedus.
+Smart-ID on mobiilirakendus, mida kasutatakse Eestis laialdaselt tugevaks elektrooniliseks identifitseerimiseks. Pärast isikukoodi sisestamist kinnitad sisselogimise Smart-ID rakenduses oma telefonis. Tagab seaduslikult tunnustatud elektroonilise identiteedi Eestis.
 
 ### Mobiil-ID
 
-Mobiil-ID kasutab Eesti ja Leedu mobiilioperaatorite välja antud spetsiaalset SIM-kaarti sinu autentimiseks. Kinnitad sisselogimise, sisestades PINi oma telefonis. Eraldi rakendust pole vaja — autentimine toimub SIM-kaardi tasandil. Tagab seaduslikult tunnustatud elektroonilise identiteedi.
+Mobiil-ID kasutab Eesti mobiilioperaatorite välja antud spetsiaalset SIM-kaarti sinu autentimiseks. Kinnitad sisselogimise, sisestades PINi oma telefonis. Eraldi rakendust pole vaja — autentimine toimub SIM-kaardi tasandil. Tagab seaduslikult tunnustatud elektroonilise identiteedi.
 
 ### ID-kaart
 

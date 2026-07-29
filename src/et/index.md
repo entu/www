@@ -1,12 +1,12 @@
 ---
 layout: page
-title: Struktuursed andmed ilma programmeerimata
+title: Kodu kõigele, mille üle sa arvet pead
 description: Entu on koodivaba objektiandmebaas. Modelleeri objektid, parameetrid ja juurdepääsuõigused kasutajaliideses — ilma migratsioonide, skeemifailide ja taustakoodita.
 sidebar: false
 
 hero:
   kicker: Ehita oma andmebaas — koodivabalt
-  heading: Struktuursed andmed, ilma programmeerimata.
+  heading: Kodu kõigele, mille üle sa arvet pead.
   lead: Raamatud, arved, museaalid, inimesed — Entu hoiab neid kõiki objektidena just nende väljadega, mille ise valid. Loo ja muuda oma andmemudelit otse kasutajaliideses. Ei mingeid migratsioone, skeemifaile ega juurutamisi.
   signup: Registreeru
   signupLink: https://entu.app/new?locale=et

@@ -1,12 +1,12 @@
 ---
 layout: page
-title: Structured data, without backend code
+title: A home for everything you keep track of
 description: Entu is a no-code object database. Model entities, properties, and access rights in the UI — no migrations, no schema files, no backend code.
 sidebar: false
 
 hero:
   kicker: Build your own database — no code
-  heading: Structured data, without backend code.
+  heading: A home for everything you keep track of.
   lead: Books, invoices, artefacts, people — Entu stores them all as entities with the fields you choose. Build and change your data model right in the UI. No migrations, no schema files, no deployments.
   signup: Sign Up
   signupLink: https://entu.app/new?locale=en

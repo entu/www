@@ -28,11 +28,11 @@ Sign in with your Apple ID. Apple gives you the option to hide your real email a
 
 ### Smart-ID
 
-Smart-ID is a mobile app used across the Baltic states and Central Europe for strong electronic identification. After entering your personal code, you confirm the login in the Smart-ID app on your phone. Provides a legally recognised electronic identity in Estonia, Latvia, and Lithuania.
+Smart-ID is a mobile app widely used in Estonia for strong electronic identification. After entering your personal code, you confirm the login in the Smart-ID app on your phone. Provides a legally recognised electronic identity in Estonia.
 
 ### Mobile-ID
 
-Mobile-ID uses a special SIM card issued by mobile operators in Estonia and Lithuania to authenticate you. You confirm the login by entering a PIN on your phone. No separate app is needed — authentication happens on the SIM level. Provides a legally recognised electronic identity.
+Mobile-ID uses a special SIM card issued by Estonian mobile operators to authenticate you. You confirm the login by entering a PIN on your phone. No separate app is needed — authentication happens on the SIM level. Provides a legally recognised electronic identity.
 
 ### ID Card
 

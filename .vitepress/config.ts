@@ -133,6 +133,7 @@ export default defineConfig({
       description: 'Ehita oma andmemudel programmeerimata — seadista objektid, parameetrid ja juurdepääsuõigused täielikult kasutajaliidese kaudu',
       themeConfig: {
         nav: [
+          { text: 'Alustamine', link: '/et/getting-started/' },
           { text: 'Ülevaade', link: '/et/overview/' },
           { text: 'Seadistamine', link: '/et/configuration/entity-types' },
           { text: 'API', link: '/et/api/quickstart' },
@@ -140,6 +141,16 @@ export default defineConfig({
           { text: 'Logi sisse', link: 'https://entu.app' }
         ],
         sidebar: [
+          {
+            text: 'Alustamine',
+            items: [
+              { text: 'Loo oma konto', link: '/et/getting-started/' },
+              { text: 'Lisa esimesed kirjed', link: '/et/getting-started/add-data' },
+              { text: 'Leia oma andmed', link: '/et/getting-started/find' },
+              { text: 'Jaga ja kutsu', link: '/et/getting-started/share' },
+              { text: 'Entu sinu telefonis', link: '/et/getting-started/mobile' }
+            ]
+          },
           {
             text: 'Ülevaade',
             items: [
@@ -172,13 +183,8 @@ export default defineConfig({
               { text: 'Valemid', link: '/et/api/formulas' },
               { text: 'Failid', link: '/et/api/files' },
               { text: 'AI assistent', link: '/et/api/ai' },
+              { text: 'Andmebaasi mutatsioonid', link: '/et/db-mutations' },
               { text: 'API viide', link: 'https://api.entu.app/docs' }
-            ]
-          },
-          {
-            text: 'Muudatuste logi',
-            items: [
-              { text: 'Muudatuste logi', link: '/et/changelog' }
             ]
           }
         ],
@@ -203,6 +209,7 @@ export default defineConfig({
   themeConfig: {
     logo: '/logo.png',
     nav: [
+      { text: 'Getting Started', link: '/getting-started/' },
       { text: 'Overview', link: '/overview/' },
       { text: 'Configuration', link: '/configuration/entity-types' },
       { text: 'API', link: '/api/quickstart' },
@@ -210,6 +217,16 @@ export default defineConfig({
       { text: 'Sign In', link: 'https://entu.app' }
     ],
     sidebar: [
+      {
+        text: 'Getting Started',
+        items: [
+          { text: 'Create Your Account', link: '/getting-started/' },
+          { text: 'Add Your First Entries', link: '/getting-started/add-data' },
+          { text: 'Find Your Data', link: '/getting-started/find' },
+          { text: 'Share and Invite', link: '/getting-started/share' },
+          { text: 'Entu on Your Phone', link: '/getting-started/mobile' }
+        ]
+      },
       {
         text: 'Overview',
         items: [
@@ -242,13 +259,8 @@ export default defineConfig({
           { text: 'Formulas', link: '/api/formulas' },
           { text: 'Files', link: '/api/files' },
           { text: 'AI Assistant', link: '/api/ai' },
+          { text: 'Database Mutations', link: '/db-mutations' },
           { text: 'API Reference', link: 'https://api.entu.app/docs' }
-        ]
-      },
-      {
-        text: 'Changelog',
-        items: [
-          { text: 'Changelog', link: '/changelog' }
         ]
       }
     ],

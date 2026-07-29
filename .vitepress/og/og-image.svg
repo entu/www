@@ -13,8 +13,8 @@
   <!-- ===== Left column: text ===== -->
   <text x="80" y="150" class="mono" font-size="21" letter-spacing="3" fill="#e8452c">NO-CODE OBJECT DATABASE</text>
 
-  <text x="78" y="244" class="display" font-size="52" font-weight="700" fill="#141414" letter-spacing="-1.2">Structured data,</text>
-  <text x="78" y="308" class="display" font-size="52" font-weight="700" fill="#141414" letter-spacing="-1.2">without backend code.</text>
+  <text x="78" y="244" class="display" font-size="52" font-weight="700" fill="#141414" letter-spacing="-1.2">A home for everything</text>
+  <text x="78" y="308" class="display" font-size="52" font-weight="700" fill="#141414" letter-spacing="-1.2">you keep track of.</text>
 
   <text x="80" y="404" class="display" font-size="25" fill="#555">Books, invoices, artefacts, people — stored as</text>
   <text x="80" y="440" class="display" font-size="25" fill="#555">entities with the fields you choose.</text>

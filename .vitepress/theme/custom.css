@@ -457,14 +457,14 @@
    ============================================================ */
 
 .VPDocAsideOutline .outline-title {
-  font: 600 12px var(--e-font-mono);
+  font: 600 12px/32px var(--e-font-mono);
   letter-spacing: 0.1em;
   text-transform: uppercase;
   color: var(--e-muted);
 }
 
 .VPDocAsideOutline .outline-link {
-  font: 500 13px var(--e-font-body);
+  font: 500 13px/32px var(--e-font-body);
   color: var(--e-secondary);
 }
 
