@@ -41,6 +41,21 @@ Kaks andmebaasi loovad **ühenduse** — kumbki pool loob oma andmebaasis ühend
 
 Lähteandmebaas määrab, **mis lahkub** (lubatud loend ja objektipõhised õigused). Sihtandmebaas määrab, **kuhu see jõuab ja kes seda näeb** (ülemobjekt, vaikimisi nähtavus). Kumbki pool ei kontrolli teise poolt ning kumbki saab jagamise lõpetada, kustutades oma ühenduse objekti.
 
+## Ühenduse loomine lingist
+
+Ühenduse paari ei pea käsitsi looma. Vastuvõttev andmebaas — näiteks turuplats — koostab kokkuleppe kasutajaliideses (tüübid, omaduste lubatud loend, peegelobjektide ülemobjekt, nähtavus) ja genereerib **allkirjastatud kutselingi**. Lingi žetoon kannab kogu kokkulepet; genereerimine ei salvesta midagi ja lingi eiramine ei tee midagi. See on ettepanek, mitte objekt.
+
+Vastuvõtmine:
+
+1. Ava link ja logi sisse oma olemasoleva Entu identiteediga.
+2. Vali, milline sinu andmebaasidest liitub.
+3. Vali, mida vastu võtad. Ettepanek kuvatakse valikuna — objektitüübid koos omadustega, leituna sinu enda definitsioonidest. Eemalda linnuke kõigelt, mida sa jagada ei soovi; tüübid, mida sul pole, kuvatakse mittekohalduvana.
+4. Kinnita — mõlemad ühenduse objektid luuakse automaatselt ning `share_out` sisaldab täpselt sinu valikut: sinu andmebaasist saab lahkuda ainult vastuvõetud osa, mitte ettepanek. Soovi korral anna uuele ühendusele kohe vaataja õigused mõnel kogul.
+
+Kuna sünkroonitakse alati mõlema ühenduse poole **ühisosa**, võivad eri osalejad võtta samast lingist vastu erinevad osad — ettepaneku tegija pool ei vaja osalejapõhist seadistust.
+
+Sama linki võib saata ükskõik mitmele osalejale. **Kokkuleppe muutmine** on lihtsalt uus link: kuna igal andmebaasipaaril on üks ühendus, uuendab uuema lingi vastuvõtmine olemasolevaid ühenduse objekte. Valikuvaade avaneb eeltäidetuna sinu kehtiva kokkuleppega, kusjuures uued ettepanekud on märgitud uuena ja ilma linnukeseta — muudatus ei saa kunagi vaikimisi laiendada seda, mida sa saadad. Antud vaataja õigused jäävad kehtima — midagi ei pea uuesti jagama — ning sünkroonimismootor arvutab kõik peegelobjektid uue kokkuleppe järgi ümber. Iga ühendus jätab meelde kokkuleppe väljastamise aja, seega vana link ei saa uuemat kokkulepet tühistada. Ootel lingid aeguvad ise ja muutuvad kehtetuks, kui väljastanud haldur kaotab oma õigused.
+
 ## Objekti jagamine
 
 Anna ühendusele objektil `_viewer` õigus — sama dialoog ja sama mehhanism nagu inimesega jagamisel. Kaks tuttavat reeglit toimivad automaatselt:

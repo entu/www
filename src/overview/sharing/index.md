@@ -41,6 +41,21 @@ A connection consists of two ordinary entities, one in each database. Data flows
 
 The source controls **what leaves** (whitelist plus per-entity grants). The target controls **where it lands and who sees it** (parent, default visibility). Neither side controls the other's half, and either side can revoke by deleting its own connection entity.
 
+## Setting up a connection from a link
+
+The connection pair does not have to be created by hand. The receiving database — say, the marketplace — composes the agreement in the UI (types, property whitelist, mirror parent, visibility) and mints a **signed invite link**. The link's token carries the entire agreement; minting it stores nothing, and ignoring it does nothing. It is a proposal, not an object.
+
+Accepting it:
+
+1. Open the link and sign in with your existing Entu identity.
+2. Choose which of your databases joins.
+3. Choose what to accept. The proposal is shown as a selection — entity types with their properties, resolved against your own definitions. Untick anything you do not want to share; types you don't have are shown as not applicable.
+4. Confirm — both connection entities are created automatically, and the `share_out` contains exactly your selection: the accepted subset, not the proposal, is what can ever leave your database. Optionally grant the new connection viewer rights on a collection right away.
+
+Because what syncs is always the **intersection** of both connection halves, different participants can accept different subsets of the same link — the proposer's side needs no per-participant configuration.
+
+The same link can be sent to any number of participants. **Amending the agreement** is simply a new link: because each database pair has one connection, accepting a newer link updates the existing connection entities. The selection screen opens pre-filled with your current agreement, with newly proposed items marked as new and unticked — an amendment can never silently widen what you send. Existing viewer grants remain valid — nothing needs to be re-shared — and the sync engine re-projects all mirrors to the new agreement. Each connection remembers the issue time of the agreement it was created from, so an old link cannot downgrade a newer agreement. Outstanding links expire on their own and become invalid if the issuing administrator loses their rights.
+
 ## Sharing an entity
 
 Grant the connection `_viewer` rights on the entity — the same drawer, the same mechanism as sharing with a person. Two familiar rules follow automatically:
