@@ -36,25 +36,28 @@ Kaks andmebaasi loovad **ühenduse** — kumbki pool loob oma andmebaasis ühend
 | `name` | Kuvatav nimi, nt "Tartu raamatukogu" |
 | `database` | Lähteandmebaasi nimi |
 | `type` | Milliseid objektitüüpe vastu võtan |
+| `property` | Milliseid pakutud omadusi vastu võtan |
 | `parent` | Kohalik objekt, mille alla saabuvad peegelobjektid paigutatakse |
 | `sharing` | Peegelobjektidele rakendatav vaikimisi nähtavus (`private` / `domain` / `public`) |
+
+`type` ja `property` on tavalised mitmeväärtuselised viiteomadused, mis osutavad andmebaasi **enda definitsiooniobjektidele**. Kuna iga omaduse definitsioon on oma tüübi definitsiooni alam-objekt, on lame loend üheselt mõistetav — omadus nimega `aasta` *raamatu* all ja sama nimi *kunstiteose* all on erinevad objektid. Kumbki pool viitab oma definitsioonidele; sünkroonimismootor teisendab mõlemad pooled tüübi ja omaduse **nimepaarideks** ning sünkroonib nende ühisosa.
 
 Lähteandmebaas määrab, **mis lahkub** (lubatud loend ja objektipõhised õigused). Sihtandmebaas määrab, **kuhu see jõuab ja kes seda näeb** (ülemobjekt, vaikimisi nähtavus). Kumbki pool ei kontrolli teise poolt ning kumbki saab jagamise lõpetada, kustutades oma ühenduse objekti.
 
 ## Ühenduse loomine lingist
 
-Ühenduse paari ei pea käsitsi looma. Vastuvõttev andmebaas — näiteks turuplats — koostab kokkuleppe kasutajaliideses (tüübid, omaduste lubatud loend, peegelobjektide ülemobjekt, nähtavus) ja genereerib **allkirjastatud kutselingi**. Lingi žetoon kannab kogu kokkulepet; genereerimine ei salvesta midagi ja lingi eiramine ei tee midagi. See on ettepanek, mitte objekt.
+Kummagi ühenduse poole loovad alati selle andmebaasi enda kasutajad — kuid keegi ei pea seadistust käsitsi kopeerima. Jagav andmebaas loob oma `share_out` objekti nagu tavaliselt ja genereerib sellest **allkirjastatud kutselingi**. Lingi žetoon kannab pakkumist — lähteandmebaasi nime ning pakutavate tüüpide ja omaduste nimesid, needsamad kaks lamedat loendit, mida `share_out` hoiab, teisendatuna nimedeks. Genereerimine ei salvesta midagi lisaks, lingi eiramine ei tee midagi ning võõrasse andmebaasi ei looda kunagi ühtegi objekti: žetoon on puhas infoedastus kahe kohaliku toimingu vahel.
 
 Vastuvõtmine:
 
 1. Ava link ja logi sisse oma olemasoleva Entu identiteediga.
-2. Vali, milline sinu andmebaasidest liitub.
-3. Vali, mida vastu võtad. Ettepanek kuvatakse valikuna — objektitüübid koos omadustega, leituna sinu enda definitsioonidest. Eemalda linnuke kõigelt, mida sa jagada ei soovi; tüübid, mida sul pole, kuvatakse mittekohalduvana.
-4. Kinnita — mõlemad ühenduse objektid luuakse automaatselt ning `share_out` sisaldab täpselt sinu valikut: sinu andmebaasist saab lahkuda ainult vastuvõetud osa, mitte ettepanek. Soovi korral anna uuele ühendusele kohe vaataja õigused mõnel kogul.
+2. Vali, milline sinu andmebaasidest hakkab jagatud objekte vastu võtma.
+3. Vali, mida vastu võtad — kõik või osa pakutavatest tüüpidest ja omadustest, leituna sinu enda definitsioonidest (tüübid, mida sul pole, kuvatakse mittekohalduvana). Vali, kuhu peegelobjektid paigutatakse ja kuidas need nähtavad on.
+4. Kinnita — sinu `share_in` luuakse sinu enda andmebaasis, sinu enda poolt, täpselt sinu valikutega.
 
-Kuna sünkroonitakse alati mõlema ühenduse poole **ühisosa**, võivad eri osalejad võtta samast lingist vastu erinevad osad — ettepaneku tegija pool ei vaja osalejapõhist seadistust.
+Kuna sünkroonitakse alati mõlema poole **ühisosa**, võib vastuvõtja võtta vastu vähem, kui pakutakse — ja vananenud link ei saa kunagi midagi laiendada: aegunud pakkumise vastuvõtmine loetleb lihtsalt asju, mida lähteandmebaas enam ei saada, ja need ei sünkroonita kahjutult midagi.
 
-Sama linki võib saata ükskõik mitmele osalejale. **Kokkuleppe muutmine** on lihtsalt uus link: kuna igal andmebaasipaaril on üks ühendus, uuendab uuema lingi vastuvõtmine olemasolevaid ühenduse objekte. Valikuvaade avaneb eeltäidetuna sinu kehtiva kokkuleppega, kusjuures uued ettepanekud on märgitud uuena ja ilma linnukeseta — muudatus ei saa kunagi vaikimisi laiendada seda, mida sa saadad. Antud vaataja õigused jäävad kehtima — midagi ei pea uuesti jagama — ning sünkroonimismootor arvutab kõik peegelobjektid uue kokkuleppe järgi ümber. Iga ühendus jätab meelde kokkuleppe väljastamise aja, seega vana link ei saa uuemat kokkulepet tühistada. Ootel lingid aeguvad ise ja muutuvad kehtetuks, kui väljastanud haldur kaotab oma õigused.
+**Muutmine** ei vaja eraldi mehhanismi: kumbki pool omab oma poolt ja muudab seda vabalt igal ajal. Lähteandmebaas laiendab või kitsendab pakkumist otse `share_out` objektil, vastuvõtja kohandab oma valikut `share_in` objektil ning sünkroonimismootor arvutab peegelobjektid ümber. Uut linki on vaja ainult siis, kui vastuvõtja peaks nägema laienenud pakkumist, et sellest rohkem vastu võtta. Lingid aeguvad ise ning lekkinud link on peaaegu väärtusetu — `share_out` nimetab oma sihtandmebaasi, seega ükski teine andmebaas ei saa sellega paarduda.
 
 ## Objekti jagamine
 

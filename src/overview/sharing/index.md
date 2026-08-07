@@ -36,25 +36,28 @@ A connection consists of two ordinary entities, one in each database. Data flows
 | `name` | Display name, e.g. "Tartu Library" |
 | `database` | Source database name |
 | `type` | Which entity types I accept |
+| `property` | Which of the offered properties I accept |
 | `parent` | Local entity under which incoming mirrors are placed |
 | `sharing` | Default visibility (`private` / `domain` / `public`) applied to mirrors |
+
+The `type` and `property` lists are plain multi-valued reference properties pointing at the database's **own definition entities**. Because every property definition is a child of its type definition, a flat list is unambiguous — a property named `year` under *book* and one under *artwork* are different entities. Each side references its own definitions; the sync engine resolves both sides to type-and-property **name pairs** and syncs their intersection.
 
 The source controls **what leaves** (whitelist plus per-entity grants). The target controls **where it lands and who sees it** (parent, default visibility). Neither side controls the other's half, and either side can revoke by deleting its own connection entity.
 
 ## Setting up a connection from a link
 
-The connection pair does not have to be created by hand. The receiving database — say, the marketplace — composes the agreement in the UI (types, property whitelist, mirror parent, visibility) and mints a **signed invite link**. The link's token carries the entire agreement; minting it stores nothing, and ignoring it does nothing. It is a proposal, not an object.
+Each half of the connection is always created by its own database's users — but nobody has to copy configuration by hand. The sharing database creates its `share_out` as usual and mints a **signed invite link** from it. The link's token carries the offer — the source database name and the offered type and property names, the same two plain lists the `share_out` stores, resolved to names. Minting stores nothing extra, ignoring the link does nothing, and no entity is ever created in a foreign database: the token is pure information transfer between two local actions.
 
 Accepting it:
 
 1. Open the link and sign in with your existing Entu identity.
-2. Choose which of your databases joins.
-3. Choose what to accept. The proposal is shown as a selection — entity types with their properties, resolved against your own definitions. Untick anything you do not want to share; types you don't have are shown as not applicable.
-4. Confirm — both connection entities are created automatically, and the `share_out` contains exactly your selection: the accepted subset, not the proposal, is what can ever leave your database. Optionally grant the new connection viewer rights on a collection right away.
+2. Choose which of your databases will receive the shared entities.
+3. Select what to accept — all or some of the offered types and properties, resolved against your own definitions (types you don't have are shown as not applicable). Choose where mirrors will be placed and how they will be visible.
+4. Confirm — your `share_in` is created in your own database, by you, with exactly your choices.
 
-Because what syncs is always the **intersection** of both connection halves, different participants can accept different subsets of the same link — the proposer's side needs no per-participant configuration.
+Because what syncs is always the **intersection** of both halves, a receiver can accept less than what is offered — and a stale link can never widen anything: accepting an outdated offer merely lists things the source no longer sends, which harmlessly sync nothing.
 
-The same link can be sent to any number of participants. **Amending the agreement** is simply a new link: because each database pair has one connection, accepting a newer link updates the existing connection entities. The selection screen opens pre-filled with your current agreement, with newly proposed items marked as new and unticked — an amendment can never silently widen what you send. Existing viewer grants remain valid — nothing needs to be re-shared — and the sync engine re-projects all mirrors to the new agreement. Each connection remembers the issue time of the agreement it was created from, so an old link cannot downgrade a newer agreement. Outstanding links expire on their own and become invalid if the issuing administrator loses their rights.
+**Amending** needs no special mechanism: each side owns its half and edits it freely at any time. The source widens or narrows its offer directly on `share_out`, the receiver adjusts its acceptance on `share_in`, and the sync engine re-projects all mirrors. A new link is only needed when the receiver should see an expanded offer to accept more of it. Links expire on their own, and a leaked link is nearly worthless — the `share_out` names its intended target database, so no other database can pair with it.
 
 ## Sharing an entity
 
