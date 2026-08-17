@@ -12,24 +12,22 @@ Igal Entu kontol on oma eraldiseisev andmebaas. See eraldatus on põhigarantii �
 
 Objektide jagamine teeb selle võimalikuks eraldatust nõrgendamata: ühe andmebaasi objekti saab **peegeldada** teise andmebaasi, hoides seda automaatselt sünkroonis, samal ajal kui originaal ei lahku kunagi oma kodust.
 
-## Idee ühe lõiguga
+## Kuidas see töötab
 
-Kaks andmebaasi loovad **ühenduse** — kumbki pool loob oma andmebaasis ühenduse objekti, seega nõuab jagamine alati vastastikust nõusolekut. Edasi ei ole jagamises midagi uut õppida: omanik annab ühendusele **vaataja õigused** täpselt samamoodi nagu inimesele. Sünkroonimismootor märkab õiguse andmist ja loob sihtandmebaasi **peegelobjekti** — kirjutuskaitstud koopia lubatud omadustest. Vaataja õiguse eemaldamine eemaldab peegelobjekti.
+Kaks andmebaasi loovad **ühenduse** — kumbki pool loob oma andmebaasis ühe ühenduse objekti, seega nõuab jagamine alati vastastikust nõusolekut ja kumbki pool saab selle lõpetada, kustutades oma poole. Edasi ei ole midagi uut õppida: omanik annab ühendusele objektil **vaataja õigused** täpselt samamoodi nagu inimesele. Sünkroonimismootor märkab õigust ja loob vastuvõtvasse andmebaasi **peegelobjekti** — kirjutuskaitstud koopia kokkulepitud omadustest. Õiguse eemaldamine eemaldab peegelobjekti.
 
 ## Ühenduse paar
 
-Ühendus koosneb kahest tavalisest objektist, üks kummaski andmebaasis. Andmed liiguvad ainult siis, kui **mõlemad** on olemas.
-
-**`share_out`** — luuakse lähteandmebaasis: *"olen nõus saatma"*.
+**`share_out`** — lähteandmebaasis: *"olen nõus saatma"*.
 
 | Omadus | Tähendus |
 |---|---|
 | `name` | Õiguste dialoogis kuvatav nimi, nt "Turuplats" |
 | `database` | Sihtandmebaasi nimi |
-| `type` | Millised minu objektitüübid võivad olla jagatud |
-| `property` | Lubatud loend: millised omaduste definitsioonid võivad liikuda |
+| `type` | Milliseid objektitüüpe võib jagada |
+| `property` | Millised omadused võivad liikuda |
 
-**`share_in`** — luuakse sihtandmebaasis: *"võtan vastu"*.
+**`share_in`** — sihtandmebaasis: *"võtan vastu"*.
 
 | Omadus | Tähendus |
 |---|---|
@@ -37,58 +35,38 @@ Kaks andmebaasi loovad **ühenduse** — kumbki pool loob oma andmebaasis ühend
 | `database` | Lähteandmebaasi nimi |
 | `type` | Milliseid objektitüüpe vastu võtan |
 | `property` | Milliseid pakutud omadusi vastu võtan |
-| `parent` | Kohalik objekt, mille alla saabuvad peegelobjektid paigutatakse |
-| `sharing` | Peegelobjektidele rakendatav vaikimisi nähtavus (`private` / `domain` / `public`) |
+| `parent` | Kohalik objekt (või mitu), mille alla peegelobjektid paigutatakse |
+| `sharing` | Peegelobjektidele rakendatav nähtavus (`private` / `domain` / `public`) |
+| `inherit` | Kui määratud, pärivad peegelobjektid nähtavuse õigused ka oma ülemobjektidelt |
 
-`type` ja `property` on tavalised mitmeväärtuselised viiteomadused, mis osutavad andmebaasi **enda definitsiooniobjektidele**. Kuna iga omaduse definitsioon on oma tüübi definitsiooni alam-objekt, on lame loend üheselt mõistetav — omadus nimega `aasta` *raamatu* all ja sama nimi *kunstiteose* all on erinevad objektid. Kumbki pool viitab oma definitsioonidele; sünkroonimismootor teisendab mõlemad pooled tüübi ja omaduse **nimepaarideks** ning sünkroonib nende ühisosa.
+`type` ja `property` loendid viitavad andmebaasi **enda definitsiooniobjektidele**, seega on lame loend üheselt mõistetav — omadus nimega `aasta` *raamatu* all on erinev definitsioon kui sama nimi *kunstiteose* all. Mootor teisendab mõlemad pooled tüübi ja omaduse nimedeks ning sünkroonib nende **ühisosa**: lähteandmebaas otsustab, mis võib lahkuda; vastuvõtja otsustab, mida ta vastu võtab, kuhu peegelobjektid paigutuvad ja kes neid näeb.
 
-Lähteandmebaas määrab, **mis lahkub** (lubatud loend ja objektipõhised õigused). Sihtandmebaas määrab, **kuhu see jõuab ja kes seda näeb** (ülemobjekt, vaikimisi nähtavus). Kumbki pool ei kontrolli teise poolt ning kumbki saab jagamise lõpetada, kustutades oma ühenduse objekti.
+## Ühenduse loomine kutselingiga
 
-## Ühenduse loomine lingist
+Keegi ei pea seadistust käsitsi kopeerima. Jagav andmebaas genereerib oma `share_out` objektist **allkirjastatud lingi**; link kannab pakkumist — lähteandmebaasi nime ning pakutavate tüüpide ja omaduste nimesid. Vastuvõtja avab lingi, logib sisse, valib vastuvõtva andmebaasi, valib mida vastu võtta ja kuhu peegelobjektid paigutada, ning kinnitab. Tema `share_in` luuakse tema enda andmebaasis täpselt tema valikutega — võõrasse andmebaasi ei looda kunagi ühtegi objekti.
 
-Kummagi ühenduse poole loovad alati selle andmebaasi enda kasutajad — kuid keegi ei pea seadistust käsitsi kopeerima. Jagav andmebaas loob oma `share_out` objekti nagu tavaliselt ja genereerib sellest **allkirjastatud kutselingi**. Lingi žetoon kannab pakkumist — lähteandmebaasi nime ning pakutavate tüüpide ja omaduste nimesid, needsamad kaks lamedat loendit, mida `share_out` hoiab, teisendatuna nimedeks. Genereerimine ei salvesta midagi lisaks, lingi eiramine ei tee midagi ning võõrasse andmebaasi ei looda kunagi ühtegi objekti: žetoon on puhas infoedastus kahe kohaliku toimingu vahel.
+Lingid on olemuselt madala riskiga: need aeguvad, vananenud pakkumine saab kõige rohkem loetleda asju, mida lähteandmebaas enam ei saada (ja need ei sünkroonita midagi), ning lekkinud link on teistele kasutu, sest `share_out` nimetab oma sihtandmebaasi. Kokkuleppe hilisem muutmine ei vaja uut linki — kumbki pool muudab oma poolt igal ajal ja peegelobjektid arvutatakse ümber. Uut linki on vaja ainult laienenud pakkumise näitamiseks vastuvõtjale.
 
-Vastuvõtmine:
-
-1. Ava link ja logi sisse oma olemasoleva Entu identiteediga.
-2. Vali, milline sinu andmebaasidest hakkab jagatud objekte vastu võtma.
-3. Vali, mida vastu võtad — kõik või osa pakutavatest tüüpidest ja omadustest, leituna sinu enda definitsioonidest (tüübid, mida sul pole, kuvatakse mittekohalduvana). Vali, kuhu peegelobjektid paigutatakse ja kuidas need nähtavad on.
-4. Kinnita — sinu `share_in` luuakse sinu enda andmebaasis, sinu enda poolt, täpselt sinu valikutega.
-
-Kuna sünkroonitakse alati mõlema poole **ühisosa**, võib vastuvõtja võtta vastu vähem, kui pakutakse — ja vananenud link ei saa kunagi midagi laiendada: aegunud pakkumise vastuvõtmine loetleb lihtsalt asju, mida lähteandmebaas enam ei saada, ja need ei sünkroonita kahjutult midagi.
-
-**Muutmine** ei vaja eraldi mehhanismi: kumbki pool omab oma poolt ja muudab seda vabalt igal ajal. Lähteandmebaas laiendab või kitsendab pakkumist otse `share_out` objektil, vastuvõtja kohandab oma valikut `share_in` objektil ning sünkroonimismootor arvutab peegelobjektid ümber. Uut linki on vaja ainult siis, kui vastuvõtja peaks nägema laienenud pakkumist, et sellest rohkem vastu võtta. Lingid aeguvad ise ning lekkinud link on peaaegu väärtusetu — `share_out` nimetab oma sihtandmebaasi, seega ükski teine andmebaas ei saa sellega paarduda.
-
-## Objekti jagamine
+## Objektide jagamine
 
 Anna ühendusele objektil `_viewer` õigus — sama dialoog ja sama mehhanism nagu inimesega jagamisel. Kaks tuttavat reeglit toimivad automaatselt:
 
-- **Õiguste pärimine toimib.** Vaataja õiguse andmine ülemobjektil, mille alam-objektidel on `_inheritrights`, jagab kogu haru. Ühe õigusega saab avaldada terve kogu.
+- **Õiguste pärimine toimib.** Vaataja õigus ülemobjektil, mille alam-objektidel on `_inheritrights`, jagab kogu haru — ühe õigusega saab avaldada terve kogu.
 - **`_noaccess` toimib.** Üksikuid alam-objekte saab päritud jagamisest välja jätta.
 
-Ühenduse jaoks on tähenduslik ainult `_viewer`. Ühendusele `_editor`, `_expander` või `_owner` õiguse andmine lükatakse tagasi — peegeldamine on rangelt ühesuunaline.
-
-## Kuidas sünkroonimine töötab
-
-Mootor töötab olemasoleva taustatöötleja sees. Iga omaduse muudatus paneb objekti niigi ümberarvutamise järjekorda; jagamine lisab lihtsalt viimase sammu:
-
-1. **Tuvasta** — kas objekti ligipääsuloendis on `share_out` ühendus?
-2. **Kontrolli** — kas ühenduse paar on aktiivne ja kas objekti tüüp on mõlemal pool lubatud?
-3. **Projekteeri** — jäta alles ainult lubatud omadused. Ligipääsuvõtmed ja õiguste omadused ei liigu kunagi, sõltumata seadistusest.
-4. **Kirjuta peegelobjekt** — lisa või uuenda peegelobjekti dokument sihtandmebaasis; kui midagi ei muutunud, jäetakse kirjutamine vahele (räsivõrdlus).
-5. **Eemalda** — kui kontroll ebaõnnestub, aga peegelobjekt on olemas (õigus eemaldatud, objekt kustutatud, lubatud loend kitsendatud, ühendus lõpetatud), siis peegelobjekt eemaldatakse.
-
-Kui ühenduse paar muutub aktiivseks, paneb ühekordne järelkäik järjekorda kõik juba jagatud objektid. Kui paar muutub mitteaktiivseks, eemaldatakse kõik selle peegelobjektid samal viisil.
+Ühenduse jaoks on tähenduslik ainult `_viewer`; muud õigused lükatakse tagasi — peegeldamine on rangelt ühesuunaline.
 
 ## Peegelobjektid
 
-Peegelobjekt on sihtandmebaasi objekt kolme teadliku disainivalikuga:
+Peegelobjekt on vastuvõtva andmebaasi objekt kolme teadliku disainivalikuga:
 
-**Sama `_id` mis originaalil.** Objektide id-d on globaalselt unikaalsed, seega kasutab peegelobjekt originaali id-d. See teeb jagamise idempotentseks: jaga → lõpeta jagamine → jaga uuesti annab alati sama identiteedi ning kõik, mis peegelobjektile viitas, taastub automaatselt.
+**Sama `_id` mis originaalil.** Id-d on globaalselt unikaalsed, seega kasutab peegelobjekt originaali oma. Jaga → lõpeta → jaga uuesti annab alati sama identiteedi ning kõik, mis peegelobjektile viitas, taastub automaatselt.
 
-**Kopeeritakse ainult objekti dokument — mitte omaduste dokumendid.** Peegelobjekt kannab projekteeritud väärtusi ning lisaks välju `_origin_db` (kust see pärineb) ja `_origin_hash` (muudatuste tuvastus). Ajalugu jääb originaali juurde, kuhu see kuulubki. Seetõttu jätab sihtandmebaasi enda taustatöötleja peegelobjektid vahele ning omaduste otsene kirjutamine peegelobjektile lükatakse tagasi viitega originaalile.
+**Kopeeritakse ainult objekti dokument — mitte omaduste dokumendid.** Peegelobjekt kannab projekteeritud väärtusi ning välju `_origin_db` (päritolu) ja `_origin_hash` (muudatuste tuvastus). Omaduste ajalugu jääb originaali juurde. Otsene kirjutamine peegelobjektile lükatakse tagasi viitega originaalile.
 
-**Kirjutuskaitstud sisu, kohalik kontekst.** Peegeldatud sisu ei saa sihtandmebaasis muuta — kuid sihtandmebaas saab peegelobjektile lisada omi **alam-objekte**: kommentaare, taotlusi, märkmeid. Need on tavalised kohalikud objektid ega sünkroniseeru kuhugi.
+**Kirjutuskaitstud sisu, kohalik kontekst.** Vastuvõttev andmebaas saab peegelobjektile lisada omi **alam-objekte** — kommentaare, taotlusi, märkmeid. Need on tavalised kohalikud objektid ega sünkroniseeru kuhugi.
+
+Peegelobjektide õigused määravad ainult **nähtavuse**, tuletatuna `share_in` seadetest: `sharing` tase ning, kui `inherit` on määratud, seadistatud ülemobjektidelt päritud õigused. Vastuvõtja haldab peegelobjektide nähtavust nagu iga muud kogumit — määrates õigused ülemobjektil. Kuid isegi kasutaja, kes saab pärimise kaudu toimetaja või omaniku taseme, ei saa peegelobjekti muuta; päritolu kaitse on õigustest tugevam.
 
 ### Millised süsteemsed omadused liiguvad?
 
@@ -96,39 +74,47 @@ Peegelobjekt on sihtandmebaasi objekt kolme teadliku disainivalikuga:
 |---|---|---|
 | `_id` | jah | Sama id mis originaalil |
 | `_type` | teisendatakse | Leitakse nime järgi sihtandmebaasi enda objektitüübi definitsioon |
-| `_parent` | tingimuslikult | Säilib, kui ülemobjekt on samuti peegeldatud (harud taastavad oma hierarhia); muidu kasutatakse `share_in` ülemobjekti |
-| `_created` | jah | Originaali loomisaeg on aus metaandmestik |
-| `_owner`, `_editor`, `_expander`, `_viewer`, `_noaccess` | mitte kunagi | Õigused ei liigu; peegelobjekti nähtavus tuleb `share_in` seadistusest |
-| `_sharing`, `_inheritrights` | mitte kunagi | Sihtandmebaas otsustab oma nähtavuse ise |
+| `_parent` | tingimuslikult | Säilib, kui ülemobjekt on samuti peegeldatud (harud säilitavad hierarhia); muidu kasutatakse `share_in` ülemobjekti |
+| `_created` | jah | Originaali loomisaeg |
+| `_owner`, `_editor`, `_expander`, `_viewer`, `_noaccess` | mitte kunagi | Õigused ei liigu; peegelobjekti nähtavus tuleb `share_in` seadetest |
+| `_sharing`, `_inheritrights` | mitte kunagi | Vastuvõtja otsustab oma nähtavuse ise |
 | `_deleted` | mitte kunagi | Kustutamine originaalis eemaldab hoopis peegelobjekti |
 
-## Viited
+### Viited
 
-Kuna peegelobjektid säilitavad originaali id-d, kopeeritakse viiteomadused **muutmata kujul** — teisendustabeleid pole:
+Kuna peegelobjektid säilitavad originaali id-d, kopeeritakse viiteomadused muutmata kujul:
 
 - Kui viidatud objekt on samuti jagatud, toimib viide sihtandmebaasis.
-- Kui ei ole, kuvatakse see tavalise tekstina (viite kuvanimi salvestatakse väärtuse kõrvale).
-- Kui viidatud objekt jagatakse *hiljem*, hakkab viide kohe toimima — tagasiulatuvalt, midagi ümber kirjutamata.
+- Kui ei ole, kuvatakse see tavalise tekstina (kuvanimi salvestatakse väärtuse kõrvale).
+- Kui viidatud objekt jagatakse *hiljem*, hakkab viide kohe toimima.
 
-## Jagamise lõpetamine, kustutamine, uuesti jagamine
+## Sünkroonimine ja elutsükkel
 
-Vaataja õiguse eemaldamine, originaalobjekti kustutamine või ühenduse lõpetamine viivad kõik sama tulemuseni: peegelobjekti dokument eemaldatakse. Kohalikke alam-objekte (kommentaarid, taotlused) **ei puututa** — need jäävad ootele. Kui objekt jagatakse uuesti, ilmub peegelobjekt sama `_id`-ga tagasi ja kõik seosed taastuvad.
+Mootor töötab olemasoleva taustatöötleja sees — iga omaduse muudatus paneb objekti niigi ümberarvutamise järjekorda ja jagamine lisab viimase sammu:
+
+1. **Tuvasta** — kas objekti ligipääsuloendis on `share_out` ühendus?
+2. **Kontrolli** — kas ühenduse paar on aktiivne ja kas objekti tüüp on mõlemal pool vastu võetud?
+3. **Projekteeri** — jäta alles ainult kokkulepitud omadused. Ligipääsuvõtmed ja õigused ei liigu kunagi, sõltumata seadistusest.
+4. **Kirjuta** — lisa või uuenda peegelobjekt sihtandmebaasis; kui midagi ei muutunud, jäetakse vahele.
+5. **Eemalda** — kui kontroll ebaõnnestub, aga peegelobjekt on olemas, siis see eemaldatakse.
+
+Kõik jagamise lõppemise viisid — vaataja õigus eemaldatud, originaal kustutatud, kokkulepe kitsendatud, ühendus lõpetatud — jõuavad samasse eemaldamise sammu. Kohalikke alam-objekte ei puututa kunagi: need jäävad ootele ja taastuvad, kui objekt jagatakse uuesti sama `_id` all. Kui ühenduse paar muutub aktiivseks, sünkroonib ühekordne läbikäik kõik juba jagatud objektid; kui paar muutub mitteaktiivseks, eemaldatakse kõik selle peegelobjektid.
 
 ## Turvagarantiid
 
 - Nõusolek on vastastikune ja kummagi poole poolt sõltumatult tagasivõetav, kumbki oma andmebaasis, kohese mõjuga.
 - Peegeldamine on rangelt ühesuunaline; kirjutusõigus ei ületa kunagi andmebaasi piiri.
-- Ligipääsuvõtmeid (API võtmed, pääsuvõtmed) ja õiguste omadusi ei saa kunagi jagada — see on tagatud mootoris, mitte seadistuses.
-- Lubatud loend on selgesõnaline: midagi ei liigu, kui lähteandmebaas pole seda loetlenud *ja* õigust andnud *ja* sihtandmebaas tüüpi vastu võtnud.
+- Ligipääsuvõtmeid (API võtmed, pääsuvõtmed) ja õigusi ei saa kunagi jagada — see on tagatud mootoris, mitte seadistuses.
+- Midagi ei liigu, kui lähteandmebaas pole seda pakkunud *ja* õigust andnud *ja* vastuvõtja seda vastu võtnud.
 
 ## Näide: turuplats
 
-Rühm raamatukogusid ja muuseume loob ühise `market` andmebaasi. Iga asutus loob sellega ühenduse ja annab ühendusele vaataja õigused esemetel, mida soovib välja panna — peegelobjektidest saab kataloog, mis on otsitav nagu iga Entu andmebaas. Külastajad logivad sisse oma olemasoleva Entu identiteediga ja sirvivad kataloogi; kommentaarid ja laenutustaotlused on peegelobjektide kohalikud alam-objektid. Vastassuunaline ühendus võib jagada iga taotluse tagasi omaniku enda andmebaasi, nii et töötajad käsitlevad taotlusi oma Entust lahkumata.
+Rühm raamatukogusid ja muuseume loob ühise `market` andmebaasi. Iga asutus loob sellega ühenduse ja annab ühendusele vaataja õigused esemetel, mida soovib välja panna — peegelobjektidest saab kataloog, mis on otsitav nagu iga Entu andmebaas. Külastajad logivad sisse oma olemasoleva Entu identiteediga ja sirvivad; kommentaarid ja laenutustaotlused on peegelobjektide kohalikud alam-objektid. Vastassuunaline ühendus võib jagada iga taotluse tagasi omaniku enda andmebaasi, nii et töötajad käsitlevad taotlusi oma Entust lahkumata.
 
 ## Lahtised küsimused
 
-- **Failid ja pildid** — failiomadused viitavad lähtekonto failihoidla objektidele; peegelobjektid vajavad kas vahendajat, mis kontrollib igal päringul ligipääsu originaali juures, või sünkroonimisel tehtavaid pisipiltide koopiaid.
-- **Peegelobjektipõhine nähtavus** — esimeses versioonis kehtib ühenduse kõigile peegelobjektidele üks vaikimisi nähtavus; objektipõhised erandid nõuaksid kohalike õiguste liitmist sünkroonitud dokumendiga.
+- **Failid ja pildid** — failiomadused viitavad lähtekonto failihoidla objektidele; peegelobjektid vajavad kas vahendajat, mis kontrollib ligipääsu originaali juures, või sünkroonimisel tehtavaid pisipiltide koopiaid.
+- **Peegelobjektipõhine nähtavus** — esimeses versioonis kehtib ühenduse kõigile peegelobjektidele üks nähtavus; objektipõhised erandid nõuaksid kohalike õiguste liitmist sünkroonitud dokumendiga.
 - **Tüüpide vastendamine** — esimene versioon eeldab sama tüübinime mõlemal pool; selgesõnaline lähtetüüp → sihttüüp vastendamine võib lisanduda hiljem.
 
 Tagasiside on teretulnud — selle disaini eesmärk on teha organisatsioonidevaheline koostöö võimalikuks nii, et iga andmebaas jääb oma andmete üle täielikult otsustajaks.

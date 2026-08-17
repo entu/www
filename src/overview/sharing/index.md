@@ -12,24 +12,22 @@ Every Entu account has its own isolated database. That isolation is a core guara
 
 Entity sharing makes this possible without weakening isolation: an entity in one database can be **mirrored** into another database, kept in sync automatically, while the original never leaves its home.
 
-## The idea in one paragraph
+## How it works
 
-Two databases establish a **connection** — each side creates a connection entity in its own database, so sharing always requires mutual consent. After that, sharing an entity is nothing new to learn: the owner grants the connection **viewer rights**, exactly as they would for a person. The sync engine notices the grant and creates a **mirror** — a read-only copy of the whitelisted properties — in the target database. Removing the viewer right removes the mirror.
+Two databases establish a **connection** — each side creates one connection entity in its own database, so sharing always requires mutual consent, and either side can end it by deleting its own half. From then on there is nothing new to learn: the owner grants the connection **viewer rights** on an entity, exactly as they would for a person. The sync engine notices the grant and creates a **mirror** — a read-only copy of the agreed properties — in the receiving database. Removing the grant removes the mirror.
 
 ## The connection pair
 
-A connection consists of two ordinary entities, one in each database. Data flows only while **both** exist.
-
-**`share_out`** — created in the source database: *"I am willing to send."*
+**`share_out`** — in the source database: *"I am willing to send."*
 
 | Property | Meaning |
 |---|---|
 | `name` | Display name shown in the rights dialog, e.g. "Marketplace" |
 | `database` | Target database name |
-| `type` | Which of my entity types may be shared |
-| `property` | Whitelist: which property definitions may travel |
+| `type` | Which entity types may be shared |
+| `property` | Which properties may travel |
 
-**`share_in`** — created in the target database: *"I accept from."*
+**`share_in`** — in the target database: *"I accept from."*
 
 | Property | Meaning |
 |---|---|
@@ -37,58 +35,38 @@ A connection consists of two ordinary entities, one in each database. Data flows
 | `database` | Source database name |
 | `type` | Which entity types I accept |
 | `property` | Which of the offered properties I accept |
-| `parent` | Local entity under which incoming mirrors are placed |
-| `sharing` | Default visibility (`private` / `domain` / `public`) applied to mirrors |
+| `parent` | Local entity (or several) under which mirrors are placed |
+| `sharing` | Visibility (`private` / `domain` / `public`) applied to mirrors |
+| `inherit` | If set, mirrors also inherit visibility rights from their parents |
 
-The `type` and `property` lists are plain multi-valued reference properties pointing at the database's **own definition entities**. Because every property definition is a child of its type definition, a flat list is unambiguous — a property named `year` under *book* and one under *artwork* are different entities. Each side references its own definitions; the sync engine resolves both sides to type-and-property **name pairs** and syncs their intersection.
+The `type` and `property` lists reference the database's **own definition entities**, so a flat list is unambiguous — a property named `year` under *book* is a different definition than one under *artwork*. The engine resolves both sides to type-and-property names and syncs their **intersection**: the source decides what can leave, the receiver decides what it takes in, where mirrors land, and who sees them.
 
-The source controls **what leaves** (whitelist plus per-entity grants). The target controls **where it lands and who sees it** (parent, default visibility). Neither side controls the other's half, and either side can revoke by deleting its own connection entity.
+## Connecting with an invite link
 
-## Setting up a connection from a link
+Nobody has to copy configuration by hand. The sharing database mints a **signed link** from its `share_out`; the link carries the offer — the source database name and the offered type and property names. The receiver opens it, signs in, chooses which of their databases will receive, selects what to accept and where mirrors go, and confirms. Their `share_in` is created in their own database with exactly those choices — no entity is ever created in a foreign database.
 
-Each half of the connection is always created by its own database's users — but nobody has to copy configuration by hand. The sharing database creates its `share_out` as usual and mints a **signed invite link** from it. The link's token carries the offer — the source database name and the offered type and property names, the same two plain lists the `share_out` stores, resolved to names. Minting stores nothing extra, ignoring the link does nothing, and no entity is ever created in a foreign database: the token is pure information transfer between two local actions.
+Links are low-risk by construction: they expire, a stale offer can at most list things the source no longer sends (which then sync nothing), and a leaked link is useless to others because the `share_out` names its intended target database. Changing the agreement later needs no new link — each side edits its own half at any time and mirrors re-project. A new link is only useful for showing the receiver an expanded offer.
 
-Accepting it:
-
-1. Open the link and sign in with your existing Entu identity.
-2. Choose which of your databases will receive the shared entities.
-3. Select what to accept — all or some of the offered types and properties, resolved against your own definitions (types you don't have are shown as not applicable). Choose where mirrors will be placed and how they will be visible.
-4. Confirm — your `share_in` is created in your own database, by you, with exactly your choices.
-
-Because what syncs is always the **intersection** of both halves, a receiver can accept less than what is offered — and a stale link can never widen anything: accepting an outdated offer merely lists things the source no longer sends, which harmlessly sync nothing.
-
-**Amending** needs no special mechanism: each side owns its half and edits it freely at any time. The source widens or narrows its offer directly on `share_out`, the receiver adjusts its acceptance on `share_in`, and the sync engine re-projects all mirrors. A new link is only needed when the receiver should see an expanded offer to accept more of it. Links expire on their own, and a leaked link is nearly worthless — the `share_out` names its intended target database, so no other database can pair with it.
-
-## Sharing an entity
+## Sharing entities
 
 Grant the connection `_viewer` rights on the entity — the same drawer, the same mechanism as sharing with a person. Two familiar rules follow automatically:
 
-- **Rights inheritance works.** Granting the connection viewer rights on a parent with `_inheritrights` children shares the whole subtree. One grant can publish an entire collection.
+- **Rights inheritance works.** Granting viewer rights on a parent with `_inheritrights` children shares the whole subtree — one grant can publish an entire collection.
 - **`_noaccess` works.** Individual children can be excluded from an inherited share.
 
-Only `_viewer` is meaningful for a connection. Granting a connection `_editor`, `_expander`, or `_owner` is rejected — mirroring is strictly one-way.
+Only `_viewer` is meaningful for a connection; other rights are rejected — mirroring is strictly one-way.
 
-## How the sync works
+## Mirrors
 
-The engine runs inside the existing background aggregation worker. Every property change already queues an entity for re-aggregation; sharing simply adds a final step:
+A mirror is an entity in the receiving database with three deliberate design choices:
 
-1. **Detect** — after aggregation, is a `share_out` connection in the entity's access list?
-2. **Validate** — is the connection pair active, and is the entity's type allowed by both sides?
-3. **Project** — keep only whitelisted properties. Credentials and rights properties never cross, regardless of configuration.
-4. **Write the mirror** — insert or update the mirror document in the target database, skipping the write when nothing changed (hash comparison).
-5. **Retract** — if the check fails but a mirror exists (right removed, entity deleted, whitelist narrowed, connection revoked), the mirror is removed.
+**Same `_id` as the original.** Ids are globally unique, so the mirror reuses the original's. Share → unshare → share again always produces the same identity, and everything that pointed at the mirror reconnects automatically.
 
-When a connection pair *becomes* active, a one-time backfill sweep queues every entity already granted to it. When a pair becomes inactive, all its mirrors are removed the same way.
+**Only the entity document is copied — no property documents.** The mirror carries the projected values plus `_origin_db` (where it came from) and `_origin_hash` (change detection). Property history stays at the origin. Direct writes to a mirror are rejected with a pointer to the origin.
 
-## Mirror entities
+**Read-only content, local context.** The receiving database can attach its own **child entities** to a mirror — comments, requests, annotations. These are ordinary local entities and never sync anywhere.
 
-A mirror is an entity in the target database with three deliberate design choices:
-
-**Same `_id` as the original.** Object ids are globally unique, so the mirror reuses the original's id. This makes sharing idempotent: share → unshare → share again always produces the same identity, and everything that pointed at the mirror reconnects automatically.
-
-**Only the entity document is copied — no property documents.** The mirror carries the projected values, plus `_origin_db` (where it came from) and `_origin_hash` (change detection). History stays at the origin, where it belongs. Consequently mirrors are skipped by the target's own aggregation, and direct property writes to a mirror are rejected with a pointer to the origin.
-
-**Read-only content, local context.** The mirrored content cannot be edited in the target — but the target database can attach its own **child entities** to a mirror: comments, requests, annotations. These are ordinary local entities and never sync anywhere.
+Rights on mirrors govern **visibility only**, derived from the `share_in` settings: the `sharing` level, plus rights inherited from the configured parents when `inherit` is set. The receiver manages who sees mirrors the way it manages any container — by setting rights on the parent. But even a user who gains editor or owner level through inheritance cannot edit a mirror; the origin guard outranks rights.
 
 ### Which system properties cross?
 
@@ -96,39 +74,47 @@ A mirror is an entity in the target database with three deliberate design choice
 |---|---|---|
 | `_id` | yes | Same id as origin |
 | `_type` | remapped | Resolved by name to the target's own type definition |
-| `_parent` | conditional | Kept if the parent is also mirrored (subtrees reproduce their hierarchy); otherwise the `share_in` parent is used |
-| `_created` | yes | Origin creation time is honest metadata |
+| `_parent` | conditional | Kept if the parent is also mirrored (subtrees keep their hierarchy); otherwise the `share_in` parent is used |
+| `_created` | yes | Origin creation time |
 | `_owner`, `_editor`, `_expander`, `_viewer`, `_noaccess` | never | Rights never cross; mirror visibility comes from `share_in` |
-| `_sharing`, `_inheritrights` | never | Target decides its own visibility |
+| `_sharing`, `_inheritrights` | never | The receiver decides its own visibility |
 | `_deleted` | never | Deletion at origin removes the mirror instead |
 
-## References
+### References
 
-Because mirrors keep original ids, reference properties are copied **as-is** — no remapping tables:
+Because mirrors keep original ids, reference properties are copied as-is:
 
 - If the referenced entity is also shared, the reference resolves in the target.
-- If not, it displays as plain text (the reference's display name is stored alongside it).
-- If the referenced entity is shared *later*, the reference starts resolving immediately — retroactively, with no rewrites.
+- If not, it displays as plain text (the display name is stored alongside).
+- If the referenced entity is shared *later*, the reference starts resolving immediately.
 
-## Unsharing, deletion, resharing
+## Sync and lifecycle
 
-Removing the viewer right, deleting the origin entity, or revoking the connection all converge on the same outcome: the mirror document is removed. Local child entities (comments, requests) are **not** touched — they go dormant. If the entity is shared again, the mirror reappears under the same `_id` and everything reconnects.
+The engine runs inside the existing background aggregation worker — every property change already queues an entity for re-aggregation, and sharing adds a final step:
+
+1. **Detect** — is a `share_out` connection in the entity's access list?
+2. **Validate** — is the connection pair active, and is the entity's type accepted by both sides?
+3. **Project** — keep only the agreed properties. Credentials and rights properties never cross, regardless of configuration.
+4. **Write** — insert or update the mirror in the target database, skipped when nothing changed.
+5. **Retract** — if the check fails but a mirror exists, the mirror is removed.
+
+Every way sharing can end — viewer right removed, origin entity deleted, agreement narrowed, connection revoked — lands in the same retract step. Local child entities are never touched: they go dormant, and reconnect if the entity is shared again under its unchanged `_id`. When a connection pair becomes active, a one-time sweep syncs every entity already granted to it; when it becomes inactive, all its mirrors are removed.
 
 ## Security guarantees
 
-- Consent is mutual and independently revocable, in each side's own database, with immediate effect.
+- Consent is mutual and independently revocable, each side in its own database, with immediate effect.
 - Mirroring is strictly one-way; no write access ever crosses a database boundary.
-- Credentials (API keys, passkeys) and rights properties can never be shared — enforced in the engine, not by configuration.
-- The whitelist is explicit: nothing crosses unless the source listed it *and* granted it *and* the target accepted the type.
+- Credentials (API keys, passkeys) and rights can never be shared — enforced in the engine, not by configuration.
+- Nothing crosses unless the source offered it *and* granted it *and* the receiver accepted it.
 
 ## Example: a marketplace
 
-A group of libraries and museums creates a shared `market` database. Each institution connects to it and grants the connection viewer rights on the items it wants to list — mirrors become the catalogue, searchable like any Entu database. Visitors log in with their existing Entu identity and browse the catalogue; comments and lending requests are local child entities of the mirrors. A reverse connection can share each request back into the owning institution's own database, so staff handle requests without leaving their own Entu.
+A group of libraries and museums creates a shared `market` database. Each institution connects to it and grants the connection viewer rights on the items it wants to list — the mirrors become the catalogue, searchable like any Entu database. Visitors log in with their existing Entu identity and browse; comments and lending requests are local child entities of the mirrors. A reverse connection can share each request back into the owning institution's database, so staff handle requests without leaving their own Entu.
 
 ## Open questions
 
-- **Files and images** — file properties reference storage objects in the source account; mirrors need either a proxy that re-checks access at the origin per request, or thumbnail copies made at sync time.
-- **Per-mirror visibility overrides** — v1 applies one default visibility to all mirrors of a connection; per-mirror overrides would require merging local rights over the synced document.
+- **Files and images** — file properties reference storage objects in the source account; mirrors need either a proxy that re-checks access at the origin, or thumbnail copies made at sync time.
+- **Per-mirror visibility overrides** — v1 applies one visibility to all mirrors of a connection; per-mirror overrides would require merging local rights over the synced document.
 - **Type mapping** — v1 requires the same type name on both sides; explicit source-type → target-type mapping could come later.
 
 Feedback is welcome — this design aims to make cross-organisation collaboration possible while keeping each database fully in control of its own data.
