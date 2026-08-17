@@ -274,10 +274,10 @@ features:
     icon:
       src: /icons/database.svg
     details: Create entity types, properties, and relationships entirely through the UI. Change your data model at any time — no migrations, no deployments.
-  - title: Starter templates
+  - title: Schema templates
     icon:
       src: /icons/layout-template.svg
-    details: Pre-configured data models for contacts, documents, library, and inventory — use as-is or adapt to your needs.
+    details: Import ready-made entity types and their properties from a shared library — pick what you need and adapt it, instead of defining every field by hand.
   - title: Flexible access control
     icon:
       src: /icons/shield-check.svg

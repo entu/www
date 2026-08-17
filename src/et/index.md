@@ -274,10 +274,10 @@ features:
     icon:
       src: /icons/database.svg
     details: Loo objektitüübid, parameetrid ja seosed otse kasutajaliideses. Muuda andmemudelit igal ajal — migratsioone ega juurutamisi pole vaja.
-  - title: Näidismallid
+  - title: Skeemimallid
     icon:
       src: /icons/layout-template.svg
-    details: Eelseadistatud andmemudelid kontaktide, dokumentide, raamatukogu ja varude jaoks — kasuta sellisena või kohanda oma vajaduste järgi.
+    details: Impordi valmis objektitüübid ja nende parameetrid jagatud malliteegist — vali, mida vajad, ja kohanda, selle asemel et iga välja käsitsi määratleda.
   - title: Paindlik juurdepääsukontroll
     icon:
       src: /icons/shield-check.svg
