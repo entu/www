@@ -54,7 +54,7 @@ Grant the connection `_viewer` rights on the entity — the same drawer, the sam
 - **Rights inheritance works.** Granting viewer rights on a parent with `_inheritrights` children shares the whole subtree — one grant can publish an entire collection.
 - **`_noaccess` works.** Individual children can be excluded from an inherited share.
 
-Only `_viewer` is meaningful for a connection; other rights are rejected — mirroring is strictly one-way.
+`_viewer` is the natural right for a connection; any other right means the same thing, since a connection is never an actor — it holds no credentials and never edits anything. Mirroring stays strictly one-way regardless.
 
 ## Mirrors
 
@@ -62,11 +62,11 @@ A mirror is an entity in the receiving database with three deliberate design cho
 
 **Same `_id` as the original.** Ids are globally unique, so the mirror reuses the original's. Share → unshare → share again always produces the same identity, and everything that pointed at the mirror reconnects automatically.
 
-**Only the entity document is copied — no property documents.** The mirror carries the projected values plus `_origin_db` (where it came from) and `_origin_hash` (change detection). Property history stays at the origin. Direct writes to a mirror are rejected with a pointer to the origin.
+**Only the entity document is copied — no property documents.** The mirror carries the projected values plus `_origin_db` (where it came from) and `_origin_hash` (change detection). Property history stays at the origin. And because a mirror never has editor or owner rights, the regular access checks reject every write and delete — no special rule needed.
 
-**Read-only content, local context.** The receiving database can attach its own **child entities** to a mirror — comments, requests, annotations. These are ordinary local entities and never sync anywhere.
+**Read-only content, local context.** Nothing can be added to a mirror itself — but ordinary local entities can **reference** it: comments, requests, annotations live as the receiving database's own entities pointing at the mirror, appear on its page among referrers, and never sync anywhere.
 
-Rights on mirrors govern **visibility only**, derived from the `share_in` settings: the `sharing` level, plus rights inherited from the configured parents when `inherit` is set. The receiver manages who sees mirrors the way it manages any container — by setting rights on the parent. But even a user who gains editor or owner level through inheritance cannot edit a mirror; the origin guard outranks rights.
+Rights on mirrors govern **visibility only**, derived from the `share_in` settings: the `sharing` level, plus rights inherited from the mirror's parents when `inherit` is set. The receiver manages who sees mirrors the way it manages any container — by setting rights on the parent. But no part of a mirror can be changed in the receiving database, placement included; even a user who gains editor or owner level through inheritance cannot edit one — the origin guard outranks rights.
 
 ### Which system properties cross?
 
@@ -74,7 +74,7 @@ Rights on mirrors govern **visibility only**, derived from the `share_in` settin
 |---|---|---|
 | `_id` | yes | Same id as origin |
 | `_type` | remapped | Resolved by name to the target's own type definition |
-| `_parent` | conditional | Kept if the parent is also mirrored (subtrees keep their hierarchy); otherwise the `share_in` parent is used |
+| `_parent` | conditional | Kept when the parent is also mirrored (subtrees keep their hierarchy); otherwise the `share_in` parent is used |
 | `_created` | yes | Origin creation time |
 | `_owner`, `_editor`, `_expander`, `_viewer`, `_noaccess` | never | Rights never cross; mirror visibility comes from `share_in` |
 | `_sharing`, `_inheritrights` | never | The receiver decides its own visibility |
@@ -90,26 +90,27 @@ Because mirrors keep original ids, reference properties are copied as-is:
 
 ## Sync and lifecycle
 
-The engine runs inside the existing background aggregation worker — every property change already queues an entity for re-aggregation, and sharing adds a final step:
+A background worker periodically sweeps all databases. For each active connection it compares the source's shared entities — everything granted to the connection, filtered by the agreement — against the existing mirrors, and writes only the differences:
 
-1. **Detect** — is a `share_out` connection in the entity's access list?
-2. **Validate** — is the connection pair active, and is the entity's type accepted by both sides?
-3. **Project** — keep only the agreed properties. Credentials and rights properties never cross, regardless of configuration.
-4. **Write** — insert or update the mirror in the target database, skipped when nothing changed.
-5. **Retract** — if the check fails but a mirror exists, the mirror is removed.
+1. **Collect** — entities with the connection in their access list, of accepted types.
+2. **Project** — keep only the agreed properties. Credentials and rights properties never cross, regardless of configuration.
+3. **Write** — insert or update changed mirrors; a change-detection hash leaves unchanged entities untouched.
+4. **Remove** — mirrors whose source is no longer shared, and all mirrors of pairs that are no longer active.
 
-Every way sharing can end — viewer right removed, origin entity deleted, agreement narrowed, connection revoked — lands in the same retract step. Local child entities are never touched: they go dormant, and reconnect if the entity is shared again under its unchanged `_id`. When a connection pair becomes active, a one-time sweep syncs every entity already granted to it; when it becomes inactive, all its mirrors are removed.
+Because every sweep simply makes the target match the source, no lifecycle event needs special handling: granting rights, amending the agreement, unsharing, deleting the origin, or revoking the connection all take effect on the next sweep. Local entities referencing a mirror are never touched: they go dormant, and reconnect if the entity is shared again under its unchanged `_id`.
 
 ## Security guarantees
 
 - Consent is mutual and independently revocable, each side in its own database, with immediate effect.
 - Mirroring is strictly one-way; no write access ever crosses a database boundary.
-- Credentials (API keys, passkeys) and rights can never be shared — enforced in the engine, not by configuration.
+- Credentials (API keys, passkeys), rights, and internal settings (billing limits) can never be shared — enforced in the engine, not by configuration.
 - Nothing crosses unless the source offered it *and* granted it *and* the receiver accepted it.
+- Mirrors are never shared onward — sharing does not chain across databases.
+- A database can never connect to itself.
 
 ## Example: a marketplace
 
-A group of libraries and museums creates a shared `market` database. Each institution connects to it and grants the connection viewer rights on the items it wants to list — the mirrors become the catalogue, searchable like any Entu database. Visitors log in with their existing Entu identity and browse; comments and lending requests are local child entities of the mirrors. A reverse connection can share each request back into the owning institution's database, so staff handle requests without leaving their own Entu.
+A group of libraries and museums creates a shared `market` database. Each institution connects to it and grants the connection viewer rights on the items it wants to list — the mirrors become the catalogue, searchable like any Entu database. Visitors log in with their existing Entu identity and browse; comments and lending requests are the marketplace's own entities referencing the mirrors. A reverse connection can share each request back into the owning institution's database, so staff handle requests without leaving their own Entu.
 
 ## Open questions
 
