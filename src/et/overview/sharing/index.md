@@ -4,102 +4,78 @@ description: "Objektide kirjutuskaitstud peegeldamine Entu andmebaaside vahel, s
 
 # Objektide jagamine andmebaaside vahel
 
-Igal Entu kontol on oma eraldiseisev andmebaas. See eraldatus on põhigarantii — kuid mõned organisatsioonid soovivad teha valitud objektid üksteisele nähtavaks. Raamatukogud tahavad ühist raamatute kataloogi. Muuseumid tahavad ühisvaadet oma kogudele. Organisatsioonide rühm võib soovida "turuplatsi", kus esemeid saab sirvida, kommenteerida ning laenutamiseks või vahetamiseks taotleda.
+Igal Entu kontol on oma eraldiseisev andmebaas. See eraldatus on põhigarantii — kuid organisatsioonid soovivad mõnikord teha valitud objektid üksteisele nähtavaks: raamatukogud ühise raamatute kataloogi, muuseumid ühisvaate oma kogudele, organisatsioonide rühm turuplatsi.
 
-Objektide jagamine teeb selle võimalikuks eraldatust nõrgendamata: ühe andmebaasi objekti saab **peegeldada** teise andmebaasi, hoides seda automaatselt sünkroonis, samal ajal kui originaal ei lahku kunagi oma kodust.
+Objektide jagamine teeb selle võimalikuks eraldatust nõrgendamata. Ühe andmebaasi objekti saab **peegeldada** teise: vastuvõttev andmebaas saab kokkulepitud omadustest kirjutuskaitstud koopia, mida hoitakse automaatselt sünkroonis, samal ajal kui originaal ei lahku kunagi oma kodust. Peegelobjektid on otsitavad ja sirvitavad nagu iga kohalik objekt ning kohalikud objektid saavad neile viidata — kuid vastuvõtvas andmebaasis ei saa peegelobjekti juures midagi muuta. Originaal jääb ainsaks muutmise kohaks.
 
-## Kuidas see töötab
+## Seadistamine
 
-Kaks andmebaasi loovad **ühenduse** — kumbki pool loob oma andmebaasis ühe ühenduse objekti, seega nõuab jagamine alati vastastikust nõusolekut ja kumbki pool saab selle lõpetada, kustutades oma poole. Edasi ei ole midagi uut õppida: omanik annab ühendusele objektil **vaataja õigused** täpselt samamoodi nagu inimesele. Sünkroonimismootor märkab õigust ja loob vastuvõtvasse andmebaasi **peegelobjekti** — kirjutuskaitstud koopia kokkulepitud omadustest. Õiguse eemaldamine eemaldab peegelobjekti.
+Jagamine käib üle **ühenduse**: kaks tavalist objekti, üks kummaski andmebaasis. Andmed liiguvad ainult siis, kui mõlemad on olemas, seega nõuab jagamine alati vastastikust nõusolekut — ja kumbki pool saab selle lõpetada, kustutades oma poole.
 
-## Ühenduse paar
-
-**`share_out`** — lähteandmebaasis: *"olen nõus saatma"*.
+**`share_out`** — jagavas andmebaasis: *"olen nõus saatma"*.
 
 | Omadus | Tähendus |
 |---|---|
 | `name` | Õiguste dialoogis kuvatav nimi, nt "Turuplats" |
-| `database` | Sihtandmebaasi nimi |
+| `database` | Vastuvõtva andmebaasi nimi |
 | `type` | Milliseid objektitüüpe võib jagada |
 | `property` | Millised omadused võivad liikuda |
 
-**`share_in`** — sihtandmebaasis: *"võtan vastu"*.
+**`share_in`** — vastuvõtvas andmebaasis: *"võtan vastu"*.
 
 | Omadus | Tähendus |
 |---|---|
 | `name` | Kuvatav nimi, nt "Tartu raamatukogu" |
-| `database` | Lähteandmebaasi nimi |
+| `database` | Jagava andmebaasi nimi |
 | `type` | Milliseid objektitüüpe vastu võtan |
 | `property` | Milliseid pakutud omadusi vastu võtan |
 | `parent` | Kohalik objekt (või mitu), mille alla peegelobjektid paigutatakse |
 | `sharing` | Peegelobjektidele rakendatav nähtavus (`private` / `domain` / `public`) |
 | `inherit` | Kui määratud, pärivad peegelobjektid nähtavuse õigused ka oma ülemobjektidelt |
 
-`type` ja `property` loendid viitavad andmebaasi **enda definitsiooniobjektidele**. Pakkumine on täpne — omadus nimega `aasta` *raamatu* all on erinev definitsioon kui sama nimi *kunstiteose* all ning pakutakse ainult loetletud paare. Vastuvõtmine käib nime järgi: vastuvõetud omadus kehtib igal vastuvõetud tüübil, mis seda pakub. Sünkroonitakse pakkumine, filtreerituna vastuvõtuga: lähteandmebaas otsustab, mis võib lahkuda; vastuvõtja otsustab, mida ta vastu võtab, kuhu peegelobjektid paigutuvad ja kes neid näeb.
+`type` ja `property` loendid viitavad andmebaasi **enda definitsiooniobjektidele**. Pakkumine on täpne — omadus nimega `aasta` *raamatu* all on erinev definitsioon kui sama nimi *kunstiteose* all ning pakutakse ainult loetletud paare. Vastuvõtmine käib nime järgi: vastuvõetud omadus kehtib igal vastuvõetud tüübil, mis seda pakub. Sama kahe andmebaasi vahel võib olla mitu kattuvat ühendust — peegeldatakse kõik, mida jagatakse ükskõik millise kaudu, ning vastuvõtja seaded liituvad: peegelobjektid paigutatakse kõigi seadistatud ülemobjektide alla, saavad kõige avatuma nähtavuse ja pärivad õigusi, kui kasvõi üks `share_in` seda määrab.
 
-Sama kahe andmebaasi vahel võib olla mitu kattuvat ühendust — peegeldatakse kõik, mida jagatakse *ükskõik millise* kaudu. Jagatud objekti omadused on selle tüübi kohta tehtud pakkumiste ühend; vastuvõtja seaded liituvad samamoodi: peegelobjektid paigutatakse kõigi seadistatud ülemobjektide alla, saavad kõige avatuma nähtavuse ja pärivad õigusi, kui kasvõi üks `share_in` seda määrab.
-
-## Ühenduse loomine kutselingiga
-
-::: info Kavandatav
-Kutselingi voog ei ole veel teostatud — praegu luuakse mõlemad ühenduse objektid käsitsi.
-:::
-
-Keegi ei pea seadistust käsitsi kopeerima. Jagav andmebaas genereerib oma `share_out` objektist **allkirjastatud lingi**; link kannab pakkumist — lähteandmebaasi nime ning pakutavate tüüpide ja omaduste nimesid. Vastuvõtja avab lingi, logib sisse, valib vastuvõtva andmebaasi, valib mida vastu võtta ja kuhu peegelobjektid paigutada, ning kinnitab. Tema `share_in` luuakse tema enda andmebaasis täpselt tema valikutega — võõrasse andmebaasi ei looda kunagi ühtegi objekti.
-
-Lingid on olemuselt madala riskiga: need aeguvad, vananenud pakkumine saab kõige rohkem loetleda asju, mida lähteandmebaas enam ei saada (ja need ei sünkroonita midagi), ning lekkinud link on teistele kasutu, sest `share_out` nimetab oma sihtandmebaasi. Kokkuleppe hilisem muutmine ei vaja uut linki — kumbki pool muudab oma poolt igal ajal ja peegelobjektid arvutatakse ümber. Uut linki on vaja ainult laienenud pakkumise näitamiseks vastuvõtjale.
-
-## Objektide jagamine
-
-Anna ühendusele objektil `_viewer` õigus — sama dialoog ja sama mehhanism nagu inimesega jagamisel. Kaks tuttavat reeglit toimivad automaatselt:
+Kui ühendus on olemas, jaga objekte, andes `share_out` objektile **vaataja õigused** — sama dialoog ja sama mehhanism nagu inimesega jagamisel:
 
 - **Õiguste pärimine toimib.** Vaataja õigus ülemobjektil, mille alam-objektidel on `_inheritrights`, jagab kogu haru — ühe õigusega saab avaldada terve kogu.
 - **`_noaccess` toimib.** Üksikuid alam-objekte saab päritud jagamisest välja jätta.
 
-`_viewer` on ühenduse jaoks loomulik õigus; iga muu õigus tähendab sedasama, sest ühendus ei ole kunagi tegutseja — tal pole ligipääsuvõtmeid ja ta ei muuda kunagi midagi. Peegeldamine jääb igal juhul rangelt ühesuunaliseks.
+Õiguse eemaldamine eemaldab peegelobjekti. `_viewer` on ühenduse jaoks loomulik õigus; iga muu õigus tähendab sedasama, sest ühendus ei ole kunagi tegutseja — peegeldamine on igal juhul rangelt ühesuunaline.
 
-## Peegelobjektid
+## Mida üle kantakse
 
-Peegelobjekt on vastuvõtva andmebaasi objekt kolme teadliku disainivalikuga:
+Üle liiguvad ainult kokkulepitud omadused — pakkumine, filtreerituna vastuvõtuga. Ligipääsuvõtmed (API võtmed, pääsuvõtmed), õigused, süsteemsed seaded (arvelduspiirangud) ja failiväärtused ei liigu kunagi, sõltumata seadistusest.
 
-**Sama `_id` mis originaalil.** Id-d on globaalselt unikaalsed, seega kasutab peegelobjekt originaali oma. Jaga → lõpeta → jaga uuesti annab alati sama identiteedi ning kõik, mis peegelobjektile viitas, taastub automaatselt.
-
-**Kopeeritakse ainult objekti dokument — mitte omaduste dokumendid.** Peegelobjekt kannab projekteeritud väärtusi ning välju `_origin_db` (päritolu) ja `_origin_hash` (muudatuste tuvastus). Omaduste ajalugu jääb originaali juurde. Ja kuna peegelobjektil ei ole kunagi toimetaja ega omaniku õigusi, lükkavad tavalised ligipääsukontrollid iga kirjutamise ja kustutamise tagasi — erireeglit pole vaja.
-
-**Kirjutuskaitstud sisu, kohalik kontekst.** Peegelobjektile endale ei saa midagi lisada — kuid tavalised kohalikud objektid saavad sellele **viidata**: kommentaarid, taotlused ja märkmed on vastuvõtva andmebaasi enda objektid, mis osutavad peegelobjektile, ilmuvad selle lehel viitajate seas ega sünkroniseeru kuhugi.
-
-Peegelobjektide õigused määravad ainult **nähtavuse**, tuletatuna `share_in` seadetest: `sharing` tase ning, kui `inherit` on määratud, peegelobjekti ülemobjektidelt päritud õigused. Vastuvõtja haldab peegelobjektide nähtavust nagu iga muud kogumit — määrates õigused ülemobjektil. Kuid ühtegi peegelobjekti osa, kaasa arvatud paigutust, ei saa vastuvõtvas andmebaasis muuta; isegi kasutaja, kes saab pärimise kaudu toimetaja või omaniku taseme, ei saa peegelobjekti muuta — päritolu kaitse on õigustest tugevam.
-
-### Millised süsteemsed omadused liiguvad?
+Süsteemseid omadusi käsitletakse ükshaaval:
 
 | Omadus | Liigub? | Märkused |
 |---|---|---|
 | `_id` | jah | Sama id mis originaalil |
-| `_type` | teisendatakse | Leitakse nime järgi sihtandmebaasi enda objektitüübi definitsioon |
+| `_type` | teisendatakse | Leitakse nime järgi vastuvõtja enda objektitüübi definitsioon |
 | `_parent` | tingimuslikult | Säilib, kui ülemobjekt on samuti peegeldatud (harud säilitavad hierarhia); muidu kasutatakse `share_in` ülemobjekti |
 | `_created` | jah | Originaali loomisaeg |
 | `_owner`, `_editor`, `_expander`, `_viewer`, `_noaccess` | mitte kunagi | Õigused ei liigu; peegelobjekti nähtavus tuleb `share_in` seadetest |
 | `_sharing`, `_inheritrights` | mitte kunagi | Vastuvõtja otsustab oma nähtavuse ise |
 | `_deleted` | mitte kunagi | Kustutamine originaalis eemaldab hoopis peegelobjekti |
 
-### Viited
-
 Kuna peegelobjektid säilitavad originaali id-d, kopeeritakse viiteomadused muutmata kujul:
 
-- Kui viidatud objekt on samuti jagatud, toimib viide sihtandmebaasis.
+- Kui viidatud objekt on samuti jagatud, toimib viide vastuvõtvas andmebaasis.
 - Kui ei ole, kuvatakse see tavalise tekstina (kuvanimi salvestatakse väärtuse kõrvale).
 - Kui viidatud objekt jagatakse *hiljem*, hakkab viide kohe toimima.
 
-## Sünkroonimine ja elutsükkel
+Peegelobjekt ise on objekt kolme teadliku disainivalikuga. Tal on **sama `_id` mis originaalil**, seega jaga → lõpeta → jaga uuesti annab alati sama identiteedi ning kõik, mis peegelobjektile viitas, taastub automaatselt. Tal **ei ole omaduste dokumente** — kirjutatakse ainult objekti dokument koos väljadega `_origin_db` (päritolu) ja `_origin_hash` (muudatuste tuvastus); omaduste ajalugu jääb originaali juurde. Ja ta on **olemuslikult kirjutuskaitstud**: peegelobjektil ei ole kunagi toimetaja ega omaniku õigusi, seega lükkavad tavalised ligipääsukontrollid iga kirjutamise ja kustutamise tagasi. Peegelobjektide õigused määravad ainult nähtavuse — tuletatuna `share_in` seadetest ning `inherit` puhul ülemobjektidelt — ja isegi pärimise kaudu toimetaja taseme saanud kasutaja ei saa peegelobjekti muuta.
 
-Taustatöötleja käib perioodiliselt üle kõigi andmebaaside. Iga aktiivse ühenduse puhul võrdleb see lähteandmebaasi jagatud objekte — kõike, millele ühendusele on õigus antud, filtreerituna kokkuleppega — olemasolevate peegelobjektidega ning kirjutab ainult erinevused:
+## Mis juhtub objektide muutumisel
 
-1. **Kogu** — objektid, mille ligipääsuloendis on ühendus ja mille tüüp on vastu võetud.
-2. **Projekteeri** — jäta alles ainult kokkulepitud omadused. Ligipääsuvõtmed ja õigused ei liigu kunagi, sõltumata seadistusest.
-3. **Kirjuta** — lisa või uuenda muutunud peegelobjektid; muudatuste räsi jätab muutumata objektid puutumata.
-4. **Eemalda** — peegelobjektid, mille originaal pole enam jagatud, ning kõik peegelobjektid paaridest, mis pole enam aktiivsed.
+Taustatöötleja viib iga vastuvõtva andmebaasi perioodiliselt lähteandmebaasidega vastavusse — ükski elutsükli sündmus ei vaja erikäsitlust:
 
-Kuna iga läbikäik lihtsalt viib sihtandmebaasi lähteandmebaasiga vastavusse, ei vaja ükski elutsükli sündmus erikäsitlust: õiguste andmine, kokkuleppe muutmine, jagamise lõpetamine, originaali kustutamine või ühenduse tühistamine jõustuvad kõik järgmise läbikäiguga. Peegelobjektile viitavaid kohalikke objekte ei puututa kunagi: need jäävad ootele ja taastuvad, kui objekt jagatakse uuesti sama `_id` all.
+- **Muudatused originaalis** jõuavad peegelobjektidele sekunditega; muutumata objekte ei kirjutata kunagi üle.
+- **Vaataja õiguse andmine või eemaldamine** loob või eemaldab peegelobjektid, pärimise kaudu ka terved harud.
+- **Ühenduse muutmine** — tüübid, omadused, ülemobjektid, nähtavus — arvutab kõik selle peegelobjektid ümber.
+- **Originaalobjekti kustutamine** eemaldab tema peegelobjekti; **ühenduse tühistamine** (kumbki pool) eemaldab kõik selle peegelobjektid.
+- **Õiguste muutmine peegelobjekti ülemobjektidel** uuendab nähtavust tavalise pärimise kaudu.
+- **Peegelobjektile viitavaid kohalikke objekte ei puututa kunagi**: peegelobjekti eemaldamisel jäävad need ootele ja taastuvad, kui objekt jagatakse uuesti sama `_id` all.
 
 ## Turvagarantiid
 
