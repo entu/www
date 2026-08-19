@@ -1,12 +1,8 @@
 ---
-description: "Kavandatav funktsioon objektide jagamiseks Entu andmebaaside vahel, avaldatud tagasiside kogumiseks enne teostust."
+description: "Objektide kirjutuskaitstud peegeldamine Entu andmebaaside vahel, seadistatav share_out ja share_in objektidega."
 ---
 
 # Objektide jagamine andmebaaside vahel
-
-::: warning Kontseptsiooni ettepanek
-See leht kirjeldab kavandatavat funktsionaalsust. Midagi siin kirjeldatust ei ole veel teostatud — leht on avaldatud disaini kohta tagasiside kogumiseks.
-:::
 
 Igal Entu kontol on oma eraldiseisev andmebaas. See eraldatus on põhigarantii — kuid mõned organisatsioonid soovivad teha valitud objektid üksteisele nähtavaks. Raamatukogud tahavad ühist raamatute kataloogi. Muuseumid tahavad ühisvaadet oma kogudele. Organisatsioonide rühm võib soovida "turuplatsi", kus esemeid saab sirvida, kommenteerida ning laenutamiseks või vahetamiseks taotleda.
 
@@ -39,9 +35,15 @@ Kaks andmebaasi loovad **ühenduse** — kumbki pool loob oma andmebaasis ühe �
 | `sharing` | Peegelobjektidele rakendatav nähtavus (`private` / `domain` / `public`) |
 | `inherit` | Kui määratud, pärivad peegelobjektid nähtavuse õigused ka oma ülemobjektidelt |
 
-`type` ja `property` loendid viitavad andmebaasi **enda definitsiooniobjektidele**, seega on lame loend üheselt mõistetav — omadus nimega `aasta` *raamatu* all on erinev definitsioon kui sama nimi *kunstiteose* all. Mootor teisendab mõlemad pooled tüübi ja omaduse nimedeks ning sünkroonib nende **ühisosa**: lähteandmebaas otsustab, mis võib lahkuda; vastuvõtja otsustab, mida ta vastu võtab, kuhu peegelobjektid paigutuvad ja kes neid näeb.
+`type` ja `property` loendid viitavad andmebaasi **enda definitsiooniobjektidele**. Pakkumine on täpne — omadus nimega `aasta` *raamatu* all on erinev definitsioon kui sama nimi *kunstiteose* all ning pakutakse ainult loetletud paare. Vastuvõtmine käib nime järgi: vastuvõetud omadus kehtib igal vastuvõetud tüübil, mis seda pakub. Sünkroonitakse pakkumine, filtreerituna vastuvõtuga: lähteandmebaas otsustab, mis võib lahkuda; vastuvõtja otsustab, mida ta vastu võtab, kuhu peegelobjektid paigutuvad ja kes neid näeb.
+
+Sama kahe andmebaasi vahel võib olla mitu kattuvat ühendust — peegeldatakse kõik, mida jagatakse *ükskõik millise* kaudu. Jagatud objekti omadused on selle tüübi kohta tehtud pakkumiste ühend; vastuvõtja seaded liituvad samamoodi: peegelobjektid paigutatakse kõigi seadistatud ülemobjektide alla, saavad kõige avatuma nähtavuse ja pärivad õigusi, kui kasvõi üks `share_in` seda määrab.
 
 ## Ühenduse loomine kutselingiga
+
+::: info Kavandatav
+Kutselingi voog ei ole veel teostatud — praegu luuakse mõlemad ühenduse objektid käsitsi.
+:::
 
 Keegi ei pea seadistust käsitsi kopeerima. Jagav andmebaas genereerib oma `share_out` objektist **allkirjastatud lingi**; link kannab pakkumist — lähteandmebaasi nime ning pakutavate tüüpide ja omaduste nimesid. Vastuvõtja avab lingi, logib sisse, valib vastuvõtva andmebaasi, valib mida vastu võtta ja kuhu peegelobjektid paigutada, ning kinnitab. Tema `share_in` luuakse tema enda andmebaasis täpselt tema valikutega — võõrasse andmebaasi ei looda kunagi ühtegi objekti.
 
@@ -112,10 +114,10 @@ Kuna iga läbikäik lihtsalt viib sihtandmebaasi lähteandmebaasiga vastavusse, 
 
 Rühm raamatukogusid ja muuseume loob ühise `market` andmebaasi. Iga asutus loob sellega ühenduse ja annab ühendusele vaataja õigused esemetel, mida soovib välja panna — peegelobjektidest saab kataloog, mis on otsitav nagu iga Entu andmebaas. Külastajad logivad sisse oma olemasoleva Entu identiteediga ja sirvivad; kommentaarid ja laenutustaotlused on turuplatsi enda objektid, mis viitavad peegelobjektidele. Vastassuunaline ühendus võib jagada iga taotluse tagasi omaniku enda andmebaasi, nii et töötajad käsitlevad taotlusi oma Entust lahkumata.
 
-## Lahtised küsimused
+## Piirangud
 
-- **Failid ja pildid** — failiomadused viitavad lähtekonto failihoidla objektidele; peegelobjektid vajavad kas vahendajat, mis kontrollib ligipääsu originaali juures, või sünkroonimisel tehtavaid pisipiltide koopiaid.
-- **Peegelobjektipõhine nähtavus** — esimeses versioonis kehtib ühenduse kõigile peegelobjektidele üks nähtavus; objektipõhised erandid nõuaksid kohalike õiguste liitmist sünkroonitud dokumendiga.
-- **Tüüpide vastendamine** — esimene versioon eeldab sama tüübinime mõlemal pool; selgesõnaline lähtetüüp → sihttüüp vastendamine võib lisanduda hiljem.
+- **Failid ja pildid** — failiomadusi ei sünkroonita; peegelobjektid ei kanna failiväärtusi.
+- **Peegelobjektipõhine nähtavus** — ühenduse kõigil peegelobjektidel on üks nähtavus; objektipõhised erandid ei ole võimalikud.
+- **Tüüpide vastendamine** — sama tüübinimi peab olema mõlemal pool; lähtetüübi ja sihttüübi vastendamist ei ole.
 
-Tagasiside on teretulnud — selle disaini eesmärk on teha organisatsioonidevaheline koostöö võimalikuks nii, et iga andmebaas jääb oma andmete üle täielikult otsustajaks.
+Disain hoiab iga andmebaasi oma andmete üle täielikult otsustajana, tehes samas organisatsioonidevahelise koostöö võimalikuks.

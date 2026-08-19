@@ -1,12 +1,8 @@
 ---
-description: "A planned feature for sharing entities between Entu databases, published to gather design feedback before implementation."
+description: "Read-only mirroring of entities between Entu databases, configured with share_out and share_in entities."
 ---
 
 # Entity Sharing Between Databases
-
-::: warning Concept proposal
-This page describes a planned feature. Nothing on this page is implemented yet — it is published to collect feedback on the design.
-:::
 
 Every Entu account has its own isolated database. That isolation is a core guarantee — but some organisations want to make selected entities visible to each other. Libraries want a shared catalogue of books. Museums want a common view of their collections. A group of organisations may want a "marketplace" where items can be browsed, commented on, and requested for lending or exchange.
 
@@ -39,9 +35,15 @@ Two databases establish a **connection** — each side creates one connection en
 | `sharing` | Visibility (`private` / `domain` / `public`) applied to mirrors |
 | `inherit` | If set, mirrors also inherit visibility rights from their parents |
 
-The `type` and `property` lists reference the database's **own definition entities**, so a flat list is unambiguous — a property named `year` under *book* is a different definition than one under *artwork*. The engine resolves both sides to type-and-property names and syncs their **intersection**: the source decides what can leave, the receiver decides what it takes in, where mirrors land, and who sees them.
+The `type` and `property` lists reference the database's **own definition entities**. The offer is precise — a property named `year` under *book* is a different definition than one under *artwork*, and only the listed pairs are offered. Acceptance is by name: an accepted property applies to every accepted type that offers it. What syncs is the offer filtered by the acceptance: the source decides what can leave, the receiver decides what it takes in, where mirrors land, and who sees them.
+
+Several overlapping connections may exist between the same two databases — everything shared through *any* of them is mirrored. A shared entity's properties are the union of what the connections offer for its type; the receiver's settings combine likewise: mirrors are placed under all configured parents, get the most permissive visibility, and inherit rights if any `share_in` says so.
 
 ## Connecting with an invite link
+
+::: info Planned
+The invite link flow is not implemented yet — today both connection entities are created by hand.
+:::
 
 Nobody has to copy configuration by hand. The sharing database mints a **signed link** from its `share_out`; the link carries the offer — the source database name and the offered type and property names. The receiver opens it, signs in, chooses which of their databases will receive, selects what to accept and where mirrors go, and confirms. Their `share_in` is created in their own database with exactly those choices — no entity is ever created in a foreign database.
 
@@ -112,10 +114,10 @@ Because every sweep simply makes the target match the source, no lifecycle event
 
 A group of libraries and museums creates a shared `market` database. Each institution connects to it and grants the connection viewer rights on the items it wants to list — the mirrors become the catalogue, searchable like any Entu database. Visitors log in with their existing Entu identity and browse; comments and lending requests are the marketplace's own entities referencing the mirrors. A reverse connection can share each request back into the owning institution's database, so staff handle requests without leaving their own Entu.
 
-## Open questions
+## Limitations
 
-- **Files and images** — file properties reference storage objects in the source account; mirrors need either a proxy that re-checks access at the origin, or thumbnail copies made at sync time.
-- **Per-mirror visibility overrides** — v1 applies one visibility to all mirrors of a connection; per-mirror overrides would require merging local rights over the synced document.
-- **Type mapping** — v1 requires the same type name on both sides; explicit source-type → target-type mapping could come later.
+- **Files and images** — file properties are not synced; mirrors carry no file values.
+- **Per-mirror visibility** — all mirrors of a connection share one visibility; per-mirror overrides are not possible.
+- **Type mapping** — the same type name must exist on both sides; there is no source-type to target-type mapping.
 
-Feedback is welcome — this design aims to make cross-organisation collaboration possible while keeping each database fully in control of its own data.
+The design keeps each database fully in control of its own data while making cross-organisation collaboration possible.

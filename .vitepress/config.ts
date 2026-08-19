@@ -157,7 +157,8 @@ export default defineConfig({
               { text: 'Mis on Entu', link: '/et/overview/' },
               { text: 'Objektid', link: '/et/overview/entities' },
               { text: 'Parameetrid', link: '/et/overview/properties' },
-              { text: 'Autentimine', link: '/et/overview/authentication' }
+              { text: 'Autentimine', link: '/et/overview/authentication' },
+              { text: 'Objektide jagamine', link: '/et/overview/sharing' }
             ]
           },
           {
@@ -233,7 +234,8 @@ export default defineConfig({
           { text: 'What is Entu', link: '/overview/' },
           { text: 'Entities', link: '/overview/entities' },
           { text: 'Properties', link: '/overview/properties' },
-          { text: 'Authentication', link: '/overview/authentication' }
+          { text: 'Authentication', link: '/overview/authentication' },
+          { text: 'Entity sharing', link: '/overview/sharing' }
         ]
       },
       {
