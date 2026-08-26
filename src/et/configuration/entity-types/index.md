@@ -8,6 +8,8 @@ Objektitüüp määratleb objektide kategooria sinu andmebaasis. Loo üks iga as
 
 Kogu seadistamine toimub Entu kasutajaliideses — koodi ega konfiguratsioonifaile pole vaja.
 
+![Objektitüüp koos parameetrite definitsioonidega](/screenshots/entity-type-et.png)
+
 ## Objektitüübi loomine
 
 1. Ava külgribal **Seadistamine**

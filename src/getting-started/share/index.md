@@ -6,7 +6,7 @@ description: "Share your Entu data with family or colleagues — invite people b
 
 Your database is private until you decide otherwise. When you're ready, you can invite people and choose exactly what each of them can see or do.
 
-<!-- screenshot: rights drawer of an entity showing viewer and editor entries -->
+![Rights drawer of an entity with its access levels and user entries](/screenshots/share-rights.png)
 
 ## What someone can do
 

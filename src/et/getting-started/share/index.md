@@ -6,7 +6,7 @@ description: "Jaga oma Entu andmeid pere või kolleegidega — kutsu inimesi e-p
 
 Sinu andmebaas on privaatne, kuni sa ise teisiti otsustad. Kui oled valmis, saad inimesi kutsuda ja määrata täpselt, mida igaüks neist näha või teha saab.
 
-<!-- screenshot: objekti õiguste paneel vaataja- ja toimetajakirjetega -->
+![Objekti õiguste paneel juurdepääsutasemete ja kasutajakirjetega](/screenshots/share-rights-et.png)
 
 ## Mida keegi teha saab
 

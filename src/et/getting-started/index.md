@@ -6,7 +6,7 @@ description: "Loo oma Entu konto paari minutiga — vali andmebaasi nimi, logi s
 
 Entu andmebaasi saad luua paari minutiga. Midagi pole vaja paigaldada, ühtegi parooli pole vaja välja mõelda ega midagi maksta — vali lihtsalt nimi ja logi sisse kontoga, mis sul juba olemas on.
 
-<!-- screenshot: entu.app registreerumisleht andmebaasi nimeväljaga ja sisselogimisvalikutega -->
+![Entu registreerumisleht andmebaasi nimevälja ja sisselogimisvalikutega](/screenshots/signup-et.png)
 
 ## 1. Mine registreerumislehele
 

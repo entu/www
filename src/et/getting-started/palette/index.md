@@ -6,7 +6,7 @@ description: "Käsupalett paneb kogu Entu ühe klahvikombinatsiooni taha — ots
 
 Vajuta ükskõik kus rakenduses **⌘K** (Mac) või **Ctrl+K** (Windows/Linux) ja käsupalett avaneb. Sulgemiseks vajuta **Esc** või klõpsa paletist väljapoole.
 
-<!-- screenshot: avatud käsupalett mõne otsingutulemusega -->
+![Avatud käsupalett otsingutulemustega](/screenshots/palette-et.png)
 
 ## Hakka kirjutama
 
@@ -20,6 +20,8 @@ Tühi palett on juba kasulik. See näitab:
 - **Lisamise otseteed** — uue objekti lisamine sellesse menüüloendisse, kus parasjagu oled.
 - **Hiljutised** — viimati vaadatud objektid, ühe klahvivajutuse kaugusel.
 
+![Avatud objektil avatud käsupalett objekti tegevustega](/screenshots/palette-entity-et.png)
+
 ## Käsud
 
 Palett käivitab ka rakenduse käske: ava **täpsem otsing** või **Entu AI**, vaheta keelt või logi välja. Ja navigeerib — igasse menüüpunkti, töölauale, oma profiilile või teise kontosse, millele sul on ligipääs.
@@ -30,6 +32,8 @@ Palett mõistab lihtsat päringukeelt. Kirjuta objektitüübi nimi ja vajuta **T
 
 - **Filtreeri parameetri järgi** — vali parameeter, tingimus ja väärtus. Tingimused on **on / ei ole / sisaldab** — arvude ja kuupäevade puhul **on / enne / pärast**. Filtri koostamise ajal vahetab tingimust **⌥** (Alt).
 - **Sordi parameetri järgi** — lisa sortimismärgis ja pööra suunda sellel klõpsates.
+
+![Käsupalett tüübimärgise ja parameetrifiltriga](/screenshots/palette-filter-et.png)
 
 **Backspace** tühjas sisestuskastis eemaldab viimase märgise, nii saad päringut samm-sammult ümber ehitada. Vajuta **Enter** ja loendivaade avaneb koos sinu filtritega.
 

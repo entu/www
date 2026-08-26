@@ -6,7 +6,7 @@ description: "Lisa oma esimesed kirjed Entusse — loo objekt, täida väljad, l
 
 Kõik, mida Entus hoiad, on **objekt** — mõtle sellest kui kartoteegikaardist. Raamat, inimene, arve, foto: igaüks on üks objekt oma väljadega.
 
-<!-- screenshot: objektide loend, tööriistaribal esile tõstetud lisamisnupp -->
+![Objektide loend lisamisnupuga tööriistaribal](/screenshots/add-list-et.png)
 
 ## Loo objekt
 
@@ -17,7 +17,7 @@ Kõik, mida Entus hoiad, on **objekt** — mõtle sellest kui kartoteegikaardist
 
 Ongi kõik — kirje ilmub kohe loendisse.
 
-<!-- screenshot: muutmispaneel, raamatu väljad pooleldi täidetud -->
+![Muutmispaneel täidetud raamatu väljadega](/screenshots/add-drawer-et.png)
 
 ## Lisa failid ja fotod
 

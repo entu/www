@@ -6,7 +6,7 @@ description: "Leia Entust kõik üles — otsi kogu andmestikust ühest kastist,
 
 Kui andmed on Entus, on nende ülesleidmine lihtsaim osa.
 
-<!-- screenshot: tööriistariba otsingukast, tulemused mitmest objektitüübist -->
+![Tööriistariba otsingukast tulemustega mitmest objektitüübist](/screenshots/find-search-et.png)
 
 ## Otsi kõike ühest kastist
 
@@ -23,7 +23,7 @@ Tööriistariba nupp vahetab kahe vaate vahel:
 - **Loendivaade** — kompaktne loend, valitud kirje üksikasjad kõrval. Hea ühe asja lugemiseks ja muutmiseks.
 - **Tabelivaade** — kõik kirjed ridadena ja väljad veergudena nagu tabelarvutuses. Hea paljude kirjete sirvimiseks ja võrdlemiseks.
 
-<!-- screenshot: samad andmed tabelivaates -->
+![Samad andmed tabelivaates](/screenshots/find-table-et.png)
 
 ## Iga muudatus jääb meelde
 

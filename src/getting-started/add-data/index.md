@@ -6,7 +6,7 @@ description: "Add your first entries to Entu — create an entity, fill in its f
 
 Everything you store in Entu is an **entity** — think of it as a card in a card file. A book, a person, an invoice, a photo: each is one entity with its own fields.
 
-<!-- screenshot: entity list with the add button highlighted in the toolbar -->
+![Entity list with the add button in the toolbar](/screenshots/add-list.png)
 
 ## Create an entity
 
@@ -17,7 +17,7 @@ Everything you store in Entu is an **entity** — think of it as a card in a car
 
 That's it — the entry appears in the list immediately.
 
-<!-- screenshot: edit drawer with a book entity's fields half filled -->
+![Edit drawer with a book entity's fields filled in](/screenshots/add-drawer.png)
 
 ## Attach files and photos
 

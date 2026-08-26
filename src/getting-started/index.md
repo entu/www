@@ -6,7 +6,7 @@ description: "Create your Entu account in a couple of minutes — pick a databas
 
 You can create an Entu database in a couple of minutes. There is nothing to install, no password to invent, and no payment to make — you just pick a name and sign in with an account you already have.
 
-<!-- screenshot: signup page of entu.app with the database name field and the list of sign-in options -->
+![Entu signup page with the database name field and the list of sign-in options](/screenshots/signup.png)
 
 ## 1. Go to the signup page
 

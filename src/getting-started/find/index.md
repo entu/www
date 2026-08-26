@@ -6,7 +6,7 @@ description: "Find anything in Entu — search across all your data from one box
 
 Once your data is in Entu, getting it back out is the easy part.
 
-<!-- screenshot: toolbar search box with results from several entity types -->
+![Toolbar search box with results from several entity types](/screenshots/find-search.png)
 
 ## Search everything from one box
 
@@ -23,7 +23,7 @@ A toolbar button switches between two views:
 - **List view** — a compact list with the selected entry's details next to it. Good for reading and editing one thing at a time.
 - **Table view** — all entries as rows with their fields as columns, like a spreadsheet. Good for scanning and comparing many entries.
 
-<!-- screenshot: the same data shown in table view -->
+![The same data shown in table view](/screenshots/find-table.png)
 
 ## Every change is remembered
 

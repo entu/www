@@ -8,6 +8,8 @@ An entity type defines a category of objects in your database. Create one for ea
 
 All configuration happens through the Entu UI — no code or config files.
 
+![An entity type with its property definitions listed](/screenshots/entity-type.png)
+
 ## Creating an Entity Type
 
 1. Open **Configuration** in the sidebar
