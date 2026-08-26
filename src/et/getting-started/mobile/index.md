@@ -26,10 +26,3 @@ Tihti on telefon täpselt see koht, kus Entu kõige rohkem abiks on:
 - Pildista ostutšekk ja lisa see kohe ostu juurde.
 - Vaata seerianumber üle otse keldris, mitte hiljem arvuti taga.
 
-## Kuhu edasi?
-
-Põhiline on käes — konto, kirjed, otsing, jagamine ja mobiil. Siit edasi:
-
-- [Mis on Entu](/et/overview/) — objektide ja parameetrite mõttemaailm põhjalikumalt.
-- [Seadistamine](/et/configuration/entity-types/) — vormi Entu täpselt oma vajaduste järgi.
-- [Kasutusnäited](/et/examples/) — terviklikud läbimängud: CRM, projektihaldus ja muud.

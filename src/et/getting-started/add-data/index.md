@@ -31,6 +31,3 @@ Objekte saab korrastada **üksteise alla** nagu kaustu — raamat riiuli alla, a
 
 Välju saad igal ajal ümber nimetada, uusi lisada või struktuuri muuta — miski pole kivisse raiutud. Kui mall päris täpselt ei sobi, kohanda seda jooksvalt. Kui oled valmis süvenema, vaata [Seadistamine](/et/configuration/entity-types/).
 
-## Järgmine samm
-
-[Leia oma andmed →](/et/getting-started/find/)

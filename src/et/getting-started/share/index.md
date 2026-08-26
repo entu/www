@@ -36,6 +36,3 @@ See ongi soovitatav viis juurdepääsu haldamiseks: anna õigused ülemobjektil,
 
 Kirje saab teha nähtavaks ka **kõigile sinu andmebaasi kasutajatele** või koguni **avalikult internetis** — kasulik näiteks muuseumi avaliku kataloogi puhul. Avalik nähtavus on ainult lugemiseks ning alati teadlik valik, mitte kunagi vaikeseade.
 
-## Järgmine samm
-
-[Entu sinu telefonis →](/et/getting-started/mobile/)

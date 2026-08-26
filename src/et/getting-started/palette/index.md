@@ -33,6 +33,3 @@ Palett mõistab lihtsat päringukeelt. Kirjuta objektitüübi nimi ja vajuta **T
 
 **Backspace** tühjas sisestuskastis eemaldab viimase märgise, nii saad päringut samm-sammult ümber ehitada. Vajuta **Enter** ja loendivaade avaneb koos sinu filtritega.
 
-## Järgmine samm
-
-[Jaga ja kutsu →](/et/getting-started/share/)

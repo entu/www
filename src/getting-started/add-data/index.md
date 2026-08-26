@@ -31,6 +31,3 @@ Entities can be organised **under** each other, like folders — a book under a 
 
 You can rename fields, add new ones, or restructure things at any time — nothing is fixed. If a template doesn't quite fit, adjust it as you go. The [Configuration](/configuration/entity-types/) section covers this in depth when you're ready.
 
-## Next step
-
-[Find your data →](/getting-started/find/)

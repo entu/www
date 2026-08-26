@@ -156,10 +156,3 @@ curl -X DELETE "https://entu.app/api/mydatabase/property/PROPERTY_ID" \
   -H "Authorization: Bearer YOUR_JWT_TOKEN"
 ```
 
-## Next Steps
-
-- [Entities](/overview/entities/) — Understand the entity-property model
-- [Query Reference](/api/query-reference/) — Full filter and sort syntax
-- [Best Practices](/api/best-practices/) — Optimization tips and patterns
-- [Formulas](/api/formulas/) — Computed properties
-- [Files](/api/files/) — File upload and download

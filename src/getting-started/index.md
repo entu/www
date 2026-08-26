@@ -44,6 +44,3 @@ Every new database ships with a standard set of entity types, menus, and plugins
 
 Billing is entirely separate and optional — you can set up a plan later from the billing page inside your account.
 
-## Next step
-
-[Add your first entries →](/getting-started/add-data/)

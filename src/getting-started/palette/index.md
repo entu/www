@@ -33,6 +33,3 @@ The palette understands a small query grammar. Type an entity type's name and pr
 
 **Backspace** on an empty input removes the last token, so you can rebuild the query step by step. Press **Enter** and the list view opens with your filters applied.
 
-## Next step
-
-[Share and invite →](/getting-started/share/)

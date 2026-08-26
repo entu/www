@@ -29,6 +29,3 @@ A toolbar button switches between two views:
 
 Each entry keeps its full history — who changed what and when. If something looks off, open the entry's history from the toolbar and see exactly what happened.
 
-## Next step
-
-[Command palette →](/getting-started/palette/)

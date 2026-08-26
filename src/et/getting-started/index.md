@@ -44,6 +44,3 @@ Iga uus andmebaas tuleb standardse objektitüüpide, menüüde ja pluginate komp
 
 Arveldus on täiesti eraldi ja vabatahtlik — paketi saad seadistada hiljem oma konto arvelduslehel.
 
-## Järgmine samm
-
-[Lisa esimesed kirjed →](/et/getting-started/add-data/)

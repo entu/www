@@ -18,9 +18,3 @@ Objektid on korraldatud **ülem-alam hierarhiasse** nagu kaustad — raamatud ri
 
 Sama andmemudel toetab sisseehitatud kasutajaliidest — eraldi haldusliidest pole; seadistus ja sisu elavad samas objektipuus. Arendajad pääsevad kõigele ligi REST API kaudu, aga Entu kasutamiseks pole arendajat vaja.
 
-## Järgmised sammud
-
-- [Alustamine](/et/getting-started/) — loo konto ja lisa esimesed kirjed
-- [Objektid](/et/overview/entities/) — hierarhia, õigused ja kustutamine lähemalt
-- [Parameetrid](/et/overview/properties/) — tüübid, mitme väärtusega, mitmekeelsed ja süsteemparameetrid
-- [Objektitüübid](/et/configuration/entity-types/) — kuidas seadistada oma andmemudelit

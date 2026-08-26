@@ -26,10 +26,3 @@ The phone is often exactly where Entu is most useful:
 - Snap a photo of a receipt and attach it to the purchase right away.
 - Look up a serial number in the basement, not back at your desk.
 
-## Where to next?
-
-You've covered the basics — account, entries, search, sharing, and mobile. From here:
-
-- [What is Entu](/overview/) — the ideas behind entities and properties, explained properly.
-- [Configuration](/configuration/entity-types/) — shape Entu to fit your exact needs.
-- [Examples](/examples/) — complete walkthroughs: CRM, project tracker, and more.

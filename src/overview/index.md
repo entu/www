@@ -18,9 +18,3 @@ Entities are organised in a **parent–child hierarchy**, like folders — books
 
 The same data model powers the built-in UI — there is no separate admin interface; configuration and content live in the same entity tree. Developers can reach everything through the REST API, but nothing in Entu requires one.
 
-## Next Steps
-
-- [Getting Started](/getting-started/) — create an account and add your first entries
-- [Entities](/overview/entities/) — hierarchy, rights, and deletion in detail
-- [Properties](/overview/properties/) — types, multi-value, multilingual, and system properties
-- [Entity Types](/configuration/entity-types/) — how to configure your data model

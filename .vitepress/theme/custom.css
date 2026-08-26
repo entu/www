@@ -408,50 +408,6 @@
   margin-bottom: 16px;
 }
 
-/* "Next Steps" links as cards */
-.vp-doc h2[id^="next-steps"] + ul,
-.vp-doc h2[id^="jargmised-sammud"] + ul,
-.vp-doc h2[id^="järgmised-sammud"] + ul {
-  list-style: none;
-  margin: 16px 0;
-  padding: 0;
-  display: flex;
-  flex-direction: column;
-  gap: 10px;
-}
-
-.vp-doc h2[id^="next-steps"] + ul > li,
-.vp-doc h2[id^="jargmised-sammud"] + ul > li,
-.vp-doc h2[id^="järgmised-sammud"] + ul > li {
-  display: flex;
-  align-items: baseline;
-  gap: 6px;
-  background: var(--e-card-bg);
-  border: 1px solid var(--e-border);
-  border-radius: 8px;
-  padding: 16px 20px;
-  margin: 0 !important;
-  font-size: 14px;
-  color: var(--e-secondary);
-}
-
-.vp-doc h2[id^="next-steps"] + ul > li::after,
-.vp-doc h2[id^="jargmised-sammud"] + ul > li::after,
-.vp-doc h2[id^="järgmised-sammud"] + ul > li::after {
-  content: '→';
-  margin-left: auto;
-  color: var(--e-faint);
-  padding-left: 12px;
-}
-
-.vp-doc h2[id^="next-steps"] + ul > li > a,
-.vp-doc h2[id^="jargmised-sammud"] + ul > li > a,
-.vp-doc h2[id^="järgmised-sammud"] + ul > li > a {
-  font: 700 15px var(--e-font-display);
-  color: var(--e-accent);
-  flex-shrink: 0;
-}
-
 /* ============================================================
    Outline (right rail)
    ============================================================ */

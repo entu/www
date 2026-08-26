@@ -36,6 +36,3 @@ This is the recommended way to manage access: grant rights on the parent, enable
 
 You can also mark an entry as visible to **everyone in your database**, or even **publicly on the internet** — useful for a museum's public catalogue. Public visibility is read-only, and it's always an explicit choice, never a default.
 
-## Next step
-
-[Entu on your phone →](/getting-started/mobile/)
