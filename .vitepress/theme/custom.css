@@ -489,3 +489,12 @@
 .VPFooter a:hover {
   color: var(--e-text) !important;
 }
+
+/* ============================================================
+   Screenshots
+   ============================================================ */
+
+.vp-doc img[src^="/screenshots/"] {
+  border: 1px solid var(--e-border-subtle);
+  border-radius: 8px;
+}
