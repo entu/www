@@ -31,4 +31,4 @@ Each entry keeps its full history — who changed what and when. If something lo
 
 ## Next step
 
-[Share and invite →](/getting-started/share/)
+[Command palette →](/getting-started/palette/)

@@ -80,11 +80,11 @@ Objektide hulgiimport tabelist. Lae üles CSV-fail, vaata read eelvaates üle, v
 
 ### Discogsi import
 
-Otsi muusika andmebaasist [Discogs](https://www.discogs.com) ja lisa väljaandeid otse oma kogusse. Sisesta esitaja või albumi pealkiri, sirvi tulemusi ja klõpsa Impordi — Entu loob objekti pealkirja, esitaja, sildi, aasta, formaadi, žanri, vöötkoodi ja muu metaandmetega automaatselt täidetuna.
+Otsi muusika andmebaasist [Discogs](https://www.discogs.com) ja lisa väljaandeid otse oma kogusse. Sisesta esitaja või albumi pealkiri, sirvi tulemusi ja klõpsa Impordi — Entu loob objekti pealkirja, esitaja, sildi, aasta, formaadi, žanri, vöötkoodi ja muu metaandmetega automaatselt täidetuna. Telefonis saad väljaande vöötkoodi ka kaameraga skannida — puuduta otsinguvälja kõrval olevat kaameranuppu või tee vöötkoodist pilt — ja plugin otsib seda automaatselt.
 
 ### Esteri import
 
-Otsi [ESTER](https://www.ester.ee) ühiskataloogi, mida kasutavad Eesti kõrgkooli- ja avalikud raamatukogud. Leia raamatuid ja publikatsioone pealkirja, autori, ISBN-i või ISSN-i järgi ja impordi need täieliku bibliograafilise metaandmetega objektidena.
+Otsi [ESTER](https://www.ester.ee) ühiskataloogi, mida kasutavad Eesti kõrgkooli- ja avalikud raamatukogud. Leia raamatuid ja publikatsioone pealkirja, autori, ISBN-i või ISSN-i järgi ja impordi need täieliku bibliograafilise metaandmetega objektidena. Telefonis saad raamatu ISBN-vöötkoodi ka kaameraga skannida — puuduta otsinguvälja kõrval olevat kaameranuppu või tee vöötkoodist pilt — ja plugin otsib seda automaatselt.
 
 ### KML import
 

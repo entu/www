@@ -80,11 +80,11 @@ Bulk-import entities from a spreadsheet. Upload a CSV file, preview the rows, ch
 
 ### Discogs Import
 
-Search the [Discogs](https://www.discogs.com) music database and add releases directly to your collection. Enter an artist or album title, browse the results, and click Import — Entu creates the entity with title, artist, label, year, format, genre, barcode, and other metadata filled in automatically.
+Search the [Discogs](https://www.discogs.com) music database and add releases directly to your collection. Enter an artist or album title, browse the results, and click Import — Entu creates the entity with title, artist, label, year, format, genre, barcode, and other metadata filled in automatically. On phones you can also scan a release's barcode with the camera — tap the camera button next to the search field, or take a photo of the barcode — and the plugin searches for it automatically.
 
 ### Ester Import
 
-Search the [ESTER](https://www.ester.ee) union library catalog used by Estonian academic and public libraries. Find books and publications by title, author, ISBN, or ISSN and import them as entities with full bibliographic metadata.
+Search the [ESTER](https://www.ester.ee) union library catalog used by Estonian academic and public libraries. Find books and publications by title, author, ISBN, or ISSN and import them as entities with full bibliographic metadata. On phones you can also scan a book's ISBN barcode with the camera — tap the camera button next to the search field, or take a photo of the barcode — and the plugin searches for it automatically.
 
 ### KML Import
 

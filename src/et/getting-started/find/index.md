@@ -31,4 +31,4 @@ Iga kirje hoiab oma täielikku ajalugu — kes mida ja millal muutis. Kui midagi
 
 ## Järgmine samm
 
-[Jaga ja kutsu →](/et/getting-started/share/)
+[Käsupalett →](/et/getting-started/palette/)

@@ -147,6 +147,7 @@ export default defineConfig({
               { text: 'Loo oma konto', link: '/et/getting-started/' },
               { text: 'Lisa esimesed kirjed', link: '/et/getting-started/add-data' },
               { text: 'Leia oma andmed', link: '/et/getting-started/find' },
+              { text: 'Käsupalett', link: '/et/getting-started/palette' },
               { text: 'Jaga ja kutsu', link: '/et/getting-started/share' },
               { text: 'Entu sinu telefonis', link: '/et/getting-started/mobile' }
             ]
@@ -224,6 +225,7 @@ export default defineConfig({
           { text: 'Create Your Account', link: '/getting-started/' },
           { text: 'Add Your First Entries', link: '/getting-started/add-data' },
           { text: 'Find Your Data', link: '/getting-started/find' },
+          { text: 'Command Palette', link: '/getting-started/palette' },
           { text: 'Share and Invite', link: '/getting-started/share' },
           { text: 'Entu on Your Phone', link: '/getting-started/mobile' }
         ]
