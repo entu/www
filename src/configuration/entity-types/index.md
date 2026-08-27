@@ -96,6 +96,12 @@ On the entity type's page, use the "Add" button to create child entities of type
 Enable `search` on properties users frequently filter by (e.g. `name`, `status`, `reference code`).
 :::
 
+::: info `reference_query` is a static filter
+`reference_query` is evaluated as a fixed query string — it does **not** support per-instance placeholders such as `{{_parent}}` or references to the current record. The same filter applies to every picker for this property, regardless of which entity is being edited. To scope a picker by the current record's context (e.g. "only members of *this* entity's organisation"), enforce it in your application or BFF layer.
+
+Access rights always apply on top of `reference_query`: users only ever see entities they already have rights to, so the picker can never surface records they shouldn't.
+:::
+
 ### Property Types
 
 Available types: `string`, `text`, `number`, `boolean`, `date`, `datetime`, `file`, `reference`, `counter`.

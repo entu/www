@@ -14,6 +14,10 @@ Formulas are evaluated in two passes so that properties depending on other formu
 Two-pass evaluation means a formula can safely reference another computed property on the same entity. The first pass resolves simple fields; the second resolves dependencies between computed properties.
 :::
 
+::: warning Output is a scalar, never a reference
+A formula always stores a scalar result — `string`, `number`, or `boolean`, whichever its operators produce. It never produces a `reference` value. Declaring `type: reference` on a formula property has no effect: the result is stored as a string. For an honest schema, declare formula properties that surface reference-like text as `type: string`.
+:::
+
 ## Syntax
 
 Formulas use **Reverse Polish Notation** (RPN, also known as postfix notation): values come first, the operator comes last. The engine walks the formula left to right with a single value stack. Each token either:
@@ -78,6 +82,12 @@ Entu properties are multi-value: a single field reference may push a list of N v
 | `propertyName.*._id` | IDs of all referenced entities |
 | `propertyName.type._id` | IDs of referenced entities filtered by type |
 
+::: warning Single-hop only
+A reference resolves exactly **one** hop from the current entity. `propertyName.*.property` reads a property on the directly-referenced entity. A second hop — for example continuing through `_parent` or another reference after the first (`ref.*._parent.*.name`) — resolves to nothing: the formula property is silently left unwritten rather than raising an error.
+
+To traverse two levels, define an intermediate formula property on the referenced entity that exposes the value you need, then read that property in a single hop.
+:::
+
 ### Child Entities
 
 | Reference | Resolves to |
@@ -106,6 +116,14 @@ A referrer is an entity that points at the current entity through a user-defined
 
 ::: info
 Unlike same-entity formulas, a `_referrer` formula depends on **other** entities. Its value updates when a referencing entity is created, changed, deleted, or has its reference changed — Entu then queues the target entity for automatic re-aggregation so its `_referrer` (and `_child`) formulas recompute. The result is eventually consistent: it may not be updated within the same request that changed the referencing entity.
+:::
+
+::: warning Formula evaluation bypasses access rights
+The formula evaluator reads referenced, child, and referrer entities directly, without applying the requesting user's access rights. A formula on entity A can incorporate data from entity B even when the viewer has no rights to read B on its own.
+
+This is deliberate — it enables roll-ups across access boundaries (a parent counting or summing restricted children). But it means a formula that projects **raw values** (names, emails, descriptions) from a restricted entity exposes those values to anyone who can read the formula-bearing entity. Reserve cross-entity formulas for aggregates (`COUNT`, `SUM`, `AVERAGE`, `MIN`, `MAX`); avoid projecting raw fields across a rights boundary.
+
+The exposure is bounded by who can write formulas: only users who can edit the entity-type definition (typically administrators) can add or change one.
 :::
 
 ## Operators
@@ -169,6 +187,14 @@ Most operators return no value (the property is not written) when their inputs r
 | `EQ`, `NE`, `GT`, `GTE`, `LT`, `LTE` | empty side → no value |
 | `EXISTS` | always returns a boolean |
 | `IF`, `WHEN` | no value if `cond` is empty or not a single boolean; `WHEN` returns no value when `cond` is `false` |
+
+::: info CONCAT_WS with partial and duplicate inputs
+When only some inputs resolve, `CONCAT_WS` joins the present values and emits no stray separators: `a b ' / ' CONCAT_WS` with only `a` set returns `"A"`, not `"A / "`. (All inputs absent returns no value.)
+
+Values are joined **verbatim, without deduplication** — if the same value appears more than once across the inputs or within a list-valued field, it appears more than once in the output (`["en","et"] ["la","en"] ' / ' CONCAT_WS` → `"en / et / la / en"`).
+
+There is no `COALESCE` or `FIRST` operator. To express "use `a`, otherwise `b`", handle the fallback in your application layer.
+:::
 
 ## Examples
 
