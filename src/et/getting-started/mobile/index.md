@@ -14,7 +14,7 @@ Sinu andmed ei ole ühe arvuti küljes kinni. Entu töötab seal, kus sina oled.
 
 Apple'i seadmetele on olemas natiivne Entu rakendus — sama konto ja samad andmed, aga sujuvam ja seadmes omasem.
 
-<!-- screenshot: iPhone'i raam, Entu rakenduses objektide loend -->
+![Natiivne Entu rakendus iPadis, avatud raamatu objekt](/screenshots/ipad-et.png)
 
 [Laadi see alla App Store'ist](https://apps.apple.com/app/apple-store/id1520575542?pt=120355100&ct=www&mt=8) — üks rakendus iPhone'ile, iPadile ja Macile.
 

@@ -14,7 +14,7 @@ Your data is not tied to one computer. Entu works wherever you are.
 
 For Apple devices there is a native Entu app — the same account and the same data, with a faster, more at-home feel.
 
-<!-- screenshot: iPhone frame with the Entu app showing an entity list -->
+![The native Entu app on iPad, showing a book entity](/screenshots/ipad.png)
 
 [Download it from the App Store](https://apps.apple.com/app/apple-store/id1520575542?pt=120355100&ct=www&mt=8) — one app for iPhone, iPad, and Mac.
 
