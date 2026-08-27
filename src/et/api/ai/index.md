@@ -4,7 +4,7 @@ description: "Entu AI assistendi REST-otspunktid — kahesammuline voog, kus ves
 
 # AI assistent
 
-Need lõpp-punktid on [Entu AI](/et/configuration/ai/) assistendi aluseks. Voog koosneb kahest sammust: vestluse lõpp-punkt tagastab assistendi vastuse ja — kui ta pakub muudatusi — kirjutamistoimingute ettepaneku, kuid midagi veel ei rakendata. Pärast kasutaja kinnitust edastatakse ettepaneku toimingud muutmata kujul käivitamise lõpp-punktile, mis need rakendab.
+Need lõpp-punktid on [Entu AI](/et/seadistamine/ai/) assistendi aluseks. Voog koosneb kahest sammust: vestluse lõpp-punkt tagastab assistendi vastuse ja — kui ta pakub muudatusi — kirjutamistoimingute ettepaneku, kuid midagi veel ei rakendata. Pärast kasutaja kinnitust edastatakse ettepaneku toimingud muutmata kujul käivitamise lõpp-punktile, mis need rakendab.
 
 Mõlemad lõpp-punktid nõuavad JWT tokenit päises `Authorization: Bearer <token>` ja töötavad kutsuva kasutaja õigustega — assistent näeb ja saab muuta ainult seda, mida kasutaja saaks näha ja muuta käsitsi.
 

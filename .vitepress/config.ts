@@ -11,12 +11,52 @@ function cleanPath (relativePath: string): string {
     .replace(/\.md$/, '')
 }
 
+// EN section/page slugs and their ET counterparts, longest first so child paths match before parents.
+const SLUG_MAP: [string, string][] = [
+  ['getting-started/add-data', 'alustamine/andmete-lisamine'],
+  ['getting-started/find', 'alustamine/otsimine'],
+  ['getting-started/palette', 'alustamine/kasupalett'],
+  ['getting-started/share', 'alustamine/jagamine'],
+  ['getting-started/mobile', 'alustamine/mobiil'],
+  ['getting-started', 'alustamine'],
+  ['overview/entities', 'ulevaade/objektid'],
+  ['overview/properties', 'ulevaade/parameetrid'],
+  ['overview/sharing', 'ulevaade/jagamine'],
+  ['overview/authentication', 'ulevaade/autentimine'],
+  ['overview', 'ulevaade'],
+  ['configuration/entity-types', 'seadistamine/objektituubid'],
+  ['configuration/menus', 'seadistamine/menuud'],
+  ['configuration/users', 'seadistamine/kasutajad'],
+  ['configuration/plugins', 'seadistamine/pluginad'],
+  ['configuration/best-practices', 'seadistamine/parimad-praktikad'],
+  ['configuration/ai', 'seadistamine/ai'],
+  ['configuration', 'seadistamine'],
+  ['examples', 'kasutusnaited'],
+  ['db-mutations', 'andmebaasi-mutatsioonid'],
+  ['terms', 'kasutustingimused'],
+  ['api/quickstart', 'api/kiire-algus'],
+  ['api/authentication', 'api/autentimine'],
+  ['api/best-practices', 'api/parimad-praktikad'],
+  ['api/query-reference', 'api/paringu-viide'],
+  ['api/properties', 'api/parameetrid'],
+  ['api/formulas', 'api/valemid'],
+  ['api/files', 'api/failid']
+]
+
 // Map an EN path to its ET counterpart and vice versa.
 function localeCounterparts (path: string): { en: string, et: string } {
-  const en = path.startsWith('et/') ? path.slice(3) : path
-  const et = path.startsWith('et/') ? path : `et/${path}`
+  if (path.startsWith('et/')) {
+    const etPath = path.slice(3)
+    const match = SLUG_MAP.find(([, et]) => etPath === `${et}/` || etPath.startsWith(`${et}/`))
+    const en = match ? etPath.replace(match[1], match[0]) : etPath
 
-  return { en, et }
+    return { en, et: path }
+  }
+
+  const match = SLUG_MAP.find(([en]) => path === `${en}/` || path.startsWith(`${en}/`))
+  const et = match ? path.replace(match[0], match[1]) : path
+
+  return { en: path, et: `et/${et}` }
 }
 
 function abs (path: string): string {
@@ -133,10 +173,10 @@ export default defineConfig({
       description: 'Ehita oma andmemudel programmeerimata — seadista objektid, parameetrid ja juurdepääsuõigused täielikult kasutajaliidese kaudu',
       themeConfig: {
         nav: [
-          { text: 'Alustamine', link: '/et/getting-started/' },
-          { text: 'Ülevaade', link: '/et/overview/' },
-          { text: 'Seadistamine', link: '/et/configuration/entity-types/' },
-          { text: 'API', link: '/et/api/quickstart/' },
+          { text: 'Alustamine', link: '/et/alustamine/' },
+          { text: 'Ülevaade', link: '/et/ulevaade/' },
+          { text: 'Seadistamine', link: '/et/seadistamine/objektituubid/' },
+          { text: 'API', link: '/et/api/kiire-algus/' },
           { text: 'Hinnakiri', link: '/et/#hinnad' },
           { text: 'Logi sisse', link: 'https://entu.app' }
         ],
@@ -144,48 +184,48 @@ export default defineConfig({
           {
             text: 'Alustamine',
             items: [
-              { text: 'Loo oma konto', link: '/et/getting-started/' },
-              { text: 'Lisa esimesed kirjed', link: '/et/getting-started/add-data/' },
-              { text: 'Leia oma andmed', link: '/et/getting-started/find/' },
-              { text: 'Käsupalett', link: '/et/getting-started/palette/' },
-              { text: 'Jaga ja kutsu', link: '/et/getting-started/share/' },
-              { text: 'Entu sinu telefonis', link: '/et/getting-started/mobile/' }
+              { text: 'Loo oma konto', link: '/et/alustamine/' },
+              { text: 'Lisa esimesed kirjed', link: '/et/alustamine/andmete-lisamine/' },
+              { text: 'Leia oma andmed', link: '/et/alustamine/otsimine/' },
+              { text: 'Käsupalett', link: '/et/alustamine/kasupalett/' },
+              { text: 'Jaga ja kutsu', link: '/et/alustamine/jagamine/' },
+              { text: 'Entu sinu telefonis', link: '/et/alustamine/mobiil/' }
             ]
           },
           {
             text: 'Ülevaade',
             items: [
-              { text: 'Mis on Entu', link: '/et/overview/' },
-              { text: 'Objektid', link: '/et/overview/entities/' },
-              { text: 'Parameetrid', link: '/et/overview/properties/' },
-              { text: 'Autentimine', link: '/et/overview/authentication/' },
-              { text: 'Objektide jagamine', link: '/et/overview/sharing/' }
+              { text: 'Mis on Entu', link: '/et/ulevaade/' },
+              { text: 'Objektid', link: '/et/ulevaade/objektid/' },
+              { text: 'Parameetrid', link: '/et/ulevaade/parameetrid/' },
+              { text: 'Autentimine', link: '/et/ulevaade/autentimine/' },
+              { text: 'Objektide jagamine', link: '/et/ulevaade/jagamine/' }
             ]
           },
           {
             text: 'Seadistamine',
             items: [
-              { text: 'Objektitüübid', link: '/et/configuration/entity-types/' },
-              { text: 'Kasutajad', link: '/et/configuration/users/' },
-              { text: 'Menüüd', link: '/et/configuration/menus/' },
-              { text: 'Pluginad', link: '/et/configuration/plugins/' },
-              { text: 'Entu AI', link: '/et/configuration/ai/' },
-              { text: 'Parimad praktikad', link: '/et/configuration/best-practices/' },
-              { text: 'Kasutusnäited', link: '/et/examples/' }
+              { text: 'Objektitüübid', link: '/et/seadistamine/objektituubid/' },
+              { text: 'Kasutajad', link: '/et/seadistamine/kasutajad/' },
+              { text: 'Menüüd', link: '/et/seadistamine/menuud/' },
+              { text: 'Pluginad', link: '/et/seadistamine/pluginad/' },
+              { text: 'Entu AI', link: '/et/seadistamine/ai/' },
+              { text: 'Parimad praktikad', link: '/et/seadistamine/parimad-praktikad/' },
+              { text: 'Kasutusnäited', link: '/et/kasutusnaited/' }
             ]
           },
           {
             text: 'API',
             items: [
-              { text: 'Kiire algus', link: '/et/api/quickstart/' },
-              { text: 'Autentimine', link: '/et/api/authentication/' },
-              { text: 'Parimad praktikad', link: '/et/api/best-practices/' },
-              { text: 'Päringu viide', link: '/et/api/query-reference/' },
-              { text: 'Parameetrid', link: '/et/api/properties/' },
-              { text: 'Valemid', link: '/et/api/formulas/' },
-              { text: 'Failid', link: '/et/api/files/' },
+              { text: 'Kiire algus', link: '/et/api/kiire-algus/' },
+              { text: 'Autentimine', link: '/et/api/autentimine/' },
+              { text: 'Parimad praktikad', link: '/et/api/parimad-praktikad/' },
+              { text: 'Päringu viide', link: '/et/api/paringu-viide/' },
+              { text: 'Parameetrid', link: '/et/api/parameetrid/' },
+              { text: 'Valemid', link: '/et/api/valemid/' },
+              { text: 'Failid', link: '/et/api/failid/' },
               { text: 'AI assistent', link: '/et/api/ai/' },
-              { text: 'Andmebaasi mutatsioonid', link: '/et/db-mutations/' },
+              { text: 'Andmebaasi mutatsioonid', link: '/et/andmebaasi-mutatsioonid/' },
               { text: 'API viide', link: 'https://api.entu.app/docs' }
             ]
           }
@@ -203,13 +243,15 @@ export default defineConfig({
         lightModeSwitchTitle: 'Lülitu heledasse teemasse',
         darkModeSwitchTitle: 'Lülitu tumedasse teemasse',
         footer: {
-          message: '<span class="footer-links"><a href="/et/terms">Kasutustingimused</a> · <a href="https://climate.stripe.com/GdfbXF" target="_blank" rel="noopener">Stripe Climate</a></span><span class="footer-company"><strong>Entusiastid OÜ</strong> · Saturni 3-3, 10142 Tallinn · <a href="mailto:info@entu.ee">info@entu.ee</a></span>'
+          message: '<span class="footer-links"><a href="/et/kasutustingimused">Kasutustingimused</a> · <a href="https://climate.stripe.com/GdfbXF" target="_blank" rel="noopener">Stripe Climate</a></span><span class="footer-company"><strong>Entusiastid OÜ</strong> · Saturni 3-3, 10142 Tallinn · <a href="mailto:info@entu.ee">info@entu.ee</a></span>'
         }
       }
     }
   },
   themeConfig: {
     logo: '/logo.png',
+    // EN and ET slugs differ, so prefix-swapping locale links would 404; the switcher goes to the locale's home instead.
+    i18nRouting: false,
     nav: [
       { text: 'Getting Started', link: '/getting-started/' },
       { text: 'Overview', link: '/overview/' },
