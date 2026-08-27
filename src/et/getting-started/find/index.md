@@ -29,3 +29,5 @@ Tööriistariba nupp vahetab kahe vaate vahel:
 
 Iga kirje hoiab oma täielikku ajalugu — kes mida ja millal muutis. Kui midagi tundub paigast ära, ava tööriistaribalt kirje ajalugu ja vaata täpselt, mis juhtus.
 
+![Objekti ajaloo paneel muutjate ning enne-ja-pärast väärtustega](/screenshots/history-et.png)
+

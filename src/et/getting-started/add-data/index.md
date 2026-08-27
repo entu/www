@@ -27,6 +27,8 @@ Kui kirjel on failiväli, saad sinna lisada dokumente, fotosid või muid faile �
 
 Objekte saab korrastada **üksteise alla** nagu kaustu — raamat riiuli alla, arverida arve alla, tuba maja alla. Nii püsivad suured kogud korras — ja kirjed saab seadistada pärima juurdepääsuõigusi oma ülemobjektilt, et hallata jagamist ühest kohast (sellest lähemalt: [Jaga ja kutsu](/et/getting-started/share/)).
 
+![Objekti kuuluvuse paneel ülemobjektide loendiga](/screenshots/parents-et.png)
+
 ## Ära muretse täiuslikkuse pärast
 
 Välju saad igal ajal ümber nimetada, uusi lisada või struktuuri muuta — miski pole kivisse raiutud. Kui mall päris täpselt ei sobi, kohanda seda jooksvalt. Kui oled valmis süvenema, vaata [Seadistamine](/et/configuration/entity-types/).

@@ -27,6 +27,8 @@ If an entry has a file field, you can attach documents, photos, or any other fil
 
 Entities can be organised **under** each other, like folders — a book under a bookshelf, an invoice line under an invoice, a room under a house. This keeps big collections tidy — and entries can be set to inherit access rights from their parent, so you can manage sharing in one place (more on that in [Share and invite](/getting-started/share/)).
 
+![Parents drawer of an entity, listing its parent entities](/screenshots/parents.png)
+
 ## Don't worry about getting it perfect
 
 You can rename fields, add new ones, or restructure things at any time — nothing is fixed. If a template doesn't quite fit, adjust it as you go. The [Configuration](/configuration/entity-types/) section covers this in depth when you're ready.
