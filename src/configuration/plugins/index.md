@@ -87,6 +87,22 @@ Search [BoardGameGeek](https://boardgamegeek.com) and import board games with de
 | `publisher` | Publisher(s) (first 5) |
 | `year` | Publication year |
 
+### Brickset Import
+
+Search [Brickset](https://brickset.com) and import LEGO sets by name or set number. The entity gets set number, name, theme, subtheme, year, piece and minifig counts, and barcodes filled in automatically, along with the set image. On phones you can also scan the barcode on a set's box with the camera — tap the camera button next to the search field — and the plugin finds the set automatically.
+
+| Property | Description |
+|---|---|
+| `barcode` | EAN and UPC barcodes |
+| `brickset_id` | Set number (e.g. 75192-1) |
+| `minifigs` | Minifig count |
+| `name` | Set name |
+| `photo` | Set image file |
+| `pieces` | Piece count |
+| `subtheme` | Subtheme |
+| `theme` | Theme |
+| `year` | Release year |
+
 ### CSV Import
 
 Bulk-import entities from a spreadsheet. Upload a CSV file, preview the rows, choose which ones to import, and map each CSV column to an entity property. Supports a wide range of text encodings, so legacy exports from older systems work without manual conversion.

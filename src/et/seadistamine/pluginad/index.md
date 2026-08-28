@@ -87,6 +87,22 @@ Otsi andmebaasist [BoardGameGeek](https://boardgamegeek.com) ja impordi lauamän
 | `publisher` | Kirjastaja(d) (esimesed 5) |
 | `year` | Ilmumisaasta |
 
+### Brickseti import
+
+Otsi andmebaasist [Brickset](https://brickset.com) ja impordi LEGO komplekte nime või komplekti numbri järgi. Objekti number, nimi, teema, alamteema, aasta, klotside ja minifiguuride arv ning vöötkoodid täidetakse automaatselt koos komplekti pildiga. Telefonis saad karbi vöötkoodi ka kaameraga skannida — puuduta otsinguvälja kõrval olevat kaameranuppu — ja plugin leiab komplekti automaatselt.
+
+| Parameeter | Kirjeldus |
+|---|---|
+| `barcode` | EAN- ja UPC-vöötkoodid |
+| `brickset_id` | Komplekti number (nt 75192-1) |
+| `minifigs` | Minifiguuride arv |
+| `name` | Komplekti nimi |
+| `photo` | Komplekti pildi fail |
+| `pieces` | Klotside arv |
+| `subtheme` | Alamteema |
+| `theme` | Teema |
+| `year` | Ilmumisaasta |
+
 ### CSV import
 
 Objektide hulgiimport tabelist. Lae üles CSV-fail, vaata read eelvaates üle, vali importima minevad read ja vastenda iga CSV-veerg objekti parameetriga. Toetab laias valikus tekstikodeeringuid, seega töötavad vanemad süsteemidest pärit ekspordid ilma käsitsi teisendamiseta.
