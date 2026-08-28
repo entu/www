@@ -45,9 +45,9 @@ Kui Entu laadib kasutajaliidese plugina iframes, lisab see plugina URL-ile need 
 | `locale` | Praeguse kasutajaliidese keelekood |
 | `token` | Lühiealine JWT token API-kõnede tegemiseks praeguse kasutaja nimel |
 
-## Veebikonksu koorma
+## Veebikonksu päringu sisu
 
-Veebikonksu pluginate jaoks (`entity-edit-webhook`, `entity-add-webhook`) saadab Entu POST-päringu selle JSON-koorma kujul:
+Veebikonksu pluginate jaoks (`entity-edit-webhook`, `entity-add-webhook`) saadab Entu POST-päringu järgmise JSON-sisuga:
 
 ```json
 {
