@@ -70,158 +70,65 @@ Veebikonksu kohaletoimetamine pole garanteeritud. Kui sinu lõpp-punkt on maas v
 
 Entu pakub valmis pluginate komplekti, mida majutatakse aadressil [github.com/entu/plugins](https://github.com/entu/plugins). Seadista need, luues plugina objekti ja seades selle `url`-iks vastava plugina URL.
 
-### BoardGameGeeki import
+### Süsteem
 
-Otsi andmebaasist [BoardGameGeek](https://boardgamegeek.com) ja impordi lauamänge, mille autor, kirjastaja, kategooriad, mängijate arv, mängu kestus ja aasta täidetakse automaatselt koos karbipildiga.
-
-| Parameeter | Kirjeldus |
-|---|---|
-| `bgg_id` | BoardGameGeeki mängu ID |
-| `category` | Kategooriad |
-| `designer` | Autor(id) |
-| `max_players` | Suurim mängijate arv |
-| `min_players` | Väikseim mängijate arv |
-| `name` | Mängu pealkiri |
-| `photo` | Karbipildi fail |
-| `playing_time` | Mängu kestus minutites |
-| `publisher` | Kirjastaja(d) (esimesed 5) |
-| `year` | Ilmumisaasta |
-
-### Brickseti import
-
-Otsi andmebaasist [Brickset](https://brickset.com) ja impordi LEGO komplekte nime või komplekti numbri järgi. Objekti number, nimi, teema, alamteema, aasta, klotside ja minifiguuride arv ning vöötkoodid täidetakse automaatselt koos komplekti pildiga. Telefonis saad karbi vöötkoodi ka kaameraga skannida — puuduta otsinguvälja kõrval olevat kaameranuppu — ja plugin leiab komplekti automaatselt.
-
-| Parameeter | Kirjeldus |
-|---|---|
-| `barcode` | EAN- ja UPC-vöötkoodid |
-| `brickset_id` | Komplekti number (nt 75192-1) |
-| `minifigs` | Minifiguuride arv |
-| `name` | Komplekti nimi |
-| `photo` | Komplekti pildi fail |
-| `pieces` | Klotside arv |
-| `subtheme` | Alamteema |
-| `theme` | Teema |
-| `year` | Ilmumisaasta |
-
-### CSV import
+#### CSV import
 
 Objektide hulgiimport tabelist. Lae üles CSV-fail, vaata read eelvaates üle, vali importima minevad read ja vastenda iga CSV-veerg objekti parameetriga. Toetab laias valikus tekstikodeeringuid, seega töötavad vanemad süsteemidest pärit ekspordid ilma käsitsi teisendamiseta.
 
-### Discogsi import
-
-Otsi muusika andmebaasist [Discogs](https://www.discogs.com) ja lisa väljaandeid otse oma kogusse. Sisesta esitaja või albumi pealkiri ja vali seejärel albumi täpne väljaanne — Entu loob objekti pealkirja, esitaja, sildi, aasta, formaadi, žanri, vöötkoodi ja muu metaandmetega automaatselt täidetuna koos kaanepildiga. Telefonis saad väljaande vöötkoodi ka kaameraga skannida — puuduta otsinguvälja kõrval olevat kaameranuppu või tee vöötkoodist pilt — ja plugin otsib seda automaatselt.
-
-| Parameeter | Kirjeldus |
-|---|---|
-| `artist` | Esitaja(d) |
-| `barcode` | Vöötkood(id) |
-| `company` | Tootmis-, valmistamis- ja levitamisettevõtted |
-| `country` | Väljaande riik |
-| `discogs_id` | Discogsi väljaande ID |
-| `format` | Formaat/formaadid (LP, CD jne) |
-| `genre` | Žanr(id) |
-| `label` | Plaadifirma(d) |
-| `notes` | Märkused |
-| `photo` | Kaanepildi fail |
-| `series` | Seeria(d) |
-| `series_number` | Seeria katalooginumber(id) |
-| `style` | Stiil(id) |
-| `title` | Väljaande pealkiri |
-| `year` | Ilmumisaasta |
-
-### Esteri import
-
-Otsi [ESTER](https://www.ester.ee) ühiskataloogi, mida kasutavad Eesti kõrgkooli- ja avalikud raamatukogud. Leia raamatuid ja publikatsioone pealkirja, autori, ISBN-i või ISSN-i järgi ja impordi need täieliku bibliograafilise metaandmetega objektidena. Telefonis saad raamatu ISBN-vöötkoodi ka kaameraga skannida — puuduta otsinguvälja kõrval olevat kaameranuppu või tee vöötkoodist pilt — ja plugin otsib seda automaatselt.
-
-Imporditavad parameetrid sõltuvad kirjest; tavalisemad on:
-
-| Parameeter | Kirjeldus |
-|---|---|
-| `author` | Autor(id) |
-| `dimensions` | Mõõtmed |
-| `ester_id` | ESTERi kirje ID |
-| `isn` | ISBN/ISSN |
-| `language` | Keelekood(id) |
-| `name` | Pealkiri |
-| `notes` | Märkused |
-| `pages` | Lehekülgede arv |
-| `publisher` | Kirjastus(ed) |
-| `publishing_date` | Ilmumisaasta |
-| `publishing_place` | Ilmumiskoht |
-| `subtitle` | Alapealkiri |
-| `tag` | Märksõnad |
-| `udc` | UDC liigitus |
-
-### KML import
-
-Impordi geograafilisi asukohti KML-failidest (formaat, mida kasutavad Google Earth ja enamik GIS-tööriistu). Pärast üleslaadimist kuvatakse kõigi failist leitud kohtade loend, vali, milliseid kaasata, ja need luuakse objektidena koos nime, kirjelduse ja koordinaatide parameetritega.
-
-| Parameeter | Kirjeldus |
-|---|---|
-| `kirjeldus` | Kirjeldus |
-| `lat` | Laiuskraad |
-| `long` | Pikkuskraad |
-| `name` | Koha nimi |
-| `pildilingid` | Pildilingid |
-
-### MusicBrainzi import
-
-Otsi avatud muusikaentsüklopeediast [MusicBrainz](https://musicbrainz.org). Leia album ja vali seejärel täpne väljaanne (tiraaž, riik, formaat) — objekt luuakse pealkirja, esitaja, sildi, aasta, formaadi, vöötkoodi ja žanritega ning kaanepildiga Cover Art Archive'ist. Telefonis saad väljaande vöötkoodi ka kaameraga skannida — puuduta otsinguvälja kõrval olevat kaameranuppu — ja plugin leiab sobivad albumid automaatselt.
-
-| Parameeter | Kirjeldus |
-|---|---|
-| `artist` | Esitaja(d) |
-| `barcode` | Vöötkood |
-| `country` | Väljaande riik |
-| `format` | Formaat/formaadid (CD, vinüül jne) |
-| `genre` | Žanr(id) |
-| `label` | Plaadifirma(d) |
-| `musicbrainz_id` | MusicBrainzi väljaande ID |
-| `name` | Väljaande pealkiri |
-| `photo` | Kaanepildi fail (Cover Art Archive'ist) |
-| `year` | Ilmumisaasta |
-
-### Open Library import
-
-Otsi [Open Library](https://openlibrary.org) kataloogist — tasuta ülemaailmsest raamatute andmebaasist. Leia raamat pealkirja, autori või ISBN-i järgi ja vali seejärel täpne väljaanne — väljaannete loendit saab filtreerida keele järgi. Valitud väljaanne imporditakse objektina, mille pealkiri, autor, kirjastus, ilmumiskoht ja -aasta, lehekülgede arv, mõõtmed, keel, märksõnad ja ISBN täidetakse automaatselt koos raamatu kaanepildiga. Telefonis saad raamatu ISBN-vöötkoodi ka kaameraga skannida — puuduta otsinguvälja kõrval olevat kaameranuppu või tee vöötkoodist pilt — ja plugin otsib seda automaatselt.
-
-| Parameeter | Kirjeldus |
-|---|---|
-| `author` | Autor(id) |
-| `dimensions` | Mõõtmed |
-| `isn` | ISBN-13 ja ISBN-10 |
-| `language` | Keelekood(id) |
-| `name` | Pealkiri |
-| `notes` | Väljaande märkused |
-| `openlibrary_id` | Open Library väljaande ID |
-| `pages` | Lehekülgede arv |
-| `photo` | Kaanepildi fail |
-| `publisher` | Kirjastus(ed) |
-| `publishing_date` | Ilmumisaeg |
-| `publishing_place` | Ilmumiskoht |
-| `subtitle` | Alapealkiri |
-| `tag` | Märksõnad |
-
-### Skeemimallid
+#### Skeemimallid
 
 Kiire viis oma andmebaasi skeemi seadistamiseks nullist alustamata. Selle asemel, et käsitsi määratleda objektitüübid ja nende parameetrid, vali valmis tüüp jagatud malliteegist — näiteks *Raamat*, *Dokument*, *Kaust* või *Audiovisuaalne salvestis* — ja Entu kopeerib objektitüübi ning selle parameetrite definitsioonid (nimi, tüüp, järjekord jne) sinu andmebaasi. Saad parameetrite nimekirja üle vaadata enne importimist ja need, mida ei vaja, märkimata jätta.
 
-### TMDB import
+### Raamatud
+
+#### Esteri import
+
+Otsi [ESTER](https://www.ester.ee) ühiskataloogi, mida kasutavad Eesti kõrgkooli- ja avalikud raamatukogud. Leia raamatuid ja publikatsioone pealkirja, autori, ISBN-i või ISSN-i järgi ja impordi need täieliku bibliograafilise metaandmetega objektidena. Telefonis saad raamatu ISBN-vöötkoodi ka kaameraga skannida — puuduta otsinguvälja kõrval olevat kaameranuppu või tee vöötkoodist pilt — ja plugin otsib seda automaatselt.
+
+#### Open Library import
+
+Otsi [Open Library](https://openlibrary.org) kataloogist — tasuta ülemaailmsest raamatute andmebaasist. Leia raamat pealkirja, autori või ISBN-i järgi ja vali seejärel täpne väljaanne — väljaannete loendit saab filtreerida keele järgi. Valitud väljaanne imporditakse objektina, mille pealkiri, autor, kirjastus, ilmumiskoht ja -aasta, lehekülgede arv, mõõtmed, keel, märksõnad ja ISBN täidetakse automaatselt koos raamatu kaanepildiga. Telefonis saad raamatu ISBN-vöötkoodi ka kaameraga skannida — puuduta otsinguvälja kõrval olevat kaameranuppu või tee vöötkoodist pilt — ja plugin otsib seda automaatselt.
+
+### Audio-video
+
+#### Discogsi import
+
+Otsi muusika andmebaasist [Discogs](https://www.discogs.com) ja lisa väljaandeid otse oma kogusse. Sisesta esitaja või albumi pealkiri ja vali seejärel albumi täpne väljaanne — Entu loob objekti pealkirja, esitaja, sildi, aasta, formaadi, žanri, vöötkoodi ja muu metaandmetega automaatselt täidetuna koos kaanepildiga. Telefonis saad väljaande vöötkoodi ka kaameraga skannida — puuduta otsinguvälja kõrval olevat kaameranuppu või tee vöötkoodist pilt — ja plugin otsib seda automaatselt.
+
+#### MusicBrainzi import
+
+Otsi avatud muusikaentsüklopeediast [MusicBrainz](https://musicbrainz.org). Leia album ja vali seejärel täpne väljaanne (tiraaž, riik, formaat) — objekt luuakse pealkirja, esitaja, sildi, aasta, formaadi, vöötkoodi ja žanritega ning kaanepildiga Cover Art Archive'ist. Telefonis saad väljaande vöötkoodi ka kaameraga skannida — puuduta otsinguvälja kõrval olevat kaameranuppu — ja plugin leiab sobivad albumid automaatselt.
+
+#### TMDB import
 
 Otsi andmebaasist [The Movie Database](https://www.themoviedb.org) ja impordi filme oma kogusse. Otsingutulemused ja metaandmed järgivad kasutajaliidese keelt, kui tõlked on olemas. Loodud objekti pealkiri, originaalpealkiri, režissöör, aasta, žanrid, kestus, riigid ja kirjeldus täidetakse automaatselt koos filmi plakatiga.
 
-| Parameeter | Kirjeldus |
-|---|---|
-| `country` | Tootjariigid |
-| `director` | Režissöör(id) |
-| `genre` | Žanrid |
-| `name` | Pealkiri (plugina keeles) |
-| `notes` | Kirjeldus |
-| `original_name` | Originaalpealkiri, kui erineb |
-| `photo` | Plakati fail |
-| `runtime` | Kestus minutites |
-| `tmdb_id` | TMDB filmi ID |
-| `year` | Ilmumisaasta |
+### Mängud
+
+#### BoardGameGeeki import
+
+Otsi andmebaasist [BoardGameGeek](https://boardgamegeek.com) ja impordi lauamänge, mille autor, kirjastaja, kategooriad, mängijate arv, mängu kestus ja aasta täidetakse automaatselt koos karbipildiga.
+
+#### IGDB import
+
+Otsi videomängude andmebaasist [IGDB](https://www.igdb.com) ja impordi mänge, mille arendaja, kirjastaja, platvormid, žanrid, aasta ja kirjeldus täidetakse automaatselt koos kaanepildiga.
+
+### Kogumisobjektid
+
+#### Brickseti import
+
+Otsi andmebaasist [Brickset](https://brickset.com) ja impordi LEGO komplekte nime või komplekti numbri järgi. Objekti number, nimi, teema, alamteema, aasta, klotside ja minifiguuride arv, vanusevahemik, karbi mõõtmed, kirjeldus, märksõnad ning vöötkoodid täidetakse automaatselt koos komplekti pildiga. Telefonis saad karbi vöötkoodi ka kaameraga skannida — puuduta otsinguvälja kõrval olevat kaameranuppu — ja plugin leiab komplekti automaatselt.
+
+#### Numista import
+
+Otsi müntide ja rahatähtede kataloogist [Numista](https://en.numista.com) ja impordi tüüpe, mille väljaandja, nimiväärtus, vermimisaastad, materjal, kaal, läbimõõt, kuju ja kataloogiviited täidetakse automaatselt koos esi- ja tagakülje piltidega.
+
+### Asukohad
+
+#### KML import
+
+Impordi geograafilisi asukohti KML-failidest (formaat, mida kasutavad Google Earth ja enamik GIS-tööriistu). Pärast üleslaadimist kuvatakse kõigi failist leitud kohtade loend, vali, milliseid kaasata, ja need luuakse objektidena koos nime, kirjelduse ja koordinaatide parameetritega.
 
 ## Juurdepääsukontroll
 

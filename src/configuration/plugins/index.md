@@ -70,158 +70,65 @@ Webhook delivery is not guaranteed. If your endpoint is down or returns an error
 
 Entu provides a set of ready-made plugins hosted at [github.com/entu/plugins](https://github.com/entu/plugins). Configure them by creating a plugin entity and setting its `url` to the corresponding plugin URL.
 
-### BoardGameGeek Import
+### System
 
-Search [BoardGameGeek](https://boardgamegeek.com) and import board games with designer, publisher, categories, player count, playing time, and year filled in automatically, along with the box art.
-
-| Property | Description |
-|---|---|
-| `bgg_id` | BoardGameGeek game ID |
-| `category` | Categories |
-| `designer` | Designer(s) |
-| `max_players` | Maximum player count |
-| `min_players` | Minimum player count |
-| `name` | Game title |
-| `photo` | Box art file |
-| `playing_time` | Playing time in minutes |
-| `publisher` | Publisher(s) (first 5) |
-| `year` | Publication year |
-
-### Brickset Import
-
-Search [Brickset](https://brickset.com) and import LEGO sets by name or set number. The entity gets set number, name, theme, subtheme, year, piece and minifig counts, and barcodes filled in automatically, along with the set image. On phones you can also scan the barcode on a set's box with the camera — tap the camera button next to the search field — and the plugin finds the set automatically.
-
-| Property | Description |
-|---|---|
-| `barcode` | EAN and UPC barcodes |
-| `brickset_id` | Set number (e.g. 75192-1) |
-| `minifigs` | Minifig count |
-| `name` | Set name |
-| `photo` | Set image file |
-| `pieces` | Piece count |
-| `subtheme` | Subtheme |
-| `theme` | Theme |
-| `year` | Release year |
-
-### CSV Import
+#### CSV Import
 
 Bulk-import entities from a spreadsheet. Upload a CSV file, preview the rows, choose which ones to import, and map each CSV column to an entity property. Supports a wide range of text encodings, so legacy exports from older systems work without manual conversion.
 
-### Discogs Import
-
-Search the [Discogs](https://www.discogs.com) music database and add releases directly to your collection. Enter an artist or album title, then pick the exact release of the album — Entu creates the entity with title, artist, label, year, format, genre, barcode, and other metadata filled in automatically, along with the cover image. On phones you can also scan a release's barcode with the camera — tap the camera button next to the search field, or take a photo of the barcode — and the plugin searches for it automatically.
-
-| Property | Description |
-|---|---|
-| `artist` | Artist name(s) |
-| `barcode` | Barcode(s) |
-| `company` | Production, manufacturing, and distribution companies |
-| `country` | Release country |
-| `discogs_id` | Discogs release ID |
-| `format` | Media format(s) (LP, CD, etc.) |
-| `genre` | Genre(s) |
-| `label` | Record label(s) |
-| `notes` | Release notes |
-| `photo` | Cover image file |
-| `series` | Series name(s) |
-| `series_number` | Series catalogue number(s) |
-| `style` | Style(s) |
-| `title` | Release title |
-| `year` | Release year |
-
-### Ester Import
-
-Search the [ESTER](https://www.ester.ee) union library catalog used by Estonian academic and public libraries. Find books and publications by title, author, ISBN, or ISSN and import them as entities with full bibliographic metadata. On phones you can also scan a book's ISBN barcode with the camera — tap the camera button next to the search field, or take a photo of the barcode — and the plugin searches for it automatically.
-
-Imported properties depend on the record; the common ones are:
-
-| Property | Description |
-|---|---|
-| `author` | Author(s) |
-| `dimensions` | Physical dimensions |
-| `ester_id` | ESTER record ID |
-| `isn` | ISBN/ISSN |
-| `language` | Language code(s) |
-| `name` | Title |
-| `notes` | Notes |
-| `pages` | Page count |
-| `publisher` | Publisher(s) |
-| `publishing_date` | Year of publication |
-| `publishing_place` | Place of publication |
-| `subtitle` | Subtitle |
-| `tag` | Subject tags |
-| `udc` | UDC classification |
-
-### KML Import
-
-Import geographic locations from KML files (the format used by Google Earth and most GIS tools). After uploading, you see a list of all placemarks in the file, pick which ones to include, and they are created as entities with name, description, and coordinate properties.
-
-| Property | Description |
-|---|---|
-| `kirjeldus` | Description |
-| `lat` | Latitude |
-| `long` | Longitude |
-| `name` | Placemark name |
-| `pildilingid` | Image links |
-
-### MusicBrainz Import
-
-Search the open [MusicBrainz](https://musicbrainz.org) music encyclopedia. Find an album, then pick the exact release (pressing, country, format) — the entity is created with title, artist, label, year, format, barcode, and genres, along with cover art from the Cover Art Archive. On phones you can also scan a release's barcode with the camera — tap the camera button next to the search field — and the plugin finds the matching albums automatically.
-
-| Property | Description |
-|---|---|
-| `artist` | Artist name(s) |
-| `barcode` | Barcode |
-| `country` | Release country |
-| `format` | Media format(s) (CD, Vinyl, etc.) |
-| `genre` | Genre(s) |
-| `label` | Record label(s) |
-| `musicbrainz_id` | MusicBrainz release ID |
-| `name` | Release title |
-| `photo` | Cover art file (from Cover Art Archive) |
-| `year` | Release year |
-
-### Open Library Import
-
-Search the [Open Library](https://openlibrary.org) catalog — a free, worldwide book database. Find a book by title, author, or ISBN, then pick the exact edition — the edition list can be filtered by language. The chosen edition is imported as an entity with title, author, publisher, publishing place and year, page count, dimensions, language, subject tags, and ISBN filled in automatically, along with the cover image. On phones you can also scan a book's ISBN barcode with the camera — tap the camera button next to the search field, or take a photo of the barcode — and the plugin searches for it automatically.
-
-| Property | Description |
-|---|---|
-| `author` | Author(s) |
-| `dimensions` | Physical dimensions |
-| `isn` | ISBN-13 and ISBN-10 |
-| `language` | Language code(s) |
-| `name` | Title |
-| `notes` | Edition notes |
-| `openlibrary_id` | Open Library edition ID |
-| `pages` | Page count |
-| `photo` | Cover image file |
-| `publisher` | Publisher(s) |
-| `publishing_date` | Publication date |
-| `publishing_place` | Place of publication |
-| `subtitle` | Subtitle |
-| `tag` | Subject tags |
-
-### Schema Templates
+#### Schema Templates
 
 A quick way to set up your database schema without starting from scratch. Instead of defining entity types and their properties by hand, you pick a ready-made type from the shared template library — for example *Book*, *Document*, *Folder*, or *Audio-Visual Recording* — and Entu copies the entity type and its property definitions (name, type, ordinal, etc.) into your database. You can review the property list before importing and deselect any you don't need.
 
-### TMDB Import
+### Books
+
+#### Ester Import
+
+Search the [ESTER](https://www.ester.ee) union library catalog used by Estonian academic and public libraries. Find books and publications by title, author, ISBN, or ISSN and import them as entities with full bibliographic metadata. On phones you can also scan a book's ISBN barcode with the camera — tap the camera button next to the search field, or take a photo of the barcode — and the plugin searches for it automatically.
+
+#### Open Library Import
+
+Search the [Open Library](https://openlibrary.org) catalog — a free, worldwide book database. Find a book by title, author, or ISBN, then pick the exact edition — the edition list can be filtered by language. The chosen edition is imported as an entity with title, author, publisher, publishing place and year, page count, dimensions, language, subject tags, and ISBN filled in automatically, along with the cover image. On phones you can also scan a book's ISBN barcode with the camera — tap the camera button next to the search field, or take a photo of the barcode — and the plugin searches for it automatically.
+
+### Audio-video
+
+#### Discogs Import
+
+Search the [Discogs](https://www.discogs.com) music database and add releases directly to your collection. Enter an artist or album title, then pick the exact release of the album — Entu creates the entity with title, artist, label, year, format, genre, barcode, and other metadata filled in automatically, along with the cover image. On phones you can also scan a release's barcode with the camera — tap the camera button next to the search field, or take a photo of the barcode — and the plugin searches for it automatically.
+
+#### MusicBrainz Import
+
+Search the open [MusicBrainz](https://musicbrainz.org) music encyclopedia. Find an album, then pick the exact release (pressing, country, format) — the entity is created with title, artist, label, year, format, barcode, and genres, along with cover art from the Cover Art Archive. On phones you can also scan a release's barcode with the camera — tap the camera button next to the search field — and the plugin finds the matching albums automatically.
+
+#### TMDB Import
 
 Search [The Movie Database](https://www.themoviedb.org) and import films into your collection. Search results and metadata follow your interface language where translations exist. The imported entity gets title, original title, director, year, genres, runtime, countries, and description filled in automatically, along with the movie poster.
 
-| Property | Description |
-|---|---|
-| `country` | Production countries |
-| `director` | Director(s) |
-| `genre` | Genre(s) |
-| `name` | Title (in the plugin's locale) |
-| `notes` | Overview |
-| `original_name` | Original title, if it differs |
-| `photo` | Poster image file |
-| `runtime` | Runtime in minutes |
-| `tmdb_id` | TMDB movie ID |
-| `year` | Release year |
+### Games
+
+#### BoardGameGeek Import
+
+Search [BoardGameGeek](https://boardgamegeek.com) and import board games with designer, publisher, categories, player count, playing time, and year filled in automatically, along with the box art.
+
+#### IGDB Import
+
+Search the [IGDB](https://www.igdb.com) video game database and import games with developer, publisher, platforms, genres, year, and description filled in automatically, along with the cover image.
+
+### Collectibles
+
+#### Brickset Import
+
+Search [Brickset](https://brickset.com) and import LEGO sets by name or set number. The entity gets set number, name, theme, subtheme, year, piece and minifig counts, age range, box dimensions, description, tags, and barcodes filled in automatically, along with the set image. On phones you can also scan the barcode on a set's box with the camera — tap the camera button next to the search field — and the plugin finds the set automatically.
+
+#### Numista Import
+
+Search the [Numista](https://en.numista.com) coin and banknote catalogue and import types with issuer, face value, years of issue, composition, weight, diameter, shape, and catalogue references filled in automatically, along with obverse and reverse images.
+
+### Locations
+
+#### KML Import
+
+Import geographic locations from KML files (the format used by Google Earth and most GIS tools). After uploading, you see a list of all placemarks in the file, pick which ones to include, and they are created as entities with name, description, and coordinate properties.
 
 ## Access Control
 
