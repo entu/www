@@ -74,6 +74,19 @@ Entu provides a set of ready-made plugins hosted at [github.com/entu/plugins](ht
 
 Search [BoardGameGeek](https://boardgamegeek.com) and import board games with designer, publisher, categories, player count, playing time, and year filled in automatically, along with the box art.
 
+| Property | Description |
+|---|---|
+| `bgg_id` | BoardGameGeek game ID |
+| `category` | Categories |
+| `designer` | Designer(s) |
+| `max_players` | Maximum player count |
+| `min_players` | Minimum player count |
+| `name` | Game title |
+| `photo` | Box art file |
+| `playing_time` | Playing time in minutes |
+| `publisher` | Publisher(s) (first 5) |
+| `year` | Publication year |
+
 ### CSV Import
 
 Bulk-import entities from a spreadsheet. Upload a CSV file, preview the rows, choose which ones to import, and map each CSV column to an entity property. Supports a wide range of text encodings, so legacy exports from older systems work without manual conversion.
@@ -82,21 +95,96 @@ Bulk-import entities from a spreadsheet. Upload a CSV file, preview the rows, ch
 
 Search the [Discogs](https://www.discogs.com) music database and add releases directly to your collection. Enter an artist or album title, then pick the exact release of the album — Entu creates the entity with title, artist, label, year, format, genre, barcode, and other metadata filled in automatically, along with the cover image. On phones you can also scan a release's barcode with the camera — tap the camera button next to the search field, or take a photo of the barcode — and the plugin searches for it automatically.
 
+| Property | Description |
+|---|---|
+| `artist` | Artist name(s) |
+| `barcode` | Barcode(s) |
+| `company` | Production, manufacturing, and distribution companies |
+| `country` | Release country |
+| `discogs_id` | Discogs release ID |
+| `format` | Media format(s) (LP, CD, etc.) |
+| `genre` | Genre(s) |
+| `label` | Record label(s) |
+| `notes` | Release notes |
+| `photo` | Cover image file |
+| `series` | Series name(s) |
+| `series_number` | Series catalogue number(s) |
+| `style` | Style(s) |
+| `title` | Release title |
+| `year` | Release year |
+
 ### Ester Import
 
 Search the [ESTER](https://www.ester.ee) union library catalog used by Estonian academic and public libraries. Find books and publications by title, author, ISBN, or ISSN and import them as entities with full bibliographic metadata. On phones you can also scan a book's ISBN barcode with the camera — tap the camera button next to the search field, or take a photo of the barcode — and the plugin searches for it automatically.
+
+Imported properties depend on the record; the common ones are:
+
+| Property | Description |
+|---|---|
+| `author` | Author(s) |
+| `dimensions` | Physical dimensions |
+| `ester_id` | ESTER record ID |
+| `isn` | ISBN/ISSN |
+| `language` | Language code(s) |
+| `name` | Title |
+| `notes` | Notes |
+| `pages` | Page count |
+| `publisher` | Publisher(s) |
+| `publishing_date` | Year of publication |
+| `publishing_place` | Place of publication |
+| `subtitle` | Subtitle |
+| `tag` | Subject tags |
+| `udc` | UDC classification |
 
 ### KML Import
 
 Import geographic locations from KML files (the format used by Google Earth and most GIS tools). After uploading, you see a list of all placemarks in the file, pick which ones to include, and they are created as entities with name, description, and coordinate properties.
 
+| Property | Description |
+|---|---|
+| `kirjeldus` | Description |
+| `lat` | Latitude |
+| `long` | Longitude |
+| `name` | Placemark name |
+| `pildilingid` | Image links |
+
 ### MusicBrainz Import
 
 Search the open [MusicBrainz](https://musicbrainz.org) music encyclopedia. Find an album, then pick the exact release (pressing, country, format) — the entity is created with title, artist, label, year, format, barcode, and genres, along with cover art from the Cover Art Archive. On phones you can also scan a release's barcode with the camera — tap the camera button next to the search field — and the plugin finds the matching albums automatically.
 
+| Property | Description |
+|---|---|
+| `artist` | Artist name(s) |
+| `barcode` | Barcode |
+| `country` | Release country |
+| `format` | Media format(s) (CD, Vinyl, etc.) |
+| `genre` | Genre(s) |
+| `label` | Record label(s) |
+| `musicbrainz_id` | MusicBrainz release ID |
+| `name` | Release title |
+| `photo` | Cover art file (from Cover Art Archive) |
+| `year` | Release year |
+
 ### Open Library Import
 
 Search the [Open Library](https://openlibrary.org) catalog — a free, worldwide book database. Find a book by title, author, or ISBN, then pick the exact edition — the edition list can be filtered by language. The chosen edition is imported as an entity with title, author, publisher, publishing place and year, page count, dimensions, language, subject tags, and ISBN filled in automatically, along with the cover image. On phones you can also scan a book's ISBN barcode with the camera — tap the camera button next to the search field, or take a photo of the barcode — and the plugin searches for it automatically.
+
+| Property | Description |
+|---|---|
+| `author` | Author(s) |
+| `dimensions` | Physical dimensions |
+| `isn` | ISBN-13 and ISBN-10 |
+| `language` | Language code(s) |
+| `name` | Title |
+| `notes` | Edition notes |
+| `openlibrary_id` | Open Library edition ID |
+| `pages` | Page count |
+| `photo` | Cover image file |
+| `publisher` | Publisher(s) |
+| `publishing_date` | Publication date |
+| `publishing_place` | Place of publication |
+| `subtitle` | Subtitle |
+| `tag` | Subject tags |
 
 ### Schema Templates
 
@@ -105,6 +193,19 @@ A quick way to set up your database schema without starting from scratch. Instea
 ### TMDB Import
 
 Search [The Movie Database](https://www.themoviedb.org) and import films into your collection. Search results and metadata follow your interface language where translations exist. The imported entity gets title, original title, director, year, genres, runtime, countries, and description filled in automatically, along with the movie poster.
+
+| Property | Description |
+|---|---|
+| `country` | Production countries |
+| `director` | Director(s) |
+| `genre` | Genre(s) |
+| `name` | Title (in the plugin's locale) |
+| `notes` | Overview |
+| `original_name` | Original title, if it differs |
+| `photo` | Poster image file |
+| `runtime` | Runtime in minutes |
+| `tmdb_id` | TMDB movie ID |
+| `year` | Release year |
 
 ## Access Control
 
