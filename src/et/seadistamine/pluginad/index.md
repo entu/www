@@ -86,6 +86,10 @@ Otsi muusika andmebaasist [Discogs](https://www.discogs.com) ja lisa väljaandei
 
 Otsi [ESTER](https://www.ester.ee) ühiskataloogi, mida kasutavad Eesti kõrgkooli- ja avalikud raamatukogud. Leia raamatuid ja publikatsioone pealkirja, autori, ISBN-i või ISSN-i järgi ja impordi need täieliku bibliograafilise metaandmetega objektidena. Telefonis saad raamatu ISBN-vöötkoodi ka kaameraga skannida — puuduta otsinguvälja kõrval olevat kaameranuppu või tee vöötkoodist pilt — ja plugin otsib seda automaatselt.
 
+### Open Library import
+
+Otsi [Open Library](https://openlibrary.org) kataloogist — tasuta ülemaailmsest raamatute andmebaasist. Leia raamatuid pealkirja, autori või ISBN-i järgi ja impordi need objektidena, mille pealkiri, autor, kirjastus, ilmumisaasta ja ISBN täidetakse automaatselt koos raamatu kaanepildiga. Telefonis saad raamatu ISBN-vöötkoodi ka kaameraga skannida — puuduta otsinguvälja kõrval olevat kaameranuppu või tee vöötkoodist pilt — ja plugin otsib seda automaatselt.
+
 ### KML import
 
 Impordi geograafilisi asukohti KML-failidest (formaat, mida kasutavad Google Earth ja enamik GIS-tööriistu). Pärast üleslaadimist kuvatakse kõigi failist leitud kohtade loend, vali, milliseid kaasata, ja need luuakse objektidena koos nime, kirjelduse ja koordinaatide parameetritega.

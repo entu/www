@@ -86,6 +86,10 @@ Search the [Discogs](https://www.discogs.com) music database and add releases di
 
 Search the [ESTER](https://www.ester.ee) union library catalog used by Estonian academic and public libraries. Find books and publications by title, author, ISBN, or ISSN and import them as entities with full bibliographic metadata. On phones you can also scan a book's ISBN barcode with the camera — tap the camera button next to the search field, or take a photo of the barcode — and the plugin searches for it automatically.
 
+### Open Library Import
+
+Search the [Open Library](https://openlibrary.org) catalog — a free, worldwide book database. Find books by title, author, or ISBN and import them as entities with title, author, publisher, publishing year, and ISBN filled in automatically, along with the book's cover image. On phones you can also scan a book's ISBN barcode with the camera — tap the camera button next to the search field, or take a photo of the barcode — and the plugin searches for it automatically.
+
 ### KML Import
 
 Import geographic locations from KML files (the format used by Google Earth and most GIS tools). After uploading, you see a list of all placemarks in the file, pick which ones to include, and they are created as entities with name, description, and coordinate properties.
