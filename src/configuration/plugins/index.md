@@ -80,7 +80,7 @@ Bulk-import entities from a spreadsheet. Upload a CSV file, preview the rows, ch
 
 ### Discogs Import
 
-Search the [Discogs](https://www.discogs.com) music database and add releases directly to your collection. Enter an artist or album title, browse the results, and click Import — Entu creates the entity with title, artist, label, year, format, genre, barcode, and other metadata filled in automatically. On phones you can also scan a release's barcode with the camera — tap the camera button next to the search field, or take a photo of the barcode — and the plugin searches for it automatically.
+Search the [Discogs](https://www.discogs.com) music database and add releases directly to your collection. Enter an artist or album title, then pick the exact release of the album — Entu creates the entity with title, artist, label, year, format, genre, barcode, and other metadata filled in automatically, along with the cover image. On phones you can also scan a release's barcode with the camera — tap the camera button next to the search field, or take a photo of the barcode — and the plugin searches for it automatically.
 
 ### Ester Import
 
@@ -88,7 +88,19 @@ Search the [ESTER](https://www.ester.ee) union library catalog used by Estonian 
 
 ### Open Library Import
 
-Search the [Open Library](https://openlibrary.org) catalog — a free, worldwide book database. Find books by title, author, or ISBN and import them as entities with title, author, publisher, publishing year, and ISBN filled in automatically, along with the book's cover image. On phones you can also scan a book's ISBN barcode with the camera — tap the camera button next to the search field, or take a photo of the barcode — and the plugin searches for it automatically.
+Search the [Open Library](https://openlibrary.org) catalog — a free, worldwide book database. Find a book by title, author, or ISBN, then pick the exact edition — the edition list can be filtered by language. The chosen edition is imported as an entity with title, author, publisher, publishing place and year, page count, dimensions, language, subject tags, and ISBN filled in automatically, along with the cover image. On phones you can also scan a book's ISBN barcode with the camera — tap the camera button next to the search field, or take a photo of the barcode — and the plugin searches for it automatically.
+
+### TMDB Import
+
+Search [The Movie Database](https://www.themoviedb.org) and import films into your collection. Search results and metadata follow your interface language where translations exist. The imported entity gets title, original title, director, year, genres, runtime, countries, and description filled in automatically, along with the movie poster.
+
+### MusicBrainz Import
+
+Search the open [MusicBrainz](https://musicbrainz.org) music encyclopedia. Find an album, then pick the exact release (pressing, country, format) — the entity is created with title, artist, label, year, format, barcode, and genres, along with cover art from the Cover Art Archive. On phones you can also scan a release's barcode with the camera — tap the camera button next to the search field — and the plugin finds the matching albums automatically.
+
+### BoardGameGeek Import
+
+Search [BoardGameGeek](https://boardgamegeek.com) and import board games with designer, publisher, categories, player count, playing time, and year filled in automatically, along with the box art.
 
 ### KML Import
 

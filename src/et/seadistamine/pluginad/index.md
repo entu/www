@@ -80,7 +80,7 @@ Objektide hulgiimport tabelist. Lae üles CSV-fail, vaata read eelvaates üle, v
 
 ### Discogsi import
 
-Otsi muusika andmebaasist [Discogs](https://www.discogs.com) ja lisa väljaandeid otse oma kogusse. Sisesta esitaja või albumi pealkiri, sirvi tulemusi ja klõpsa Impordi — Entu loob objekti pealkirja, esitaja, sildi, aasta, formaadi, žanri, vöötkoodi ja muu metaandmetega automaatselt täidetuna. Telefonis saad väljaande vöötkoodi ka kaameraga skannida — puuduta otsinguvälja kõrval olevat kaameranuppu või tee vöötkoodist pilt — ja plugin otsib seda automaatselt.
+Otsi muusika andmebaasist [Discogs](https://www.discogs.com) ja lisa väljaandeid otse oma kogusse. Sisesta esitaja või albumi pealkiri ja vali seejärel albumi täpne väljaanne — Entu loob objekti pealkirja, esitaja, sildi, aasta, formaadi, žanri, vöötkoodi ja muu metaandmetega automaatselt täidetuna koos kaanepildiga. Telefonis saad väljaande vöötkoodi ka kaameraga skannida — puuduta otsinguvälja kõrval olevat kaameranuppu või tee vöötkoodist pilt — ja plugin otsib seda automaatselt.
 
 ### Esteri import
 
@@ -88,7 +88,19 @@ Otsi [ESTER](https://www.ester.ee) ühiskataloogi, mida kasutavad Eesti kõrgkoo
 
 ### Open Library import
 
-Otsi [Open Library](https://openlibrary.org) kataloogist — tasuta ülemaailmsest raamatute andmebaasist. Leia raamatuid pealkirja, autori või ISBN-i järgi ja impordi need objektidena, mille pealkiri, autor, kirjastus, ilmumisaasta ja ISBN täidetakse automaatselt koos raamatu kaanepildiga. Telefonis saad raamatu ISBN-vöötkoodi ka kaameraga skannida — puuduta otsinguvälja kõrval olevat kaameranuppu või tee vöötkoodist pilt — ja plugin otsib seda automaatselt.
+Otsi [Open Library](https://openlibrary.org) kataloogist — tasuta ülemaailmsest raamatute andmebaasist. Leia raamat pealkirja, autori või ISBN-i järgi ja vali seejärel täpne väljaanne — väljaannete loendit saab filtreerida keele järgi. Valitud väljaanne imporditakse objektina, mille pealkiri, autor, kirjastus, ilmumiskoht ja -aasta, lehekülgede arv, mõõtmed, keel, märksõnad ja ISBN täidetakse automaatselt koos raamatu kaanepildiga. Telefonis saad raamatu ISBN-vöötkoodi ka kaameraga skannida — puuduta otsinguvälja kõrval olevat kaameranuppu või tee vöötkoodist pilt — ja plugin otsib seda automaatselt.
+
+### TMDB import
+
+Otsi andmebaasist [The Movie Database](https://www.themoviedb.org) ja impordi filme oma kogusse. Otsingutulemused ja metaandmed järgivad kasutajaliidese keelt, kui tõlked on olemas. Loodud objekti pealkiri, originaalpealkiri, režissöör, aasta, žanrid, kestus, riigid ja kirjeldus täidetakse automaatselt koos filmi plakatiga.
+
+### MusicBrainzi import
+
+Otsi avatud muusikaentsüklopeediast [MusicBrainz](https://musicbrainz.org). Leia album ja vali seejärel täpne väljaanne (tiraaž, riik, formaat) — objekt luuakse pealkirja, esitaja, sildi, aasta, formaadi, vöötkoodi ja žanritega ning kaanepildiga Cover Art Archive'ist. Telefonis saad väljaande vöötkoodi ka kaameraga skannida — puuduta otsinguvälja kõrval olevat kaameranuppu — ja plugin leiab sobivad albumid automaatselt.
+
+### BoardGameGeeki import
+
+Otsi andmebaasist [BoardGameGeek](https://boardgamegeek.com) ja impordi lauamänge, mille autor, kirjastaja, kategooriad, mängijate arv, mängu kestus ja aasta täidetakse automaatselt koos karbipildiga.
 
 ### KML import
 
