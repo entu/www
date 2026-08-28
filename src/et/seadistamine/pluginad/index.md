@@ -70,9 +70,9 @@ Veebikonksu kohaletoimetamine pole garanteeritud. Kui sinu lõpp-punkt on maas v
 
 Entu pakub valmis pluginate komplekti, mida majutatakse aadressil [github.com/entu/plugins](https://github.com/entu/plugins). Seadista need, luues plugina objekti ja seades selle `url`-iks vastava plugina URL.
 
-### Skeemimallid
+### BoardGameGeeki import
 
-Kiire viis oma andmebaasi skeemi seadistamiseks nullist alustamata. Selle asemel, et käsitsi määratleda objektitüübid ja nende parameetrid, vali valmis tüüp jagatud malliteegist — näiteks *Raamat*, *Dokument*, *Kaust* või *Audiovisuaalne salvestis* — ja Entu kopeerib objektitüübi ning selle parameetrite definitsioonid (nimi, tüüp, järjekord jne) sinu andmebaasi. Saad parameetrite nimekirja üle vaadata enne importimist ja need, mida ei vaja, märkimata jätta.
+Otsi andmebaasist [BoardGameGeek](https://boardgamegeek.com) ja impordi lauamänge, mille autor, kirjastaja, kategooriad, mängijate arv, mängu kestus ja aasta täidetakse automaatselt koos karbipildiga.
 
 ### CSV import
 
@@ -86,25 +86,25 @@ Otsi muusika andmebaasist [Discogs](https://www.discogs.com) ja lisa väljaandei
 
 Otsi [ESTER](https://www.ester.ee) ühiskataloogi, mida kasutavad Eesti kõrgkooli- ja avalikud raamatukogud. Leia raamatuid ja publikatsioone pealkirja, autori, ISBN-i või ISSN-i järgi ja impordi need täieliku bibliograafilise metaandmetega objektidena. Telefonis saad raamatu ISBN-vöötkoodi ka kaameraga skannida — puuduta otsinguvälja kõrval olevat kaameranuppu või tee vöötkoodist pilt — ja plugin otsib seda automaatselt.
 
-### Open Library import
+### KML import
 
-Otsi [Open Library](https://openlibrary.org) kataloogist — tasuta ülemaailmsest raamatute andmebaasist. Leia raamat pealkirja, autori või ISBN-i järgi ja vali seejärel täpne väljaanne — väljaannete loendit saab filtreerida keele järgi. Valitud väljaanne imporditakse objektina, mille pealkiri, autor, kirjastus, ilmumiskoht ja -aasta, lehekülgede arv, mõõtmed, keel, märksõnad ja ISBN täidetakse automaatselt koos raamatu kaanepildiga. Telefonis saad raamatu ISBN-vöötkoodi ka kaameraga skannida — puuduta otsinguvälja kõrval olevat kaameranuppu või tee vöötkoodist pilt — ja plugin otsib seda automaatselt.
-
-### TMDB import
-
-Otsi andmebaasist [The Movie Database](https://www.themoviedb.org) ja impordi filme oma kogusse. Otsingutulemused ja metaandmed järgivad kasutajaliidese keelt, kui tõlked on olemas. Loodud objekti pealkiri, originaalpealkiri, režissöör, aasta, žanrid, kestus, riigid ja kirjeldus täidetakse automaatselt koos filmi plakatiga.
+Impordi geograafilisi asukohti KML-failidest (formaat, mida kasutavad Google Earth ja enamik GIS-tööriistu). Pärast üleslaadimist kuvatakse kõigi failist leitud kohtade loend, vali, milliseid kaasata, ja need luuakse objektidena koos nime, kirjelduse ja koordinaatide parameetritega.
 
 ### MusicBrainzi import
 
 Otsi avatud muusikaentsüklopeediast [MusicBrainz](https://musicbrainz.org). Leia album ja vali seejärel täpne väljaanne (tiraaž, riik, formaat) — objekt luuakse pealkirja, esitaja, sildi, aasta, formaadi, vöötkoodi ja žanritega ning kaanepildiga Cover Art Archive'ist. Telefonis saad väljaande vöötkoodi ka kaameraga skannida — puuduta otsinguvälja kõrval olevat kaameranuppu — ja plugin leiab sobivad albumid automaatselt.
 
-### BoardGameGeeki import
+### Open Library import
 
-Otsi andmebaasist [BoardGameGeek](https://boardgamegeek.com) ja impordi lauamänge, mille autor, kirjastaja, kategooriad, mängijate arv, mängu kestus ja aasta täidetakse automaatselt koos karbipildiga.
+Otsi [Open Library](https://openlibrary.org) kataloogist — tasuta ülemaailmsest raamatute andmebaasist. Leia raamat pealkirja, autori või ISBN-i järgi ja vali seejärel täpne väljaanne — väljaannete loendit saab filtreerida keele järgi. Valitud väljaanne imporditakse objektina, mille pealkiri, autor, kirjastus, ilmumiskoht ja -aasta, lehekülgede arv, mõõtmed, keel, märksõnad ja ISBN täidetakse automaatselt koos raamatu kaanepildiga. Telefonis saad raamatu ISBN-vöötkoodi ka kaameraga skannida — puuduta otsinguvälja kõrval olevat kaameranuppu või tee vöötkoodist pilt — ja plugin otsib seda automaatselt.
 
-### KML import
+### Skeemimallid
 
-Impordi geograafilisi asukohti KML-failidest (formaat, mida kasutavad Google Earth ja enamik GIS-tööriistu). Pärast üleslaadimist kuvatakse kõigi failist leitud kohtade loend, vali, milliseid kaasata, ja need luuakse objektidena koos nime, kirjelduse ja koordinaatide parameetritega.
+Kiire viis oma andmebaasi skeemi seadistamiseks nullist alustamata. Selle asemel, et käsitsi määratleda objektitüübid ja nende parameetrid, vali valmis tüüp jagatud malliteegist — näiteks *Raamat*, *Dokument*, *Kaust* või *Audiovisuaalne salvestis* — ja Entu kopeerib objektitüübi ning selle parameetrite definitsioonid (nimi, tüüp, järjekord jne) sinu andmebaasi. Saad parameetrite nimekirja üle vaadata enne importimist ja need, mida ei vaja, märkimata jätta.
+
+### TMDB import
+
+Otsi andmebaasist [The Movie Database](https://www.themoviedb.org) ja impordi filme oma kogusse. Otsingutulemused ja metaandmed järgivad kasutajaliidese keelt, kui tõlked on olemas. Loodud objekti pealkiri, originaalpealkiri, režissöör, aasta, žanrid, kestus, riigid ja kirjeldus täidetakse automaatselt koos filmi plakatiga.
 
 ## Juurdepääsukontroll
 

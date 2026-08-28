@@ -70,9 +70,9 @@ Webhook delivery is not guaranteed. If your endpoint is down or returns an error
 
 Entu provides a set of ready-made plugins hosted at [github.com/entu/plugins](https://github.com/entu/plugins). Configure them by creating a plugin entity and setting its `url` to the corresponding plugin URL.
 
-### Schema Templates
+### BoardGameGeek Import
 
-A quick way to set up your database schema without starting from scratch. Instead of defining entity types and their properties by hand, you pick a ready-made type from the shared template library — for example *Book*, *Document*, *Folder*, or *Audio-Visual Recording* — and Entu copies the entity type and its property definitions (name, type, ordinal, etc.) into your database. You can review the property list before importing and deselect any you don't need.
+Search [BoardGameGeek](https://boardgamegeek.com) and import board games with designer, publisher, categories, player count, playing time, and year filled in automatically, along with the box art.
 
 ### CSV Import
 
@@ -86,25 +86,25 @@ Search the [Discogs](https://www.discogs.com) music database and add releases di
 
 Search the [ESTER](https://www.ester.ee) union library catalog used by Estonian academic and public libraries. Find books and publications by title, author, ISBN, or ISSN and import them as entities with full bibliographic metadata. On phones you can also scan a book's ISBN barcode with the camera — tap the camera button next to the search field, or take a photo of the barcode — and the plugin searches for it automatically.
 
-### Open Library Import
+### KML Import
 
-Search the [Open Library](https://openlibrary.org) catalog — a free, worldwide book database. Find a book by title, author, or ISBN, then pick the exact edition — the edition list can be filtered by language. The chosen edition is imported as an entity with title, author, publisher, publishing place and year, page count, dimensions, language, subject tags, and ISBN filled in automatically, along with the cover image. On phones you can also scan a book's ISBN barcode with the camera — tap the camera button next to the search field, or take a photo of the barcode — and the plugin searches for it automatically.
-
-### TMDB Import
-
-Search [The Movie Database](https://www.themoviedb.org) and import films into your collection. Search results and metadata follow your interface language where translations exist. The imported entity gets title, original title, director, year, genres, runtime, countries, and description filled in automatically, along with the movie poster.
+Import geographic locations from KML files (the format used by Google Earth and most GIS tools). After uploading, you see a list of all placemarks in the file, pick which ones to include, and they are created as entities with name, description, and coordinate properties.
 
 ### MusicBrainz Import
 
 Search the open [MusicBrainz](https://musicbrainz.org) music encyclopedia. Find an album, then pick the exact release (pressing, country, format) — the entity is created with title, artist, label, year, format, barcode, and genres, along with cover art from the Cover Art Archive. On phones you can also scan a release's barcode with the camera — tap the camera button next to the search field — and the plugin finds the matching albums automatically.
 
-### BoardGameGeek Import
+### Open Library Import
 
-Search [BoardGameGeek](https://boardgamegeek.com) and import board games with designer, publisher, categories, player count, playing time, and year filled in automatically, along with the box art.
+Search the [Open Library](https://openlibrary.org) catalog — a free, worldwide book database. Find a book by title, author, or ISBN, then pick the exact edition — the edition list can be filtered by language. The chosen edition is imported as an entity with title, author, publisher, publishing place and year, page count, dimensions, language, subject tags, and ISBN filled in automatically, along with the cover image. On phones you can also scan a book's ISBN barcode with the camera — tap the camera button next to the search field, or take a photo of the barcode — and the plugin searches for it automatically.
 
-### KML Import
+### Schema Templates
 
-Import geographic locations from KML files (the format used by Google Earth and most GIS tools). After uploading, you see a list of all placemarks in the file, pick which ones to include, and they are created as entities with name, description, and coordinate properties.
+A quick way to set up your database schema without starting from scratch. Instead of defining entity types and their properties by hand, you pick a ready-made type from the shared template library — for example *Book*, *Document*, *Folder*, or *Audio-Visual Recording* — and Entu copies the entity type and its property definitions (name, type, ordinal, etc.) into your database. You can review the property list before importing and deselect any you don't need.
+
+### TMDB Import
+
+Search [The Movie Database](https://www.themoviedb.org) and import films into your collection. Search results and metadata follow your interface language where translations exist. The imported entity gets title, original title, director, year, genres, runtime, countries, and description filled in automatically, along with the movie poster.
 
 ## Access Control
 
