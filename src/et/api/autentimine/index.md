@@ -104,6 +104,79 @@ Vahetus peab tulema samast brauserist, mis lõpetas sisselogimise — serveripoo
 Kinnita oma rakenduses alati `next` URL enne tokeni kasutamist. Aktsepteeri ainult HTTPS URL-e ja keeldu suunamisest originaalile, mida sa ei kontrolli.
 :::
 
+## OAuth server
+
+Entu on ka OAuth 2.1 autoriseerimisserver. Selle asemel et ise `next` edasi-tagasi käiku hallata, saab sinu rakendus kasutada tavalist OAuth teeki: kasutaja logib sisse Entus, sinu rakendus saab tokeni ja ükski salasõna ei liigu läbi sinu koodi.
+
+Kõik OAuth otspunktid asuvad API päritolul `https://api.entu.app` — `entu.app/api/…` alias siin ei sobi, sest avastusdokumendid peavad olema väljastaja juurkaustas.
+
+::: info
+Iga autoriseerimine on seotud ühe andmebaasiga. Anna andmebaasi nimi `db` parameetrina või täielik URL `resource` parameetrina.
+:::
+
+### Avastus
+
+```
+GET https://api.entu.app/.well-known/oauth-authorization-server
+```
+
+Tagastab otspunktide URL-id. Enamik OAuth teeke pärib selle sinu eest.
+
+### Kliendi registreerimine
+
+Kliendid registreerivad end ise — taotlusvormi ega kliendi salasõna pole.
+
+```bash
+curl -X POST "https://api.entu.app/auth/register" \
+  -H "Content-Type: application/json" \
+  -d '{ "client_name": "Minu rakendus", "redirect_uris": ["https://sinu-rakendus.ee/callback"] }'
+```
+
+Tagastatud `client_id` kannab endas oma suunamis-URL-e ja kehtib aasta. Salvesta see — igal käivitusel uuesti registreerimine loob asjatult uue.
+
+### Autoriseerimine
+
+Suuna kasutaja brauser aadressile:
+
+```
+https://api.entu.app/auth/authorize
+  ?client_id={CLIENT_ID}
+  &redirect_uri=https://sinu-rakendus.ee/callback
+  &response_type=code
+  &code_challenge={CHALLENGE}
+  &code_challenge_method=S256
+  &state={STATE}
+  &db={ANDMEBAAS}
+```
+
+PKCE on kohustuslik ja aktsepteeritud on ainult `S256`. Kasutaja valib sisselogimise pakkuja ja autendib täpselt nagu Entu veebirakenduses. Seejärel saab sinu `redirect_uri` parameetrid `code` ja `state`.
+
+### Koodi vahetamine
+
+```bash
+curl -X POST "https://api.entu.app/auth/token" \
+  -d "grant_type=authorization_code" \
+  -d "code={CODE}" \
+  -d "redirect_uri=https://sinu-rakendus.ee/callback" \
+  -d "code_verifier={VERIFIER}"
+```
+
+```json
+{
+  "access_token": "eyJhbGciOi...",
+  "token_type": "Bearer",
+  "expires_in": 43200
+}
+```
+
+`access_token` on tavaline Entu JWT — kasuta seda täpselt nagu ülal kirjeldatud.
+
+::: warning
+Token on seotud IP-aadressiga, millelt tokeni otspunkti kutsuti. Vaheta kood samas masinas, kus tokenit kasutatakse: kui sinu server vahetab koodi ja brauser kutsub seejärel API-t, ebaõnnestuvad päringud veaga `401 Invalid JWT audience`.
+:::
+
+Koodid on ühekordsed ja aeguvad viie minutiga. Kui token aegub, käivita voog uuesti.
+
 ## Autentimisparameetrid
 
 Autentimisvolitused salvestatakse parameetritena objektil. Vaikimisi kasutatakse neid isikuobjektidel — iga isikuobjekt esindab inimkasutajat. Kuid samu parameetreid saab lisada mis tahes objektitüübile, mis võimaldab ka automatiseeritud toimijatel autentida. IoT seadistuses `robot` objekt, digitaalreklaami süsteemis `screen` objekt või serveripoolse integratsiooni jaoks mõeldud `service` objekt — kõigil võib olla oma API võti ja kõik saavad iseseisvalt autentida.

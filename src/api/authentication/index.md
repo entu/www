@@ -104,6 +104,79 @@ The exchange must originate from the same browser that completed the login — s
 Always validate the `next` URL in your app before using the token. Only accept HTTPS URLs and reject any redirect to an origin you do not control.
 :::
 
+## OAuth Server
+
+Entu is also an OAuth 2.1 authorization server. Instead of handling the `next` round trip yourself, your app can use a standard OAuth library: the user signs in on Entu, your app receives a token, and no credentials ever pass through your code.
+
+All OAuth endpoints live on the API origin `https://api.entu.app` — the `entu.app/api/…` alias cannot be used here, because discovery documents must sit at the root of the issuer.
+
+::: info
+Every authorization is scoped to one database. Pass the database name as `db`, or the full resource URL as `resource`.
+:::
+
+### Discovery
+
+```
+GET https://api.entu.app/.well-known/oauth-authorization-server
+```
+
+Returns the endpoint URLs. Most OAuth libraries fetch this for you.
+
+### Register a client
+
+Clients register themselves — there is no application form and no client secret.
+
+```bash
+curl -X POST "https://api.entu.app/auth/register" \
+  -H "Content-Type: application/json" \
+  -d '{ "client_name": "My App", "redirect_uris": ["https://your-app.com/callback"] }'
+```
+
+The returned `client_id` carries its own redirect URIs and stays valid for a year. Store it — registering again on every start creates a new one needlessly.
+
+### Authorize
+
+Send the user's browser to:
+
+```
+https://api.entu.app/auth/authorize
+  ?client_id={CLIENT_ID}
+  &redirect_uri=https://your-app.com/callback
+  &response_type=code
+  &code_challenge={CHALLENGE}
+  &code_challenge_method=S256
+  &state={STATE}
+  &db={DATABASE}
+```
+
+PKCE is required and only `S256` is accepted. The user picks a login provider and authenticates exactly as they would in the Entu web app. Your `redirect_uri` then receives `code` and `state`.
+
+### Exchange the code
+
+```bash
+curl -X POST "https://api.entu.app/auth/token" \
+  -d "grant_type=authorization_code" \
+  -d "code={CODE}" \
+  -d "redirect_uri=https://your-app.com/callback" \
+  -d "code_verifier={VERIFIER}"
+```
+
+```json
+{
+  "access_token": "eyJhbGciOi...",
+  "token_type": "Bearer",
+  "expires_in": 43200
+}
+```
+
+The `access_token` is an ordinary Entu JWT — use it exactly as described above.
+
+::: warning
+The token is bound to the IP address that called the token endpoint. Exchange the code from the same machine that will use the token: if your backend exchanges it and your browser then calls the API, requests fail with `401 Invalid JWT audience`.
+:::
+
+Codes are single use and expire after five minutes. When the token expires, run the flow again.
+
 ## Auth Properties
 
 Authentication credentials are stored as properties on an entity. By default these are used on person entities — each person entity represents a human user. But the same properties can be added to any entity type, which lets non-human actors authenticate too. A `robot` entity in an IoT setup, a `screen` entity in a digital signage system, or a `service` entity for a backend integration can all have their own API key and authenticate independently.
