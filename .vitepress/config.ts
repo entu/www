@@ -225,6 +225,7 @@ export default defineConfig({
               { text: 'Valemid', link: '/et/api/valemid/' },
               { text: 'Failid', link: '/et/api/failid/' },
               { text: 'AI assistent', link: '/et/api/ai/' },
+              { text: 'MCP server', link: '/et/api/mcp/' },
               { text: 'Andmebaasi mutatsioonid', link: '/et/andmebaasi-mutatsioonid/' },
               { text: 'API viide', link: 'https://api.entu.app/docs' }
             ]
@@ -305,6 +306,7 @@ export default defineConfig({
           { text: 'Formulas', link: '/api/formulas/' },
           { text: 'Files', link: '/api/files/' },
           { text: 'AI Assistant', link: '/api/ai/' },
+          { text: 'MCP Server', link: '/api/mcp/' },
           { text: 'Database Mutations', link: '/db-mutations/' },
           { text: 'API Reference', link: 'https://api.entu.app/docs' }
         ]
