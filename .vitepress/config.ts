@@ -30,6 +30,7 @@ const SLUG_MAP: [string, string][] = [
   ['configuration/plugins', 'seadistamine/pluginad'],
   ['configuration/best-practices', 'seadistamine/parimad-praktikad'],
   ['configuration/ai', 'seadistamine/ai'],
+  ['configuration/mcp', 'seadistamine/mcp'],
   ['configuration', 'seadistamine'],
   ['examples', 'kasutusnaited'],
   ['db-mutations', 'andmebaasi-mutatsioonid'],
@@ -210,6 +211,7 @@ export default defineConfig({
               { text: 'Menüüd', link: '/et/seadistamine/menuud/' },
               { text: 'Pluginad', link: '/et/seadistamine/pluginad/' },
               { text: 'Entu AI', link: '/et/seadistamine/ai/' },
+              { text: 'MCP server', link: '/et/seadistamine/mcp/' },
               { text: 'Parimad praktikad', link: '/et/seadistamine/parimad-praktikad/' },
               { text: 'Kasutusnäited', link: '/et/kasutusnaited/' }
             ]
@@ -225,7 +227,6 @@ export default defineConfig({
               { text: 'Valemid', link: '/et/api/valemid/' },
               { text: 'Failid', link: '/et/api/failid/' },
               { text: 'AI assistent', link: '/et/api/ai/' },
-              { text: 'MCP server', link: '/et/api/mcp/' },
               { text: 'Andmebaasi mutatsioonid', link: '/et/andmebaasi-mutatsioonid/' },
               { text: 'API viide', link: 'https://api.entu.app/docs' }
             ]
@@ -291,6 +292,7 @@ export default defineConfig({
           { text: 'Menus', link: '/configuration/menus/' },
           { text: 'Plugins', link: '/configuration/plugins/' },
           { text: 'Entu AI', link: '/configuration/ai/' },
+          { text: 'MCP Server', link: '/configuration/mcp/' },
           { text: 'Best Practices', link: '/configuration/best-practices/' },
           { text: 'Examples', link: '/examples/' }
         ]
@@ -306,7 +308,6 @@ export default defineConfig({
           { text: 'Formulas', link: '/api/formulas/' },
           { text: 'Files', link: '/api/files/' },
           { text: 'AI Assistant', link: '/api/ai/' },
-          { text: 'MCP Server', link: '/api/mcp/' },
           { text: 'Database Mutations', link: '/db-mutations/' },
           { text: 'API Reference', link: 'https://api.entu.app/docs' }
         ]
