@@ -22,6 +22,7 @@ const SLUG_MAP: [string, string][] = [
   ['overview/entities', 'ulevaade/objektid'],
   ['overview/properties', 'ulevaade/parameetrid'],
   ['overview/sharing', 'ulevaade/jagamine'],
+  ['overview/data-flow', 'ulevaade/andmevoog'],
   ['overview/authentication', 'ulevaade/autentimine'],
   ['overview', 'ulevaade'],
   ['configuration/entity-types', 'seadistamine/objektituubid'],
@@ -200,7 +201,8 @@ export default defineConfig({
               { text: 'Objektid', link: '/et/ulevaade/objektid/' },
               { text: 'Parameetrid', link: '/et/ulevaade/parameetrid/' },
               { text: 'Autentimine', link: '/et/ulevaade/autentimine/' },
-              { text: 'Objektide jagamine', link: '/et/ulevaade/jagamine/' }
+              { text: 'Objektide jagamine', link: '/et/ulevaade/jagamine/' },
+              { text: 'Andmevoog', link: '/et/ulevaade/andmevoog/' }
             ]
           },
           {
@@ -281,7 +283,8 @@ export default defineConfig({
           { text: 'Entities', link: '/overview/entities/' },
           { text: 'Properties', link: '/overview/properties/' },
           { text: 'Authentication', link: '/overview/authentication/' },
-          { text: 'Entity sharing', link: '/overview/sharing/' }
+          { text: 'Entity sharing', link: '/overview/sharing/' },
+          { text: 'Data flow', link: '/overview/data-flow/' }
         ]
       },
       {
