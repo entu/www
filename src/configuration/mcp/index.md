@@ -31,15 +31,17 @@ claude mcp add --transport http entu https://mcp.entu.app/mydatabase \
 
 ## What the assistant can do
 
-Three read tools, mirroring the [query API](/api/query-reference/):
+Five read tools, mirroring the [REST API](/api/query-reference/):
 
 | Tool | Purpose |
 |---|---|
 | `get_entity_type` | One entity type and all its property definitions |
-| `search_entities` | Search by type, text and property filters, 20 results per call |
+| `search_entities` | Search by type, text and property filters — up to 100 per call, sorted or grouped |
 | `get_entity` | A single entity by id |
+| `get_entity_history` | Who changed what and when — needs direct rights on the entity |
+| `get_file_url` | A short-lived download link for a file |
 
-The server is **read-only**. An assistant can answer questions about your data, summarise it and cross-reference it, but cannot create, change or delete anything.
+The server is **read-only**. An assistant can answer questions about your data, summarise it and cross-reference it, but cannot create, change or delete anything — instead it links you to the entity, or straight to its edit or rights drawer, so you can make the change yourself.
 
 ## Schema resource
 
@@ -49,6 +51,6 @@ The listing reflects rights too, so two people connecting to the same database c
 
 ## What to expect
 
-Results are capped at 20 entities per search, so an assistant asked to summarise thousands of records will page through them or work from a sample. Ask for specific properties rather than whole entities when a question only needs a few fields — it is faster and keeps more of the conversation available for the answer.
+A search returns up to 100 entities at a time. Questions like "the newest ten", "the largest" or "how many per status" are answered in one call by sorting or grouping; only genuinely large summaries page through results. Asking for specific properties rather than whole entities keeps answers fast and leaves more of the conversation for the reply.
 
 Since the assistant inherits your rights exactly, an entity it cannot find may exist but be invisible to you. "Not found" from an assistant means "not visible to you", not "not in the database".

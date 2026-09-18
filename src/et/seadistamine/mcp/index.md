@@ -31,15 +31,17 @@ claude mcp add --transport http entu https://mcp.entu.app/minuandmebaas \
 
 ## Mida assistent teha saab
 
-Kolm lugemistööriista, mis peegeldavad [päringu API-t](/et/api/paringu-viide/):
+Viis lugemistööriista, mis peegeldavad [REST API-t](/et/api/paringu-viide/):
 
 | Tööriist | Otstarve |
 |---|---|
 | `get_entity_type` | Üks objektitüüp ja kõik selle parameetrite definitsioonid |
-| `search_entities` | Otsing tüübi, teksti ja parameetrite järgi, 20 tulemust korraga |
+| `search_entities` | Otsing tüübi, teksti ja parameetrite järgi — kuni 100 korraga, sorteeritult või rühmitatult |
 | `get_entity` | Üks objekt ID järgi |
+| `get_entity_history` | Kes mida ja millal muutis — vajab objektile otseseid õigusi |
+| `get_file_url` | Lühiajaline allalaadimislink failile |
 
-Server on **ainult lugemiseks**. Assistent oskab sinu andmete kohta vastata, neid kokku võtta ja omavahel seostada, aga ei saa midagi luua, muuta ega kustutada.
+Server on **ainult lugemiseks**. Assistent oskab sinu andmete kohta vastata, neid kokku võtta ja omavahel seostada, aga ei saa midagi luua, muuta ega kustutada — selle asemel annab ta lingi objektile või otse selle muutmise või õiguste paneelile, et saaksid muudatuse ise teha.
 
 ## Skeemiressurss
 
@@ -49,6 +51,6 @@ Loetelu arvestab ka õigusi, nii et kaks sama andmebaasiga ühendunud inimest v�
 
 ## Mida oodata
 
-Otsingutulemused on piiratud 20 objektiga korraga, nii et tuhandete kirjete kokkuvõtte küsimisel lappab assistent neid läbi või töötab valimi pealt. Küsi konkreetseid parameetreid terve objekti asemel, kui vastus vajab vaid mõnda välja — see on kiirem ja jätab vastuse jaoks rohkem ruumi.
+Otsing tagastab korraga kuni 100 objekti. Küsimustele nagu „kümme uusimat", „suurim" või „mitu olekute kaupa" vastatakse sorteerimise või rühmitamisega ühe päringuga; ainult tõeliselt suured kokkuvõtted lappavad tulemusi läbi. Terve objekti asemel konkreetsete parameetrite küsimine hoiab vastused kiired ja jätab vestluses rohkem ruumi vastusele.
 
 Kuna assistent pärib täpselt sinu õigused, võib objekt, mida ta ei leia, olemas olla, aga sulle nähtamatu. "Ei leitud" tähendab assistendi puhul "sulle pole nähtav", mitte "andmebaasis pole".

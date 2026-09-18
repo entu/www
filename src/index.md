@@ -269,7 +269,7 @@ features:
   - title: Entu AI
     icon:
       src: /icons/sparkles.svg
-    details: Ask in plain language to explore your data or set up entities, properties, and formulas. Entu AI proposes the changes and applies them once you confirm.
+    details: Ask in plain language to explore your data or set up entities, properties, and formulas. Entu AI proposes the changes and applies them once you confirm. Prefer your own assistant? Connect Claude, ChatGPT or any MCP client to read your data directly.
   - title: No-code data modelling
     icon:
       src: /icons/database.svg

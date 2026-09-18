@@ -269,7 +269,7 @@ features:
   - title: Entu AI
     icon:
       src: /icons/sparkles.svg
-    details: Küsi tavakeeles, et uurida oma andmeid või seada üles objekte, parameetreid ja valemeid. Entu AI pakub muudatused välja ja rakendab need pärast sinu kinnitust.
+    details: Küsi tavakeeles, et uurida oma andmeid või seada üles objekte, parameetreid ja valemeid. Entu AI pakub muudatused välja ja rakendab need pärast sinu kinnitust. Eelistad oma assistenti? Ühenda Claude, ChatGPT või mõni muu MCP klient, et oma andmeid otse lugeda.
   - title: Koodivaba andmemudelleerimine
     icon:
       src: /icons/database.svg
