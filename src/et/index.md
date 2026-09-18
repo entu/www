@@ -269,7 +269,7 @@ features:
   - title: Entu AI
     icon:
       src: /icons/sparkles.svg
-    details: Küsi tavakeeles, et uurida oma andmeid või seada üles objekte, parameetreid ja valemeid. Entu AI pakub muudatused välja ja rakendab need pärast sinu kinnitust. Eelistad oma assistenti? Ühenda Claude, ChatGPT või mõni muu MCP klient, et oma andmeid otse lugeda.
+    details: Uuri oma andmeid või kujunda andmemudelit tavakeeles — Entu AI rakendab muudatused pärast sinu kinnitust. Või ühenda Claude, ChatGPT või mõni muu MCP klient.
   - title: Koodivaba andmemudelleerimine
     icon:
       src: /icons/database.svg
@@ -277,7 +277,7 @@ features:
   - title: Skeemimallid
     icon:
       src: /icons/layout-template.svg
-    details: Impordi valmis objektitüübid ja nende parameetrid jagatud malliteegist — vali, mida vajad, ja kohanda, selle asemel et iga välja käsitsi määratleda.
+    details: Impordi valmis objektitüübid ja parameetrid jagatud malliteegist. Vali, mida vajad, ja kohanda — iga välja pole vaja käsitsi määratleda.
   - title: Paindlik juurdepääsukontroll
     icon:
       src: /icons/shield-check.svg

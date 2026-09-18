@@ -269,7 +269,7 @@ features:
   - title: Entu AI
     icon:
       src: /icons/sparkles.svg
-    details: Ask in plain language to explore your data or set up entities, properties, and formulas. Entu AI proposes the changes and applies them once you confirm. Prefer your own assistant? Connect Claude, ChatGPT or any MCP client to read your data directly.
+    details: Explore your data or shape your model in plain language — Entu AI applies changes once you confirm. Or connect Claude, ChatGPT, or any MCP client.
   - title: No-code data modelling
     icon:
       src: /icons/database.svg
@@ -277,11 +277,11 @@ features:
   - title: Schema templates
     icon:
       src: /icons/layout-template.svg
-    details: Import ready-made entity types and their properties from a shared library — pick what you need and adapt it, instead of defining every field by hand.
+    details: Import ready-made entity types and properties from a shared library. Pick what you need and adapt it — no defining every field by hand.
   - title: Flexible access control
     icon:
       src: /icons/shield-check.svg
-    details: Four permission levels per entity — owner, editor, expander, viewer. Rights cascade automatically through parent–child relationships.
+    details: Four permission levels per entity — owner, editor, expander, and viewer. Rights cascade automatically down through parent–child relationships.
   - title: Multilingual
     icon:
       src: /icons/globe.svg
@@ -289,7 +289,7 @@ features:
   - title: Plugins & Webhooks
     icon:
       src: /icons/plug.svg
-    details: Embed custom UI tabs (iframes) or fire webhook triggers on any entity type — extend Entu without touching the core.
+    details: Embed custom UI tabs (iframes) or fire webhook triggers on any entity type — extend Entu to fit your workflow without touching the core.
 
 pricing:
   heading: Pricing
