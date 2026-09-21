@@ -1,25 +1,42 @@
 import stylistic from '@stylistic/eslint-plugin'
+import tsParser from '@typescript-eslint/parser'
 import unicorn from 'eslint-plugin-unicorn'
 import vue from 'eslint-plugin-vue'
 import vueParser from 'vue-eslint-parser'
 
+import guardBraces from './eslint-guard-braces.js'
+
 export default [
   ...vue.configs['flat/recommended'],
   {
-    ignores: ['.vitepress/cache/']
+    ignores: ['.claude/', '.vitepress/cache/', '.vitepress/dist/', 'dist/']
   },
   {
     files: ['**/*.vue', '**/*.js', '**/*.ts'],
     languageOptions: {
       ecmaVersion: 'latest',
       sourceType: 'module',
-      parser: vueParser
+      parser: vueParser,
+      parserOptions: { parser: tsParser }
     },
     plugins: {
       '@stylistic': stylistic,
+      entu: { rules: { 'guard-braces': guardBraces } },
       unicorn
     },
     rules: {
+      // Guard clauses stay inline and brace-less (`if (x) return` /
+      // `continue` / `break` — value-less only); every other if/else/loop
+      // body, including `return <value>`, must be a multiline braced
+      // block. Enforced by three rules together:
+      // - curly multi-line: anything spanning lines needs braces
+      // - nonblock-statement-body-position: a brace-less body sits on the
+      //   same line as its `if`
+      // - entu/guard-braces (local, auto-fixable): only a bare guard may
+      //   go brace-less, and a block holding ONLY a bare guard is inlined
+      curly: ['error', 'multi-line'],
+      '@stylistic/nonblock-statement-body-position': ['error', 'beside'],
+      'entu/guard-braces': 'error',
       '@stylistic/arrow-parens': ['error', 'always'],
       '@stylistic/brace-style': ['error', 'stroustrup'],
       '@stylistic/comma-dangle': ['error', 'never'],
@@ -33,14 +50,19 @@ export default [
       '@stylistic/quotes': ['error', 'single'],
       '@stylistic/semi': ['error', 'never'],
       '@stylistic/space-before-function-paren': ['error', 'always'],
-      'unicorn/no-array-for-each': 'error',
+      'unicorn/no-duplicate-if-branches': 'error',
+      'unicorn/no-for-each': 'error',
       'unicorn/no-lonely-if': 'error',
       'unicorn/no-useless-undefined': 'error',
       'unicorn/prefer-array-flat-map': 'error',
       'unicorn/prefer-at': 'error',
+      'unicorn/prefer-boolean-return': 'error',
       'unicorn/prefer-date-now': 'error',
+      'unicorn/prefer-early-return': 'error',
+      'unicorn/prefer-else-if': 'error',
       'unicorn/prefer-includes': 'error',
       'unicorn/prefer-number-properties': 'error',
+      'unicorn/prefer-simplified-conditions': 'error',
       'unicorn/prefer-string-slice': 'error',
       'vue/attributes-order': ['error', {
         alphabetical: true,
