@@ -47,7 +47,7 @@ Iga operaator kuulub ühte järgmistest klassidest:
 
 - **Muutuva arvuga reduktorid** tarbivad **kogu pinu** ja lükkavad ühe tulemuse. Enamik koondoperaatoreid on reduktorid — `CONCAT`, `SUM`, `MIN`, `IN` jne.
 - **Fikseeritud arvuga operaatorid** võtavad pinust teadaoleva arvu pilusid. `EQ` võtab 2, `ABS` võtab 1, `IF` võtab 3 jne.
-- **Väärtuste kaupa operaatorid** (`ABS`, `ROUND`) võtavad ühe sisendpilu ja rakendavad operatsiooni iga selle väärtuse suhtes, lükkades tagasi sama pikkusega pilu.
+- **Väärtuste kaupa operaatorid** (`ABS`, `ROUND`, `REGEX`) võtavad ühe sisendpilu ja rakendavad operatsiooni iga selle väärtuse suhtes, lükkades tagasi sama pikkusega pilu.
 
 ### Mitme väärtusega (loend) parameetrid
 
@@ -149,6 +149,13 @@ Mõlemad nõuavad, et `cond` lahendaks täpselt üheks tõeväärtuseks. Mõlema
 |---|---|---|
 | `ABS` | 1 | Iga arvu absoluutväärtus sisendpilus. |
 | `ROUND` | 2 | Võtab `decimals` (üks arv) ja `value`. Ümardab iga arvu väärtusest `decimals` kümnendkohani. |
+| `REGEX` | 3 | Võtab `replacement`, `pattern` (kumbki üks string) ja `value`. Asendab regulaaravaldise `pattern` iga vaste igas `value` stringis. |
+
+`REGEX` kasutab JavaScripti regulaaravaldiste süntaksit. Jutumärkides literaali kaldkriipsud antakse edasi muutmata, seega `'\d+'` vastab numbritele. Asenduses saab kasutada `$1`, `$2`, … püüdegruppide, `$<nimi>` nimeliste gruppide ja `$&` kogu vaste jaoks. Asendatakse kõik vasted; tõstutundetuks võrdluseks pane muster `(?i:…)` sisse.
+
+Väärtus, mis mustrile ei vasta, jääb muutmata. Alamstringi eraldamiseks sobita kogu string ja jäta alles ainult püüdegrupp — vaata [näiteid](#stringid).
+
+`REGEX` ei tagasta väärtust, kui `value` sisaldab midagi muud peale stringide või üle 1000 väärtuse, kui `pattern` ei ole kehtiv regulaaravaldis, kui `pattern` või `replacement` on pikem kui 500 märki, kui mõni sisend- või tulemusstring on pikem kui 10 000 märki või need kokku ületavad 1 000 000 märki või kui arvutamine võtab liiga kaua aega. Ühes valemis võib `REGEX` esineda kuni 10 korda.
 
 ### Muud
 
@@ -164,7 +171,7 @@ Enamik operaatoreid tagastab väärtuseta (parameetrit ei kirjutata), kui sisend
 |---|---|
 | `COUNT` | `0` |
 | `CONCAT`, `CONCAT_WS`, `SUM`, `SUBTRACT`, `MULTIPLY`, `DIVIDE`, `AVERAGE`, `MIN`, `MAX` | väärtust pole (parameetrit ei kirjutata) |
-| `ABS`, `ROUND` | väärtust pole |
+| `ABS`, `ROUND`, `REGEX` | väärtust pole |
 | `IN`, `NIN` | tühi otsitav või tühi otsingulist → vastavalt `false` / `true` |
 | `EQ`, `NE`, `GT`, `GTE`, `LT`, `LTE` | tühi pool → väärtust pole |
 | `EXISTS` | tagastab alati tõeväärtuse |
@@ -231,6 +238,21 @@ first_name last_name " " CONCAT_WS
 **Kahekihiline ühendamine — esinejate loend ühendatakse `", "`-ga, seejärel pealkirjale eelistatakse:**
 ```
 artist ", " CONCAT_WS title " - " CONCAT_WS
+```
+
+**Korduvate tühikute koondamine (`REGEX` asendus):**
+```
+name '\s+' ' ' REGEX
+```
+
+**Tähed enne esimest sidekriipsu (`REGEX` alamstring mustri järgi):**
+```
+code '^([A-Z]+)-.*$' '$1' REGEX
+```
+
+**Esimesed 20 märki (`REGEX` alamstring asukoha järgi):**
+```
+title '^(.{0,20}).*$' '$1' REGEX
 ```
 
 ### Tingimused

@@ -47,7 +47,7 @@ Every operator falls into one of these classes:
 
 - **Variadic reducers** consume the **entire current stack** and push one result. Most aggregating operators are reducers — `CONCAT`, `SUM`, `MIN`, `IN`, etc.
 - **Fixed-arity operators** pop a known number of stack slots. `EQ` pops 2, `ABS` pops 1, `IF` pops 3, and so on.
-- **Per-value operators** (`ABS`, `ROUND`) take one input slot and apply the operation to every underlying value in it, pushing back a slot of the same length.
+- **Per-value operators** (`ABS`, `ROUND`, `REGEX`) take one input slot and apply the operation to every underlying value in it, pushing back a slot of the same length.
 
 ### Multi-value (list) properties
 
@@ -149,6 +149,13 @@ Both require `cond` to resolve to exactly one boolean value. Both branches are e
 |---|---|---|
 | `ABS` | 1 | Absolute value of every number in the input slot. |
 | `ROUND` | 2 | Pops `decimals` (a single number) and `value`. Rounds every number in `value` to `decimals` decimal places. |
+| `REGEX` | 3 | Pops `replacement`, `pattern` (each a single string) and `value`. Replaces every match of the regular expression `pattern` in every string in `value`. |
+
+`REGEX` uses JavaScript regular expression syntax. Backslashes inside a quoted literal are passed through as written, so `'\d+'` matches digits. The replacement may use `$1`, `$2`, … for capture groups, `$<name>` for named groups and `$&` for the whole match. All matches are replaced; for case-insensitive matching wrap the pattern in `(?i:…)`.
+
+A value that does not match the pattern passes through unchanged. To extract a substring, match the whole string and keep only a capture group — see the [examples](#strings).
+
+`REGEX` returns no value when `value` contains a non-string or more than 1,000 values, when `pattern` is not a valid regular expression, when `pattern` or `replacement` is longer than 500 characters, when any input or result string is longer than 10,000 characters or all of them together exceed 1,000,000 characters, or when evaluation takes too long. A formula may use `REGEX` at most 10 times.
 
 ### Other
 
@@ -164,7 +171,7 @@ Most operators return no value (the property is not written) when their inputs r
 |---|---|
 | `COUNT` | `0` |
 | `CONCAT`, `CONCAT_WS`, `SUM`, `SUBTRACT`, `MULTIPLY`, `DIVIDE`, `AVERAGE`, `MIN`, `MAX` | no value (property not written) |
-| `ABS`, `ROUND` | no value |
+| `ABS`, `ROUND`, `REGEX` | no value |
 | `IN`, `NIN` | empty needle or empty haystack → `false` / `true` respectively |
 | `EQ`, `NE`, `GT`, `GTE`, `LT`, `LTE` | empty side → no value |
 | `EXISTS` | always returns a boolean |
@@ -231,6 +238,21 @@ first_name last_name " " CONCAT_WS
 **Two-level join — list of artists joined with `", "`, then prefixed to a title:**
 ```
 artist ", " CONCAT_WS title " - " CONCAT_WS
+```
+
+**Collapse repeated whitespace (`REGEX` replace):**
+```
+name '\s+' ' ' REGEX
+```
+
+**Letters before the first dash (`REGEX` substring by pattern):**
+```
+code '^([A-Z]+)-.*$' '$1' REGEX
+```
+
+**First 20 characters (`REGEX` substring by position):**
+```
+title '^(.{0,20}).*$' '$1' REGEX
 ```
 
 ### Conditionals
