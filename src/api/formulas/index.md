@@ -127,7 +127,7 @@ Inside a formula every value is a **number**, a **string** or a **boolean** — 
 
 To get the ID of a referenced entity instead of its name, use `propertyName.*._id`.
 
-A **multilingual** property pushes the values of **all** languages as one list — `name` with an Estonian and an English value is a two-value slot. A formula result itself has no language.
+In an ordinary formula a **multilingual** property pushes the values of **all** languages as one list — `name` with an Estonian and an English value is a two-value slot — and the result has no language. To get one result per language, make the formula property multilingual — see [Multilingual formulas](#multilingual-formulas).
 
 ### What this means for operators
 
@@ -139,6 +139,12 @@ A **multilingual** property pushes the values of **all** languages as one list �
 ### How the result is stored
 
 The result's own type decides how it is stored: a number as a number, a boolean as a boolean, the output of `DATE` / `DATETIME` as a date / datetime, and everything else as a string. The formula property's `type` does not convert the result — a `number`-type property whose formula produces `"12"` holds a string.
+
+### Multilingual formulas
+
+When the formula property has `multilingual` set, the formula runs once for every language found in its inputs — property values, names of referenced entities and results of other formulas. Each run reads that language's values plus every value without a language, and its result is stored tagged with that language. Values in other languages are never borrowed, so a run where an input has nothing in its language treats that input as empty.
+
+With `code` = `A1` (no language) and `name` = `Nimi` (et) / `Name` (en), the formula `code ' ' name` stores `A1 Nimi` in Estonian and `A1 Name` in English. When none of the inputs has a language, a multilingual formula stores one result without a language, like an ordinary formula. The same happens when the inputs hold more than 10 languages, or when the formula's `REGEX` count times its language count exceeds 10.
 
 ## Operators
 

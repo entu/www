@@ -127,7 +127,7 @@ Valemi sees on iga väärtus **arv**, **string** või **tõeväärtus** — mitt
 
 Viidatava objekti ID saamiseks nime asemel kasuta `propertyName.*._id`.
 
-**Mitmekeelne** parameeter lükkab pinusse **kõigi** keelte väärtused ühe loendina — eesti- ja ingliskeelse väärtusega `name` on kahe väärtusega pilu. Valemi tulemusel endal keelt ei ole.
+Tavalises valemis lükkab **mitmekeelne** parameeter pinusse **kõigi** keelte väärtused ühe loendina — eesti- ja ingliskeelse väärtusega `name` on kahe väärtusega pilu — ning tulemusel keelt ei ole. Iga keele jaoks eraldi tulemuse saamiseks tee valemiparameeter mitmekeelseks — vaata [Mitmekeelsed valemid](#mitmekeelsed-valemid).
 
 ### Mida see operaatorite jaoks tähendab
 
@@ -139,6 +139,12 @@ Viidatava objekti ID saamiseks nime asemel kasuta `propertyName.*._id`.
 ### Kuidas tulemus salvestatakse
 
 Salvestusviisi määrab tulemuse enda tüüp: arv salvestatakse arvuna, tõeväärtus tõeväärtusena, `DATE`-i / `DATETIME`-i väljund kuupäevana / kuupäevana koos kellaajaga ja kõik muu stringina. Valemiparameetri `type` tulemust ei teisenda — `number`-tüüpi parameeter, mille valem annab `"12"`, sisaldab stringi.
+
+### Mitmekeelsed valemid
+
+Kui valemiparameetril on `multilingual` seatud, käivitatakse valem iga keele jaoks, mis selle sisendites leidub — parameetrite väärtustes, viidatavate objektide nimedes ja teiste valemite tulemustes. Iga käivitus loeb selle keele väärtusi ja kõiki keeleta väärtusi ning selle tulemus salvestatakse selle keelega. Teiste keelte väärtusi ei laenata, seega kui sisendil pole käivituse keeles midagi, on see sisend tühi.
+
+Kui `code` = `A1` (keeleta) ja `name` = `Nimi` (et) / `Name` (en), salvestab valem `code ' ' name` eesti keeles `A1 Nimi` ja inglise keeles `A1 Name`. Kui ühelgi sisendil keelt pole, salvestab mitmekeelne valem ühe keeleta tulemuse nagu tavaline valem. Sama juhtub, kui sisendites on üle 10 keele või kui valemi `REGEX`-ide arv korrutatuna keelte arvuga ületab 10.
 
 ## Operaatorid
 
