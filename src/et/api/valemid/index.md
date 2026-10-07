@@ -8,7 +8,7 @@ Valemid võimaldavad parameetril arvutada oma väärtuse automaatselt iga salves
 
 Valemi kasutamiseks: kirjuta avaldis parameetri definitsiooni välja `formula`. Arvutatud parameetreid ei saa käsitsi muuta ja need jäetakse objekti dubleerimisel vahele.
 
-Valemid hinnatakse kahes etapis, nii et teistest valemiparameetritest sõltuvad parameetrid lahendatakse õigesti.
+Valemeid hinnatakse kahes etapis, et teistest valemiparameetritest sõltuvad parameetrid lahenduksid õigesti.
 
 ::: info
 Kaheetapiline hindamine tähendab, et valem võib turvaliselt viidata teisele sama objekti arvutatud parameetrile. Esimene etapp lahendab lihtsad väljad; teine lahendab arvutatud parameetrite vahelised sõltuvused.
@@ -98,14 +98,14 @@ Objektid, mis viitavad sellele objektile enda viiteparameetrite kaudu:
 | `_referrer.*._id` | Kõigi viitajate ID-d |
 | `_referrer.typeName._id` | Konkreetset tüüpi viitajate ID-d |
 
-Viitaja on objekt, mis osutab praegusele objektile kasutaja määratud `reference`-tüüpi parameetri kaudu. Süsteemsed viiteparameetrid (`_parent`, `_owner`, `_editor`, `_viewer`, `_expander`) **ei** lähe `_referrer`-i arvestusse.
+Viitaja on objekt, mis osutab praegusele objektile kasutaja määratud `reference`-tüüpi parameetri kaudu. Süsteemsed viiteparameetrid — kõik parameetrid, mille nimi algab `_`-ga, nt `_parent`, `_owner`, `_editor`, `_viewer` ja `_expander` — **ei** lähe `_referrer`-i arvestusse.
 
 ::: info
 `typeName` viiakse vastavusse viitaja objektitüübi `name` parameetriga (nt `invoice`), mitte kuvanimega `label`. Kui tüübi `name` ja `label` erinevad, kasuta `name` väärtust.
 :::
 
 ::: info
-Erinevalt sama objekti valemitest sõltub `_referrer` valem **teistest** objektidest. Selle väärtus uueneb, kui viitav objekt luuakse, muudetakse, kustutatakse või selle viide muutub — Entu paneb seejärel sihtobjekti automaatsesse uuesti-koondamise järjekorda, et selle `_referrer` (ja `_child`) valemid ümber arvutada. Tulemus on lõppkokkuvõttes järjepidev: see ei pruugi uueneda samas päringus, mis viitavat objekti muutis.
+Erinevalt sama objekti valemitest sõltub `_referrer` valem **teistest** objektidest. Selle väärtus uueneb, kui viitav objekt luuakse, muudetakse või selle viide muutub — Entu paneb seejärel sihtobjekti automaatsesse uuesti-koondamise järjekorda, et selle `_referrer` (ja `_child`) valemid ümber arvutada. Viitava objekti kustutamine sihtobjekti järjekorda ei pane; selle valemid arvutatakse ümber järgmisel koondamisel, nt kui seda salvestatakse. Tulemus on lõppkokkuvõttes järjepidev: see ei pruugi uueneda samas päringus, mis viitavat objekti muutis.
 :::
 
 ## Väärtuste tüübid
@@ -135,7 +135,7 @@ Tavalises valemis lükkab **mitmekeelne** parameeter pinusse **kõigi** keelte v
 
 - **Tekst** — `CONCAT` ja `CONCAT_WS` teisendavad iga väärtuse stringiks nii, nagu see on: kuupäev koos kellaajaga on `2026-01-31T12:30:00.000Z` (UTC, lokaliseerimata), tõeväärtus on `true` / `false` ja arv kirjutatakse täistäpsusega, parameetri `decimals` seadistust arvestamata — ümarda see enne `ROUND`-iga. `UPPER`, `LOWER` ja `REGEX` aktsepteerivad ainult stringe, seega töötavad need kuupäevade ja viidatavate objektide nimedega, kuid arvude ja tõeväärtuste puhul väärtust ei tagasta; arvu stringiks muutmiseks lase see enne läbi `CONCAT`-i.
 - **Matemaatika** — ainult arvud. Kuupäev, arvu moodi string või tõeväärtus → väärtust pole; stringid teisenda `NUMBER`-iga.
-- **Võrdlemine** — `EQ` ja `IN` on ranged, seega arv `5` ei võrdu kunagi stringiga `"5"`. Kuupäevad võrdluvad stringidena õigesti, kuid võrdle sarnast sarnasega: kuupäev `"2026-01-31"` sorditakse sama päeva iga kellaajaga väärtuse ette.
+- **Võrdlemine** — `EQ` ja `IN` on ranged, seega arv `5` ei võrdu kunagi stringiga `"5"`. Kuupäevi võrreldakse stringidena õigesti, kuid võrdle sarnast sarnasega: kuupäev `"2026-01-31"` sorditakse sama päeva iga kellaajaga väärtuse ette.
 - **Kuupäevad** — kuupäeva vormindamiseks kasuta `REGEX`-it ning lõpeta valem `DATE`-i või `DATETIME`-iga, kui tulemus peab olema päris kuupäev — vaata [Teisendamine](#teisendamine).
 
 ### Kuidas tulemus salvestatakse
@@ -191,7 +191,7 @@ Kõik need on range arvutüübiga — mitte-arv kuskil sisendis → väärtust p
 | `UNIQUE` | 1 | sama mis sisend | Eemaldab sisendpilust korduvad väärtused, jättes alles igaühe esimese esinemise. |
 | `SORT` | 1 | sama mis sisend | Sordib sisendpilu väärtused kasvavas järjekorras. |
 
-`MIN`, `MAX` ja `SORT` võrdlevad `<` / `>` abil ja nõuavad, et kõik väärtused oleksid sama primitiivtüüpi — kõik arvud või kõik stringid; segatüübid → väärtust pole. ISO 8601 kuupäevad võrdluvad õigesti stringidena. Stringe võrreldakse märgikoodi järgi, seega suurtähed sorditakse väiketähtede ette ja täpitähed `z` järele.
+`MIN`, `MAX` ja `SORT` võrdlevad `<` / `>` abil ja nõuavad, et kõik väärtused oleksid sama primitiivtüüpi — kõik arvud või kõik stringid; segatüübid → väärtust pole. ISO 8601 kuupäevi võrreldakse stringidena õigesti. Stringe võrreldakse märgikoodi järgi, seega suurtähed sorditakse väiketähtede ette ja täpitähed `z` järele.
 
 ### Teisendamine
 
@@ -261,7 +261,7 @@ first_name " " last_name
 first_name last_name " " CONCAT_WS
 ```
 
-**Kahekihiline ühendamine — esinejate loend ühendatakse `", "`-ga, seejärel pealkirjale eelistatakse:**
+**Kahekihiline ühendamine — esinejate loend ühendatakse `", "`-ga, seejärel lisatakse pealkirja ette:**
 ```
 artist ", " CONCAT_WS title " - " CONCAT_WS
 ```

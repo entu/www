@@ -38,7 +38,7 @@ Custom property names cannot start with `_`. That prefix is reserved for system 
 | `datetime` | Date + time picker | Stores a full timestamp. |
 | `file` | File upload | Stores a file attachment. See [Files](/api/files/) for the upload process. |
 | `reference` | Entity selector | Links to another entity. Use `reference_query` on the definition to filter selectable options. |
-| `counter` | Auto-generated code | Read-only in the UI. Shows a generate button when empty; displays the value once assigned. Use for invoice numbers, project codes. |
+| `counter` | Auto-generated code | Shows a generate button when empty; once assigned, the value is shown in a text input. Use for invoice numbers, project codes. |
 
 ## Multi-Value Properties
 
@@ -56,7 +56,7 @@ Values for different languages are stored as separate property objects, each car
 
 File properties let entities store attachments, documents, images, and other binary data. Files are stored in object storage (S3-compatible) and accessed via signed, time-limited URLs.
 
-To enable file uploads on an entity type, add a property definition with `type: file`.
+To enable file uploads on an entity type, add a property definition with `type: file`. See [Files](/api/files/) for uploads, downloads and thumbnails.
 
 ::: tip
 If a file property named `photo` exists on an entity, the Entu UI will use it as the entity's thumbnail.
@@ -101,7 +101,7 @@ System properties begin with `_` and control entity behavior, access rights, and
 | `_sharing` | Visibility level: `private` (default), `domain`, or `public`. |
 | `_inheritrights` | When `true`, the entity inherits access rights from its parent. |
 | `_owner` | Full control — view, edit, delete, manage rights, create children. |
-| `_editor` | Can view and edit all properties except rights. |
+| `_editor` | Can view and edit all properties except rights and other people's login credentials. |
 | `_expander` | Can view and create child entities. |
 | `_viewer` | Read-only access. |
 | `_noaccess` | Explicitly removes all rights, including rights inherited from parents. Does not hide `domain` or `public` sharing. |

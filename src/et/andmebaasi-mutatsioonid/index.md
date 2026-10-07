@@ -1,6 +1,6 @@
 # Andmebaasi mutatsioonid
 
-See leht dokumenteerib kõik serveri poolt tehtavad MongoDB kirjutusoperatsioonid, grupeerituna andmebaasi, kollektsiooni ja käsu järgi. Hõlmab kõiki juhtumeid, kus andmeid lisatakse, uuendatakse või kõvakustutatakse — sealhulgas objekti elutsükkel (loomine, muutmine, dubleerimine, kustutamine), parameetrite haldus, andmebaasi loomine, sisselogimise sessioonid, passkey'd, jagamise peegelobjektid, kasutusstatistika ja Stripe arvelduse uuendused.
+See leht dokumenteerib kõik serveri poolt tehtavad MongoDB kirjutusoperatsioonid, grupeerituna andmebaasi, kollektsiooni ja käsu järgi. Hõlmab kõiki juhtumeid, kus andmeid lisatakse, uuendatakse või kõvakustutatakse — sealhulgas objekti elutsükkel (loomine, muutmine, dubleerimine, kustutamine), parameetrite haldus, andmebaasi loomine, sisselogimise sessioonid, pääsuvõtmed, jagamise peegelobjektid, kasutusstatistika ja Stripe arvelduse uuendused.
 
 Andmemudel eraldab töötlemata sisendi arvutatud vaatest: väljaväärtused kirjutatakse `property` kollektsiooni üksikkirjetena ja neid ei kirjutata kunagi üle — kui väärtus muutub, tehakse vana kirje pehmelt kustutatuks ja sisestatakse uus. `entity` kollektsioon salvestab ainult agregeeritud denormaliseeritud dokumendi (taastatakse pärast iga mutatsiooni) ja toimib peamise lugemisallikana.
 
@@ -8,15 +8,14 @@ Enamik kirjutusi käib läbi `setEntity()` funktsiooni failis `utils/entity.js`,
 - `POST /api/[db]/entity`
 - `POST /api/[db]/entity/[_id]`
 - `POST /api/[db]/entity/[_id]/duplicate` — korra iga nõutud koopia kohta
-- `POST /api/[db]/passkey` — süsteemikasutajana, kutsuja enda isikuobjektil
 - `POST /api/[db]/ai/execute` — operatsioonid `create_entity_type`, `add_property_definition`, `create_entity`, `update_entity`
 - `POST /api/graphql/[db]` — `Create` ja `Update` mutatsioonid
 - `GET /api/[db]/billing` — kui andmebaasi objektil veel `billing_customer_id` puudub
-- `POST /api/stripe` — sündmuse `checkout.session.completed` korral
+- `POST /api/stripe` — sündmuse `checkout.session.completed` korral, kui sellel on `client_reference_id`
 - `PUT /api/new` — uue andmebaasi iga objekt, `initializeNewDatabase()` kaudu failis `utils/setupDatabase.js`
-- `GET /api/auth` — kutse vastuvõtmine (`replaceInviteWithCredentials()` failis `utils/auth.js`)
-- `GET /api/auth`, `POST /api/auth/token` — isikuobjekti automaatne loomine esmakordsel sisselogimisel, kui andmebaasi objektil on `add_user` määratud (`createUserForAccount()` failis `utils/auth.js`)
-- `GET /api/auth`, `POST /api/auth/token`, `GET /api/auth/refresh` — vana `entu_user` kuju migreerimine (`findUserAccounts()` failis `utils/userAccounts.js`)
+- `GET /api/auth`, `POST /api/auth/passkey`, `POST /api/auth/passkey/register` — kutse vastuvõtmine (`inviteAccept()` failis `utils/invite.js`)
+- `GET /api/auth`, `POST /api/auth/token`, `POST /api/auth/passkey`, `POST /api/auth/passkey/register` — isikuobjekti automaatne loomine esmakordsel sisselogimisel, kui andmebaasi objektil on `add_user` määratud (`createUserForAccount()` failis `utils/auth.js`)
+- `GET /api/auth`, `POST /api/auth/token`, `GET /api/auth/refresh` — ainult e-postiga `entu_user` väärtuse täiendamine `uid` ja `provider` väärtustega (`findUserAccounts()` failis `utils/userAccounts.js`)
 
 ## Andmebaas: konto (`[db]`)
 
@@ -28,8 +27,8 @@ Kutsutakse: `setEntity()` poolt objekti loomisel, `createEntityRecord()` kaudu f
 - `POST /api/[db]/entity/[_id]/duplicate` — korra iga nõutud koopia kohta
 - `POST /api/[db]/ai/execute` — `create_entity_type`, `add_property_definition`, `create_entity`
 - `POST /api/graphql/[db]` — `Create` mutatsioonid
-- `PUT /api/new` — korra iga malliobjekti kohta, lisaks omaniku isikuobjekt ja andmebaasi objekt
-- `GET /api/auth`, `POST /api/auth/token` — esmakordsel sisselogimisel loodav isikuobjekt
+- `PUT /api/new` — korra iga malliobjekti kohta, millel on mitte-viiteparameetreid, lisaks omaniku isikuobjekt ja andmebaasi objekt
+- `GET /api/auth`, `POST /api/auth/token`, `POST /api/auth/passkey`, `POST /api/auth/passkey/register` — esmakordsel sisselogimisel loodav isikuobjekt
 
 Sisestab tühja objektidokumendi, mis toimib ID ankruna. Tegelikud väljaväärtused salvestatakse üksikkirjetena `property` kollektsiooni ja denormaliseeritakse hiljem objektile tagasi agregatsiooni kaudu.
 
@@ -40,7 +39,7 @@ Kutsutakse: `aggregateEntity()` poolt failis `utils/aggregate.js`:
 - `GET /api/[db]/entity/[_id]/aggregate`
 - taustal töötav agregeerija (`plugins/aggregation.js`) järjekorras olevatele objektidele
 - `PUT /api/new` — andmebaasi seadistamise lõpus veel korra iga objekti jaoks
-- `POST /api/auth/passkey` — iga isikuobjekt, mille passkey loendurit uuendati
+- `POST /api/auth/passkey` — iga isikuobjekt, mille pääsuvõtme loendurit uuendati
 
 Arvutab toorparameetritest uuesti täieliku denormaliseeritud `private`/`domain`/`public` vaate, ligipääsuloendi, otsinguindeksi ja räsi ning asendab salvestatud objektidokumendi. Uuel dokumendil puudub `queued` väli, nii et see eemaldab objekti ühtlasi agregeerimise järjekorrast.
 
@@ -91,8 +90,7 @@ Loob uue andmebaasi `entity` indeksid.
 #### insertOne(property)
 Kutsutakse:
 - `setEntity()` poolt, `insertProperties()` kaudu failis `utils/entity.js` — üks iga esitatud parameetri kohta, kõigi ülal loetletud kutsujate puhul. Loomisel sisestab see ka `_created` (ja `_owner`, kui objekti loob kasutaja), objektitüübi vaikimisi `_parent` väärtused, ülemobjektidelt päritud `_sharing` ja `_inheritrights` ning parameetrite vaikeväärtused. `entu_user` kutsed salvestatakse allkirjastatud `invite` tokeniga, `entu_api_key` väärtused SHA-256 räsina. Tähelepanuväärsed kirjed:
-  - `POST /api/[db]/passkey` — `{ type: 'entu_passkey', passkey_id, passkey_public, passkey_counter, passkey_device }`, kus `passkey_id` võetakse kontrollitud registreerimisest, mitte kunagi päringu kehast
-  - `PUT /api/new`, kutse vastuvõtmine ja isikuobjekti automaatne loomine — OAuth.ee kasutajatele `entu_user` (`uid`, `provider`, `email`), passkey kasutajatele `entu_passkey` (`passkey_id`, `passkey_public`, `passkey_counter: 0`, `passkey_device`)
+  - `PUT /api/new`, kutse vastuvõtmine ja isikuobjekti automaatne loomine — OAuth.ee kasutajatele `entu_user` (`uid`, `provider`, `email`), pääsuvõtme kasutajatele `entu_passkey` (`passkey_id`, `passkey_public`, `passkey_counter: 0`, `passkey_device`), kus uue pääsuvõtme `passkey_id` ja `passkey_public` võetakse kontrollitud registreerimisest, mitte kunagi päringu kehast
   - `GET /api/[db]/billing`, `POST /api/stripe` — `billing_customer_id` andmebaasi objektil
 - `DELETE /api/[db]/entity/[_id]` ja GraphQL `Delete` mutatsioonid — `{ entity: entityId, type: '_deleted', reference: user, datetime: now, created: { at: now, by: user } }`
 
@@ -103,8 +101,8 @@ Kutsutakse: `setEntity()` poolt, `markPropertiesDeleted()` kaudu failis `utils/e
 - `POST /api/[db]/entity/[_id]`
 - `POST /api/[db]/ai/execute` — `update_entity` koos `valueId`-ga
 - `POST /api/graphql/[db]` — `Update` mutatsioonid
-- `GET /api/auth` — kutse vastuvõtmine asendab ootel `entu_user` kutse päris sisselogimisandmetega
-- `GET /api/auth`, `POST /api/auth/token`, `GET /api/auth/refresh` — migratsioon asendab ainult e-postiga `entu_user` väärtuse sellisega, millel on `uid` ja `provider`
+- `GET /api/auth`, `POST /api/auth/passkey`, `POST /api/auth/passkey/register` — kutse vastuvõtmine asendab ootel `entu_user` kutse päris sisselogimisandmetega (`entu_user` või `entu_passkey`)
+- `GET /api/auth`, `POST /api/auth/token`, `GET /api/auth/refresh` — sisselogimine asendab ainult e-postiga `entu_user` väärtuse sellisega, millel on `uid` ja `provider`
 
 Teeb asendatavad parameetrikirjed pehmelt kustutatuks, säilitades täieliku ajaloo.
 
@@ -131,9 +129,9 @@ Kutsutakse: `DELETE /api/[db]/entity/[_id]`, GraphQL `Delete` mutatsioonid
 Teeb kõigi objektide kõik parameetrid, mis viitavad kustutatud objektile, pehmelt kustutatuks, vältides aegunud viiteid.
 
 #### updateOne({ _id: propertyId }, { $set: { passkey_counter } })
-Kutsutakse: `POST /api/auth/passkey` poolt, `passkeyVerify()` kaudu failis `utils/passkey.js`
+Kutsutakse: `POST /api/auth/passkey` poolt, `passkeyVerifySignIn()` kaudu failis `utils/passkey.js`
 
-Uuendab `entu_passkey` väärtuse WebAuthn allkirjaloendurit igas andmebaasis, kus passkey kontrolli läbis — autentija uuele loenduri väärtusele või salvestatud väärtusele pluss üks — ja agregeerib selle isikuobjekti uuesti. Loendurit uuendatakse kohapeal, mitte pehme kustutamise ja uue kirje sisestamisega.
+Uuendab `entu_passkey` väärtuse WebAuthn allkirjaloendurit igas andmebaasis, kus pääsuvõti kontrolli läbis — autentija uuele loenduri väärtusele või salvestatud väärtusele pluss üks — ja agregeerib selle isikuobjekti uuesti. Loendurit uuendatakse kohapeal, mitte pehme kustutamise ja uue kirje sisestamisega.
 
 #### createIndexes([…])
 Kutsutakse: `PUT /api/new` poolt, `createDatabaseIndexes()` kaudu failis `utils/setupDatabase.js`
@@ -162,20 +160,20 @@ Kutsutakse: `PUT /api/new` poolt, `createDatabaseIndexes()` kaudu failis `utils/
 #### insertOne({ created, pending?, user: { ip, … } })
 Kutsutakse: `oauthCreateSession()` poolt failis `utils/oauth.js`:
 - `GET /api/auth/callback` — pärast OAuth.ee sisselogimist, kasutaja `provider`, `id`, `name` ja `email` väärtustega
-- `POST /api/auth/passkey` — pärast kontrollitud passkey kinnitust, väärtustega `provider: 'passkey'`, võtme `id`, `publicKey`, `device` ja `name`. Brauseri sisselogimine (päringus on `state`) loob selle `pending: true` olekus; natiivne sisselogimine loob kohe kasutatava sessiooni ja vahetab selle kohe ära.
+- `POST /api/auth/passkey`, `POST /api/auth/passkey/register` — pärast kontrollitud pääsuvõtme kinnitust või registreerimist (`passkeyFinish()` failis `utils/passkey.js`), väärtustega `provider: 'passkey'`, võtme `id`, `publicKey` ja `device`, uue pääsuvõtme puhul ka `registered: true`. Brauseri sisselogimine (päringus on `state`) loob selle `pending: true` olekus; natiivne sisselogimine loob kohe kasutatava sessiooni ja vahetab selle kohe ära.
 
 Salvestab sisselogimise sessiooni. Server ei kõvakustuta sessioone kunagi.
 
 #### findOneAndUpdate({ _id, pending: true, deleted: { $exists: false } }, { $unset: { pending } })
-Kutsutakse: `GET /api/auth/callback` poolt passkey sisselogimistel, `claimPasskeySession()` kaudu failis `utils/oauth.js`
+Kutsutakse: `GET /api/auth/callback` poolt pääsuvõtmega sisselogimistel, `claimPasskeySession()` kaudu failis `utils/oauth.js`
 
-Võtab passkey koodis nimetatud ootel sessiooni kasutusse. Atomaarne uuendus teeb koodi ühekordseks.
+Võtab pääsuvõtme koodis nimetatud ootel sessiooni kasutusse. Atomaarne uuendus teeb koodi ühekordseks.
 
 #### findOneAndUpdate({ _id, pending: { $exists: false }, deleted: { $exists: false } }, { $set: { deleted: now } })
 Kutsutakse: `consumeSession()` poolt failis `utils/auth.js`, `authExchange()` kaudu:
 - `GET /api/auth` — sessioonitokeni vahetamine
 - `POST /api/auth/token` — OAuth autoriseerimiskoodi vahetamine
-- `POST /api/auth/passkey` — natiivne sisselogimine
+- `POST /api/auth/passkey`, `POST /api/auth/passkey/register` — natiivne sisselogimine
 
 Märgib sessiooni kasutatuks, nii et kordusrünne ei leia midagi.
 

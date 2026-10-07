@@ -15,7 +15,7 @@ Each property value returned by the API is an object with the following fields:
 | `boolean` | Boolean value. Present for `boolean` type properties. |
 | `date` | Date value. Written as `YYYY-MM-DD`, returned as an ISO 8601 timestamp (e.g. `1999-03-15T00:00:00.000Z`). Present for `date` type properties. |
 | `datetime` | Datetime value (ISO 8601). Present for `datetime` type properties. |
-| `reference` | Referenced entity ID. Present for `reference` type properties. In entity responses the value also carries `string` (the referenced entity's name) and `entity_type` (its entity type name). |
+| `reference` | Referenced entity ID. Present for `reference` type properties. In entity responses the value also carries `string` (the referenced entity's name), `entity_type` (its entity type name) and `property_type` (the property name). |
 | `filename` | File name. Present for `file` type properties. |
 | `filesize` | File size in bytes. Present for `file` type properties. |
 | `filetype` | MIME type. Present for `file` type properties. |
@@ -72,6 +72,18 @@ Use the value field that matches the property type (`string`, `number`, `boolean
 ::: warning
 When creating a new entity (POST to `/api/{db}/entity`), you must include a `_type` property referencing the entity type. Omitting it returns a `400` error.
 :::
+
+### Counters
+
+To assign the next counter value, send `counter` instead of a value:
+
+```json
+[
+  { "type": "code", "counter": true }
+]
+```
+
+The server finds the value of that property name with the highest `number` in the whole database — all entity types share one sequence per name — and adds the step (`true` = 1, or the given number) to the last number in its `string`, keeping the text around it (`INV-41` → `INV-42`); leading zeros are not kept. With no earlier value the result is the step itself. Sending `counter` together with a `string` that contains a number keeps that string and sets `number` from its last number; leading zeros of that number are dropped from the string too (`INV-0042` → `INV-42`).
 
 ## Overwriting a Property Value
 

@@ -30,7 +30,7 @@ This is the recommended way to manage access: grant rights on the parent, enable
 
 1. Create a **Person** entry for them.
 2. Enter their email address.
-3. Click **Send Invite** — they get a link, sign in with any of the offered options (Google, Apple, email, a passkey, or an Estonian ID), and see exactly what you've shared. Nothing more. The link is valid for 24 hours.
+3. Click **Send Invite** — they get a link, sign in with any of the offered options (a passkey they already have or a new one, Apple, Google, e-mail, or an Estonian ID), and see exactly what you've shared. Nothing more. The link is valid for 24 hours.
 
 ## Making something public
 

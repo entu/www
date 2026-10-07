@@ -30,7 +30,7 @@ Kogu seadistamine toimub Entu kasutajaliideses — koodi ega konfiguratsioonifai
 
 | Parameeter | Kirjeldus |
 |---|---|
-| `add_from` | Kontrollib, kust seda tüüpi objekte saab luua. Viita **menüü** objektile, et kuvada see tüüp tööriistaribal nupus „Uus …", kui see menüü on aktiivne. Viita **objektitüübile**, et lubada selle tüüpi objekte lisada alam-objektina mis tahes selle tüübi eksemplari alla. Viita **konkreetsele objektile**, et lubada luua seda tüüpi ainult selle konkreetse objekti alam-objektina. Ilma selleta ei paku nupud „Uus …" ja „Lisa …" kunagi seda tüüpi. |
+| `add_from` | Kontrollib, kust seda tüüpi objekte saab luua. Viita **menüü** objektile, et kuvada see tüüp tööriistaribal nupus „Uus …", kui see menüü on aktiivne. Viita **objektitüübile**, et lubada selle tüüpi objekte lisada alam-objektina mis tahes selle tüübi eksemplari alla. Viita **konkreetsele objektile**, et lubada luua seda tüüpi ainult selle konkreetse objekti alam-objektina — sellisel objektil pakutakse siis ainult neid tüüpe, mitte tema objektitüübi kaudu lisatuid. Ilma selleta ei paku nupud „Uus …" ja „Lisa …" kunagi seda tüüpi. |
 | `default_parent` | Kui luuakse seda tüüpi uus objekt, lisatakse siin määratud objekt automaatselt täiendava `_parent`-na. Kasulik uute kirjete suunamiseks fikseeritud kausta sõltumata sellest, kuhu kasutaja klikkis „Lisa". |
 | `plugin` | Lisab plugina selle tüüpi objektidele. Vaata [Pluginad](/et/seadistamine/pluginad/). |
 
@@ -54,7 +54,7 @@ Objektitüübi lehel kasuta nuppu „Lisa", et luua alam-objekte tüübiga **Pro
 | `type` | Andmetüüp — määrab kasutajaliidese sisestusviisi ja kuidas väärtused salvestatakse. Vaata [Parameetrite tüübid](#parameetrite-tuubid) alt. |
 | `label` | Kasutajaliideses välja kohal kuvatav nimetus nii muutmisvormis kui objekti lehel. |
 | `label_plural` | Mitmusekuju nimetus, mis kuvatakse mitme väärtuse korral (nt `Sildid` `Sildi` asemel). |
-| `description` | Abitekst, mis kuvatakse välja nimeduse kõrval infopopoveris. |
+| `description` | Abitekst, mis kuvatakse välja nimetuse kõrval infohüpikaknas. |
 
 **Kuvamine**
 
@@ -70,7 +70,7 @@ Objektitüübi lehel kasuta nuppu „Lisa", et luua alam-objekte tüübiga **Pro
 
 | Parameeter | Kirjeldus |
 |---|---|
-| `mandatory` | Märgib välja kohustuslikuks — kuvatakse alati punase indikaatoriga, kui tühi. |
+| `mandatory` | Märgib välja kohustuslikuks — selle nimetus on muutmisvormis punane ning objekti lehel kuvatakse väli ka tühjana, punase nimetusega. Väärtuseta salvestamist ei takistata. |
 | `default` | Eeltäidetud väärtus uue objekti loomisel. Toetab `date`/`datetime` jaoks suhtelisi nihkeid (nt `+1d`, `-7d`, `+1m`). Vaata [Parameetrite vaikeväärtused](#parameetrite-vaikevaartused) alt. |
 | `list` | Lubab mitu väärtust. Täiendavad sisestusväljad ilmuvad automaatselt, kui kasutaja neid täidab. |
 | `multilingual` | Salvestab eraldi väärtuse iga keele jaoks. Iga sisestusvälja kõrvale ilmub keelevalija. |

@@ -79,14 +79,17 @@ Vead:
 
 | Staatus | Kirjeldus |
 |---|---|
-| `400` | Vigane päringu keha (puuduvad, vigased või limiiti ületavad sõnumid) |
-| `402` | Kuu AI tokenite limiit on täis |
-| `403` | Autentimata |
-| `502` | AI-teenus tagastas vea |
+| `400` | Vigane päringu keha (puuduvad, vigased või limiiti ületavad sõnumid) või vigane andmebaasi nimi |
+| `401` | Vigane või aegunud JWT või teise IP-ga seotud JWT |
+| `402` | Kuu AI tokenite limiit on täis — kontrollitakse enne iga AI-kutset, nii et ka pooleli vastus võib peatuda |
+| `403` | Selles andmebaasis pole kasutajat |
+| `404` | Andmebaasi ei leitud |
+| `500` | Assistendi juhis (prompt) puudub serverist |
+| `502` | AI-teenus ebaõnnestus või ei tagastanud sõnumit |
 
 ## Käivitamine
 
-Rakendab kinnitatud ettepaneku. Edasta vestluse vastuse `operations` massiiv **muutmata kujul** — toimingud valideeritakse uuesti ja käivitatakse järjest kutsuva kasutaja õigustes.
+Rakendab kinnitatud ettepaneku. Edasta vestluse vastuse `operations` massiiv **muutmata kujul** — toimingud valideeritakse uuesti ja käivitatakse järjest kutsuva kasutaja õigustes. Süsteemseid objektitüüpide definitsioone ja süsteemseid (`_`) parameetriväärtusi muuta ei saa. Käivitamine ei tee AI-kutset ega kasuta AI tokeneid.
 
 ```
 POST /api/{db}/ai/execute
@@ -137,5 +140,9 @@ Vead:
 
 | Staatus | Kirjeldus |
 |---|---|
-| `400` | Vigane toimingute massiiv |
-| `403` | Autentimata |
+| `400` | Vigane toimingute massiiv (midagi ei rakendata) või vigane andmebaasi nimi |
+| `401` | Vigane või aegunud JWT või teise IP-ga seotud JWT |
+| `403` | Selles andmebaasis pole kasutajat |
+| `404` | Andmebaasi ei leitud |
+
+Ebaõnnestunud toiming olekukoodi ei muuda — see tuuakse välja `error`-is.

@@ -8,15 +8,14 @@ Most writes go through `setEntity()` in `utils/entity.js`, which inserts the pro
 - `POST /api/[db]/entity`
 - `POST /api/[db]/entity/[_id]`
 - `POST /api/[db]/entity/[_id]/duplicate` — once per requested copy
-- `POST /api/[db]/passkey` — as the system user, on the caller's own person entity
 - `POST /api/[db]/ai/execute` — operations `create_entity_type`, `add_property_definition`, `create_entity`, `update_entity`
 - `POST /api/graphql/[db]` — `Create` and `Update` mutations
 - `GET /api/[db]/billing` — when the database entity has no `billing_customer_id` yet
-- `POST /api/stripe` — on `checkout.session.completed`
+- `POST /api/stripe` — on `checkout.session.completed` carrying a `client_reference_id`
 - `PUT /api/new` — every entity of a new database, via `initializeNewDatabase()` in `utils/setupDatabase.js`
-- `GET /api/auth` — invite acceptance (`replaceInviteWithCredentials()` in `utils/auth.js`)
-- `GET /api/auth`, `POST /api/auth/token` — automatic person creation on first sign-in when the database entity has `add_user` set (`createUserForAccount()` in `utils/auth.js`)
-- `GET /api/auth`, `POST /api/auth/token`, `GET /api/auth/refresh` — legacy `entu_user` migration (`findUserAccounts()` in `utils/userAccounts.js`)
+- `GET /api/auth`, `POST /api/auth/passkey`, `POST /api/auth/passkey/register` — invite acceptance (`inviteAccept()` in `utils/invite.js`)
+- `GET /api/auth`, `POST /api/auth/token`, `POST /api/auth/passkey`, `POST /api/auth/passkey/register` — automatic person creation on first sign-in when the database entity has `add_user` set (`createUserForAccount()` in `utils/auth.js`)
+- `GET /api/auth`, `POST /api/auth/token`, `GET /api/auth/refresh` — completing an email-only `entu_user` with `uid` and `provider` (`findUserAccounts()` in `utils/userAccounts.js`)
 
 ## Database: account (`[db]`)
 
@@ -28,8 +27,8 @@ Called by: `setEntity()` when it creates an entity, via `createEntityRecord()` i
 - `POST /api/[db]/entity/[_id]/duplicate` — once per requested copy
 - `POST /api/[db]/ai/execute` — `create_entity_type`, `add_property_definition`, `create_entity`
 - `POST /api/graphql/[db]` — `Create` mutations
-- `PUT /api/new` — once per template entity, plus the owner's person entity and the database entity
-- `GET /api/auth`, `POST /api/auth/token` — the person entity created on first sign-in
+- `PUT /api/new` — once per template entity that has non-reference properties, plus the owner's person entity and the database entity
+- `GET /api/auth`, `POST /api/auth/token`, `POST /api/auth/passkey`, `POST /api/auth/passkey/register` — the person entity created on first sign-in
 
 Inserts a blank entity document that serves as an ID anchor. Its actual field values are stored as individual records in the `property` collection and later denormalized back onto the entity via aggregation.
 
@@ -91,8 +90,7 @@ Creates the entity indexes of a new database.
 #### insertOne(property)
 Called by:
 - `setEntity()`, via `insertProperties()` in `utils/entity.js` — one per submitted property, for every caller listed at the top. On create it also inserts `_created` (and `_owner` when a user creates the entity), default `_parent` values from the entity type, `_sharing` and `_inheritrights` inherited from the parents, and property defaults. `entu_user` invites are stored with a signed `invite` token, `entu_api_key` values as a SHA-256 hash. Notable records:
-  - `POST /api/[db]/passkey` — `{ type: 'entu_passkey', passkey_id, passkey_public, passkey_counter, passkey_device }`, with `passkey_id` taken from the verified registration, never the request body
-  - `PUT /api/new`, invite acceptance and automatic person creation — `entu_user` (`uid`, `provider`, `email`) for OAuth.ee users, `entu_passkey` (`passkey_id`, `passkey_public`, `passkey_counter: 0`, `passkey_device`) for passkey users
+  - `PUT /api/new`, invite acceptance and automatic person creation — `entu_user` (`uid`, `provider`, `email`) for OAuth.ee users, `entu_passkey` (`passkey_id`, `passkey_public`, `passkey_counter: 0`, `passkey_device`) for passkey users, with a new passkey's `passkey_id` and `passkey_public` taken from the verified registration, never the request body
   - `GET /api/[db]/billing`, `POST /api/stripe` — `billing_customer_id` on the database entity
 - `DELETE /api/[db]/entity/[_id]` and GraphQL `Delete` mutations — `{ entity: entityId, type: '_deleted', reference: user, datetime: now, created: { at: now, by: user } }`
 
@@ -103,8 +101,8 @@ Called by: `setEntity()`, via `markPropertiesDeleted()` in `utils/entity.js`, wh
 - `POST /api/[db]/entity/[_id]`
 - `POST /api/[db]/ai/execute` — `update_entity` with a `valueId`
 - `POST /api/graphql/[db]` — `Update` mutations
-- `GET /api/auth` — invite acceptance replaces the pending `entu_user` invite with the real credential
-- `GET /api/auth`, `POST /api/auth/token`, `GET /api/auth/refresh` — legacy migration replaces an email-only `entu_user` with one carrying `uid` and `provider`
+- `GET /api/auth`, `POST /api/auth/passkey`, `POST /api/auth/passkey/register` — invite acceptance replaces the pending `entu_user` invite with the real credential (`entu_user` or `entu_passkey`)
+- `GET /api/auth`, `POST /api/auth/token`, `GET /api/auth/refresh` — signing in replaces an email-only `entu_user` with one carrying `uid` and `provider`
 
 Soft-deletes the superseded property records when values are replaced, preserving the full history.
 
@@ -131,7 +129,7 @@ Called by: `DELETE /api/[db]/entity/[_id]`, GraphQL `Delete` mutations
 Soft-deletes all properties across all entities referencing the deleted entity, preventing stale references.
 
 #### updateOne({ _id: propertyId }, { $set: { passkey_counter } })
-Called by: `POST /api/auth/passkey`, via `passkeyVerify()` in `utils/passkey.js`
+Called by: `POST /api/auth/passkey`, via `passkeyVerifySignIn()` in `utils/passkey.js`
 
 Updates the WebAuthn signature counter of the `entu_passkey` value in every database where the passkey verified — to the authenticator's new counter, or the stored one plus one — and re-aggregates that person entity. The counter is updated in place, not soft-deleted and re-inserted.
 
@@ -162,7 +160,7 @@ Called by: `PUT /api/new`, via `createDatabaseIndexes()` in `utils/setupDatabase
 #### insertOne({ created, pending?, user: { ip, … } })
 Called by: `oauthCreateSession()` in `utils/oauth.js`:
 - `GET /api/auth/callback` — after an OAuth.ee login, with the user's `provider`, `id`, `name` and `email`
-- `POST /api/auth/passkey` — after a verified passkey assertion, with `provider: 'passkey'`, the credential `id`, `publicKey`, `device` and `name`. A browser login (the request carries `state`) creates it with `pending: true`; a native sign-in creates it ready to use and exchanges it at once.
+- `POST /api/auth/passkey`, `POST /api/auth/passkey/register` — after a verified passkey assertion or registration (`passkeyFinish()` in `utils/passkey.js`), with `provider: 'passkey'`, the credential `id`, `publicKey` and `device`, plus `registered: true` for a new passkey. A browser login (the request carries `state`) creates it with `pending: true`; a native sign-in creates it ready to use and exchanges it at once.
 
 Stores a login session. Sessions are never hard-deleted by the server.
 
@@ -175,7 +173,7 @@ Claims the pending session named by the passkey code. The atomic update makes th
 Called by: `consumeSession()` in `utils/auth.js`, from `authExchange()`:
 - `GET /api/auth` — exchanging a session token
 - `POST /api/auth/token` — exchanging an OAuth authorization code
-- `POST /api/auth/passkey` — native sign-in
+- `POST /api/auth/passkey`, `POST /api/auth/passkey/register` — native sign-in
 
 Marks the session as used, so a replay finds nothing.
 

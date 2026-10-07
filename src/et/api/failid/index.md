@@ -142,25 +142,9 @@ Loo ruudukujuline pisipilt **mis tahes** üksikust failiparameetrist — mitte a
 GET /api/{db}/property/{_id}/thumbnail/{size}
 ```
 
-Kui objekti endpoint kasutab alati objekti esimest `photo` faili, siis see endpoint teeb pisipildi konkreetsest failiparameetrist, millele viitad. Muus osas on käitumine identne: kärbib keskelt ruuduks (cover-sobitus) ja toodab **JPEG**-i. Toetatud on nii **pildid** (JPEG, PNG, GIF, BMP, TIFF) kui ka **PDF**-failid — PDF-i puhul renderdatakse esimene lehekülg. See toidab kasutajaliideses failinime kohal hõljudes kuvatavat pisipildi eelvaadet.
+Kui objekti endpoint kasutab alati objekti esimest `photo` faili, siis see endpoint teeb pisipildi konkreetsest failiparameetrist, millele viitad. Muus osas on käitumine identne: see kärbib keskelt ruuduks (cover-sobitus) ja toodab **JPEG**-i pildist (JPEG, PNG, GIF, BMP, TIFF) või PDF-i esimesest leheküljest. `size` peab olema `50`, `200` või `400` — mis tahes muu väärtus tagastab `400`. Vastus on `{ url }`, 60 sekundit kehtiv allkirjastatud URL, ja loodud pisipildid salvestatakse vahemäluna objektihoidlasse. See toidab kasutajaliideses failinime kohal hõljudes kuvatavat pisipildi eelvaadet.
 
-Tee `size` peab olema üks lubatud väärtustest (ruudu laius ja kõrgus pikslites):
-
-```
-50, 200, 400
-```
-
-Mis tahes muu väärtus tagastab `400`.
-
-Vastus sisaldab ajalimiidiga allkirjastatud välja `url` (kehtib 60 sekundit), sama kujul nagu faili allalaadimine:
-
-```json
-{
-  "url": "https://s3.amazonaws.com/bucket/path?signature..."
-}
-```
-
-Loodud pisipildid salvestatakse objektihoidlasse, seega on esimene päring antud parameetri ja suuruse kohta aeglasem (genereerimine) ning järgmised serveeritakse vahemälust. Igal päringul kehtivad parameetri juurdepääsureeglid — sama juurdepääsukontroll nagu `GET /api/{db}/property/{_id}`.
+Igal päringul kehtivad parameetri juurdepääsureeglid — sama juurdepääsukontroll nagu `GET /api/{db}/property/{_id}`.
 
 | Vastus | Tähendus |
 |---|---|
@@ -172,7 +156,7 @@ Loodud pisipildid salvestatakse objektihoidlasse, seega on esimene päring antud
 
 ## Failiparameetri kustutamine
 
-Kustuta failiparameeter samal viisil nagu mis tahes muu parameetriväärtus:
+Kustuta failiparameeter samal viisil nagu mis tahes muu parameetriväärtus (vaata [Parameetri kustutamine](/et/api/parameetrid/#parameetri-kustutamine)):
 
 ```
 DELETE /api/{db}/property/{_id}

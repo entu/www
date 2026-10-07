@@ -38,13 +38,20 @@ curl -X GET "https://entu.app/api/auth" \
   -H "Authorization: Bearer TEMPORARY_OAUTH_TOKEN"
 ```
 
-Toetatud pakkujad: `e-mail`, `google`, `apple`, `smart-id`, `mobile-id`, `id-card`, `passkey`
+Toetatud pakkujad: `passkey`, `apple`, `google`, `e-mail`, `smart-id`, `mobile-id`, `id-card`
 
-Ilma `next` URL-ita (vaata [Kolmanda osapoole rakenduse integratsioon](#kolmanda-osapoole-rakenduse-integratsioon)) tuleb ajutine token tagasi JSON-ina `{ "key": "..." }`. Lisa `lang=en` või `lang=et`, et määrata OAuth.ee sisselogimislehe keel; ilma selleta valib OAuth.ee ise. `/api/auth/passkey` alustab sisselogimist ainult koos `next` parameetriga — ilma selleta tagastab see hoopis WebAuthn valikud natiivseks pääsuvõtmega sisselogimiseks.
+Ilma `next` URL-ita (vaata [Kolmanda osapoole rakenduse integratsioon](#kolmanda-osapoole-rakenduse-integratsioon)) tuleb ajutine token tagasi JSON-ina `{ "key": "..." }`. Lisa `lang=en` või `lang=et`, et määrata OAuth.ee sisselogimislehe keel; ilma selleta valib OAuth.ee ise.
 
-Pakkuja tagastab kasutaja ID ja profiiliinfo, mis viiakse vastavusse objekti `entu_user` parameetriga. Esmakordsel sisselogimisel saab isikuobjekti luua automaatselt — vaata [Kasutajad → Kasutajate automaatne loomine](/et/seadistamine/kasutajad/#kasutajate-automaatne-loomine).
+Pakkuja tagastab kasutaja ID ja profiiliinfo, mis viiakse vastavusse objekti `entu_user` parameetriga. Esmakordsel sisselogimisel saab isikuobjekti luua automaatselt — vaata [Kasutajad → Kasutajate automaatne loomine](/et/seadistamine/kasutajad/#kasutajate-automaatne-loomine). Sisselogimine, mis ei vasta ühelegi andmebaasile, saab samuti tokeni, tühja `accounts` loendiga; selle tokeniga saab luua uue andmebaasi.
 
-Pakkujaga `passkey` logib kasutaja sisse Entu pääsuvõtme lehel ja ta tuvastatakse isikuobjekti pääsuvõtme (`entu_passkey`) järgi igas andmebaasis, kus see on — `uid` on pääsuvõtme ID ja `provider` on `passkey`. Nagu iga teine pakkuja, saab pääsuvõtmega võtta vastu kutse, luua isikuobjekti automaatselt ja luua uue andmebaasi; sama pääsuvõti salvestatakse siis ka sellele isikuobjektile.
+Kutse vastuvõtmiseks lisa ajutise tokeni vahetamisel `invite={INVITE_TOKEN}`: sisselogimine seotakse kutsutud isikuobjektiga ja ilma `db`-ta piiratakse JWT kutse andmebaasiga. Kui sisselogimine on selles andmebaasis juba teise isikuga seotud, kutset vastu ei võeta ja vastuses on `"conflict": "invite"`. Vigane, aegunud või juba kasutatud kutse — või kutse, mis on `db`-st erineva andmebaasi jaoks — lükatakse tagasi veaga `400 Invalid or expired invite`; kasutatud kutse logib sisse ainult isiku, kellele see oli mõeldud.
+
+Pääsuvõti on sisselogimisviis nagu teisedki, Entu pääsuvõtme lehel (`lang` sellele ei rakendu):
+
+- `/api/auth/passkey` logib sisse olemasoleva pääsuvõtmega. Kasutaja tuvastatakse isikuobjekti pääsuvõtme (`entu_passkey`) järgi igas andmebaasis, kus see on.
+- `/api/auth/passkey/register` loob kasutaja seadmes uue pääsuvõtme ja logib sellega sisse — kasuta seda registreerumiseks, kutse vastuvõtmiseks uue pääsuvõtmega või oma isikuobjektile pääsuvõtme lisamiseks.
+
+Mõlemad lõpevad ajutise tokeniga `GET /api/auth` jaoks ja võtavad `next` parameetri samamoodi. `uid` on pääsuvõtme ID ja `provider` on `passkey`. Kui pääsuvõtmega võetakse vastu kutse, luuakse isikuobjekt automaatselt või luuakse uus andmebaas, salvestatakse see pääsuvõti isikuobjektile. Pääsuvõti ise nime ei hoia: `user.name` on isiku nimi esimeses andmebaasis tähestiku järjekorras, kus isikul nimi on.
 
 ## Autentimise voog
 
@@ -54,12 +61,14 @@ Pakkujaga `passkey` logib kasutaja sisse Entu pääsuvõtme lehel ja ta tuvastat
 4. Uuenda enne 12-tunnise kehtivuse lõppu (vaata [Tokeni uuendamine](#tokeni-uuendamine))
 
 ::: warning
-JWT tokenid on seotud IP-aadressiga, mida kasutati tokeni väljastamisel. Kui su IP muutub (nt võrgu vahetus, VPN või mobiilroaming), lükatakse token kohe tagasi veaga `401 Invalid JWT audience` ja sa pead uuesti autentima. Vahemällu salvesta tokenid IP-konteksti kohta, kui sinu keskkond vahetab sageli aadresse. Erand on [OAuth serveri](#oauth-server) tokenid — need ei ole IP-aadressiga seotud.
+JWT tokenid on seotud IP-aadressiga, mida kasutati tokeni väljastamisel. Kui su IP muutub (nt võrgu vahetus, VPN või mobiilroaming), lükatakse token kohe tagasi veaga `401 Invalid token` ja sa pead uuesti autentima. Vahemällu salvesta tokenid IP-konteksti kohta, kui sinu keskkond vahetab sageli aadresse. Erand on [OAuth serveri](#oauth-server) tokenid — need ei ole IP-aadressiga seotud.
 :::
 
 ::: tip
 Vahemällu salvesta JWT ja kasuta seda uuesti päringutes. Mandaadi vahetamine iga kõne puhul on ebaotstarbekas — uuenda ainult siis, kui token läheneb aegumisele.
 :::
+
+Iga Entu JWT kannab `use` väidet, mis ütleb, milleks token on. REST API, GraphQL ja MCP avanevad ainult `use: access` tokeniga — need tulevad aadressidelt `GET /api/auth`, `/api/auth/refresh` ja [OAuth serverist](#oauth-server); sessioonitoken või kutse lükatakse seal tagasi. Enne selle väite lisamist väljastatud tokenitel `use` puudub ja neid aktsepteeritakse kuni 2026-11-06.
 
 ## Tokeni uuendamine
 
@@ -70,7 +79,7 @@ curl -X GET "https://entu.app/api/auth/refresh" \
   -H "Authorization: Bearer YOUR_CURRENT_TOKEN"
 ```
 
-Vastusel on sama kuju nagu `GET /api/auth` puhul — `accounts`, `user`, `token` ja `expires`. Allkiri ja IP-seos kontrollitakse ning ligipääs kontodele valideeritakse andmebaaside vastu uuesti. IP-seoseta tokenit — [OAuth serveri](#oauth-server) tokenit — uuendada ei saa: see lükatakse tagasi veaga `401 jwt audience invalid. expected: <sinu IP>`.
+Vastusel on sama kuju nagu `GET /api/auth` puhul — `accounts`, `user`, `token` ja `expires`. Allkiri ja IP-seos kontrollitakse ning ligipääs kontodele valideeritakse andmebaaside vastu uuesti — pakkuja või pääsuvõtmega sisselogimise korral otsitakse andmebaasid identiteedi järgi uuesti, nii et uuendatud token sisaldab ka pärast sisselogimist lisandunud või loodud andmebaase. Kui ükski andmebaas pole enam ligipääsetav, ebaõnnestub uuendamine veaga `401 No accessible accounts`. IP-seoseta tokenit — [OAuth serveri](#oauth-server) tokenit — uuendada ei saa: see lükatakse tagasi veaga `401 Invalid token`.
 
 Uuendamine hoiab sessiooni elus, kui uuendad regulaarselt, kuid kehtib kaks piirangut:
 
@@ -93,7 +102,7 @@ Pärast kasutaja autentimist lisab server sessioonitokeni `next` väärtusele ja
 https://your-app.com/callback?key={SESSION_TOKEN}
 ```
 
-Sessioonitoken on lühiajaline (5 minutit) ja seotud kasutaja brauseri IP-aadressiga. Sinu rakenduse **kasutajaliides** peab selle vahetama täieliku JWT vastu, kutsudes `GET /api/auth` otse brauserist:
+Sessioonitoken on lühiajaline (5 minutit), ühekordne ja seotud kasutaja brauseri IP-aadressiga. Sinu rakenduse **kasutajaliides** peab selle vahetama täieliku JWT vastu, kutsudes `GET /api/auth` otse brauserist:
 
 ```js
 const response = await fetch('https://entu.app/api/auth', {
@@ -115,7 +124,7 @@ Entu on ka OAuth 2.1 autoriseerimisserver. Selle asemel et ise `next` edasi-taga
 Kõik OAuth otspunktid asuvad API päritolul `https://api.entu.app` — `entu.app/api/…` alias siin ei sobi, sest avastusdokumendid peavad olema väljastaja juurkaustas.
 
 ::: info
-Iga autoriseerimine on seotud ühe andmebaasiga. Anna andmebaasi nimi `db` parameetrina või täielik URL `resource` parameetrina.
+Iga autoriseerimine on seotud ühe andmebaasiga. Anna andmebaasi nimi `db` parameetrina või täielik URL `resource` parameetrina, kus andmebaas on esimene teeosa (nt `https://mcp.entu.app/mydatabase`). `resource` host peab olema API enda domeenis; muud ei arvestata.
 :::
 
 ### Avastus
@@ -136,7 +145,7 @@ curl -X POST "https://api.entu.app/auth/register" \
   -d '{ "client_name": "Minu rakendus", "redirect_uris": ["https://sinu-rakendus.ee/callback"] }'
 ```
 
-`redirect_uris` võtab 1 kuni 10 URL-i; `client_name` on valikuline ja lühendatakse 200 märgini. Tagastatud `client_id` kannab endas oma suunamis-URL-e ja kehtib aasta. Salvesta see — igal käivitusel uuesti registreerimine loob asjatult uue.
+`redirect_uris` võtab 1 kuni 10 absoluutset URI-d mis tahes skeemiga, nii et natiivrakendused saavad kasutada oma skeemi; `client_name` on valikuline ja lühendatakse 200 märgini. Tagastatud `client_id` kannab endas oma suunamis-URL-e ja kehtib aasta. Salvesta see — igal käivitusel uuesti registreerimine loob asjatult uue.
 
 ### Autoriseerimine
 
@@ -193,12 +202,14 @@ Autentimisvolitused salvestatakse parameetritena objektil. Vaikimisi kasutatakse
 
 - Salvestab pakkuja kasutaja ID koos muu OAuth-pakkuja tagastatud infoga (nt e-post)
 - Seatakse automaatselt, kui esmakordsel sisselogimisel luuakse uus isikuobjekt
+- Selle kirjutamine mis tahes `string` väärtusega salvestab hoopis 24 tundi kehtiva kutse; olemasoleval objektil saadab väärtus `send-invite` kutse lingi ka objekti `email` aadressile (`400 No email`, kui seda pole) — vaata [Kasutajad → Kasutajate lisamine](/et/seadistamine/kasutajad/#kasutajate-lisamine)
 
 ### `entu_passkey`
 
 - Salvestab pääsuvõtme ID ja avaliku võtme — privaatvõti ei lahku kunagi kasutaja seadmest
-- Lisatakse Entu kasutajaliideses isikuobjektilt; ühel objektil võib olla mitu pääsuvõtit
-- Sama pääsuvõti võib olla mitmes andmebaasis ühe identiteedina üle kogu Entu; teise avaliku võtmega registreeritud pääsuvõtme ID lükatakse tagasi
+- Lisatakse, kui pääsuvõtmega logitakse sisse kutse vastuvõtmiseks (sh oma isikuobjektil **Lisa sisselogimisviis**), kasutaja automaatsel loomisel või uue andmebaasi loomisel — otse seda kirjutada ei saa; ühel objektil võib olla mitu pääsuvõtit
+- Saab kustutada nagu iga parameetri väärtust
+- Sama pääsuvõtit saab hoida mitmes andmebaasis, ühe identiteedina üle kogu Entu; pääsuvõtme ID, mis on Entus juba teise avaliku võtmega registreeritud, lükatakse tagasi
 
 ### `entu_api_key`
 

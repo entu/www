@@ -51,15 +51,16 @@ Enable `list` on the property definition to allow multiple inputs in the UI.
 
 **Grant minimum necessary rights:**
 - `_viewer` for read-only access
+- `_expander` for users who need to add child entities
 - `_editor` for users who need to modify properties
-- Reserve `_owner` for entity administrators
+- Reserve `_owner` for entity administrators — only owners can change rights and delete the entity
 
-**Use `_inheritrights` for hierarchy-based permissions.** Grant access at a parent container and it cascades to all children automatically.
+**Use `_inheritrights` for hierarchy-based permissions.** A child with `_inheritrights: true` gets the rights set on its parents, so you grant access once at the parent container. A new child of a parent that has `_inheritrights` gets it automatically.
 
-**Use `_sharing` for broad access** — `domain` for all authenticated users, `public` for unauthenticated visitors. Use `public` carefully.
+**Use `_sharing` for broad access** — `domain` for every user of the database, `public` for visitors who are not signed in. Only properties that the entity type shares at that level are shown (see [Entity Types → Visibility](/configuration/entity-types/#visibility)). Use `public` carefully.
 
 ::: danger
-Setting `_sharing: public` makes the entity visible to anyone on the internet without authentication. Only use it for intentionally public content.
+Setting `_sharing: public` makes the entity — and its publicly shared properties — visible to anyone on the internet without authentication. Only use it for intentionally public content.
 :::
 
 See [Entities → Access Rights](/overview/entities/#access-rights) and [Users](/configuration/users/).

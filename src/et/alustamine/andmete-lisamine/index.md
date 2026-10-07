@@ -11,7 +11,7 @@ Kõik, mida Entus hoiad, on **objekt** — mõtle sellest kui kartoteegikaardist
 ## Loo objekt
 
 1. Vali vasakust menüüst koht — näiteks **Raamatukogu** või **Kontaktid**.
-2. Klõpsa tööriistaribal **lisamisnuppu**.
+2. Klõpsa tööriistaribal lisamisnuppu (**Uus …**).
 3. Kui loend pakub mitut liiki kirjeid, vali, mida lisad (raamat, inimene…).
 4. Täida väljad — iga väärtus salvestub kohe, kui väljalt lahkud — ja klõpsa **Sulge**.
 

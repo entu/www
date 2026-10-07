@@ -281,7 +281,7 @@ features:
   - title: Paindlik juurdepääsukontroll
     icon:
       src: /icons/shield-check.svg
-    details: Neli õiguste taset objekti kohta — omanik, toimetaja, laiendaja, vaataja. Õigused kanduvad automaatselt ülem-alam seose kaudu edasi.
+    details: Neli õiguste taset objekti kohta — omanik, toimetaja, laiendaja, vaataja. Õigused saavad ülem-alam seose kaudu automaatselt edasi kanduda.
   - title: Mitmekeelne
     icon:
       src: /icons/globe.svg

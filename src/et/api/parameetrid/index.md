@@ -15,7 +15,7 @@ Iga API tagastatav parameetriväärtus on objekt järgmiste väljadega:
 | `boolean` | Tõeväärtus. Olemas `boolean` tüüpi parameetrite puhul. |
 | `date` | Kuupäevaväärtus. Kirjutatakse kujul `YYYY-MM-DD`, tagastatakse ISO 8601 ajatemplina (nt `1999-03-15T00:00:00.000Z`). Olemas `date` tüüpi parameetrite puhul. |
 | `datetime` | Kuupäev+kellaaeg väärtus (ISO 8601). Olemas `datetime` tüüpi parameetrite puhul. |
-| `reference` | Viidatava objekti ID. Olemas `reference` tüüpi parameetrite puhul. Objekti vastustes on väärtusel ka `string` (viidatava objekti nimi) ja `entity_type` (selle objektitüübi nimi). |
+| `reference` | Viidatava objekti ID. Olemas `reference` tüüpi parameetrite puhul. Objekti vastustes on väärtusel ka `string` (viidatava objekti nimi), `entity_type` (selle objektitüübi nimi) ja `property_type` (parameetri nimi). |
 | `filename` | Faili nimi. Olemas `file` tüüpi parameetrite puhul. |
 | `filesize` | Faili suurus baitides. Olemas `file` tüüpi parameetrite puhul. |
 | `filetype` | MIME tüüp. Olemas `file` tüüpi parameetrite puhul. |
@@ -72,6 +72,18 @@ Kasuta väärtuse välja, mis vastab parameetri tüübile (`string`, `number`, `
 ::: warning
 Uue objekti loomisel (POST aadressile `/api/{db}/entity`) pead lisama `_type` parameetri, mis viitab objektitüübile. Selle väljajätmine tagastab vea `400`.
 :::
+
+### Loendurid
+
+Järgmise loenduri väärtuse määramiseks saada väärtuse asemel `counter`:
+
+```json
+[
+  { "type": "code", "counter": true }
+]
+```
+
+Server leiab kogu andmebaasist selle parameetrinime väärtuse, millel on suurim `number` — kõik objektitüübid jagavad ühe nime kohta ühte jada — ja liidab sammu (`true` = 1 või antud arv) selle `string`-i viimasele arvule, jättes ümbritseva teksti alles (`INV-41` → `INV-42`); eesolevaid nulle ei säilitata. Kui varasemat väärtust pole, on tulemuseks samm ise. Kui `counter` saadetakse koos arvu sisaldava `string`-iga, jääb see string alles ja `number` võetakse selle viimasest arvust; selle arvu eesolevad nullid eemaldatakse ka stringist (`INV-0042` → `INV-42`).
 
 ## Parameetriväärtuse ülekirjutamine
 

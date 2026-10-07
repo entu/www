@@ -1,5 +1,5 @@
 ---
-description: "Create your Entu account in a couple of minutes — pick a database name, sign in with Google, Apple, your email, or an Estonian ID, and you land straight in your new database."
+description: "Create your Entu account in a couple of minutes — pick a database name, sign in with a passkey, Apple, Google, your email, or an Estonian ID, and you land straight in your new database."
 ---
 
 # Create Your Account
@@ -19,6 +19,7 @@ Type a name for your database. This name is part of its web address and **cannot
 - 4–12 characters long
 - lowercase letters, digits, and underscores (`_`) only
 - must start with a letter
+- not a name reserved by Entu (such as `api`, `auth`, `new`, `test`, or anything starting with `entu_`)
 
 Entu checks availability live as you type, so you'll know right away whether the name is free.
 
@@ -26,15 +27,16 @@ Your database is a **private space** that holds your data — only you can see i
 
 ## 3. Sign in
 
-Click the sign-in provider you want to use:
+Click the sign-in provider you want to use — the options become clickable once the name is available:
 
-- **Google or Apple** — one click if you are already signed in on your device.
-- **Email** — we send you a link; clicking it signs you in. No password needed.
-- **Smart-ID, Mobile-ID, or ID card** — Estonian e-identity options.
+- **New passkey** — your device creates a new passkey, which you use with your fingerprint, face recognition, or device PIN.
+- **Apple or Google** — one click if you are already signed in on your device.
+- **E-mail** — we send you a link; clicking it signs you in.
+- **Smart-ID, Mobile-ID, or ID-Card** — Estonian e-identity options.
 
-If you are already signed in to Entu, click **Create Database** instead.
+Your database is created right after you sign in. If you are already signed in to Entu, click **Create Database** instead.
 
-Entu never stores passwords, so there is no password to forget or leak. You can add more sign-in methods later, including a passkey — they all lead to the same account, and one passkey signs you in to every database you belong to. Read more under [Authentication](/overview/authentication/).
+Entu never stores passwords, so there is no password to forget or leak. You can add more sign-in methods later, including a new passkey, with **Add Login Method** in the edit form of your own person entity — they all lead to the same account. Read more under [Authentication](/overview/authentication/).
 
 ## 4. You're in
 

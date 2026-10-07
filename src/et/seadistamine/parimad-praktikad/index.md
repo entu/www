@@ -51,15 +51,16 @@ Luba parameetri definitsioonil `list`, et võimaldada mitu sisendit kasutajaliid
 
 **Anna minimaalselt vajalikke õigusi:**
 - `_viewer` ainult lugemise jaoks
+- `_expander` kasutajatele, kes peavad lisama alam-objekte
 - `_editor` kasutajatele, kes peavad parameetreid muutma
-- Reserveeri `_owner` objekti administraatoritele
+- Reserveeri `_owner` objekti administraatoritele — ainult omanikud saavad muuta õigusi ja objekti kustutada
 
-**Kasuta `_inheritrights` hierarhiapõhiste õiguste jaoks.** Anna juurdepääs ülemkonteineril ja see kandub automaatselt kõigile alam-objektidele.
+**Kasuta `_inheritrights` hierarhiapõhiste õiguste jaoks.** Alam-objekt, millel on `_inheritrights: true`, saab oma ülemobjektidele seatud õigused, nii et juurdepääsu annad ühe korra ülemkonteineril. Uus alam-objekt saab `_inheritrights` automaatselt, kui see on ülemobjektil olemas.
 
-**Kasuta `_sharing` laialdase juurdepääsu jaoks** — `domain` kõigile autenditud kasutajatele, `public` autentimata külastajatele. Kasuta `public` ettevaatlikult.
+**Kasuta `_sharing` laialdase juurdepääsu jaoks** — `domain` kõigile andmebaasi kasutajatele, `public` sisse logimata külastajatele. Kuvatakse ainult parameetrid, mida objektitüüp sellel tasemel jagab (vaata [Objektitüübid → Nähtavus](/et/seadistamine/objektituubid/#nahtavus)). Kasuta `public` ettevaatlikult.
 
 ::: danger
-`_sharing: public` seadmine muudab objekti nähtavaks kõigile internetis ilma autentimiseta. Kasuta seda ainult tahtlikult avaliku sisu jaoks.
+`_sharing: public` seadmine muudab objekti — ja selle avalikult jagatud parameetrid — nähtavaks kõigile internetis ilma autentimiseta. Kasuta seda ainult tahtlikult avaliku sisu jaoks.
 :::
 
 Vaata [Objektid → Juurdepääsuõigused](/et/ulevaade/objektid/#juurdepaasuoigused) ja [Kasutajad](/et/seadistamine/kasutajad/).

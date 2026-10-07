@@ -38,7 +38,7 @@ Kohandatud parameetrite nimed ei tohi alata `_`-ga. See prefiks on reserveeritud
 | `datetime` | Kuupäev + kellaaeg | Salvestab täieliku ajatempli. |
 | `file` | Faili üleslaadimine | Salvestab failimanuse. Vaata üleslaadimisprotsessi kohta [Failid](/et/api/failid/). |
 | `reference` | Objektivalija | Lingib teisele objektile. Kasuta definitsioonil `reference_query`, et filtreerida valitavaid valikuid. |
-| `counter` | Automaatselt genereeritud kood | Ainult lugemine kasutajaliideses. Näitab genereerimisnuppu, kui tühi; kuvab väärtuse pärast omistamist. Kasuta arvenumbrite, projektikoodide jaoks. |
+| `counter` | Automaatselt genereeritud kood | Näitab genereerimisnuppu, kui tühi; pärast omistamist kuvatakse väärtus tekstisisestuses. Kasuta arvenumbrite, projektikoodide jaoks. |
 
 ## Mitme väärtusega parameetrid
 
@@ -56,7 +56,7 @@ Eri keelte väärtused salvestatakse eraldi parameetriobjektidena, millest igaü
 
 Failiparameetrid võimaldavad objektidel salvestada manuseid, dokumente, pilte ja muid binaarseid andmeid. Failid salvestatakse objektisalvestusse (S3-ühilduv) ja neile pääseb ligi allkirjastatud, ajalimiitidega URLide kaudu.
 
-Failide üleslaadimise lubamiseks objektitüübil lisa parameetri definitsioon `type: file` kujul.
+Failide üleslaadimise lubamiseks objektitüübil lisa parameetri definitsioon `type: file` kujul. Üleslaadimise, allalaadimise ja pisipiltide kohta vaata [Failid](/et/api/failid/).
 
 ::: tip
 Kui objektil on olemas `photo` nimeline failiparameeter, kasutab Entu kasutajaliides seda objekti pisipildina.
@@ -101,7 +101,7 @@ Süsteemparameetrid algavad `_`-ga ja kontrollivad objekti käitumist, juurdepä
 | `_sharing` | Nähtavuse tase: `private` (vaikimisi), `domain` või `public`. |
 | `_inheritrights` | Kui väärtus on `true`, pärib objekt juurdepääsuõigused oma ülemobjektilt. |
 | `_owner` | Täielik kontroll — vaata, muuda, kustuta, halda õigusi, loo alam-objekte. |
-| `_editor` | Saab vaadata ja muuta kõiki parameetreid peale õiguste. |
+| `_editor` | Saab vaadata ja muuta kõiki parameetreid peale õiguste ja teiste isikute sisselogimisandmete. |
 | `_expander` | Saab vaadata ja luua alam-objekte. |
 | `_viewer` | Ainult lugemisõigus. |
 | `_noaccess` | Eemaldab selgesõnaliselt kõik õigused, ka ülemobjektidelt päritud õigused. Ei peida `domain` või `public` jagamist. |

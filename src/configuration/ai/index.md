@@ -15,7 +15,7 @@ Entu AI is a chat assistant built into the Entu app. Open it with the **sparkles
 
 ## Reviewing and Applying Changes
 
-The assistant never applies changes on its own. When it suggests changes, it shows a **Proposed changes** list where each operation is described in plain language. Review the list, then click **Apply changes** to execute the operations — or **Cancel** to discard them. Nothing happens in your database until you click Apply.
+The assistant never applies changes on its own. When it suggests changes, it shows a **Proposed changes** list where each operation is described in plain language. Review the list, then click **Apply changes** to execute the operations — or **Cancel** to discard them. Nothing happens in your database until you click Apply. Sending a new message while changes are waiting declines them.
 
 Operations are executed in order, and each one gets a status: **applied**, **failed**, or **skipped**. If an operation fails (for example due to insufficient rights), execution stops — operations before it are already applied, and the remaining ones are skipped.
 
@@ -30,6 +30,13 @@ The full flow — using "create an entity type for books" as an example:
 ## Permissions
 
 Entu AI runs entirely with your own rights. It can only see what you can see and change what you could change manually — it does not grant any extra access. If you lack rights for a proposed operation, that operation fails on apply.
+
+## Limits
+
+- Each database has a monthly AI token allowance — 100,000 tokens unless a different limit is set for the database. When it is used up, Entu AI answers with `Tokens limit reached` until the next month.
+- One message can be up to 8,000 characters, and only the latest 40 messages of the conversation are sent to the assistant.
+- One proposal can hold up to 25 operations.
+- System entity type definitions can't be changed through Entu AI.
 
 ## Privacy
 

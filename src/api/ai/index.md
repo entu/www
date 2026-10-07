@@ -79,14 +79,17 @@ Errors:
 
 | Status | Description |
 |---|---|
-| `400` | Invalid request body (missing, malformed, or over-limit messages) |
-| `402` | Monthly AI token limit reached |
-| `403` | Not authenticated |
-| `502` | The AI service returned an error |
+| `400` | Invalid request body (missing, malformed, or over-limit messages), or invalid database name |
+| `401` | Invalid or expired JWT, or JWT bound to another IP |
+| `402` | Monthly AI token limit reached — checked before every AI call, so a reply can also stop partway |
+| `403` | No user in this database |
+| `404` | Database not found |
+| `500` | The assistant's prompt is missing on the server |
+| `502` | The AI service failed or returned no message |
 
 ## Execute
 
-Applies a confirmed proposal. Pass the `operations` array from the chat response **unchanged** — operations are re-validated and executed sequentially as the calling user.
+Applies a confirmed proposal. Pass the `operations` array from the chat response **unchanged** — operations are re-validated and executed sequentially as the calling user. System entity type definitions and system (`_`) property values cannot be changed. Execute makes no AI call and uses no AI tokens.
 
 ```
 POST /api/{db}/ai/execute
@@ -137,5 +140,9 @@ Errors:
 
 | Status | Description |
 |---|---|
-| `400` | Invalid operations array |
-| `403` | Not authenticated |
+| `400` | Invalid operations array (nothing is applied), or invalid database name |
+| `401` | Invalid or expired JWT, or JWT bound to another IP |
+| `403` | No user in this database |
+| `404` | Database not found |
+
+A failing operation does not change the status — it is reported in `error`.

@@ -281,7 +281,7 @@ features:
   - title: Flexible access control
     icon:
       src: /icons/shield-check.svg
-    details: Four permission levels per entity — owner, editor, expander, and viewer. Rights cascade automatically down through parent–child relationships.
+    details: Four permission levels per entity — owner, editor, expander, and viewer. Rights can cascade automatically down through parent–child relationships.
   - title: Multilingual
     icon:
       src: /icons/globe.svg

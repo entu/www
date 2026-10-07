@@ -30,7 +30,7 @@ See ongi soovitatav viis juurdepääsu haldamiseks: anna õigused ülemobjektil,
 
 1. Loo talle **isiku** kirje.
 2. Sisesta tema e-posti aadress.
-3. Klõpsa **Saada kutse** — ta saab lingi, logib sisse ükskõik millise pakutud viisiga (Google, Apple, e-post, turvavõti või Eesti ID) ja näeb täpselt seda, mida sina jagasid. Ei midagi enamat. Link kehtib 24 tundi.
+3. Klõpsa **Saada kutse** — ta saab lingi, logib sisse ükskõik millise pakutud viisiga (olemasolev või uus pääsuvõti, Apple, Google, e-post või Eesti ID) ja näeb täpselt seda, mida sina jagasid. Ei midagi enamat. Link kehtib 24 tundi.
 
 ## Avalikuks tegemine
 

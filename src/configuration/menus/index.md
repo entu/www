@@ -21,10 +21,6 @@ Entity types can also set `add_from` to reference another **entity type** or a *
 
 The `query` parameter uses the standard entity filter syntax. See [API → Query Reference](/api/query-reference/) for the full syntax.
 
-::: info
-The connection between menus and entity types is two-way: the menu defines what to show, and the entity type's `add_from` property references the menu to make the "New …" button appear when that menu is active.
-:::
-
 ## Example Menu Setup
 
 A typical sidebar for a project management application:
@@ -36,13 +32,13 @@ A typical sidebar for a project management application:
 | Invoices | Finance | 1 | `_type.string=invoice&sort=-date.date` |
 | People | Admin | 1 | `_type.string=person&sort=name.string` |
 
-To allow creating entities of that type from a menu, set the entity type's `add_from` to reference the menu entity. When that menu is active, the "New …" button will appear in the toolbar.
+To allow creating entities of a type from a menu, set the entity type's `add_from` to reference the menu entity. When that menu is active, the "New …" button appears in the toolbar.
 
 ## Access Control
 
-Menu entities use the same rights and sharing model as all other entities — the sidebar only shows menu items the current user can access.
+Menu entities use the same [rights and sharing model](/overview/entities/#access-rights) as all other entities — the sidebar only shows menu items the current user can access.
 
-Set `_sharing: domain` on a menu entity to make it visible to every authenticated user, or `_sharing: public` to show it even to unauthenticated visitors. Leave it `private` and assign explicit `_viewer` (or higher) rights to restrict it to specific people or groups.
+Set `_sharing: domain` on a menu entity to show it to every user of the database, or `_sharing: public` to show it also to visitors who are not signed in. Such users see the menu's `domain` or `public` view, so the `menu` entity type and its property definitions must share `name`, `group`, `ordinal` and `query` too — see [Entity Types → Visibility](/configuration/entity-types/#visibility). Leave it `private` and assign explicit `_viewer` (or higher) rights to restrict it to specific people.
 
 This makes it straightforward to build role-based navigation: an **Admin** menu visible only to administrators, a **Finance** section visible only to the finance team, and a **Projects** menu open to everyone.
 

@@ -34,18 +34,20 @@ Entities are organised into hierarchies using the `_parent` system property.
 
 **Rights inheritance** — When `_inheritrights: true` is set on a child entity, it inherits the access rights from its parent. Changes at the parent level cascade down to all children with inheritance enabled.
 
+**New entities** — A new entity also gets its type's [`default_parent`](/configuration/entity-types/#entity-type-parameters) entities as parents. Unless set in the request, it takes `_sharing` from its parents (`public` if any parent is public, otherwise `domain` if any is domain) and `_inheritrights: true` if any parent has it.
+
 ::: tip
 The recommended pattern is to grant rights on a parent container and enable `_inheritrights` on children — this way you manage access in one place instead of on every entity individually.
 :::
 
 ## Access Rights
 
-Every entity has explicit access control. Rights are set by referencing a person entity under the appropriate rights property. A person has access if they match any entry in any rights property.
+Every entity has explicit access control. Rights are set by referencing a person entity under the appropriate rights property. A person has access if they match any entry in any rights property. A person holds one right per entity — setting a right for them removes their other rights on the same entity.
 
 | Property | Access level |
 |---|---|
 | `_owner` | Full control — view, edit all properties, delete the entity, manage rights, create children. |
-| `_editor` | Can view and edit all properties except the rights properties themselves. |
+| `_editor` | Can view and edit all properties except the rights properties themselves and login credentials (`entu_user`, `entu_api_key`, `entu_passkey`) — those need `_owner`, or the person editing their own entity. |
 | `_expander` | Can view the entity and create child entities under it. |
 | `_viewer` | Read-only — can view the entity and its properties. |
 | `_noaccess` | Explicitly removes all rights on this entity, including rights inherited from parents. Overrides all other rights properties set on the same entity. Does not hide an entity shared as `domain` or `public`. Not propagated to children via `_inheritrights`. |

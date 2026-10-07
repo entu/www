@@ -1,5 +1,5 @@
 ---
-description: "Sign in to Entu with OAuth providers, passkeys, or email magic links — each method tied to your person entity, several allowed per account."
+description: "Sign in to Entu with passkeys, OAuth providers, or email magic links — each method tied to your person entity, several allowed per account."
 ---
 
 # Authentication
@@ -10,21 +10,33 @@ Entu supports several ways to sign in. Each is tied to your **person entity** �
 Entu never stores passwords. Authentication is handled entirely through social login providers or passkeys — there is no password to set, forget, or leak.
 :::
 
+## Passkeys
+
+Passkeys are a modern alternative to passwords — faster, phishing-resistant, and no secrets to remember or leak. Your device creates a unique cryptographic key pair: the private key never leaves your device, and Entu only stores the public key.
+
+When you sign in, your device confirms your identity using whatever it normally uses to unlock — Face ID, Touch ID, Windows Hello, a fingerprint scanner, or a hardware security key like a YubiKey. Nothing is typed and nothing can be intercepted.
+
+Passkeys sync across your devices through your platform's keychain (iCloud Keychain on Apple devices, Google Password Manager on Android, or a password manager that supports passkeys). A passkey works like any other sign-in option: you can create one when you sign up, when you accept an invite, or later with **Add Login Method** on your person entity — and you can accept an invite with a passkey you already have. You can register several passkeys on the same account, for example one per device, and delete them from your person entity. While signed in with a passkey you can also create a new database.
+
+A passkey is not tied to one database — it opens every Entu database where it is added to your person entity — so your password manager lists it as **Entu**. Browsers and systems that support it rename it to your name after you sign in.
+
+**Best for:** Frequent users who want the fastest and most secure sign-in experience.
+
 ## Social Login
 
 Social login lets you sign in without a password by using an identity provider you already trust. Entu sends you to the provider's login page, and once you confirm your identity there, you are signed in. Social login is powered by [OAuth.ee](https://oauth.ee).
 
-### Email
+### Apple
 
-Sign in with a magic link sent to your email address. No password required — click the link in the email and you are in. The link is short-lived and single-use, so your account stays secure even if someone else sees the email later. Works with any email address.
+Sign in with your Apple ID. Apple gives you the option to hide your real email address and use a private relay address instead. Entu works with both, because it recognises you by your Apple account, not by the email address. Requires an Apple ID with two-factor authentication enabled.
 
 ### Google
 
 Use your existing Google account to sign in. If you are already signed into Google in your browser, the process is instant — one click and you are in. Entu never sees your Google password.
 
-### Apple
+### Email
 
-Sign in with your Apple ID. Apple gives you the option to hide your real email address and use a private relay address instead. Entu works with both, because it recognises you by your Apple account, not by the email address. Requires an Apple ID with two-factor authentication enabled.
+Sign in with a magic link sent to your email address — click the link in the email and you are in. The link is short-lived and single-use, so your account stays secure even if someone else sees the email later. Works with any email address.
 
 ### Smart-ID
 
@@ -37,18 +49,6 @@ Mobile-ID uses a special SIM card issued by Estonian mobile operators to authent
 ### ID Card
 
 Sign in using a national ID card (or e-Residency card) with a card reader. Entu reads your identity from the chip on the card after you enter your PIN. Provides the highest assurance level of electronic identity in Estonia.
-
-## Passkeys
-
-Passkeys are a modern alternative to passwords — faster, phishing-resistant, and no secrets to remember or leak. Your device creates a unique cryptographic key pair: the private key never leaves your device, and Entu only stores the public key.
-
-When you sign in, your device confirms your identity using whatever it normally uses to unlock — Face ID, Touch ID, Windows Hello, a fingerprint scanner, or a hardware security key like a YubiKey. Nothing is typed and nothing can be intercepted.
-
-Passkeys sync across your devices through your platform's keychain (iCloud Keychain on Apple devices, Google Password Manager on Android, or a password manager that supports passkeys). You can register multiple passkeys — one per device — on the same account. Passkeys are managed from your person entity in the Entu UI.
-
-A passkey works like any other sign-in method: one passkey signs you in to every database you belong to. When you are invited to another database, accept the invitation with your passkey and it is added to your person entity there too. While signed in with a passkey you can also create a new database — the signup page itself does not offer passkey sign-in, because a passkey is added to a person that already exists.
-
-**Best for:** Frequent users who want the fastest and most secure sign-in experience.
 
 ## API Key
 

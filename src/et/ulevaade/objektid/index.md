@@ -34,18 +34,20 @@ Objektid on korraldatud hierarhiatesse, kasutades süsteemparameetrit `_parent`.
 
 **Õiguste pärimine** — Kui alam-objektil on seatud `_inheritrights: true`, pärib see oma ülemobjekti juurdepääsuõigused. Ülemtaseme muutused kanduvad automaatselt edasi kõigile alam-objektidele, millel on pärimine lubatud.
 
+**Uued objektid** — Uus objekt saab ülemobjektideks ka oma tüübi [`default_parent`](/et/seadistamine/objektituubid/#objektituubi-parameetrid) objektid. Kui päringus pole teisiti määratud, võtab see `_sharing` väärtuse oma ülemobjektidelt (`public`, kui mõni ülemobjekt on avalik, muidu `domain`, kui mõni on `domain`) ja `_inheritrights: true`, kui see on mõnel ülemobjektil.
+
 ::: tip
 Soovitatav muster on anda õigused ülemkonteinerile ja lubada alam-objektidel `_inheritrights` — nii hallatakse juurdepääsu ühes kohas, mitte iga objekti peal eraldi.
 :::
 
 ## Juurdepääsuõigused
 
-Igal objektil on selgesõnaline juurdepääsukontroll. Õigused seatakse, viidates isikuobjektile vastava õiguste parameetri all. Isikul on juurdepääs, kui ta vastab mõnele kandele mis tahes õiguste parameetris.
+Igal objektil on selgesõnaline juurdepääsukontroll. Õigused seatakse, viidates isikuobjektile vastava õiguste parameetri all. Isikul on juurdepääs, kui ta vastab mõnele kandele mis tahes õiguste parameetris. Isikul on objektil üks õigus — talle õiguse määramine eemaldab tema teised õigused samal objektil.
 
 | Parameeter | Juurdepääsu tase |
 |---|---|
 | `_owner` | Täielik kontroll — vaata, muuda kõiki parameetreid, kustuta objekt, halda õigusi, loo alam-objekte. |
-| `_editor` | Saab vaadata ja muuta kõiki parameetreid peale õiguste parameetrite enda. |
+| `_editor` | Saab vaadata ja muuta kõiki parameetreid peale õiguste parameetrite enda ja sisselogimisandmete (`entu_user`, `entu_api_key`, `entu_passkey`) — nende jaoks on vaja `_owner` õigust või et isik muudaks iseenda objekti. |
 | `_expander` | Saab vaadata objekti ja luua selle alla alam-objekte. |
 | `_viewer` | Ainult lugemine — saab vaadata objekti ja selle parameetreid. |
 | `_noaccess` | Eemaldab selgesõnaliselt kõik õigused sellel objektil, ka ülemobjektidelt päritud õigused. Tühistab kõik teised samale objektile seatud õiguste parameetrid. Ei peida objekti, mis on jagatud kui `domain` või `public`. Ei kandu `_inheritrights` kaudu alam-objektidele edasi. |

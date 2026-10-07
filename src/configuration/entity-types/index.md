@@ -30,7 +30,7 @@ All configuration happens through the Entu UI — no code or config files.
 
 | Param | Description |
 |---|---|
-| `add_from` | Controls where entities of this type can be created. Reference a **menu** entity to show this type in the "New …" button when that menu is active. Reference an **entity type** to allow adding this type as a child on any instance of that type. Reference a **specific entity** to allow creating this type only as a child of that specific entity. Without this, the "New …" and "Add …" buttons will never offer this type. |
+| `add_from` | Controls where entities of this type can be created. Reference a **menu** entity to show this type in the "New …" button when that menu is active. Reference an **entity type** to allow adding this type as a child on any instance of that type. Reference a **specific entity** to allow creating this type only as a child of that specific entity — an entity referenced this way is then offered only those types, not the ones added through its entity type. Without this, the "New …" and "Add …" buttons will never offer this type. |
 | `default_parent` | When a new entity of this type is created, the entity set here is automatically added as an additional `_parent`. Useful for routing new records into a fixed folder regardless of where the user clicked "Add". |
 | `plugin` | Attaches a plugin to run on entities of this type. See [Plugins](/configuration/plugins/). |
 
@@ -70,7 +70,7 @@ On the entity type's page, use the "Add" button to create child entities of type
 
 | Param | Description |
 |---|---|
-| `mandatory` | Marks the field as required — always shown with a red indicator when empty. |
+| `mandatory` | Marks the field as required — its label is red in the edit form, and on the entity page the field is shown even when empty, with a red label. Saving without a value is not blocked. |
 | `default` | Pre-filled value when creating a new entity. Supports relative offsets for `date`/`datetime` (e.g. `+1d`, `-7d`, `+1m`). See [Property Defaults](#property-defaults) below. |
 | `list` | Allows multiple values. Extra inputs appear automatically as the user fills them in. |
 | `multilingual` | Stores a separate value per language. A language selector appears next to each input. |

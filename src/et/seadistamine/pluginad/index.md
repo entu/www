@@ -29,7 +29,7 @@ Loo plugina objektid Seadistamise alas, seejärel viita neile objektitüübi `pl
 | `entity-edit` | Muutmissahtel avati **olemasoleva** objekti jaoks | Plugina URL laaditakse iframi vahekaardina. URL saab `account`, `entity`, `locale`, `token`. |
 | `entity-add` | Muutmissahtel avati **uue** objekti **loomiseks** | Plugina URL laaditakse iframi vahekaardina. URL saab `account`, `type`, `parent` (kui lisatakse alam-objektina), `locale`, `token`. |
 | `entity-edit-webhook` | Seda tüüpi **olemasolev** objekt on **salvestatud** või selle mõni parameetriväärtus kustutatud | Server saadab POST-i `{ db, plugin, entity: { _id }, token }` plugina URL-ile. Token on lühiealine JWT (1 min). Tulista-ja-unusta. |
-| `entity-add-webhook` | Seda tüüpi **uus** objekt on **loodud** | Sama serveripoolne POST nagu eespool, käivitatakse loomisel. |
+| `entity-add-webhook` | Seda tüüpi **uus** objekt on **loodud** (mitte dubleerimisega) | Sama serveripoolne POST nagu eespool, käivitatakse loomisel. |
 
 ## Kasutajaliidese plugina URL-parameetrid
 
@@ -42,7 +42,7 @@ Kui Entu laadib kasutajaliidese plugina iframes, lisab see plugina URL-ile need 
 | `type` | Objektitüübi ID (`entity-add` jaoks) |
 | `parent` | Ülemobjekti ID (`entity-add` puhul alam-objekti loomisel) |
 | `locale` | Praeguse kasutajaliidese keelekood |
-| `token` | Lühiealine JWT token API-kõnede tegemiseks praeguse kasutaja nimel |
+| `token` | Praeguse kasutaja juurdepääsutoken (JWT) API-kõnede tegemiseks tema nimel |
 
 ## Veebikonksu päringu sisu
 
@@ -73,11 +73,11 @@ Entu pakub valmis pluginate komplekti, mida majutatakse aadressil [github.com/en
 
 #### CSV import
 
-Objektide hulgiimport tabelist. Lae üles CSV-fail, vaata read eelvaates üle, vali importima minevad read ja vastenda iga CSV-veerg objekti parameetriga. Toetab laias valikus tekstikodeeringuid, seega töötavad vanemad süsteemidest pärit ekspordid ilma käsitsi teisendamiseta.
+Objektide hulgiimport tabelist. Lae üles CSV-fail, vaata read eelvaates üle, vali importima minevad read ja vastenda iga CSV-veerg objekti parameetriga. Toetab laias valikus tekstikodeeringuid, seega töötavad vanemad süsteemidest pärit ekspordid ilma käsitsi teisendamiseta — kodeering tuvastatakse automaatselt ja seda saab muuta. Päiserida vahele ei jäeta; jäta see valimata. Vastendada saab ainult parameetreid, millel pole valemit ega `readonly` seadet.
 
 #### Skeemimallid
 
-Kiire viis oma andmebaasi skeemi seadistamiseks nullist alustamata. Selle asemel, et käsitsi määratleda objektitüübid ja nende parameetrid, vali valmis tüüp jagatud malliteegist — näiteks *Raamat*, *Dokument*, *Kaust* või *Audiovisuaalne salvestis* — ja Entu kopeerib objektitüübi ning selle parameetrite definitsioonid (nimi, tüüp, järjekord jne) sinu andmebaasi. Saad parameetrite nimekirja üle vaadata enne importimist ja need, mida ei vaja, märkimata jätta.
+Kiire viis oma andmebaasi skeemi seadistamiseks nullist alustamata. Selle asemel, et käsitsi määratleda objektitüübid ja nende parameetrid, vali valmis tüüp jagatud malliteegist — näiteks *Raamat*, *Dokument*, *Kaust* või *Audiovisuaalne salvestis* — ja Entu kopeerib objektitüübi ning selle parameetrite definitsioonid (nimi, tüüp, nimetus, järjekord, valem, jagamine jne) sinu andmebaasi. Saad parameetrite nimekirja üle vaadata enne importimist ja need, mida ei vaja, märkimata jätta; juba olemasolevad tüübid ja parameetrid on märgitud imporditutena.
 
 ### Raamatud
 
@@ -87,27 +87,27 @@ Otsi [ESTER](https://www.ester.ee) ühiskataloogi, mida kasutavad Eesti kõrgkoo
 
 #### Open Library import
 
-Otsi [Open Library](https://openlibrary.org) kataloogist — tasuta ülemaailmsest raamatute andmebaasist. Leia raamat pealkirja, autori või ISBN-i järgi ja vali seejärel täpne väljaanne — väljaannete loendit saab filtreerida keele järgi. Valitud väljaanne imporditakse objektina, mille pealkiri, autor, kirjastus, ilmumiskoht ja -aasta, lehekülgede arv, mõõtmed, keel, märksõnad ja ISBN täidetakse automaatselt koos raamatu kaanepildiga. Telefonis saad raamatu ISBN-vöötkoodi ka kaameraga skannida — puuduta otsinguvälja kõrval olevat kaameranuppu või tee vöötkoodist pilt — ja plugin otsib seda automaatselt.
+Otsi [Open Library](https://openlibrary.org) kataloogist — tasuta ülemaailmsest raamatute andmebaasist. Leia raamat pealkirja, autori või ISBN-i järgi ja vali seejärel täpne väljaanne — väljaannete loendit saab filtreerida keele järgi. Valitud väljaanne imporditakse objektina, mille pealkiri, alapealkiri, autor, kirjastus, ilmumiskoht ja -aasta, sari, lehekülgede arv, mõõtmed, kaal, keel, märksõnad, ISBN ja märkused täidetakse automaatselt koos raamatu kaanepildiga. Telefonis saad raamatu ISBN-vöötkoodi ka kaameraga skannida — puuduta otsinguvälja kõrval olevat kaameranuppu või tee vöötkoodist pilt — ja plugin otsib seda automaatselt.
 
 ### Audio-video
 
 #### Discogsi import
 
-Otsi muusika andmebaasist [Discogs](https://www.discogs.com) ja lisa väljaandeid otse oma kogusse. Sisesta esitaja või albumi pealkiri ja vali seejärel albumi täpne väljaanne — Entu loob objekti pealkirja, esitaja, sildi, aasta, formaadi, žanri, vöötkoodi ja muu metaandmetega automaatselt täidetuna koos kaanepildiga. Telefonis saad väljaande vöötkoodi ka kaameraga skannida — puuduta otsinguvälja kõrval olevat kaameranuppu või tee vöötkoodist pilt — ja plugin otsib seda automaatselt.
+Otsi muusika andmebaasist [Discogs](https://www.discogs.com) ja lisa väljaandeid otse oma kogusse. Sisesta esitaja või albumi pealkiri ja vali seejärel albumi täpne väljaanne (leitakse ainult Discogsi master-kirjega albumid) — Entu loob objekti pealkirja (`title`), esitaja, plaadifirma, katalooginumbri, aasta, formaadi, riigi, žanri, stiili, vöötkoodi ja muu metaandmetega automaatselt täidetuna koos kaanepildiga. Telefonis saad väljaande vöötkoodi ka kaameraga skannida — puuduta otsinguvälja kõrval olevat kaameranuppu või tee vöötkoodist pilt — ja plugin otsib seda automaatselt.
 
 #### MusicBrainzi import
 
-Otsi avatud muusikaentsüklopeediast [MusicBrainz](https://musicbrainz.org). Leia album ja vali seejärel täpne väljaanne (tiraaž, riik, formaat) — objekt luuakse pealkirja, esitaja, sildi, aasta, formaadi, vöötkoodi ja žanritega ning kaanepildiga Cover Art Archive'ist. Telefonis saad väljaande vöötkoodi ka kaameraga skannida — puuduta otsinguvälja kõrval olevat kaameranuppu — ja plugin leiab sobivad albumid automaatselt.
+Otsi avatud muusikaentsüklopeediast [MusicBrainz](https://musicbrainz.org). Leia album ja vali seejärel täpne väljaanne (tiraaž, riik, formaat) — objekt luuakse pealkirja, esitaja, sildi, aasta, formaadi, vöötkoodi ja žanritega ning kaanepildiga Cover Art Archive'ist. Telefonis saad väljaande vöötkoodi ka kaameraga skannida — puuduta otsinguvälja kõrval olevat kaameranuppu või tee vöötkoodist pilt — ja plugin leiab sobivad albumid automaatselt.
 
 #### TMDB import
 
-Otsi andmebaasist [The Movie Database](https://www.themoviedb.org) ja impordi filme oma kogusse. Otsingutulemused ja metaandmed järgivad kasutajaliidese keelt, kui tõlked on olemas. Loodud objekti pealkiri, originaalpealkiri, režissöör, aasta, žanrid, kestus, riigid ja kirjeldus täidetakse automaatselt koos filmi plakatiga.
+Otsi andmebaasist [The Movie Database](https://www.themoviedb.org) ja impordi filme oma kogusse. Otsingutulemused ja metaandmed on eesti keeles, kui kasutajaliidese keel on eesti, muidu inglise keeles. Loodud objekti pealkiri, originaalpealkiri, režissöör, peaosatäitjad, aasta, žanrid, kestus, keeled, riigid, tootjafirmad, IMDb ID ja kirjeldus täidetakse automaatselt koos filmi plakatiga.
 
 ### Mängud
 
 #### BoardGameGeeki import
 
-Otsi andmebaasist [BoardGameGeek](https://boardgamegeek.com) ja impordi lauamänge, mille autor, kirjastaja, kategooriad, mängijate arv, mängu kestus ja aasta täidetakse automaatselt koos karbipildiga.
+Otsi andmebaasist [BoardGameGeek](https://boardgamegeek.com) ja impordi lauamänge, mille autor, kunstnik, kirjastaja, kategooriad, mehaanikad, mängijate minimaalne ja maksimaalne arv, mängu kestus, minimaalne vanus, aasta ja kirjeldus täidetakse automaatselt koos karbipildiga.
 
 #### IGDB import
 
@@ -117,23 +117,23 @@ Otsi videomängude andmebaasist [IGDB](https://www.igdb.com) ja impordi mänge, 
 
 #### Brickseti import
 
-Otsi andmebaasist [Brickset](https://brickset.com) ja impordi LEGO komplekte nime või komplekti numbri järgi. Objekti number, nimi, teema, alamteema, aasta, klotside ja minifiguuride arv, vanusevahemik, karbi mõõtmed, kirjeldus, märksõnad ning vöötkoodid täidetakse automaatselt koos komplekti pildiga. Telefonis saad karbi vöötkoodi ka kaameraga skannida — puuduta otsinguvälja kõrval olevat kaameranuppu — ja plugin leiab komplekti automaatselt.
+Otsi andmebaasist [Brickset](https://brickset.com) ja impordi LEGO komplekte nime või komplekti numbri järgi. Objekti number, nimi, teema, alamteema, aasta, klotside ja minifiguuride arv, vanusevahemik, karbi mõõtmed, kaal, kirjeldus, märksõnad ning vöötkoodid täidetakse automaatselt koos komplekti pildiga. Telefonis saad karbi vöötkoodi ka kaameraga skannida — puuduta otsinguvälja kõrval olevat kaameranuppu või tee vöötkoodist pilt — ja plugin leiab komplekti automaatselt.
 
 #### Numista import
 
-Otsi müntide ja rahatähtede kataloogist [Numista](https://en.numista.com) ja impordi tüüpe, mille väljaandja, nimiväärtus, vermimisaastad, materjal, kaal, läbimõõt, kuju ja kataloogiviited täidetakse automaatselt koos esi- ja tagakülje piltidega.
+Otsi müntide ja rahatähtede kataloogist [Numista](https://en.numista.com) ja impordi tüüpe, mille väljaandja (parameetrina `country`), nimiväärtus, esimene ja viimane vermimisaasta, materjal, kaal, läbimõõt (parameetrina `dimensions`), kuju, sari, kataloogiviited ja märkused täidetakse automaatselt koos esi- ja tagakülje piltidega. Tulemused on inglise keeles.
 
 ### Asukohad
 
 #### KML import
 
-Impordi geograafilisi asukohti KML-failidest (formaat, mida kasutavad Google Earth ja enamik GIS-tööriistu). Pärast üleslaadimist kuvatakse kõigi failist leitud kohtade loend, vali, milliseid kaasata, ja need luuakse objektidena koos nime, kirjelduse ja koordinaatide parameetritega.
+Impordi geograafilisi asukohti KML-failidest (formaat, mida kasutavad Google Earth ja enamik GIS-tööriistu). Pärast üleslaadimist kuvatakse kõigi failist leitud kohtade loend, vali, milliseid kaasata, ja need luuakse objektidena parameetritega `name`, `lat` ja `long`. Kirjeldus salvestatakse parameetrisse `kirjeldus` ja selles leitud pildilingid parameetrisse `pildilingid` — nende säilitamiseks peavad objektitüübil olema nende nimedega parameetrid. Imporditakse ainult punktid; jooned ja alad jäetakse vahele.
 
 ## Juurdepääsukontroll
 
-Plugina objektid kasutavad sama õiguste ja jagamise mudelit nagu kõik teised objektid. Muutmissahtel kuvab plugina vahekaarte ainult nende pluginate jaoks, millele praegusel kasutajal on juurdepääs.
+Plugina objektid kasutavad sama [õiguste ja jagamise mudelit](/et/ulevaade/objektid/#juurdepaasuoigused) nagu kõik teised objektid. Muutmissahtel kuvab plugina vahekaarte ainult nende pluginate jaoks, millele praegusel kasutajal on juurdepääs.
 
-Sea plugina objektil `_sharing: domain`, et see oleks saadaval kõigile autenditud kasutajatele, või `_sharing: public`, et avalikustada see isegi autentimata külastajatele. Jäta see `private`-ks ja määra selgesõnalised `_viewer` (või kõrgemad) õigused konkreetsetele isikutele või gruppidele, et piirata juurdepääsu.
+Sea plugina objektil `_sharing: domain`, et see oleks saadaval kõigile andmebaasi kasutajatele — siis peavad ka `plugin` objektitüüp ja selle parameetrite definitsioonid jagama parameetreid `name`, `type` ja `url`, vaata [Objektitüübid → Nähtavus](/et/seadistamine/objektituubid/#nahtavus). Jäta see `private`-ks ja määra konkreetsetele isikutele selgesõnalised `_viewer` (või kõrgemad) õigused, et piirata juurdepääsu.
 
 See võimaldab teatud pluginaid avalikustada kõigile (nt CSV-importija kõigile toimetajatele), säilitades samal ajal teiste piiramise administraatoritele või konkreetsetele tiimidele.
 

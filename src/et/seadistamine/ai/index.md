@@ -15,7 +15,7 @@ Entu AI on Entu rakendusse sisseehitatud vestlusassistent. Ava see tööriistari
 
 ## Muudatuste ülevaatamine ja rakendamine
 
-Assistent ei rakenda muudatusi kunagi omal käel. Kui ta pakub muudatusi, kuvab ta nimekirja **Pakutud muudatused**, kus iga toiming on kirjeldatud tavakeeles. Vaata nimekiri üle ja klõpsa **Rakenda muudatused**, et toimingud käivitada — või **Loobu**, et need kõrvale heita. Sinu andmebaasis ei juhtu midagi enne, kui klõpsad Rakenda.
+Assistent ei rakenda muudatusi kunagi omal käel. Kui ta pakub muudatusi, kuvab ta nimekirja **Pakutud muudatused**, kus iga toiming on kirjeldatud tavakeeles. Vaata nimekiri üle ja klõpsa **Rakenda muudatused**, et toimingud käivitada — või **Loobu**, et need kõrvale heita. Sinu andmebaasis ei juhtu midagi enne, kui klõpsad Rakenda. Kui saadad uue sõnumi ajal, mil muudatused ootavad, lükatakse need tagasi.
 
 Toimingud käivitatakse järjekorras ja iga toiming saab staatuse: **Tehtud**, **Ebaõnnestus** või **Vahele jäetud**. Kui mõni toiming ebaõnnestub (näiteks ebapiisavate õiguste tõttu), peatub käivitamine — sellele eelnevad toimingud on juba rakendatud ja ülejäänud jäetakse vahele.
 
@@ -30,6 +30,13 @@ Kogu voog — näitena "loo raamatute objektitüüp":
 ## Õigused
 
 Entu AI töötab täielikult sinu enda õigustega. Ta näeb ainult seda, mida sina näed, ja saab muuta ainult seda, mida sina saaksid käsitsi muuta — ta ei anna mingit lisajuurdepääsu. Kui sul puuduvad pakutud toiminguks õigused, ebaõnnestub see toiming rakendamisel.
+
+## Piirangud
+
+- Igal andmebaasil on igakuine AI tokenite kvoot — 100 000 tokenit, kui andmebaasile pole seatud teist piiri. Kui see on ära kasutatud, vastab Entu AI veaga `Tokens limit reached` kuni järgmise kuuni.
+- Üks sõnum võib olla kuni 8000 märki ja assistendile saadetakse ainult vestluse viimased 40 sõnumit.
+- Üks ettepanek võib sisaldada kuni 25 toimingut.
+- Süsteemseid objektitüüpide definitsioone Entu AI kaudu muuta ei saa.
 
 ## Privaatsus
 

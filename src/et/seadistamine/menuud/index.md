@@ -21,10 +21,6 @@ Objektitüübid saavad seada `add_from` ka viitama teisele **objektitüübile** 
 
 Parameeter `query` kasutab standardset objektifiltri süntaksit. Täieliku süntaksi kohta vaata [API → Päringu viide](/et/api/paringu-viide/).
 
-::: info
-Menüüde ja objektitüüpide vaheline seos on kahepoolne: menüü määratleb, mida kuvada, ja objektitüübi `add_from` parameeter viitab menüüle, et nupp „Uus …" ilmuks, kui see menüü on aktiivne.
-:::
-
 ## Menüü seadistamise näide
 
 Tüüpiline külgriba projektijuhtimise rakendusele:
@@ -36,15 +32,15 @@ Tüüpiline külgriba projektijuhtimise rakendusele:
 | Arved | Rahandus | 1 | `_type.string=invoice&sort=-date.date` |
 | Inimesed | Haldus | 1 | `_type.string=person&sort=name.string` |
 
-Et lubada seda tüüpi objektide loomist menüüst, sea objektitüübi `add_from` viitama menüüobjektile. Kui see menüü on aktiivne, ilmub tööriistaribal nupp „Uus …".
+Et lubada mingit tüüpi objektide loomist menüüst, sea objektitüübi `add_from` viitama menüüobjektile. Kui see menüü on aktiivne, ilmub tööriistaribal nupp „Uus …".
 
 ## Juurdepääsukontroll
 
-Menüüobjektid kasutavad sama õiguste ja jagamise mudelit nagu kõik teised objektid — külgriba kuvab ainult neid menüüelemente, millele praegusel kasutajal on juurdepääs.
+Menüüobjektid kasutavad sama [õiguste ja jagamise mudelit](/et/ulevaade/objektid/#juurdepaasuoigused) nagu kõik teised objektid — külgriba kuvab ainult neid menüüelemente, millele praegusel kasutajal on juurdepääs.
 
-Sea menüüobjektil `_sharing: domain`, et see oleks nähtav kõigile autenditud kasutajatele, või `_sharing: public`, et kuvada seda isegi autentimata külastajatele. Jäta see `private`-ks ja määra konkreetsetele isikutele või gruppidele selgesõnalised `_viewer` (või kõrgemad) õigused, et piirata juurdepääsu.
+Sea menüüobjektil `_sharing: domain`, et see oleks nähtav kõigile andmebaasi kasutajatele, või `_sharing: public`, et kuvada seda ka sisse logimata külastajatele. Sellised kasutajad näevad menüü `domain` või `public` vaadet, seega peavad ka `menu` objektitüüp ja selle parameetrite definitsioonid jagama parameetreid `name`, `group`, `ordinal` ja `query` — vaata [Objektitüübid → Nähtavus](/et/seadistamine/objektituubid/#nahtavus). Jäta see `private`-ks ja määra konkreetsetele isikutele selgesõnalised `_viewer` (või kõrgemad) õigused, et piirata juurdepääsu.
 
-See teeb roliipõhise navigatsiooni seadistamise lihtsaks: **Halduse** menüü, mis on nähtav ainult administraatoritele, **Rahanduse** jaotis, mis on nähtav ainult rahandustiimile, ja **Projektide** menüü, mis on avatud kõigile.
+See teeb rollipõhise navigatsiooni seadistamise lihtsaks: **Halduse** menüü, mis on nähtav ainult administraatoritele, **Rahanduse** jaotis, mis on nähtav ainult rahandustiimile, ja **Projektide** menüü, mis on avatud kõigile.
 
 ::: tip
 Soovitatav muster on anda õigused menüüobjektile endale — kasutaja vajab ainult `_viewer` õigusi menüüelemendi nägemiseks. Kasuta menüüobjektil `_inheritrights`, kui soovid, et see päriks juurdepääsu ülemkonteinerilt.

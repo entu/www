@@ -1,5 +1,5 @@
 ---
-description: "Logi Entusse OAuth-teenustega, pääsuvõtmetega või e-posti maagilise lingiga — iga viis on seotud sinu isikuobjektiga, ühel kontol võib olla mitu."
+description: "Logi Entusse pääsuvõtmetega, OAuth-teenustega või e-posti maagilise lingiga — iga viis on seotud sinu isikuobjektiga, ühel kontol võib olla mitu."
 ---
 
 # Autentimine
@@ -7,24 +7,36 @@ description: "Logi Entusse OAuth-teenustega, pääsuvõtmetega või e-posti maag
 Entu toetab mitut viisi sisselogimiseks. Iga meetod on seotud sinu **isikuobjektiga** — kirjega andmebaasis, mis esindab sind. Saad kasutada mitut sisselogimismeetodit samas kontol.
 
 ::: info Paroole pole
-Entu ei salvesta kunagi paroole. Autentimine toimub täielikult sotsiaalse sisselogimise pakkujate või passkeys'i kaudu — seadistatavat, unustatavat ega lekitavat parooli pole.
+Entu ei salvesta kunagi paroole. Autentimine toimub täielikult sotsiaalse sisselogimise pakkujate või pääsuvõtmete kaudu — seadistatavat, unustatavat ega lekitavat parooli pole.
 :::
+
+## Pääsuvõtmed
+
+Pääsuvõtmed on kaasaegne alternatiiv paroolidele — kiirem, andmepüügiresistentne, ja midagi pole meelde jätta ega lekitada. Sinu seade loob unikaalse krüptograafilise võtmepaari: privaatvõti ei lahku kunagi sinu seadmest ja Entu salvestab ainult avaliku võtme.
+
+Sisselogimisel kinnitab sinu seade sinu identiteedi kasutades seda, mida ta tavaliselt kasutab avamiseks — Face ID, Touch ID, Windows Hello, sõrmejälgede skanner või riistvara turvavõti nagu YubiKey. Midagi pole vaja sisestada ja midagi ei saa pealtkuulata.
+
+Pääsuvõtmed sünkroonitakse sinu seadmete vahel platvormi võtmerõnga kaudu (iCloud Keychain Apple'i seadmetel, Google Password Manager Androidil või pääsuvõtmeid toetav paroolihaldur). Pääsuvõti toimib nagu iga teine sisselogimisviis: saad selle luua registreerumisel, kutse vastuvõtmisel või hiljem oma isikuobjektil nupuga **Lisa sisselogimisviis** — ja kutse saad vastu võtta ka juba olemasoleva pääsuvõtmega. Samale kontole saad registreerida mitu pääsuvõtit, näiteks ühe seadme kohta, ja neid oma isikuobjektilt kustutada. Pääsuvõtmega sisse logituna saad luua ka uue andmebaasi.
+
+Pääsuvõti pole seotud ühe andmebaasiga — see avab kõik Entu andmebaasid, kus see on sinu isikuobjektile lisatud —, seega näitab paroolihaldur seda nimega **Entu**. Brauserid ja süsteemid, mis seda toetavad, asendavad pärast sisselogimist selle nime sinu nimega.
+
+**Sobib kõige paremini:** Sageli kasutavatele inimestele, kes soovivad kiireimat ja turvalisimat sisselogimiskogemust.
 
 ## Sotsiaalne sisselogimine
 
 Sotsiaalne sisselogimine võimaldab sul sisse logida ilma paroolita, kasutades identiteedipakkujat, keda sa juba usaldad. Entu saadab sind pakkuja sisselogimislehele ja kui oled seal oma identiteedi kinnitanud, oled sisse logitud. Sotsiaalne sisselogimine töötab [OAuth.ee](https://oauth.ee) kaudu.
 
-### E-post
+### Apple
 
-Logi sisse maagilise linkiga, mis saadetakse sinu e-posti aadressile. Parooli pole vaja — klikka e-kirjas olevale lingile ja oled sees. Link aegub kiiresti ja kehtib vaid ühe korra, nii et su konto jääb turvaliseks, isegi kui keegi teine näeb hiljem e-kirja. Töötab mis tahes e-posti aadressiga.
+Logi sisse oma Apple ID-ga. Apple annab sulle võimaluse varjata oma päris e-posti aadress ja kasutada selle asemel privaatset relepunktaadressi. Entu töötab mõlemaga, sest tunneb sind ära Apple'i konto, mitte e-posti aadressi järgi. Nõuab Apple ID-d koos kahefaktorilise autentimisega.
 
 ### Google
 
 Kasuta olemasolevat Google'i kontot sisselogimiseks. Kui oled oma brauseris Google'isse juba sisse logitud, on sisselogimine kohene — üks klikk ja oled sees. Entu ei näe kunagi sinu Google'i parooli.
 
-### Apple
+### E-post
 
-Logi sisse oma Apple ID-ga. Apple annab sulle võimaluse varjata oma päris e-posti aadress ja kasutada selle asemel privaatset relepunktaadressi. Entu töötab mõlemaga, sest tunneb sind ära Apple'i konto, mitte e-posti aadressi järgi. Nõuab Apple ID-d koos kahefaktorilise autentimisega.
+Logi sisse maagilise linkiga, mis saadetakse sinu e-posti aadressile — klikka e-kirjas olevale lingile ja oled sees. Link aegub kiiresti ja kehtib vaid ühe korra, nii et su konto jääb turvaliseks, isegi kui keegi teine näeb hiljem e-kirja. Töötab mis tahes e-posti aadressiga.
 
 ### Smart-ID
 
@@ -37,18 +49,6 @@ Mobiil-ID kasutab Eesti mobiilioperaatorite välja antud spetsiaalset SIM-kaarti
 ### ID-kaart
 
 Logi sisse riikliku ID-kaardiga (või e-residentide kaardiga) kaardilugejaga. Entu loeb sinu identiteedi kaardil olevalt kiibilt pärast PINi sisestamist. Tagab kõrgeima kindlustaseme elektroonilise identiteedi Eestis.
-
-## Passkeys
-
-Passkeys on kaasaegne alternatiiv paroolidele — kiirem, andmepüügiresistentne, ja midagi pole meelde jätta ega lekitada. Sinu seade loob unikaalse krüptograafilise võtmepaari: privaatvõti ei lahku kunagi sinu seadmest ja Entu salvestab ainult avaliku võtme.
-
-Sisselogimisel kinnitab sinu seade sinu identiteedi kasutades seda, mida ta tavaliselt kasutab avamiseks — Face ID, Touch ID, Windows Hello, sõrmejälgede skanner või riistvara turvavõti nagu YubiKey. Midagi pole vaja sisestada ja midagi ei saa pealtkuulata.
-
-Passkeys sünkroonitakse sinu seadmete vahel platvormi võtmerõnga kaudu (iCloud Keychain Apple'i seadmetel, Google Password Manager Androidil või passkeys'i toetav paroolihaldur). Saad registreerida mitu passkeys'i — ühe seadme kohta — samale kontole. Passkeys'i hallatakse Entu kasutajaliideses sinu isikuobjektist.
-
-Passkey toimib nagu iga teine sisselogimisviis: üks passkey logib sind sisse kõigisse andmebaasidesse, kuhu sa kuulud. Kui sind kutsutakse teise andmebaasi, võta kutse vastu oma passkey'ga ja see lisatakse ka sealsele isikuobjektile. Passkey'ga sisse logituna saad luua ka uue andmebaasi — registreerumislehel endal passkey'ga sisselogimist ei pakuta, sest passkey lisatakse juba olemasolevale isikuobjektile.
-
-**Sobib kõige paremini:** Sageli kasutavatele inimestele, kes soovivad kiireimat ja turvalisimat sisselogimiskogemust.
 
 ## API võti
 

@@ -42,7 +42,9 @@ const SLUG_MAP: [string, string][] = [
   ['api/query-reference', 'api/paringu-viide'],
   ['api/properties', 'api/parameetrid'],
   ['api/formulas', 'api/valemid'],
-  ['api/files', 'api/failid']
+  ['api/files', 'api/failid'],
+  ['api/entities', 'api/objektid'],
+  ['api/database', 'api/andmebaas']
 ]
 
 // Map an EN path to its ET counterpart and vice versa.
@@ -69,7 +71,7 @@ export default defineConfig({
   srcDir: './src',
   outDir: './dist',
   vite: {
-    server: { port: 3003 },
+    server: { port: 3002 },
     publicDir: '../public'
   },
   sitemap: { hostname: 'https://entu.ee' },
@@ -225,9 +227,11 @@ export default defineConfig({
               { text: 'Autentimine', link: '/et/api/autentimine/' },
               { text: 'Parimad praktikad', link: '/et/api/parimad-praktikad/' },
               { text: 'Päringu viide', link: '/et/api/paringu-viide/' },
+              { text: 'Objektid', link: '/et/api/objektid/' },
               { text: 'Parameetrid', link: '/et/api/parameetrid/' },
               { text: 'Valemid', link: '/et/api/valemid/' },
               { text: 'Failid', link: '/et/api/failid/' },
+              { text: 'Andmebaas', link: '/et/api/andmebaas/' },
               { text: 'AI assistent', link: '/et/api/ai/' },
               { text: 'Andmebaasi mutatsioonid', link: '/et/andmebaasi-mutatsioonid/' },
               { text: 'API viide', link: 'https://api.entu.app/docs' }
@@ -307,9 +311,11 @@ export default defineConfig({
           { text: 'Authentication', link: '/api/authentication/' },
           { text: 'Best Practices', link: '/api/best-practices/' },
           { text: 'Query Reference', link: '/api/query-reference/' },
+          { text: 'Entities', link: '/api/entities/' },
           { text: 'Properties', link: '/api/properties/' },
           { text: 'Formulas', link: '/api/formulas/' },
           { text: 'Files', link: '/api/files/' },
+          { text: 'Database', link: '/api/database/' },
           { text: 'AI Assistant', link: '/api/ai/' },
           { text: 'Database Mutations', link: '/db-mutations/' },
           { text: 'API Reference', link: 'https://api.entu.app/docs' }

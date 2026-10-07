@@ -38,13 +38,20 @@ curl -X GET "https://entu.app/api/auth" \
   -H "Authorization: Bearer TEMPORARY_OAUTH_TOKEN"
 ```
 
-Supported providers: `e-mail`, `google`, `apple`, `smart-id`, `mobile-id`, `id-card`, `passkey`
+Supported providers: `passkey`, `apple`, `google`, `e-mail`, `smart-id`, `mobile-id`, `id-card`
 
-Without a `next` URL (see [Third-Party App Integration](#third-party-app-integration)), the temporary token comes back as JSON `{ "key": "..." }`. Add `lang=en` or `lang=et` to set the language of the OAuth.ee sign-in page; without it OAuth.ee chooses. `/api/auth/passkey` starts a sign-in only with `next` — without it, it returns WebAuthn options for a native passkey sign-in instead.
+Without a `next` URL (see [Third-Party App Integration](#third-party-app-integration)), the temporary token comes back as JSON `{ "key": "..." }`. Add `lang=en` or `lang=et` to set the language of the OAuth.ee sign-in page; without it OAuth.ee chooses.
 
-The provider returns a user ID and profile info that is matched against the entity's `entu_user` property. On first login, a person entity can be created automatically — see [Users → Automatic User Creation](/configuration/users/#automatic-user-creation).
+The provider returns a user ID and profile info that is matched against the entity's `entu_user` property. On first login, a person entity can be created automatically — see [Users → Automatic User Creation](/configuration/users/#automatic-user-creation). A sign-in that matches no database still gets a token, with an empty `accounts` list; that token can create a new database.
 
-With `passkey`, the user signs in on the Entu passkey page and is matched by the passkey on their person entity (`entu_passkey`) in every database that holds it — `uid` is the passkey's credential ID and `provider` is `passkey`. Like any other provider, a passkey can accept an invite, create a person automatically, and create a new database; the same passkey is then stored on that person as well.
+To accept an invite, add `invite={INVITE_TOKEN}` when exchanging the temporary token: the sign-in is linked to the invited person entity, and without `db` the JWT is limited to the invite's database. If the sign-in is already linked to another person in that database, the invite is not accepted and the response includes `"conflict": "invite"`. An invalid, expired or already used invite — or one for another database than `db` — is rejected with `400 Invalid or expired invite`; a used invite only still signs in the person it was for.
+
+A passkey is a login provider like the others, on the Entu passkey page (`lang` does not apply):
+
+- `/api/auth/passkey` signs in with an existing passkey. The user is matched by the passkey on their person entity (`entu_passkey`) in every database that holds it.
+- `/api/auth/passkey/register` creates a new passkey on the user's device and signs in with it — use it to sign up, to accept an invite with a new passkey, or to add a passkey to one's own person.
+
+Both end in a temporary token for `GET /api/auth` and take `next` the same way. `uid` is the passkey's credential ID and `provider` is `passkey`. Accepting an invite, creating a person automatically or creating a new database with a passkey stores that passkey on the person. A passkey stores no name: `user.name` is the person's name in the first database, alphabetically, that has one.
 
 ## Authentication Flow
 
@@ -54,12 +61,14 @@ With `passkey`, the user signs in on the Entu passkey page and is matched by the
 4. Refresh before the 12-hour expiry (see [Refreshing a Token](#refreshing-a-token))
 
 ::: warning
-JWT tokens are bound to the IP address used when the token was issued. If your IP changes (e.g. switching networks, VPN, or mobile roaming), the token is immediately rejected with `401 Invalid JWT audience` and you must re-authenticate. Cache tokens per IP context if your environment changes addresses frequently. Tokens from the [OAuth server](#oauth-server) are the exception — they are not bound to an IP.
+JWT tokens are bound to the IP address used when the token was issued. If your IP changes (e.g. switching networks, VPN, or mobile roaming), the token is immediately rejected with `401 Invalid token` and you must re-authenticate. Cache tokens per IP context if your environment changes addresses frequently. Tokens from the [OAuth server](#oauth-server) are the exception — they are not bound to an IP.
 :::
 
 ::: tip
 Cache the JWT and reuse it across requests. Exchanging the credential on every call is wasteful — only refresh when the token nears expiry.
 :::
+
+Every Entu JWT carries a `use` claim naming what it is for. Only `use: access` tokens — from `GET /api/auth`, `/api/auth/refresh` and the [OAuth server](#oauth-server) — open the REST API, GraphQL and MCP; a session token or an invite is refused there. Tokens issued before the claim was added have no `use` and are accepted until 2026-11-06.
 
 ## Refreshing a Token
 
@@ -70,7 +79,7 @@ curl -X GET "https://entu.app/api/auth/refresh" \
   -H "Authorization: Bearer YOUR_CURRENT_TOKEN"
 ```
 
-The response has the same shape as `GET /api/auth` — `accounts`, `user`, `token`, and `expires`. The signature and IP binding are enforced, and account access is re-validated against the databases. A token without an IP binding — one from the [OAuth server](#oauth-server) — cannot be refreshed: it is rejected with `401 jwt audience invalid. expected: <your IP>`.
+The response has the same shape as `GET /api/auth` — `accounts`, `user`, `token`, and `expires`. The signature and IP binding are enforced, and account access is re-validated against the databases — for a provider or passkey sign-in, databases are looked up again by identity, so the refreshed token includes databases joined or created since sign-in. If no database is accessible any more, refresh fails with `401 No accessible accounts`. A token without an IP binding — one from the [OAuth server](#oauth-server) — cannot be refreshed: it is rejected with `401 Invalid token`.
 
 Refresh keeps a session alive as long as you refresh regularly, but two limits apply:
 
@@ -93,7 +102,7 @@ After the user authenticates, the server appends the session token to the `next`
 https://your-app.com/callback?key={SESSION_TOKEN}
 ```
 
-The session token is short-lived (5 minutes) and bound to the user's browser IP. Your app's **frontend** must exchange it for a full JWT by calling `GET /api/auth` directly from the browser:
+The session token is short-lived (5 minutes), single use, and bound to the user's browser IP. Your app's **frontend** must exchange it for a full JWT by calling `GET /api/auth` directly from the browser:
 
 ```js
 const response = await fetch('https://entu.app/api/auth', {
@@ -115,7 +124,7 @@ Entu is also an OAuth 2.1 authorization server. Instead of handling the `next` r
 All OAuth endpoints live on the API origin `https://api.entu.app` — the `entu.app/api/…` alias cannot be used here, because discovery documents must sit at the root of the issuer.
 
 ::: info
-Every authorization is scoped to one database. Pass the database name as `db`, or the full resource URL as `resource`.
+Every authorization is scoped to one database. Pass the database name as `db`, or the full resource URL as `resource` with the database as its first path segment (e.g. `https://mcp.entu.app/mydatabase`). The `resource` host must be in the API's own domain; any other is ignored.
 :::
 
 ### Discovery
@@ -136,7 +145,7 @@ curl -X POST "https://api.entu.app/auth/register" \
   -d '{ "client_name": "My App", "redirect_uris": ["https://your-app.com/callback"] }'
 ```
 
-`redirect_uris` takes 1 to 10 URIs; `client_name` is optional and kept to 200 characters. The returned `client_id` carries its own redirect URIs and stays valid for a year. Store it — registering again on every start creates a new one needlessly.
+`redirect_uris` takes 1 to 10 absolute URIs of any scheme, so native apps can use a custom one; `client_name` is optional and kept to 200 characters. The returned `client_id` carries its own redirect URIs and stays valid for a year. Store it — registering again on every start creates a new one needlessly.
 
 ### Authorize
 
@@ -193,12 +202,14 @@ Authentication credentials are stored as properties on an entity. By default the
 
 - Stores the provider user ID along with other info returned by the OAuth provider (such as email)
 - Set automatically when a new person entity is created on first login
+- Writing it with any `string` stores an invite instead, valid 24 hours; on an existing entity the value `send-invite` also emails the invite link to the entity's `email` (`400 No email` without one) — see [Users → Adding Users](/configuration/users/#adding-users)
 
 ### `entu_passkey`
 
 - Stores a passkey's credential ID and public key — the private key never leaves the user's device
-- Added from the person entity in the Entu UI; one entity can have several passkeys
-- The same passkey can be stored in several databases, as one identity across Entu; a credential ID registered with another public key is refused
+- Added by signing in with a passkey to accept an invite (including **Add Login Method** on one's own person), by automatic user creation or by creating a new database — never written directly; one entity can have several passkeys
+- Can be deleted like any property value
+- The same passkey can be stored in several databases, as one identity across Entu; a credential ID registered anywhere in Entu with another public key is refused
 
 ### `entu_api_key`
 

@@ -8,7 +8,7 @@ Entities are queried via `GET /api/{db}/entity` using URL query parameters. The 
 
 ## Filters
 
-Filters follow the pattern `propertyName.type=value`. The type must match the property's data type.
+Filters follow the pattern `propertyName.type=value`. The type is the value field that holds the value: `string` for `string`, `text` and `counter` properties, `number` for `number` properties and the numeric part of a counter, `filesize`, `filename` or `filetype` for files. A `reference` value also carries the referenced entity's name in `string`.
 
 | Filter | Example | Description |
 |---|---|---|
@@ -18,7 +18,7 @@ Filters follow the pattern `propertyName.type=value`. The type must match the pr
 | `prop.string.exists=true\|false` | `email.string.exists=true` | Check whether a string property has a value |
 | `prop.reference=id` | `owner.reference=abc123` | Exact reference match |
 | `prop.reference.in=id1,id2` | `owner.reference.in=abc,def` | Match any of the listed entity IDs |
-| `prop.reference.exists=true\|false` | `photo.reference.exists=true` | Check whether a reference property has a value |
+| `prop.reference.exists=true\|false` | `owner.reference.exists=true` | Check whether a reference property has a value |
 | `prop.number=n` | `budget.number=1000` | Exact number match |
 | `prop.number.gt=n` | `budget.number.gt=500` | Greater than |
 | `prop.number.gte=n` | `budget.number.gte=500` | Greater than or equal |
@@ -52,7 +52,14 @@ Filters follow the pattern `propertyName.type=value`. The type must match the pr
 | `prop.filesize.in=a,b` | `attachment.filesize.in=1024,2048` | Match any of the listed file sizes |
 | `prop.filesize.exists=true\|false` | `photo.filesize.exists=true` | Check whether a file property has a value |
 
-The `regex` filter supports the flags `i`, `m` and `s`; an invalid pattern returns `400 Invalid regex`.
+- `exists` takes `true` or `false` on every type; any other value means `false`.
+- `gt`, `gte`, `lt`, `lte` and `ne` also work on `string` fields. `ne` also matches entities that don't have the property at all.
+- Other value fields — `filename`, `filetype`, `language` and so on — are filtered as strings with the same operators, e.g. `photo.filetype=image/jpeg`.
+- `regex` takes `/pattern/flags`. Only the flags `i`, `m` and `s` take effect and other flags are dropped, except `x`, which returns `400 Invalid regex` like an invalid pattern does. A value without `/` is used as the pattern as-is.
+- `date` and `datetime` values can also be given as a Unix timestamp in milliseconds.
+- On `boolean`, any value other than `true` means `false`.
+- An unknown operator is ignored and the filter matches the value exactly.
+- An invalid entity ID in a `reference` filter returns `400 Invalid ID`.
 
 Multiple filters are combined with `&` and all must match (AND logic). There is no built-in OR between different filter keys — use `.in` to match multiple values for the same property:
 
@@ -70,12 +77,14 @@ Prefix the sort field with `-` for descending order.
 | `sort=-prop.type` | `sort=-date.date` | Sort descending |
 | `sort=a,-b` | `sort=status.string,-date.date` | Multi-field sort |
 
+Without `sort`, entities are returned by `_id` ascending — in creation order.
+
 ## Pagination
 
 | Parameter | Example | Description |
 |---|---|---|
-| `limit=n` | `limit=50` | Max results to return (default: 100) |
-| `skip=n` | `skip=100` | Results to skip — use with `limit` for paging |
+| `limit=n` | `limit=50` | Max results to return (default: 100). `0` or a non-numeric value also means 100; there is no upper bound. |
+| `skip=n` | `skip=100` | Results to skip (default: 0) — use with `limit` for paging |
 
 ```bash
 # Page 1
@@ -109,6 +118,8 @@ Return only specific properties to reduce response size:
 GET /api/{db}/entity?props=name,status,_created
 ```
 
+`_id` is always returned.
+
 ## Grouping
 
 Return one row per distinct value combination instead of individual entities:
@@ -117,7 +128,7 @@ Return one row per distinct value combination instead of individual entities:
 GET /api/{db}/entity?_type.string=invoice&group=status.string&props=status
 ```
 
-Each row holds the `props` values of the first entity in its group and `_count`, the number of entities in the group; rows have no `_id`. `count` is the number of groups. `limit` and `skip` are ignored when grouping.
+Each row holds the `props` values of the first entity in its group and `_count`, the number of entities in the group; rows have no `_id`. The grouped values appear only if they are also listed in `props`. `count` is the number of groups. `limit` and `skip` are ignored when grouping.
 
 ## Common Patterns
 
@@ -134,8 +145,8 @@ Each row holds the `props` values of the first entity in its group and `_count`,
 # Children of a parent
 ?_parent.reference=PARENT_ID
 
-# Check if property exists
-?photo.reference.exists=true
+# Entities with a file in photo
+?photo.filesize.exists=true
 
 # Case-insensitive name search
 ?name.string.regex=/john/i

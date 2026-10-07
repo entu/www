@@ -8,7 +8,7 @@ Objekte päritakse läbi `GET /api/{db}/entity`, kasutades URL-päringuparameetr
 
 ## Filtrid
 
-Filtrid järgivad mustrit `propertyName.type=value`. Tüüp peab vastama parameetri andmetüübile.
+Filtrid järgivad mustrit `propertyName.type=value`. Tüüp on väärtuse väli, milles väärtus asub: `string` parameetritüüpide `string`, `text` ja `counter` puhul, `number` parameetritüübi `number` ja loenduri arvulise osa puhul, failide puhul `filesize`, `filename` või `filetype`. Viiteväärtusel on viidatava objekti nimi ka väljal `string`.
 
 | Filter | Näide | Kirjeldus |
 |---|---|---|
@@ -18,7 +18,7 @@ Filtrid järgivad mustrit `propertyName.type=value`. Tüüp peab vastama paramee
 | `prop.string.exists=true\|false` | `email.string.exists=true` | Kontrollib, kas stringiparameetril on väärtus |
 | `prop.reference=id` | `owner.reference=abc123` | Täpne viite vastavus |
 | `prop.reference.in=id1,id2` | `owner.reference.in=abc,def` | Vastab ühele loetletud objekti ID-dest |
-| `prop.reference.exists=true\|false` | `photo.reference.exists=true` | Kontrollib, kas viiteparameetril on väärtus |
+| `prop.reference.exists=true\|false` | `owner.reference.exists=true` | Kontrollib, kas viiteparameetril on väärtus |
 | `prop.number=n` | `budget.number=1000` | Täpne arvu vastavus |
 | `prop.number.gt=n` | `budget.number.gt=500` | Suurem kui |
 | `prop.number.gte=n` | `budget.number.gte=500` | Suurem või võrdne |
@@ -52,7 +52,14 @@ Filtrid järgivad mustrit `propertyName.type=value`. Tüüp peab vastama paramee
 | `prop.filesize.in=a,b` | `attachment.filesize.in=1024,2048` | Vastab ühele loetletud faili suurustest |
 | `prop.filesize.exists=true\|false` | `photo.filesize.exists=true` | Kontrollib, kas failiparameetril on väärtus |
 
-`regex` filter toetab lippe `i`, `m` ja `s`; vigane muster tagastab `400 Invalid regex`.
+- `exists` võtab iga tüübi puhul väärtuse `true` või `false`; mis tahes muu väärtus tähendab `false`.
+- `gt`, `gte`, `lt`, `lte` ja `ne` töötavad ka `string`-väljadel. `ne` vastab ka objektidele, millel seda parameetrit üldse pole.
+- Teisi väärtusvälju — `filename`, `filetype`, `language` jne — filtreeritakse stringidena samade operaatoritega, nt `photo.filetype=image/jpeg`.
+- `regex` võtab kuju `/pattern/flags`. Mõjuvad ainult lipud `i`, `m` ja `s`, teised lipud jäetakse ära, välja arvatud `x`, mis tagastab `400 Invalid regex` nagu vigane muster. Ilma `/`-ta väärtust kasutatakse mustrina nii, nagu see on.
+- `date` ja `datetime` väärtusi saab anda ka Unixi ajatemplina millisekundites.
+- `boolean` puhul tähendab mis tahes muu väärtus kui `true` väärtust `false`.
+- Tundmatut operaatorit ei arvestata ja filter vastab väärtusele täpselt.
+- Vigane objekti ID `reference`-filtris tagastab `400 Invalid ID`.
 
 Mitu filtrit ühendatakse `&`-ga ja kõik peavad vastama (AND loogika). Eri filtrivõtmete vahel pole sisseehitatud OR-i — kasuta `.in`, et sama parameetri jaoks vastata mitmele väärtusele:
 
@@ -70,12 +77,14 @@ Kahanevaks sortimiseks lisa sortimisvälja ette `-`.
 | `sort=-prop.type` | `sort=-date.date` | Sordi kahanevalt |
 | `sort=a,-b` | `sort=status.string,-date.date` | Mitme välja järgi sortimine |
 
+Ilma `sort`-ita tagastatakse objektid `_id` järgi kasvavalt — loomise järjekorras.
+
 ## Lehitsemine
 
 | Parameeter | Näide | Kirjeldus |
 |---|---|---|
-| `limit=n` | `limit=50` | Maksimaalne tagastatavate tulemuste arv (vaikimisi: 100) |
-| `skip=n` | `skip=100` | Vahele jäetavate tulemuste arv — kasuta koos `limit`-iga lehitsemiseks |
+| `limit=n` | `limit=50` | Maksimaalne tagastatavate tulemuste arv (vaikimisi: 100). Ka `0` või mittenumbriline väärtus tähendab 100; ülempiiri pole. |
+| `skip=n` | `skip=100` | Vahele jäetavate tulemuste arv (vaikimisi: 0) — kasuta koos `limit`-iga lehitsemiseks |
 
 ```bash
 # Lehekülg 1
@@ -109,6 +118,8 @@ Tagasta ainult konkreetsed parameetrid vastuse suuruse vähendamiseks:
 GET /api/{db}/entity?props=name,status,_created
 ```
 
+`_id` tagastatakse alati.
+
 ## Rühmitamine
 
 Tagasta üksikute objektide asemel üks rida iga erineva väärtuste kombinatsiooni kohta:
@@ -117,7 +128,7 @@ Tagasta üksikute objektide asemel üks rida iga erineva väärtuste kombinatsio
 GET /api/{db}/entity?_type.string=invoice&group=status.string&props=status
 ```
 
-Iga rida sisaldab oma rühma esimese objekti `props` väärtusi ja `_count`-i ehk rühma objektide arvu; ridadel pole `_id`-d. `count` on rühmade arv. Rühmitamisel `limit`-i ja `skip`-i ei arvestata.
+Iga rida sisaldab oma rühma esimese objekti `props` väärtusi ja `_count`-i ehk rühma objektide arvu; ridadel pole `_id`-d. Rühmitatud väärtused on ridadel ainult siis, kui need on ka `props`-is loetletud. `count` on rühmade arv. Rühmitamisel `limit`-i ja `skip`-i ei arvestata.
 
 ## Levinud mustrid
 
@@ -134,8 +145,8 @@ Iga rida sisaldab oma rühma esimese objekti `props` väärtusi ja `_count`-i eh
 # Ülemobjekti alam-objektid
 ?_parent.reference=PARENT_ID
 
-# Kontrolli, kas parameeter eksisteerib
-?photo.reference.exists=true
+# Objektid, mille photo parameetris on fail
+?photo.filesize.exists=true
 
 # Tõstutundetu nimeotsing
 ?name.string.regex=/john/i
