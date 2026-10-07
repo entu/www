@@ -64,7 +64,7 @@ If a file property named `photo` exists on an entity, the Entu UI will use it as
 
 ## Default Values
 
-A property definition can carry a `default` value that is applied automatically by the server when the entity is first created. It is also pre-filled in the create form so users see it immediately. The user can edit or clear the pre-filled value before saving — if they do, their value takes precedence.
+A property definition can carry a `default` value that is applied automatically by the server when the entity is first created. It is also pre-filled in the create form (except for `reference` properties) so users see it immediately. The user can change the pre-filled value before saving — if they do, their value takes precedence. Clearing it does not opt out: an empty field is not sent, so the server still applies the default.
 
 Supported for all types except `file` and `counter`. For `date` and `datetime`, relative offsets like `+1d` or `-7d` can be used instead of a fixed date.
 
@@ -104,7 +104,7 @@ System properties begin with `_` and control entity behavior, access rights, and
 | `_editor` | Can view and edit all properties except rights. |
 | `_expander` | Can view and create child entities. |
 | `_viewer` | Read-only access. |
-| `_noaccess` | Explicitly denied all access. Overrides inherited rights from parents. |
+| `_noaccess` | Explicitly removes all rights, including rights inherited from parents. Does not hide `domain` or `public` sharing. |
 | `_created` | Creation timestamp and user. Read-only, auto-generated. |
 | `_deleted` | Deletion timestamp and user. Set when the entity is deleted. |
 

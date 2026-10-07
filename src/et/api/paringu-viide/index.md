@@ -49,7 +49,10 @@ Filtrid järgivad mustrit `propertyName.type=value`. Tüüp peab vastama paramee
 | `prop.filesize.gte=n` | `attachment.filesize.gte=1000000` | Faili suurus suurem või võrdne |
 | `prop.filesize.lt=n` | `attachment.filesize.lt=5000000` | Faili suurus väiksem kui |
 | `prop.filesize.lte=n` | `attachment.filesize.lte=5000000` | Faili suurus väiksem või võrdne |
+| `prop.filesize.in=a,b` | `attachment.filesize.in=1024,2048` | Vastab ühele loetletud faili suurustest |
 | `prop.filesize.exists=true\|false` | `photo.filesize.exists=true` | Kontrollib, kas failiparameetril on väärtus |
+
+`regex` filter toetab lippe `i`, `m` ja `s`; vigane muster tagastab `400 Invalid regex`.
 
 Mitu filtrit ühendatakse `&`-ga ja kõik peavad vastama (AND loogika). Eri filtrivõtmete vahel pole sisseehitatud OR-i — kasuta `.in`, et sama parameetri jaoks vastata mitmele väärtusele:
 
@@ -88,14 +91,14 @@ GET /api/{db}/entity?limit=100&skip=100
 GET /api/{db}/entity?q=acme+corp
 ```
 
-Otsib kõigi parameetrite üleselt, millel on definitsioonil lubatud `search`.
+Otsib kõigi parameetrite üleselt, millel on definitsioonil lubatud `search`. Päring jagatakse tühikute kohalt sõnadeks ja iga sõna peab vastama; sõna vastab mis tahes sõnaosale tõstutundetult ning arvesse läheb ainult selle esimesed 20 märki.
 
 ::: tip
 Luba `search` parameetritel, mille järgi kasutajad loomulikult otsivad (nimi, pealkiri, kood). Ilma selleta ei leia `q=` selle välja väärtusi.
 :::
 
 ::: info
-Autenditud päringud otsivad täieliku privaatse registri üleselt (mis sisaldab domeeni-jagatud ja avalikke objekte). Autentimata päringud otsivad ainult avaliku registri üleselt. Eraldi domeeniotsingu registrit pole — domeeni-jagatud objektid ilmuvad autenditud otsingutes, kuna nende otsitavad väärtused on privaatses registris.
+Autenditud päringud otsivad täieliku privaatse registri üleselt (mis sisaldab domeeni-jagatud ja avalikke objekte). Autentimata päringud otsivad ainult avaliku registri üleselt. Domeeniotsingu registrit päringutes ei kasutata — domeeni-jagatud objektid ilmuvad autenditud otsingutes, kuna nende otsitavad väärtused on privaatses registris.
 :::
 
 ## Väljade valimine
@@ -105,6 +108,16 @@ Tagasta ainult konkreetsed parameetrid vastuse suuruse vähendamiseks:
 ```bash
 GET /api/{db}/entity?props=name,status,_created
 ```
+
+## Rühmitamine
+
+Tagasta üksikute objektide asemel üks rida iga erineva väärtuste kombinatsiooni kohta:
+
+```bash
+GET /api/{db}/entity?_type.string=invoice&group=status.string&props=status
+```
+
+Iga rida sisaldab oma rühma esimese objekti `props` väärtusi ja `_count`-i ehk rühma objektide arvu; ridadel pole `_id`-d. `count` on rühmade arv. Rühmitamisel `limit`-i ja `skip`-i ei arvestata.
 
 ## Levinud mustrid
 

@@ -49,7 +49,10 @@ Filters follow the pattern `propertyName.type=value`. The type must match the pr
 | `prop.filesize.gte=n` | `attachment.filesize.gte=1000000` | File size greater than or equal |
 | `prop.filesize.lt=n` | `attachment.filesize.lt=5000000` | File size less than |
 | `prop.filesize.lte=n` | `attachment.filesize.lte=5000000` | File size less than or equal |
+| `prop.filesize.in=a,b` | `attachment.filesize.in=1024,2048` | Match any of the listed file sizes |
 | `prop.filesize.exists=true\|false` | `photo.filesize.exists=true` | Check whether a file property has a value |
+
+The `regex` filter supports the flags `i`, `m` and `s`; an invalid pattern returns `400 Invalid regex`.
 
 Multiple filters are combined with `&` and all must match (AND logic). There is no built-in OR between different filter keys — use `.in` to match multiple values for the same property:
 
@@ -88,14 +91,14 @@ GET /api/{db}/entity?limit=100&skip=100
 GET /api/{db}/entity?q=acme+corp
 ```
 
-Searches across all properties that have `search` enabled on their definition.
+Searches across all properties that have `search` enabled on their definition. The query is split on spaces and every term must match; a term matches any part of a word, case-insensitively, and only its first 20 characters are used.
 
 ::: tip
 Enable `search` on properties users naturally search by (name, title, code). Without it, `q=` will not find values in that field.
 :::
 
 ::: info
-Authenticated requests search the full private index (which includes domain-shared and public entities). Unauthenticated requests search only the public index. There is no separate domain search index — domain-shared entities appear in authenticated searches because their searchable values are included in the private index.
+Authenticated requests search the full private index (which includes domain-shared and public entities). Unauthenticated requests search only the public index. The domain search index is not used for queries — domain-shared entities appear in authenticated searches because their searchable values are included in the private index.
 :::
 
 ## Field Selection
@@ -105,6 +108,16 @@ Return only specific properties to reduce response size:
 ```bash
 GET /api/{db}/entity?props=name,status,_created
 ```
+
+## Grouping
+
+Return one row per distinct value combination instead of individual entities:
+
+```bash
+GET /api/{db}/entity?_type.string=invoice&group=status.string&props=status
+```
+
+Each row holds the `props` values of the first entity in its group and `_count`, the number of entities in the group; rows have no `_id`. `count` is the number of groups. `limit` and `skip` are ignored when grouping.
 
 ## Common Patterns
 

@@ -48,6 +48,6 @@ Kaskaadid vajavad rohkem kui üht ringi. Õiguste muutus levib ühe hierarhiatas
 
 ## Mida kunagi edasi ei lükata
 
-Ligipääsukontroll lugemisel on alati värske. Iga päring lahendab päringu hetkel objekti salvestatud ligipääsuloendist selle, mida kutsuja näha tohib — kasutaja kohta ei puhverdata midagi ja aegunud arvutus ei laienda kunagi seda, mida keegi lugeda saab. Ülalkirjeldatud viivitus on alam-objektide õiguste **ümberarvutamises**, mitte nende rakendamises.
+Ligipääsukontroll lugemisel on alati värske. Iga päring lahendab päringu hetkel objekti salvestatud ligipääsuloendist selle, mida kutsuja näha tohib — kasutaja kohta ei puhverdata midagi. Ülalkirjeldatud viivitus on alam-objektide õiguste **ümberarvutamises**, mitte nende rakendamises.
 
 Kirjutamised on samuti kohesed: miski, mille saadad, ei lähe hilisemaks salvestamiseks järjekorda. Järjekorras on ümberarvutus, mitte sinu andmed.

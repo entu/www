@@ -32,9 +32,9 @@ Click the sign-in provider you want to use:
 - **Email** — we send you a link; clicking it signs you in. No password needed.
 - **Smart-ID, Mobile-ID, or ID card** — Estonian e-identity options.
 
-If you are already signed in to Entu, click **Create** instead.
+If you are already signed in to Entu, click **Create Database** instead.
 
-Entu never stores passwords, so there is no password to forget or leak. You can add more sign-in methods later — they all lead to the same account. Read more under [Authentication](/overview/authentication/).
+Entu never stores passwords, so there is no password to forget or leak. You can add more sign-in methods later, including a passkey — they all lead to the same account, and one passkey signs you in to every database you belong to. Read more under [Authentication](/overview/authentication/).
 
 ## 4. You're in
 

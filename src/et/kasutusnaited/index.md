@@ -78,15 +78,15 @@ Sinu tiim žongleerib tosina projektiga ja küsimusele "mis seis on?" vastatakse
 | `due_date` | `date` | `Tähtaeg` | |
 | `budget` | `number` | `Eelarve` | `decimals: 2` |
 | `tags` | `string` | `Märgend` | `label_plural: Märgendid`, `list` |
-| `code` | `counter` | `Projekti kood` | `readonly` |
+| `code` | `counter` | `Projekti kood` | |
 | `notes` | `text` | `Sisemised märkmed` | `hidden` |
 | `total_hours` | `number` | `Tunnid kokku` | `formula`, `readonly`, `decimals: 1` |
 
 ### Mida see demonstreerib
 
 - `set` muudab stringivälja rippmenüüks.
-- `counter` genereerib iga objekti jaoks unikaalse koodi (nt projektinumbrid).
-- `hidden` jätab välja muutamisvormist, kuid jääb objekti lehel nähtavaks — sobib valemipõhistele väärtustele.
+- `counter` annab objektile järjestuses järgmise numbri (nt projektinumbrid), kui klõpsad muutmisvormis **Genereeri**.
+- `hidden` peidab välja nii muutmisvormist kui ka objekti lehelt — väärtus on siiski salvestatud ja API kaudu kättesaadav.
 - `formula` väljal `total_hours` arvutab uuesti iga salvestamisega, kasutades alam-objektide või viitajate andmeid.
 
 ---
@@ -115,7 +115,6 @@ Aastate fotod, videod ja dokumendid on laiali ketastel ja pilvekaustades ning "s
 | `description` | text | |
 | `author` | reference | Viitab Isiku objektile |
 | `published` | boolean | |
-| `size` | number | Sea parameetri definitsioonil `formula: 'file.size'` — arvutab automaatselt manustatud failist |
 
 ### Struktuur
 
@@ -134,7 +133,7 @@ GET /api/{db}/entity?_type.string=media-item&tags.string=loodus
 
 ## Raamatukogu — Raamatud, Isikud ja Laenutused
 
-Kooli raamatukogu, kontori raamaturiiul või klubi varustusruum — asjad lähevad välja ja keegi ei mäleta täpselt, kelle kätte. Sa tahad kataloogi sellest, mis sul on, kes mida laenanud on, ja automaatset märget, kui miski on üle tähtaja.
+Kooli raamatukogu, kontori raamaturiiul või klubi varustusruum — asjad lähevad välja ja keegi ei mäleta täpselt, kelle kätte. Sa tahad kataloogi sellest, mis sul on, kes mida laenanud on, ja millal iga asi tagasi peab tulema.
 
 **Eesmärk:** Hallata raamatute ja audiovisuaalsete materjalide kogu, jälgida laenutajate andmeid ning salvestada laenutuste ajalugu koos tähtaegade ja tagastustega.
 
@@ -168,7 +167,6 @@ Kooli raamatukogu, kontori raamaturiiul või klubi varustusruum — asjad lähev
 | `lent_on` | date | |
 | `due_date` | date | |
 | `returned` | boolean | Sea `true`-ks, kui ese on tagastatud |
-| `overdue` | boolean | `formula: 'due_date < now() && !returned'`, `readonly` — arvutab automaatselt |
 
 ### Struktuur
 

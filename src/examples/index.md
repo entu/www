@@ -78,15 +78,15 @@ Your team juggles a dozen projects, and "what's the status?" is answered by scro
 | `due_date` | `date` | `Due Date` | |
 | `budget` | `number` | `Budget` | `decimals: 2` |
 | `tags` | `string` | `Tag` | `label_plural: Tags`, `list` |
-| `code` | `counter` | `Project Code` | `readonly` |
+| `code` | `counter` | `Project Code` | |
 | `notes` | `text` | `Internal Notes` | `hidden` |
 | `total_hours` | `number` | `Total Hours` | `formula`, `readonly`, `decimals: 1` |
 
 ### What this demonstrates
 
 - `set` turns a string field into a dropdown.
-- `counter` generates a unique code per entity (e.g. project numbers).
-- `hidden` keeps a field out of the edit form but visible on the entity page — good for formula-driven values.
+- `counter` gives an entity the next number in the sequence (e.g. project numbers) when you click **Generate** in the edit form.
+- `hidden` keeps a field out of both the edit form and the entity page — the value is still stored and available through the API.
 - `formula` on `total_hours` recalculates automatically on every save using child/referrer data.
 
 ---
@@ -115,7 +115,6 @@ Years of photos, videos, and documents are scattered across drives and cloud fol
 | `description` | text | |
 | `author` | reference | Points to a Person entity |
 | `published` | boolean | |
-| `size` | number | Set `formula: 'file.size'` on the property definition — auto-computed from the attached file |
 
 ### Structure
 
@@ -134,7 +133,7 @@ GET /api/{db}/entity?_type.string=media-item&tags.string=nature
 
 ## Library — Books, Patrons & Lendings
 
-A school library, a company bookshelf, or a club's equipment room — things go out, and nobody quite remembers to whom. You want a catalogue of what you own, who has borrowed what, and an automatic flag when something is overdue.
+A school library, a company bookshelf, or a club's equipment room — things go out, and nobody quite remembers to whom. You want a catalogue of what you own, who has borrowed what, and when each item is due back.
 
 **Goal:** Manage a book and audio-visual collection, track patron records, and record lending history including due dates and returns.
 
@@ -168,7 +167,6 @@ A school library, a company bookshelf, or a club's equipment room — things go 
 | `lent_on` | date | |
 | `due_date` | date | |
 | `returned` | boolean | Set to `true` when the item is back |
-| `overdue` | boolean | `formula: 'due_date < now() && !returned'`, `readonly` — auto-computed |
 
 ### Structure
 

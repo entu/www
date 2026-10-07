@@ -26,35 +26,42 @@ File uploads use a secure two-step flow:
 
 **Step 1 — Create the file property**
 
-POST the file metadata to the entity. The API responds with a property object that includes an `upload` field containing a signed URL and the required headers.
+POST the file metadata to the entity (`POST /api/{db}/entity/{_id}` — the body is an array, like any property write). The created property comes back in the response's `properties` array, with an `upload` field containing a signed URL and the required headers.
 
 ```json
-{
-  "type": "photo",
-  "filename": "cover.jpg",
-  "filesize": 1937,
-  "filetype": "image/jpeg"
-}
+[
+  {
+    "type": "photo",
+    "filename": "cover.jpg",
+    "filesize": 1937,
+    "filetype": "image/jpeg"
+  }
+]
 ```
 
 Response:
 ```json
 {
-  "_id": "507f1f77bcf86cd799439011",
-  "type": "photo",
-  "filename": "cover.jpg",
-  "filesize": 1937,
-  "filetype": "image/jpeg",
-  "upload": {
-    "url": "https://s3.amazonaws.com/bucket/path?signature...",
-    "method": "PUT",
-    "headers": {
-      "ACL": "private",
-      "Content-Disposition": "inline;filename=\"cover.jpg\"",
-      "Content-Length": 1937,
-      "Content-Type": "image/jpeg"
+  "_id": "6798938432faaba00f8fc72f",
+  "properties": [
+    {
+      "_id": "507f1f77bcf86cd799439011",
+      "type": "photo",
+      "filename": "cover.jpg",
+      "filesize": 1937,
+      "filetype": "image/jpeg",
+      "upload": {
+        "url": "https://s3.amazonaws.com/bucket/path?signature...",
+        "method": "PUT",
+        "headers": {
+          "ACL": "private",
+          "Content-Disposition": "inline;filename=\"cover.jpg\"",
+          "Content-Length": 1937,
+          "Content-Type": "image/jpeg"
+        }
+      }
     }
-  }
+  ]
 }
 ```
 
@@ -99,7 +106,7 @@ Generate a square thumbnail from the first file of an entity's `photo` property:
 GET /api/{db}/entity/{_id}/thumbnail/{size}
 ```
 
-The endpoint takes the first `photo` file, renders it, center-crops it to a square (cover fit), and produces a **JPEG**. Both **images** (`image/*`, except SVG) and **PDF** sources are supported — for PDFs, the first page is rendered.
+The endpoint takes the first `photo` file, renders it, center-crops it to a square (cover fit), and produces a **JPEG**. Both **images** (JPEG, PNG, GIF, BMP, TIFF) and **PDF** sources are supported — for PDFs, the first page is rendered. Source files over 25 MB or images over 40 megapixels are refused.
 
 The `size` path segment must be one of the allowed values (width and height of the square, in pixels):
 
@@ -122,9 +129,10 @@ Generated thumbnails are cached in object storage, so the first request for a gi
 | Response | Meaning |
 |---|---|
 | `200` | JSON `{ url }` with the signed thumbnail URL |
-| `400` | Invalid `size`, unsupported file type, or the file could not be decoded |
+| `400` | Invalid `size`, unsupported file type, image too large, or the file could not be decoded |
 | `403` | No access to the entity |
-| `404` | Entity not found, or it has no `photo` |
+| `404` | Entity not found, it has no `photo`, or the file is missing from storage |
+| `413` | Source file larger than 25 MB |
 
 ### Property thumbnail
 
@@ -134,7 +142,7 @@ Generate a square thumbnail from **any** individual file property — not just `
 GET /api/{db}/property/{_id}/thumbnail/{size}
 ```
 
-Where the entity endpoint always uses the entity's first `photo` file, this endpoint thumbnails the specific file property you reference. Behaviour is otherwise identical: it center-crops to a square (cover fit) and produces a **JPEG**. Both **images** (`image/*`) and **PDF** sources are supported — for PDFs, the first page is rendered. This is what powers the filename-hover thumbnail preview in the UI.
+Where the entity endpoint always uses the entity's first `photo` file, this endpoint thumbnails the specific file property you reference. Behaviour is otherwise identical: it center-crops to a square (cover fit) and produces a **JPEG**. Both **images** (JPEG, PNG, GIF, BMP, TIFF) and **PDF** sources are supported — for PDFs, the first page is rendered. This is what powers the filename-hover thumbnail preview in the UI.
 
 The `size` path segment must be one of the allowed values (width and height of the square, in pixels):
 
@@ -157,9 +165,10 @@ Generated thumbnails are cached in object storage, so the first request for a gi
 | Response | Meaning |
 |---|---|
 | `200` | JSON `{ url }` with the signed thumbnail URL |
-| `400` | Invalid `size`, the property is not a previewable file (not an image or PDF), or the file could not be decoded |
+| `400` | Invalid `size`, the property is not a previewable file (not an image or PDF), image too large, or the file could not be decoded |
 | `403` | No access to the property |
-| `404` | Property not found |
+| `404` | Property or its entity not found, or the file is missing from storage |
+| `413` | Source file larger than 25 MB |
 
 ## Deleting a File Property
 

@@ -24,13 +24,13 @@ Kogu seadistamine toimub Entu kasutajaliideses — koodi ega konfiguratsioonifai
 |---|---|
 | `name` | Sisemine identifikaator (nt `project`, `invoice`). Kasutatakse API päringutes — väiketähtedena, ilma tühikuteta. |
 | `label` | Kasutajaliideses kuvatav nimetus (nt `Projekt`, `Arve`). |
-| `description` | Selgitus, mida see objektitüüp esindab. Kuvatakse selle tüübi objektide muutamisvaates. |
+| `description` | Selgitus, mida see objektitüüp esindab. Kuvatakse selle tüübi objektide muutmisvaates ning nende objekti lehel tüübi sildi hüpikaknas. |
 
 **Käitumine**
 
 | Parameeter | Kirjeldus |
 |---|---|
-| `add_from` | Kontrollib, kust seda tüüpi objekte saab luua. Viita **menüü** objektile, et kuvada see tüüp tööriistaribal nupus „Uus …", kui see menüü on aktiivne. Viita **objektitüübile**, et lubada selle tüüpi objekte lisada alam-objektina mis tahes selle tüübi eksemplari alla. Viita **konkreetsele objektile**, et lubada luua seda tüüpi ainult selle konkreetse objekti alam-objektina. Ilma selleta ei paku nupp „Lisa" kunagi seda tüüpi. |
+| `add_from` | Kontrollib, kust seda tüüpi objekte saab luua. Viita **menüü** objektile, et kuvada see tüüp tööriistaribal nupus „Uus …", kui see menüü on aktiivne. Viita **objektitüübile**, et lubada selle tüüpi objekte lisada alam-objektina mis tahes selle tüübi eksemplari alla. Viita **konkreetsele objektile**, et lubada luua seda tüüpi ainult selle konkreetse objekti alam-objektina. Ilma selleta ei paku nupud „Uus …" ja „Lisa …" kunagi seda tüüpi. |
 | `default_parent` | Kui luuakse seda tüüpi uus objekt, lisatakse siin määratud objekt automaatselt täiendava `_parent`-na. Kasulik uute kirjete suunamiseks fikseeritud kausta sõltumata sellest, kuhu kasutaja klikkis „Lisa". |
 | `plugin` | Lisab plugina selle tüüpi objektidele. Vaata [Pluginad](/et/seadistamine/pluginad/). |
 
@@ -50,9 +50,9 @@ Objektitüübi lehel kasuta nuppu „Lisa", et luua alam-objekte tüübiga **Pro
 
 | Parameeter | Kirjeldus |
 |---|---|
-| `name` | Sisemine identifikaator (nt `status`, `due_date`). Kasutatakse API päringutes — peab sisaldama ainult tähti, numbreid ja allkriipse (`A–Z`, `a–z`, `0–9`, `_`). Peab objektitüübi sees olema unikaalne. |
+| `name` | Sisemine identifikaator (nt `status`, `due_date`). Kasutatakse API päringutes — peab sisaldama ainult tähti, numbreid ja allkriipse (`A–Z`, `a–z`, `0–9`, `_`) ega tohi alata märgiga `_` (reserveeritud süsteemsetele parameetritele). Peab objektitüübi sees olema unikaalne. |
 | `type` | Andmetüüp — määrab kasutajaliidese sisestusviisi ja kuidas väärtused salvestatakse. Vaata [Parameetrite tüübid](#parameetrite-tuubid) alt. |
-| `label` | Kasutajaliideses välja kohal kuvatav nimetus nii muutamisvormis kui objekti lehel. |
+| `label` | Kasutajaliideses välja kohal kuvatav nimetus nii muutmisvormis kui objekti lehel. |
 | `label_plural` | Mitmusekuju nimetus, mis kuvatakse mitme väärtuse korral (nt `Sildid` `Sildi` asemel). |
 | `description` | Abitekst, mis kuvatakse välja nimeduse kõrval infopopoveris. |
 
@@ -60,10 +60,10 @@ Objektitüübi lehel kasuta nuppu „Lisa", et luua alam-objekte tüübiga **Pro
 
 | Parameeter | Kirjeldus |
 |---|---|
-| `group` | Grupeerib seotud väljad nimega jaotisteks; väärtust kasutatakse jaotuse pealkirjana. Kehtib nii muutamisvormis kui objekti lehel. |
+| `group` | Grupeerib seotud väljad nimega jaotisteks; väärtust kasutatakse jaotuse pealkirjana. Kehtib nii muutmisvormis kui objekti lehel. |
 | `ordinal` | Numbriline järjestus grupis. Väiksemad numbrid ilmuvad ees. |
-| `hidden` | Peidab välja muutamisvormist, kuid kuvab selle väärtuse objekti lehel endiselt. Kasuta valemipõhiste või integratsiooni hallatavate väljade jaoks. |
-| `readonly` | Peidetud muutamisvormist; kuvatakse objekti lehel kirjutuskaitstud väärtusena. |
+| `hidden` | Peidab välja nii muutmisvormist kui ka objekti lehelt. Väärtus on endiselt salvestatud ja API tagastab selle. Kasuta integratsiooni hallatavate või abiväljade jaoks. |
+| `readonly` | Peidetud muutmisvormist; kuvatakse objekti lehel kirjutuskaitstud väärtusena. |
 | `table` | Kaasab selle parameetri veerguna alam-objektide tabelivaates. |
 
 **Käitumine**
@@ -74,26 +74,25 @@ Objektitüübi lehel kasuta nuppu „Lisa", et luua alam-objekte tüübiga **Pro
 | `default` | Eeltäidetud väärtus uue objekti loomisel. Toetab `date`/`datetime` jaoks suhtelisi nihkeid (nt `+1d`, `-7d`, `+1m`). Vaata [Parameetrite vaikeväärtused](#parameetrite-vaikevaartused) alt. |
 | `list` | Lubab mitu väärtust. Täiendavad sisestusväljad ilmuvad automaatselt, kui kasutaja neid täidab. |
 | `multilingual` | Salvestab eraldi väärtuse iga keele jaoks. Iga sisestusvälja kõrvale ilmub keelevalija. |
-| `plugin` | Lisab plugina välja tasemel kohandatud kasutajaliideseks või käitumiseks. |
 
 **Arvutamine**
 
 | Parameeter | Kirjeldus |
 |---|---|
-| `formula` | Serveripoolne avaldis, mis arvutatakse iga salvestamisega; tulemus asendab välja salvestatud väärtuse. Vaata [Valemid](/et/api/valemid/). |
+| `formula` | Serveripoolne avaldis, mis arvutatakse iga salvestamisega; tulemus asendab välja salvestatud väärtuse. Valemiga välju muutmisvormis ei kuvata. Vaata [Valemid](/et/api/valemid/). |
 | `search` | Indekseerib väärtused täistekstiotsinguks. Vali hoolikalt — liiga paljude väljade indekseerimine aeglustab otsimist kogu konto ulatuses. |
 
 **Tüübi valikud**
 
 | Parameeter | Kirjeldus |
 |---|---|
-| `markdown` | Lubab markdowni renderdamise `text` tüüpi väljadel. |
+| `markdown` | Kuvab `text` (ja `string`) väärtused objekti lehel markdownina. |
 | `decimals` | Kümnendkohtade arv `number` tüüpi väljadel. |
-| `set` | Määratleb lubatud väärtuste fikseeritud nimekirja — renderdab rippmenüü vabateksti asemel. Siin lisatud väärtused kuvatakse objekti muutamisvaates valikutena. Kasuta `string` tüübiga. |
+| `set` | Määratleb lubatud väärtuste fikseeritud nimekirja — renderdab rippmenüü vabateksti asemel. Siin lisatud väärtused kuvatakse objekti muutmisvaates valikutena. Kasuta `string` tüübiga. |
 | `reference_query` | Filtreerib, milliseid objekte saab `reference` väljal valida (nt `_type.string=person`). |
 
 ::: tip
-Luba `search` parameetritel, mille järgi kasutajad sageli filtreerivad (nt `name`, `status`, `reference code`).
+Luba `search` parameetritel, mille järgi kasutajad sageli täistekstiotsinguga objekte otsivad (nt `name`, `status`, `reference code`). Päringus parameetri väärtuse järgi filtreerimine töötab ka ilma selleta.
 :::
 
 ### Parameetrite tüübid
@@ -145,7 +144,7 @@ Täieliku töönäite saamiseks objektitüübist koos parameetritega vaata [Kasu
 
 ## Parameetrite vaikeväärtused
 
-`default` väärtust rakendatakse automaatselt serveri poolt objekti esmaloomisel — sõltumata sellest, kas loomine toimub kasutajaliidese kaudu või otse API kaudu. See eeltäidetakse ka loomisvormis, et kasutajad näeksid seda kohe. Kui helistaja juba pakub väärtuse selle parameetri jaoks, jäetakse vaikeväärtus vahele.
+`default` väärtust rakendatakse automaatselt serveri poolt objekti esmaloomisel — sõltumata sellest, kas loomine toimub kasutajaliidese kaudu või otse API kaudu. See eeltäidetakse ka loomisvormis, et kasutajad näeksid seda kohe (v.a `reference` vaikeväärtused, mida rakendab ainult server). `file` ja `counter` parameetritel vaikeväärtusi pole. Kui helistaja juba pakub väärtuse selle parameetri jaoks, jäetakse vaikeväärtus vahele.
 
 **Toetatud formaadid tüübi kaupa:**
 

@@ -79,7 +79,7 @@ A background worker periodically makes every receiving database match its source
 
 ## Security guarantees
 
-- Consent is mutual and independently revocable, each side in its own database, with immediate effect.
+- Consent is mutual and independently revocable, each side in its own database, taking effect on the next background sync, within seconds.
 - Mirroring is strictly one-way; no write access ever crosses a database boundary.
 - Credentials (API keys, passkeys), rights, and internal settings (billing limits) can never be shared — enforced in the engine, not by configuration.
 - Nothing crosses unless the source offered it *and* granted it *and* the receiver accepted it.

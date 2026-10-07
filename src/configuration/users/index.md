@@ -9,8 +9,9 @@ Person entities represent user accounts in Entu. Each person can authenticate an
 ## Adding Users
 
 1. Create a new entity of type **Person**
-2. Enter the person's email address in the `entu_user` field
-3. Click **Send Invitation** — the user receives a link to complete sign-in
+2. Enter the person's email address in the `email` field
+3. Click **Send Invite** on the `entu_user` field — the invitation is emailed to that address with a link valid for 24 hours
+4. The person opens the link and signs in with any option — passkey, Apple, Google, e-mail, Smart-ID, Mobile-ID or ID-card. The sign-in is linked to the person entity: an `entu_passkey` credential for a passkey, an `entu_user` credential for the others
 
 ### User Rights
 
@@ -20,7 +21,7 @@ See [Entities → Access Rights](/overview/entities/#access-rights) for the full
 
 ## Automatic User Creation
 
-If you want to allow access to all users who authenticate via OAuth, Entu can automatically create a person entity for them on first login — no manual setup required.
+If you want to allow access to everyone who signs in, Entu can automatically create a person entity for them on first login — no manual setup required. This works with every sign-in option: a passkey sign-in creates the person with an `entu_passkey` credential, any other option with an `entu_user` credential. The person's `email` and `name` are filled in when the sign-in provides them.
 
 ::: warning
 Auto-created users are regular users. They will have access to all entities and properties that use `domain` sharing. Make sure your sharing settings are intentional before enabling this.
@@ -41,6 +42,7 @@ All of the following must be true for auto-creation to trigger:
 1. The `database` entity has an `add_user` property referencing the parent entity where new person entities will be created (e.g. a "Users" folder)
 2. A person entity type definition exists in the database (`_type: entity`, `name: person`)
 3. The authentication request includes the `db` query parameter
-4. No existing person entity already has `entu_user` matching the OAuth email
+4. No person entity in the database is linked to this sign-in yet — no matching `entu_user` (same provider account, or a legacy entry with the same email) and no matching `entu_passkey`
+5. The sign-in is not accepting an invite
 
 After creation, the new person entity is automatically set as its own `_editor` — so users can update their own profile properties right away.

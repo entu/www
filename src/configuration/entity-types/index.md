@@ -24,13 +24,13 @@ All configuration happens through the Entu UI — no code or config files.
 |---|---|
 | `name` | Internal identifier (e.g. `project`, `invoice`). Used in API queries — lowercase, no spaces by convention. |
 | `label` | Display name shown in the UI (e.g. `Project`, `Invoice`). |
-| `description` | Explanation of what this entity type represents. Shown on the edit view of entities of this type. |
+| `description` | Explanation of what this entity type represents. Shown on the edit view of entities of this type, and in a popover on the type label of their entity page. |
 
 **Behaviour**
 
 | Param | Description |
 |---|---|
-| `add_from` | Controls where entities of this type can be created. Reference a **menu** entity to show this type in the "New …" button when that menu is active. Reference an **entity type** to allow adding this type as a child on any instance of that type. Reference a **specific entity** to allow creating this type only as a child of that specific entity. Without this, the "Add" button will never offer this type. |
+| `add_from` | Controls where entities of this type can be created. Reference a **menu** entity to show this type in the "New …" button when that menu is active. Reference an **entity type** to allow adding this type as a child on any instance of that type. Reference a **specific entity** to allow creating this type only as a child of that specific entity. Without this, the "New …" and "Add …" buttons will never offer this type. |
 | `default_parent` | When a new entity of this type is created, the entity set here is automatically added as an additional `_parent`. Useful for routing new records into a fixed folder regardless of where the user clicked "Add". |
 | `plugin` | Attaches a plugin to run on entities of this type. See [Plugins](/configuration/plugins/). |
 
@@ -50,7 +50,7 @@ On the entity type's page, use the "Add" button to create child entities of type
 
 | Param | Description |
 |---|---|
-| `name` | Internal identifier (e.g. `status`, `due_date`). Used in API queries — must contain only letters, digits, and underscores (`A–Z`, `a–z`, `0–9`, `_`). Must be unique within the entity type. |
+| `name` | Internal identifier (e.g. `status`, `due_date`). Used in API queries — must contain only letters, digits, and underscores (`A–Z`, `a–z`, `0–9`, `_`) and can't start with `_` (reserved for system properties). Must be unique within the entity type. |
 | `type` | Data type — determines the UI input and how values are stored. See [Property Types](#property-types) below. |
 | `label` | Display name shown above the field in both the edit form and entity page. |
 | `label_plural` | Plural label shown when the field has multiple values (e.g. `Tags` instead of `Tag`). |
@@ -62,7 +62,7 @@ On the entity type's page, use the "Add" button to create child entities of type
 |---|---|
 | `group` | Groups related fields into named sections; the value is used as the section heading. Applies in both the edit form and entity page. |
 | `ordinal` | Numeric sort order within the group. Lower numbers appear first. |
-| `hidden` | Hides the field from the edit form but still shows its value on the entity page. Use for formula-driven or integration-managed fields. |
+| `hidden` | Hides the field from both the edit form and the entity page. The value is still stored and returned by the API. Use for integration-managed or helper fields. |
 | `readonly` | Hidden from the edit form; shown on the entity page as a read-only value. |
 | `table` | Includes this property as a column in the child list table view. |
 
@@ -74,26 +74,25 @@ On the entity type's page, use the "Add" button to create child entities of type
 | `default` | Pre-filled value when creating a new entity. Supports relative offsets for `date`/`datetime` (e.g. `+1d`, `-7d`, `+1m`). See [Property Defaults](#property-defaults) below. |
 | `list` | Allows multiple values. Extra inputs appear automatically as the user fills them in. |
 | `multilingual` | Stores a separate value per language. A language selector appears next to each input. |
-| `plugin` | Attaches a plugin at the field level for custom UI or behaviour. |
 
 **Computation**
 
 | Param | Description |
 |---|---|
-| `formula` | A server-side expression computed on every save; the result replaces the field's stored value. See [Formulas](/api/formulas/). |
+| `formula` | A server-side expression computed on every save; the result replaces the field's stored value. Formula fields are left out of the edit form. See [Formulas](/api/formulas/). |
 | `search` | Indexes values for full-text search. Choose carefully — indexing too many fields slows down search across the entire account. |
 
 **Type options**
 
 | Param | Description |
 |---|---|
-| `markdown` | Enables markdown rendering for `text` type fields. |
+| `markdown` | Renders `text` (and `string`) values as markdown on the entity page. |
 | `decimals` | Number of decimal places for `number` type fields. |
 | `set` | Defines a fixed list of allowed values — renders a dropdown instead of free text. Values added here are presented as options in the entity edit view. Use with `string` type. |
 | `reference_query` | Filters which entities are selectable in a `reference` field (e.g. `_type.string=person`). |
 
 ::: tip
-Enable `search` on properties users frequently filter by (e.g. `name`, `status`, `reference code`).
+Enable `search` on properties users frequently look entities up by in full-text search (e.g. `name`, `status`, `reference code`). Filtering by a property value in a query works without it.
 :::
 
 ### Property Types
@@ -145,7 +144,7 @@ For a full worked example of an entity type with properties, see [Use-Case Examp
 
 ## Property Defaults
 
-The `default` value is applied automatically by the server when an entity is first created — regardless of whether creation happens through the UI or directly via the API. It is also pre-filled in the create form so users see it immediately. If the caller already provides a value for that property, the default is skipped.
+The `default` value is applied automatically by the server when an entity is first created — regardless of whether creation happens through the UI or directly via the API. It is also pre-filled in the create form so users see it immediately (except `reference` defaults, which only the server applies). `file` and `counter` properties have no defaults. If the caller already provides a value for that property, the default is skipped.
 
 **Supported formats by type:**
 

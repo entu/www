@@ -48,6 +48,6 @@ Cascades take more than one pass. A rights change propagates one level of the hi
 
 ## What is never deferred
 
-Access control on reads is always live. Every request resolves what the caller may see from the entity's stored access list at query time — nothing is cached per user, and a stale computation never widens what someone can read. The delay described above is in *recomputing* rights for descendants, never in *applying* them.
+Access control on reads is always live. Every request resolves what the caller may see from the entity's stored access list at query time — nothing is cached per user. The delay described above is in *recomputing* rights for descendants, never in *applying* them.
 
 Writes are equally immediate: nothing you send is queued for later storage. The queue holds recomputation, not your data.

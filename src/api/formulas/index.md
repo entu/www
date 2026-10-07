@@ -6,7 +6,7 @@ description: "Formulas compute property values automatically on every save, usin
 
 Formulas let a property compute its value automatically on every save, based on data from the same entity, its parents, its children, or entities that reference it.
 
-To use a formula: set the `formula` flag on a property definition and write the expression as the formula value. Computed properties cannot be edited manually and are skipped when duplicating an entity.
+To use a formula: write the expression into the `formula` field of a property definition. Computed properties cannot be edited manually and are skipped when duplicating an entity.
 
 Formulas are evaluated in two passes so that properties depending on other formula properties resolve correctly.
 
@@ -110,7 +110,7 @@ Unlike same-entity formulas, a `_referrer` formula depends on **other** entities
 
 ## Value types
 
-Inside a formula every value is a **number**, a **string** or a **boolean** — nothing else. A field reference converts each property value by its type:
+Inside a formula every value is a **number**, a **string** or a **boolean** — apart from IDs, described below the table. A field reference converts each property value by its type:
 
 | Property type | Value in the formula | Example |
 |---|---|---|
@@ -121,11 +121,13 @@ Inside a formula every value is a **number**, a **string** or a **boolean** — 
 | `datetime` | string, ISO 8601 in UTC with milliseconds | `"2026-01-31T12:30:00.000Z"` |
 | `reference` | string — the **name** of the referenced entity, or its ID when it has no name | `"Acme Ltd"` |
 | `counter` | number — the numeric part of the counter, not the formatted string | `42` for `INV-0042` |
-| `file` | string — an internal ID, not the file name; not useful in formulas | |
+| `file` | an internal ID, not the file name; not useful in formulas | |
 | `formula` | whatever that formula produced | |
-| `_id`, `propertyName.*._id` | string — the entity ID | `"65a1b2c3d4e5f6a7b8c9d0e1"` |
+| `_id`, `propertyName.*._id` | the entity ID | `65a1b2c3d4e5f6a7b8c9d0e1` |
 
 To get the ID of a referenced entity instead of its name, use `propertyName.*._id`.
+
+An ID — from `_id`, `*._id`, a `file` value or a reference without a name — is not a string inside the formula. `CONCAT`, `CONCAT_WS` and the stored result write it as text, but it never equals a string literal in `EQ` / `IN`, `UNIQUE` does not merge equal IDs, and `UPPER`, `LOWER`, `REGEX`, `MIN`, `MAX` and `SORT` return no value for it. `COUNT` and `EXISTS` work as expected.
 
 In an ordinary formula a **multilingual** property pushes the values of **all** languages as one list — `name` with an Estonian and an English value is a two-value slot — and the result has no language. To get one result per language, make the formula property multilingual — see [Multilingual formulas](#multilingual-formulas).
 
@@ -174,7 +176,7 @@ A value that does not match the pattern passes through unchanged. To extract a s
 | `MULTIPLY` | all | number | Product of all values. |
 | `DIVIDE` | all | number | First value divided by the rest, in order. Division by zero → no value. |
 | `ABS` | 1 | number | Absolute value of every number in the input slot. |
-| `ROUND` | 2 | number | Pops `decimals` (a single number) and `value`. Rounds every number in `value` to `decimals` decimal places. |
+| `ROUND` | 2 | number | Pops `decimals` (a single integer from 0 to 100) and `value`. Rounds every number in `value` to `decimals` decimal places. |
 | `FLOOR`, `CEIL` | 1 | number | Rounds every number in the input slot down / up to the nearest integer. |
 
 All of them are strict numeric — any non-number anywhere in the input → no value. Convert strings with [`NUMBER`](#conversion) first.
@@ -209,12 +211,12 @@ Inside a formula dates are plain ISO strings: a `date` or `datetime` field refer
 
 | Operator | Takes | Result | Behavior |
 |---|---|---|---|
-| `EQ`, `NE` | 2 | boolean | Strict `===` / `!==` across the cross product. |
-| `GT`, `GTE`, `LT`, `LTE` | 2 | boolean | Ordering across the cross product. Both sides must be numbers or both strings — pairs of incompatible types are skipped. |
+| `EQ`, `NE` | 2 | boolean | Strict equality. `EQ` is true if any left value `===` any right value; `NE` is true if any left value equals none of the right values. |
+| `GT`, `GTE`, `LT`, `LTE` | 2 | boolean | Ordering across the cross product. Both sides must be numbers or both strings — pairs of incompatible types are skipped; if no pair is comparable → no value. |
 | `IN`, `NIN` | all | boolean | First slot = needle, remaining slots = haystack. `IN` is true if **any** needle value strict-equals **any** haystack value; `NIN` is the negation. |
 | `EXISTS` | 1 | boolean | True if the input slot resolves to at least one value. |
 
-`EQ` … `LTE` and `IN` use **ANY** semantics: true if any left value satisfies the operator against any right value.
+`EQ`, `GT`, `GTE`, `LT`, `LTE` and `IN` use **ANY** semantics: true if any left value satisfies the operator against any right value. `NE` is not the negation of `EQ` on lists: with left values 1, 2 and right value 1 it is true; with left value 1 and right values 1, 2 it is false.
 
 ### Logic and conditions
 
@@ -243,7 +245,7 @@ Most operators return no value (the property is not written) when their inputs r
 | `IN`, `NIN` | empty needle or empty haystack → `false` / `true` respectively |
 | `EXISTS` | always returns a boolean |
 | `AND`, `OR`, `NOT` | empty operand → no value |
-| `IF`, `WHEN` | no value if `cond` is empty or not a single boolean; `WHEN` returns no value when `cond` is `false` |
+| `IF`, `WHEN` | no value if `cond` is empty or not a single boolean, or if the chosen branch is empty; `WHEN` returns no value when `cond` is `false` |
 
 ## Examples
 
@@ -316,7 +318,7 @@ price tax SUM quantity MULTIPLY
 total quantity DIVIDE 2 ROUND
 ```
 
-**Absolute difference, rounded:**
+**Difference of absolute values, rounded:**
 ```
 sum ABS invoice_sum ABS SUBTRACT 2 ROUND
 ```
@@ -414,3 +416,5 @@ Because variadic reducers consume the **entire** stack, a formula can practicall
 If you need two independent reducer results combined together (e.g. a count and a sum each rendered to a string), split the calculation into two formula properties: define one property whose formula produces the count, another whose formula produces the sum, and a third whose formula references both. The two-pass evaluator resolves the dependency.
 
 Fixed-arity operators (`EQ`, `GT`, `AND`, `IF`, `ROUND`, `ABS`, …) can be chained freely.
+
+A formula produces no value when an operator finds fewer slots on the stack than it takes, or when more than one slot is left on the stack at the end.

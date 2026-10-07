@@ -47,19 +47,23 @@ Vastus — assistendi vastus, valikuliselt koos pakutud toimingutega:
         "op": "add_property_definition",
         "tempId": "$1",
         "params": { "...": "..." },
-        "description": "Lisa numbriparameeter \"birthyear\" objektitüübile \"person\""
+        "description": "Add new number property definition \"birthyear\" to type \"person\"",
+        "properties": [{ "...": "..." }]
       }
     ]
-  }
+  },
+  "usage": { "total": 12840, "cached": 9216 }
 }
 ```
 
 - `message` — assistendi vastuse tekst
-- `proposal` — olemas ainult siis, kui assistent pakkus kirjutamistoiminguid
+- `proposal` — olemas ainult siis, kui assistent pakkus kirjutamistoiminguid (ühes vastuses kuni 25)
 - `op` — toimingu tüüp, üks allolevatest tüüpidest
 - `tempId` — ajutine id (`$1`, `$2`, …), millele hilisemad toimingud võivad viidata, nt uus parameetri definitsioon, mis osutab samas ettepanekus varem loodud objektitüübile
 - `params` — toimingu parameetrid, mille genereerib assistent
-- `description` — inimloetav kirjeldus, mis kuvatakse kasutajale ülevaatamiseks
+- `description` — ingliskeelne inimloetav kirjeldus, mille koostab server ja mis kuvatakse kasutajale ülevaatamiseks
+- `properties` — parameetriväärtused, mille toiming kirjutab, lahendamata tüübinimede ja tempId-dega, ülevaatamiseks
+- `usage` — selle päringu kasutatud AI tokenid: `total` kõik tokenid, `cached` vahemälust loetud osa
 
 Toimingute tüübid:
 
@@ -101,7 +105,8 @@ Päringu keha:
       "op": "add_property_definition",
       "tempId": "$1",
       "params": { "...": "..." },
-      "description": "Lisa numbriparameeter \"birthyear\" objektitüübile \"person\""
+      "description": "Add new number property definition \"birthyear\" to type \"person\"",
+      "properties": [{ "...": "..." }]
     }
   ]
 }
@@ -109,7 +114,7 @@ Päringu keha:
 
 | Väli | Kirjeldus |
 |---|---|
-| `operations` | Toimingud vestluse ettepanekust — 1 kuni 25 kirjet, käivitatakse järjekorras |
+| `operations` | Toimingud vestluse ettepanekust — 1 kuni 25 kirjet, käivitatakse järjekorras. Kasutatakse ainult `op`-i ja `params`-it; tempId-d määratakse uuesti järjekorra järgi (`$1` on esimene toiming). |
 
 Vastus:
 

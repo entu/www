@@ -66,7 +66,7 @@ Lae failid otse S3-sse üles, kasutades allkirjastatud URL-i — ära vahenda fa
 
 ## Jõudlus
 
-**Indekseeri sageli päritavaid parameetreid**, lubades parameetri definitsioonil `search`. Süsteemiparameetrid `_type` ja `_parent` on juba indekseeritud.
+**Tee parameetrid `q` abil leitavaks**, lubades parameetri definitsioonil `search` — ainult need väärtused lähevad täistekstotsingu indeksisse. Filtrid `_type.string`, `_parent.reference` ja `name.string` kasutavad andmebaasi indekseid.
 
 **Väldi tarbetuid agregatsioone** — tavalised GET-päringud tagastavad vahemällu salvestatud andmeid. Kasuta `GET /api/{db}/entity/{_id}/aggregate` ainult siis, kui vajad pärast väliseid muutusi värskeid valemi väärtusi.
 
@@ -75,7 +75,7 @@ Lae failid otse S3-sse üles, kasutades allkirjastatud URL-i — ära vahenda fa
 **Kontrolli olekukoode:**
 - `401` — Uuenda autentimistokenit
 - `403` — Kasutajal puuduvad õigused; kontrolli objekti õigusi
-- `404` — Objekt/parameeter ei leitud või puudub juurdepääs
+- `404` — Objekti/parameetrit ei leitud
 - `400` — Kontrolli päringu keha struktuuri
 
 Proovi `5xx` vigu uuesti eksponentsiaalse taandumisega. Ära proovi `4xx` vigu uuesti.

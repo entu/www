@@ -9,8 +9,9 @@ Entu AI is a chat assistant built into the Entu app. Open it with the **sparkles
 ## What It Can Do
 
 - **Answer configuration questions** — "Which properties does `person` have?", "Which entity types reference `project`?"
+- **Answer data questions** — search entities, read their values and change history, and fetch file download links, all within your rights
 - **Propose configuration changes** — create entity types, add or change property definitions, including [formula](/api/formulas/) properties
-- **Propose data changes** — create or update data entities
+- **Propose data changes** — create or update data entities, or delete individual property values
 
 ## Reviewing and Applying Changes
 
@@ -32,7 +33,7 @@ Entu AI runs entirely with your own rights. It can only see what you can see and
 
 ## Privacy
 
-Conversations are not stored on the server. When you close the chat, the conversation is gone.
+Conversations are not stored on the server — they live only in your open browser tab. Closing the chat panel keeps the conversation; it is cleared when you click **New chat**, switch to another database, or reload the page.
 
 ## Example Prompts
 

@@ -64,7 +64,7 @@ Kui objektil on olemas `photo` nimeline failiparameeter, kasutab Entu kasutajali
 
 ## Vaikeväärtused
 
-Parameetri definitsioon võib kanda `default` väärtust, mida rakendatakse automaatselt serveri poolt objekti esmaloomisel. See eeltäidetakse ka loomisvormis, et kasutajad näeksid seda kohe. Kasutaja saab eeltäidetud väärtust enne salvestamist muuta või tühjendada — kui ta seda teeb, on tema väärtus ülimuslik.
+Parameetri definitsioon võib kanda `default` väärtust, mida rakendatakse automaatselt serveri poolt objekti esmaloomisel. See eeltäidetakse ka loomisvormis (välja arvatud `reference` parameetrid), et kasutajad näeksid seda kohe. Kasutaja saab eeltäidetud väärtust enne salvestamist muuta — kui ta seda teeb, on tema väärtus ülimuslik. Tühjendamine vaikeväärtusest ei loobu: tühja välja ei saadeta, seega rakendab server vaikeväärtuse ikkagi.
 
 Toetatud kõigile tüüpidele peale `file` ja `counter`. `date` ja `datetime` jaoks saab kasutada suhtelisi nihkeid nagu `+1d` või `-7d` fikseeritud kuupäeva asemel.
 
@@ -104,7 +104,7 @@ Süsteemparameetrid algavad `_`-ga ja kontrollivad objekti käitumist, juurdepä
 | `_editor` | Saab vaadata ja muuta kõiki parameetreid peale õiguste. |
 | `_expander` | Saab vaadata ja luua alam-objekte. |
 | `_viewer` | Ainult lugemisõigus. |
-| `_noaccess` | Selgesõnaliselt kõik juurdepääsud keelatud. Tühistab ülemobjektilt päritavad õigused. |
+| `_noaccess` | Eemaldab selgesõnaliselt kõik õigused, ka ülemobjektidelt päritud õigused. Ei peida `domain` või `public` jagamist. |
 | `_created` | Loomise ajatempel ja kasutaja. Ainult lugemine, automaatselt genereeritud. |
 | `_deleted` | Kustutamise ajatempel ja kasutaja. Seadistatakse objekti kustutamisel. |
 

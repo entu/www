@@ -6,7 +6,7 @@ description: "Valemid arvutavad parameetri väärtuse automaatselt igal salvestu
 
 Valemid võimaldavad parameetril arvutada oma väärtuse automaatselt iga salvestamisega, tuginedes sama objekti andmetele, selle ülemobjektidele, alam-objektidele või sellele viitavatele objektidele.
 
-Valemi kasutamiseks: sea parameetri definitsioonil lipp `formula` ja kirjuta avaldis valemi väärtusena. Arvutatud parameetreid ei saa käsitsi muuta ja need jäetakse objekti dubleerimisel vahele.
+Valemi kasutamiseks: kirjuta avaldis parameetri definitsiooni välja `formula`. Arvutatud parameetreid ei saa käsitsi muuta ja need jäetakse objekti dubleerimisel vahele.
 
 Valemid hinnatakse kahes etapis, nii et teistest valemiparameetritest sõltuvad parameetrid lahendatakse õigesti.
 
@@ -110,7 +110,7 @@ Erinevalt sama objekti valemitest sõltub `_referrer` valem **teistest** objekti
 
 ## Väärtuste tüübid
 
-Valemi sees on iga väärtus **arv**, **string** või **tõeväärtus** — mitte midagi muud. Väljaviide teisendab iga parameetri väärtuse selle tüübi järgi:
+Valemi sees on iga väärtus **arv**, **string** või **tõeväärtus** — välja arvatud ID-d, mida kirjeldab tabeli järel olev lõik. Väljaviide teisendab iga parameetri väärtuse selle tüübi järgi:
 
 | Parameetri tüüp | Väärtus valemis | Näide |
 |---|---|---|
@@ -121,11 +121,13 @@ Valemi sees on iga väärtus **arv**, **string** või **tõeväärtus** — mitt
 | `datetime` | string, ISO 8601 UTC-s koos millisekunditega | `"2026-01-31T12:30:00.000Z"` |
 | `reference` | string — viidatava objekti **nimi** või selle ID, kui nime pole | `"Acme OÜ"` |
 | `counter` | arv — loenduri arvuline osa, mitte vormindatud string | `42`, kui loendur on `INV-0042` |
-| `file` | string — sisemine ID, mitte failinimi; valemites kasutu | |
+| `file` | sisemine ID, mitte failinimi; valemites kasutu | |
 | `formula` | see, mille vastav valem andis | |
-| `_id`, `propertyName.*._id` | string — objekti ID | `"65a1b2c3d4e5f6a7b8c9d0e1"` |
+| `_id`, `propertyName.*._id` | objekti ID | `65a1b2c3d4e5f6a7b8c9d0e1` |
 
 Viidatava objekti ID saamiseks nime asemel kasuta `propertyName.*._id`.
+
+ID — `_id`-st, `*._id`-st, `file` väärtusest või nimeta viitest — ei ole valemi sees string. `CONCAT`, `CONCAT_WS` ja salvestatud tulemus kirjutavad selle tekstina, kuid see ei võrdu `EQ`-s / `IN`-is kunagi stringiliteraaliga, `UNIQUE` ei ühenda võrdseid ID-sid ning `UPPER`, `LOWER`, `REGEX`, `MIN`, `MAX` ja `SORT` ei tagasta selle puhul väärtust. `COUNT` ja `EXISTS` töötavad ootuspäraselt.
 
 Tavalises valemis lükkab **mitmekeelne** parameeter pinusse **kõigi** keelte väärtused ühe loendina — eesti- ja ingliskeelse väärtusega `name` on kahe väärtusega pilu — ning tulemusel keelt ei ole. Iga keele jaoks eraldi tulemuse saamiseks tee valemiparameeter mitmekeelseks — vaata [Mitmekeelsed valemid](#mitmekeelsed-valemid).
 
@@ -174,7 +176,7 @@ Väärtus, mis mustrile ei vasta, jääb muutmata. Alamstringi eraldamiseks sobi
 | `MULTIPLY` | kõik | number | Kõigi väärtuste korrutis. |
 | `DIVIDE` | kõik | number | Esimene jagatud ülejäänutega järjest. Nulliga jagamine → väärtust pole. |
 | `ABS` | 1 | number | Iga arvu absoluutväärtus sisendpilus. |
-| `ROUND` | 2 | number | Võtab `decimals` (üks arv) ja `value`. Ümardab iga arvu väärtusest `decimals` kümnendkohani. |
+| `ROUND` | 2 | number | Võtab `decimals` (üks täisarv vahemikus 0–100) ja `value`. Ümardab iga arvu väärtusest `decimals` kümnendkohani. |
 | `FLOOR`, `CEIL` | 1 | number | Ümardab iga arvu sisendpilus alla / üles lähima täisarvuni. |
 
 Kõik need on range arvutüübiga — mitte-arv kuskil sisendis → väärtust pole. Stringid teisenda enne [`NUMBER`](#teisendamine)-iga.
@@ -209,12 +211,12 @@ Valemi sees on kuupäevad tavalised ISO stringid: `date`- või `datetime`-tüüp
 
 | Operaator | Võtab | Tulemus | Käitumine |
 |---|---|---|---|
-| `EQ`, `NE` | 2 | tõeväärtus | Range `===` / `!==` ristkorrutise üle. |
-| `GT`, `GTE`, `LT`, `LTE` | 2 | tõeväärtus | Järjestus ristkorrutise üle. Mõlemad pooled peavad olema arvud või mõlemad stringid — sobimatu tüübiga paarid jäetakse vahele. |
+| `EQ`, `NE` | 2 | tõeväärtus | Range võrdsus. `EQ` on tõene, kui mõni vasak väärtus `===` mõni parem väärtus; `NE` on tõene, kui mõni vasak väärtus ei võrdu ühegi parema väärtusega. |
+| `GT`, `GTE`, `LT`, `LTE` | 2 | tõeväärtus | Järjestus ristkorrutise üle. Mõlemad pooled peavad olema arvud või mõlemad stringid — sobimatu tüübiga paarid jäetakse vahele; kui ükski paar pole võrreldav → väärtust pole. |
 | `IN`, `NIN` | kõik | tõeväärtus | Esimene pilu = otsitav, ülejäänud pilud = otsingulist. `IN` on tõene, kui **mõni** otsitav väärtus on rangelt võrdne **mõne** loendi väärtusega; `NIN` on eitus. |
 | `EXISTS` | 1 | tõeväärtus | Tõene, kui sisendpilu laheneb vähemalt üheks väärtuseks. |
 
-`EQ` … `LTE` ja `IN` kasutavad **ANY** semantikat: tõene, kui mõni vasak väärtus rahuldab operaatorit mõne parema väärtuse suhtes.
+`EQ`, `GT`, `GTE`, `LT`, `LTE` ja `IN` kasutavad **ANY** semantikat: tõene, kui mõni vasak väärtus rahuldab operaatorit mõne parema väärtuse suhtes. `NE` ei ole loendite puhul `EQ` eitus: vasakute väärtuste 1, 2 ja parema väärtuse 1 korral on see tõene; vasaku väärtuse 1 ja paremate väärtuste 1, 2 korral väär.
 
 ### Loogika ja tingimused
 
@@ -243,7 +245,7 @@ Enamik operaatoreid tagastab väärtuseta (parameetrit ei kirjutata), kui sisend
 | `IN`, `NIN` | tühi otsitav või tühi otsingulist → vastavalt `false` / `true` |
 | `EXISTS` | tagastab alati tõeväärtuse |
 | `AND`, `OR`, `NOT` | tühi operand → väärtust pole |
-| `IF`, `WHEN` | väärtust pole, kui `cond` on tühi või mitte üks tõeväärtus; `WHEN` tagastab väärtuseta, kui `cond` on `false` |
+| `IF`, `WHEN` | väärtust pole, kui `cond` on tühi või mitte üks tõeväärtus või kui valitud haru on tühi; `WHEN` tagastab väärtuseta, kui `cond` on `false` |
 
 ## Näited
 
@@ -316,7 +318,7 @@ price tax SUM quantity MULTIPLY
 total quantity DIVIDE 2 ROUND
 ```
 
-**Absoluutne erinevus, ümardatud:**
+**Absoluutväärtuste vahe, ümardatud:**
 ```
 sum ABS invoice_sum ABS SUBTRACT 2 ROUND
 ```
@@ -414,3 +416,5 @@ Kuna muutuva arvuga reduktorid tarbivad **kogu** pinu, võib valem praktiliselt 
 Kui vajad kahe eraldiseisva reduktoritulemuse kombinatsiooni (nt loendus ja summa kokku stringiks renderdatud), jaga arvutus mitmeks valemiparameetriks: defineeri üks parameeter, mille valem toodab loenduse, teine parameeter summa jaoks, ja kolmas parameeter, mis viitab mõlemale. Kaheetapiline hindaja lahendab sõltuvuse.
 
 Fikseeritud arvuga operaatoreid (`EQ`, `GT`, `AND`, `IF`, `ROUND`, `ABS`, …) saab vabalt aheldada.
+
+Valem ei anna väärtust, kui operaator leiab pinust vähem pilusid, kui ta võtab, või kui lõpus jääb pinusse rohkem kui üks pilu.

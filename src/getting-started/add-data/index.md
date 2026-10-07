@@ -12,8 +12,8 @@ Everything you store in Entu is an **entity** — think of it as a card in a car
 
 1. Pick a place in the menu on the left — for example **Library** or **Contacts**.
 2. Click the **add** button in the toolbar.
-3. Choose what kind of entry you are adding (a book, a person…).
-4. Fill in the fields and save.
+3. If the list offers more than one kind of entry, choose what you are adding (a book, a person…).
+4. Fill in the fields — each value is saved as soon as you leave the field — then click **Close**.
 
 That's it — the entry appears in the list immediately.
 

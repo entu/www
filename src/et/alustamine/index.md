@@ -32,9 +32,9 @@ Klõpsa sisselogimisviisil, mida soovid kasutada:
 - **E-post** — saadame sulle lingi; sellel klõpsamine logibki sisse. Parooli pole vaja.
 - **Smart-ID, Mobiil-ID või ID-kaart** — Eesti e-identiteedi valikud.
 
-Kui oled Entusse juba sisse logitud, klõpsa selle asemel **Loo**.
+Kui oled Entusse juba sisse logitud, klõpsa selle asemel **Loo andmebaas**.
 
-Entu ei hoia kunagi paroole, seega pole parooli, mida unustada või lekitada. Hiljem saad lisada teisi sisselogimisviise — kõik viivad samale kontole. Loe lähemalt: [Autentimine](/et/ulevaade/autentimine/).
+Entu ei hoia kunagi paroole, seega pole parooli, mida unustada või lekitada. Hiljem saad lisada teisi sisselogimisviise, ka turvavõtme — kõik viivad samale kontole ja üks turvavõti logib sind sisse kõigisse andmebaasidesse, kuhu kuulud. Loe lähemalt: [Autentimine](/et/ulevaade/autentimine/).
 
 ## 4. Valmis
 

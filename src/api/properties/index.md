@@ -9,18 +9,18 @@ Each property value returned by the API is an object with the following fields:
 | Field | Description |
 |---|---|
 | `_id` | Unique identifier for this property value. Use it to delete a specific value. |
-| `type` | The property name (matches the definition name, e.g. `name`, `status`). |
-| `string` | String value. Present for `string` and `text` type properties. |
-| `number` | Number value. Present for `number` type properties. |
+| `type` | The property name (matches the definition name, e.g. `name`, `status`). Not included when reading entities — there the property name is the key that holds the values. |
+| `string` | String value. Present for `string`, `text` and `counter` type properties. |
+| `number` | Number value. Present for `number` type properties, and for `counter` properties as the numeric part of the counter. |
 | `boolean` | Boolean value. Present for `boolean` type properties. |
-| `date` | Date value (`YYYY-MM-DD`). Present for `date` type properties. |
+| `date` | Date value. Written as `YYYY-MM-DD`, returned as an ISO 8601 timestamp (e.g. `1999-03-15T00:00:00.000Z`). Present for `date` type properties. |
 | `datetime` | Datetime value (ISO 8601). Present for `datetime` type properties. |
-| `reference` | Referenced entity ID. Present for `reference` type properties. |
+| `reference` | Referenced entity ID. Present for `reference` type properties. In entity responses the value also carries `string` (the referenced entity's name) and `entity_type` (its entity type name). |
 | `filename` | File name. Present for `file` type properties. |
 | `filesize` | File size in bytes. Present for `file` type properties. |
 | `filetype` | MIME type. Present for `file` type properties. |
-| `language` | Language code (e.g. `en`, `et`). Present when the property definition has `multilingual: true`. |
-| `created` | Object with `at` (ISO timestamp) and `by` (person entity ID) — who set this value and when. |
+| `language` | Language code (e.g. `en`, `et`). Present on values written with a language — used for properties whose definition has `multilingual: true`. |
+| `created` | Object with `at` (ISO timestamp) and `by` (person entity ID) — who set this value and when. Returned only by `GET /api/{db}/property/{_id}`. |
 
 ::: tip
 Save the `_id` of property values you may want to update or delete later. Without it, you can only delete the property entirely or add new values alongside existing ones.
@@ -34,25 +34,19 @@ Save the `_id` of property values you may want to update or delete later. Withou
   "name": [
     {
       "_id": "507f1f77bcf86cd799439022",
-      "type": "name",
-      "string": "Acme Corp",
-      "created": { "at": "2024-01-15T10:30:00Z", "by": "507f1f77bcf86cd799439099" }
+      "string": "Acme Corp"
     }
   ],
   "status": [
     {
       "_id": "507f1f77bcf86cd799439033",
-      "type": "status",
-      "string": "active",
-      "created": { "at": "2024-01-15T10:30:00Z", "by": "507f1f77bcf86cd799439099" }
+      "string": "active"
     }
   ],
   "revenue": [
     {
       "_id": "507f1f77bcf86cd799439044",
-      "type": "revenue",
-      "number": 1500000,
-      "created": { "at": "2024-01-20T08:00:00Z", "by": "507f1f77bcf86cd799439099" }
+      "number": 1500000
     }
   ]
 }
@@ -89,7 +83,7 @@ To overwrite a specific existing value rather than adding a new one, include its
 ]
 ```
 
-This replaces the value of that exact property object. Without `_id`, a new value is always added alongside any existing ones.
+This replaces the value of that exact property object: the old value is soft-deleted and the new value gets a new `_id`. Without `_id`, a new value is always added alongside any existing ones.
 
 ## Multi-Value Properties
 
@@ -112,8 +106,8 @@ When a property definition has `multilingual: true`, each language is a separate
 **Reading** — the API returns one object per language:
 ```json
 "description": [
-  { "_id": "...", "type": "description", "string": "Overview", "language": "en" },
-  { "_id": "...", "type": "description", "string": "Ülevaade", "language": "et" }
+  { "_id": "...", "string": "Overview", "language": "en" },
+  { "_id": "...", "string": "Ülevaade", "language": "et" }
 ]
 ```
 
@@ -124,6 +118,8 @@ When a property definition has `multilingual: true`, each language is a separate
   { "type": "description", "string": "Ülevaade", "language": "et" }
 ]
 ```
+
+The language code is exactly two lowercase letters (`en`, `et`) — anything else is rejected.
 
 ## Deleting a Property
 
@@ -139,7 +135,10 @@ Returns `{ "deleted": true }` on success. Deletion is a soft-delete — the prop
 
 | Property | Rule |
 |---|---|
+| Any property | Requires `_editor` rights on the entity |
 | `_type` | Cannot be deleted |
+| Other system properties starting with `_` (e.g. `_created`) | Cannot be deleted |
+| Server-managed billing properties (`billing_*`) | Cannot be deleted |
 | `_owner`, `_editor`, `_expander`, `_viewer`, `_noaccess`, `_sharing`, `_inheritrights`, `_parent` | Requires `_owner` rights on the entity |
 | `_owner` (last one) | Cannot be deleted — at least one `_owner` must remain |
 | `_parent` | Also requires `_expander` rights on the referenced parent entity |

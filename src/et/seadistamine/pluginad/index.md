@@ -12,7 +12,7 @@ Loo plugina objektid Seadistamise alas, seejärel viita neile objektitüübi `pl
 
 **Kasutajaliidese pluginad** avatakse muutmissahtlis iframi vahekaardina kõrvuti standardse muutmisvormiga. Kasuta neid kohandatud loomise või muutmise kogemuste jaoks — CSV-importija, vormiassistent või integratsioon, mis tõmbab andmeid välisest teenusest. Plugin saab konteksti URL-päringuparameetritena ja renderdatakse Entu enda kasutajaliideses.
 
-**Veebikonksu pluginad** on serveripoolsed päästikud. Kui objekt salvestatakse või luuakse, saadab Entu POST-päringu plugina URL-ile taustal ilma kasutajat blokeerimata. Kasuta neid andmete edastamiseks välistele süsteemidele, automatiseerimiste käivitamiseks, kolmanda osapoole teenustega sünkroonimiseks või mistahes tausta loogika käitamiseks, mis peaks reageerima andmemuutustele.
+**Veebikonksu pluginad** on serveripoolsed päästikud. Kui objekt luuakse või seda muudetakse, saadab Entu POST-päringu plugina URL-ile taustal ilma kasutajat blokeerimata. Kasuta neid andmete edastamiseks välistele süsteemidele, automatiseerimiste käivitamiseks, kolmanda osapoole teenustega sünkroonimiseks või mistahes tausta loogika käitamiseks, mis peaks reageerima andmemuutustele.
 
 ## Plugina parameetrid
 
@@ -20,8 +20,7 @@ Loo plugina objektid Seadistamise alas, seejärel viita neile objektitüübi `pl
 |---|---|
 | `name` | Kuvanimetus, mis kuvatakse muutmissahtlis vahekaardi sildina (kasutajaliidese pluginate puhul). |
 | `type` | Mis tüüpi plugin see on — vaata pluginate tüüpe allpool. |
-| `url` | Kasutajaliidese pluginate jaoks — iframi vahekaardil laaditud URL. Veebikonksu pluginate jaoks — URL, mis saab POST-päringu. |
-| `new_window` | Tõeväärtus. Kui `true`, avatakse plugina URL uues brauseriaknas iframi vahekaardi asemel. |
+| `url` | Kasutajaliidese pluginate jaoks — iframi vahekaardil laaditud URL. Veebikonksu pluginate jaoks — URL, mis saab POST-päringu; see peab olema `https` ega tohi viidata `localhost`-ile ega privaatvõrgu aadressile, muidu veebikonks jäetakse vahele. |
 
 ## Pluginate tüübid
 
@@ -29,7 +28,7 @@ Loo plugina objektid Seadistamise alas, seejärel viita neile objektitüübi `pl
 |---|---|---|
 | `entity-edit` | Muutmissahtel avati **olemasoleva** objekti jaoks | Plugina URL laaditakse iframi vahekaardina. URL saab `account`, `entity`, `locale`, `token`. |
 | `entity-add` | Muutmissahtel avati **uue** objekti **loomiseks** | Plugina URL laaditakse iframi vahekaardina. URL saab `account`, `type`, `parent` (kui lisatakse alam-objektina), `locale`, `token`. |
-| `entity-edit-webhook` | Seda tüüpi **olemasolev** objekt on **salvestatud** | Server saadab POST-i `{ db, plugin, entity: { _id }, token }` plugina URL-ile. Token on lühiealine JWT (1 min). Tulista-ja-unusta. |
+| `entity-edit-webhook` | Seda tüüpi **olemasolev** objekt on **salvestatud** või selle mõni parameetriväärtus kustutatud | Server saadab POST-i `{ db, plugin, entity: { _id }, token }` plugina URL-ile. Token on lühiealine JWT (1 min). Tulista-ja-unusta. |
 | `entity-add-webhook` | Seda tüüpi **uus** objekt on **loodud** | Sama serveripoolne POST nagu eespool, käivitatakse loomisel. |
 
 ## Kasutajaliidese plugina URL-parameetrid
@@ -52,7 +51,7 @@ Veebikonksu pluginate jaoks (`entity-edit-webhook`, `entity-add-webhook`) saadab
 ```json
 {
   "db": "mydatabase",
-  "plugin": "PLUGIN_ENTITY_ID",
+  "plugin": "entity-edit-webhook",
   "entity": {
     "_id": "ENTITY_ID"
   },
@@ -60,7 +59,7 @@ Veebikonksu pluginate jaoks (`entity-edit-webhook`, `entity-add-webhook`) saadab
 }
 ```
 
-`token` kehtib 1 minut ja seda saab kasutada objekti lugemiseks või muutmiseks API kaudu. Veebikonksu käivitamine on tulista-ja-unusta — Entu ei oota vastust ega proovi uuesti tõrke korral.
+`plugin` on käivitunud plugina tüüp — `entity-edit-webhook` või `entity-add-webhook`. `token` kehtib 1 minut, kannab muudatuse teinud kasutaja õigusi ja seda saab kasutada objekti lugemiseks või muutmiseks API kaudu. Veebikonksu käivitamine on tulista-ja-unusta — Entu ei oota vastust ega proovi uuesti tõrke korral.
 
 ::: warning
 Veebikonksu kohaletoimetamine pole garanteeritud. Kui sinu lõpp-punkt on maas või tagastab vea, läheb päring kaotsi. Rakenda oma korduskatsumise või järjekorra loogika, kui töökindlus on oluline.

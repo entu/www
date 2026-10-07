@@ -24,7 +24,7 @@ Kasuta olemasolevat Google'i kontot sisselogimiseks. Kui oled oma brauseris Goog
 
 ### Apple
 
-Logi sisse oma Apple ID-ga. Apple annab sulle võimaluse varjata oma päris e-posti aadress ja kasutada selle asemel privaatset relepunktaadressi. Entu töötab mõlemaga — oluline on, et sama aadressi kasutataks järjepidevalt. Nõuab Apple ID-d koos kahefaktorilise autentimisega.
+Logi sisse oma Apple ID-ga. Apple annab sulle võimaluse varjata oma päris e-posti aadress ja kasutada selle asemel privaatset relepunktaadressi. Entu töötab mõlemaga, sest tunneb sind ära Apple'i konto, mitte e-posti aadressi järgi. Nõuab Apple ID-d koos kahefaktorilise autentimisega.
 
 ### Smart-ID
 
@@ -45,6 +45,8 @@ Passkeys on kaasaegne alternatiiv paroolidele — kiirem, andmepüügiresistentn
 Sisselogimisel kinnitab sinu seade sinu identiteedi kasutades seda, mida ta tavaliselt kasutab avamiseks — Face ID, Touch ID, Windows Hello, sõrmejälgede skanner või riistvara turvavõti nagu YubiKey. Midagi pole vaja sisestada ja midagi ei saa pealtkuulata.
 
 Passkeys sünkroonitakse sinu seadmete vahel platvormi võtmerõnga kaudu (iCloud Keychain Apple'i seadmetel, Google Password Manager Androidil või passkeys'i toetav paroolihaldur). Saad registreerida mitu passkeys'i — ühe seadme kohta — samale kontole. Passkeys'i hallatakse Entu kasutajaliideses sinu isikuobjektist.
+
+Passkey toimib nagu iga teine sisselogimisviis: üks passkey logib sind sisse kõigisse andmebaasidesse, kuhu sa kuulud. Kui sind kutsutakse teise andmebaasi, võta kutse vastu oma passkey'ga ja see lisatakse ka sealsele isikuobjektile. Passkey'ga sisse logituna saad luua ka uue andmebaasi — registreerumislehel endal passkey'ga sisselogimist ei pakuta, sest passkey lisatakse juba olemasolevale isikuobjektile.
 
 **Sobib kõige paremini:** Sageli kasutavatele inimestele, kes soovivad kiireimat ja turvalisimat sisselogimiskogemust.
 

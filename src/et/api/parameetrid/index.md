@@ -9,18 +9,18 @@ Iga API tagastatav parameetriväärtus on objekt järgmiste väljadega:
 | Väli | Kirjeldus |
 |---|---|
 | `_id` | Selle parameetriväärtuse unikaalne identifikaator. Kasuta seda konkreetse väärtuse kustutamiseks. |
-| `type` | Parameetri nimi (vastab definitsiooni nimele, nt `name`, `status`). |
-| `string` | Stringiväärtus. Olemas `string` ja `text` tüüpi parameetrite puhul. |
-| `number` | Arvväärtus. Olemas `number` tüüpi parameetrite puhul. |
+| `type` | Parameetri nimi (vastab definitsiooni nimele, nt `name`, `status`). Objektide lugemisel puudub — seal on parameetri nimi võti, mille all väärtused asuvad. |
+| `string` | Stringiväärtus. Olemas `string`, `text` ja `counter` tüüpi parameetrite puhul. |
+| `number` | Arvväärtus. Olemas `number` tüüpi parameetrite puhul ning `counter` parameetrite puhul loenduri arvulise osana. |
 | `boolean` | Tõeväärtus. Olemas `boolean` tüüpi parameetrite puhul. |
-| `date` | Kuupäevaväärtus (`YYYY-MM-DD`). Olemas `date` tüüpi parameetrite puhul. |
+| `date` | Kuupäevaväärtus. Kirjutatakse kujul `YYYY-MM-DD`, tagastatakse ISO 8601 ajatemplina (nt `1999-03-15T00:00:00.000Z`). Olemas `date` tüüpi parameetrite puhul. |
 | `datetime` | Kuupäev+kellaaeg väärtus (ISO 8601). Olemas `datetime` tüüpi parameetrite puhul. |
-| `reference` | Viidatava objekti ID. Olemas `reference` tüüpi parameetrite puhul. |
+| `reference` | Viidatava objekti ID. Olemas `reference` tüüpi parameetrite puhul. Objekti vastustes on väärtusel ka `string` (viidatava objekti nimi) ja `entity_type` (selle objektitüübi nimi). |
 | `filename` | Faili nimi. Olemas `file` tüüpi parameetrite puhul. |
 | `filesize` | Faili suurus baitides. Olemas `file` tüüpi parameetrite puhul. |
 | `filetype` | MIME tüüp. Olemas `file` tüüpi parameetrite puhul. |
-| `language` | Keelekood (nt `en`, `et`). Olemas, kui parameetri definitsioonil on `multilingual: true`. |
-| `created` | Objekt kujul `at` (ISO ajatempel) ja `by` (isikuobjekti ID) — kes selle väärtuse seadistas ja millal. |
+| `language` | Keelekood (nt `en`, `et`). Olemas keelega kirjutatud väärtustel — kasutatakse parameetrite puhul, mille definitsioonil on `multilingual: true`. |
+| `created` | Objekt kujul `at` (ISO ajatempel) ja `by` (isikuobjekti ID) — kes selle väärtuse seadistas ja millal. Tagastatakse ainult päringuga `GET /api/{db}/property/{_id}`. |
 
 ::: tip
 Salvesta nende parameetriväärtuste `_id`, mida võid hiljem uuendada või kustutada. Ilma selleta saad ainult kogu parameetri kustutada või lisada uusi väärtusi olemasolevate kõrvale.
@@ -34,25 +34,19 @@ Salvesta nende parameetriväärtuste `_id`, mida võid hiljem uuendada või kust
   "name": [
     {
       "_id": "507f1f77bcf86cd799439022",
-      "type": "name",
-      "string": "Acme Corp",
-      "created": { "at": "2024-01-15T10:30:00Z", "by": "507f1f77bcf86cd799439099" }
+      "string": "Acme Corp"
     }
   ],
   "status": [
     {
       "_id": "507f1f77bcf86cd799439033",
-      "type": "status",
-      "string": "active",
-      "created": { "at": "2024-01-15T10:30:00Z", "by": "507f1f77bcf86cd799439099" }
+      "string": "active"
     }
   ],
   "revenue": [
     {
       "_id": "507f1f77bcf86cd799439044",
-      "type": "revenue",
-      "number": 1500000,
-      "created": { "at": "2024-01-20T08:00:00Z", "by": "507f1f77bcf86cd799439099" }
+      "number": 1500000
     }
   ]
 }
@@ -89,7 +83,7 @@ Konkreetse olemasoleva väärtuse ülekirjutamiseks (mitte uue lisamiseks), lisa
 ]
 ```
 
-See asendab selle täpse parameetriobjekti väärtuse. Ilma `_id`-ta lisatakse alati uus väärtus olemasolevate kõrvale.
+See asendab selle täpse parameetriobjekti väärtuse: vana väärtus kustutatakse pehmelt ja uus väärtus saab uue `_id`. Ilma `_id`-ta lisatakse alati uus väärtus olemasolevate kõrvale.
 
 ## Mitme väärtusega parameetrid
 
@@ -112,8 +106,8 @@ Kui parameetri definitsioonil on `multilingual: true`, on iga keel eraldi parame
 **Lugemine** — API tagastab ühe objekti iga keele kohta:
 ```json
 "description": [
-  { "_id": "...", "type": "description", "string": "Overview", "language": "en" },
-  { "_id": "...", "type": "description", "string": "Ülevaade", "language": "et" }
+  { "_id": "...", "string": "Overview", "language": "en" },
+  { "_id": "...", "string": "Ülevaade", "language": "et" }
 ]
 ```
 
@@ -124,6 +118,8 @@ Kui parameetri definitsioonil on `multilingual: true`, on iga keel eraldi parame
   { "type": "description", "string": "Ülevaade", "language": "et" }
 ]
 ```
+
+Keelekood on täpselt kaks väiketähte (`en`, `et`) — kõik muu lükatakse tagasi.
 
 ## Parameetri kustutamine
 
@@ -139,7 +135,10 @@ Tagastab eduka kustutamise korral `{ "deleted": true }`. Kustutamine on pehme ku
 
 | Parameeter | Reegel |
 |---|---|
+| Iga parameeter | Nõuab `_editor` õigusi objektil |
 | `_type` | Ei saa kustutada |
+| Muud `_`-ga algavad süsteemsed parameetrid (nt `_created`) | Ei saa kustutada |
+| Serveri hallatavad arveldusparameetrid (`billing_*`) | Ei saa kustutada |
 | `_owner`, `_editor`, `_expander`, `_viewer`, `_noaccess`, `_sharing`, `_inheritrights`, `_parent` | Nõuab `_owner` õigusi objektil |
 | `_owner` (viimane) | Ei saa kustutada — vähemalt üks `_owner` peab jääma |
 | `_parent` | Nõuab ka `_expander` õigusi viidataval ülemobjektil |

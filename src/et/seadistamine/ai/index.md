@@ -9,14 +9,15 @@ Entu AI on Entu rakendusse sisseehitatud vestlusassistent. Ava see tööriistari
 ## Mida see oskab
 
 - **Vastata seadistusküsimustele** — „Millised parameetrid on tüübil `person`?", „Millised objektitüübid viitavad tüübile `project`?"
+- **Vastata andmeküsimustele** — otsida objekte, lugeda nende väärtusi ja muudatuste ajalugu ning hankida failide allalaadimislinke, alati sinu õiguste piires
 - **Pakkuda seadistusmuudatusi** — luua objektitüüpe, lisada või muuta parameetrite definitsioone, sealhulgas [valemiga](/et/api/valemid/) parameetreid
-- **Pakkuda andmemuudatusi** — luua või muuta andmeobjekte
+- **Pakkuda andmemuudatusi** — luua või muuta andmeobjekte või kustutada üksikuid parameetriväärtusi
 
 ## Muudatuste ülevaatamine ja rakendamine
 
-Assistent ei rakenda muudatusi kunagi omal käel. Kui ta pakub muudatusi, kuvab ta nimekirja **Pakutud muudatused**, kus iga toiming on kirjeldatud tavakeeles. Vaata nimekiri üle ja klõpsa **Rakenda muudatused**, et toimingud käivitada — või **Tühista**, et need kõrvale heita. Sinu andmebaasis ei juhtu midagi enne, kui klõpsad Rakenda.
+Assistent ei rakenda muudatusi kunagi omal käel. Kui ta pakub muudatusi, kuvab ta nimekirja **Pakutud muudatused**, kus iga toiming on kirjeldatud tavakeeles. Vaata nimekiri üle ja klõpsa **Rakenda muudatused**, et toimingud käivitada — või **Loobu**, et need kõrvale heita. Sinu andmebaasis ei juhtu midagi enne, kui klõpsad Rakenda.
 
-Toimingud käivitatakse järjekorras ja iga toiming saab staatuse: **rakendatud**, **ebaõnnestunud** või **vahele jäetud**. Kui mõni toiming ebaõnnestub (näiteks ebapiisavate õiguste tõttu), peatub käivitamine — sellele eelnevad toimingud on juba rakendatud ja ülejäänud jäetakse vahele.
+Toimingud käivitatakse järjekorras ja iga toiming saab staatuse: **Tehtud**, **Ebaõnnestus** või **Vahele jäetud**. Kui mõni toiming ebaõnnestub (näiteks ebapiisavate õiguste tõttu), peatub käivitamine — sellele eelnevad toimingud on juba rakendatud ja ülejäänud jäetakse vahele.
 
 ::: warning
 Rakendamine ei ole kõik-või-mitte-midagi. Kui nimekirja keskel olev toiming ebaõnnestub, on sellele eelnevad toimingud juba rakendatud ja neid tagasi ei võeta. Kontrolli toimingute staatusi, et näha, mis läbi läks.
@@ -32,7 +33,7 @@ Entu AI töötab täielikult sinu enda õigustega. Ta näeb ainult seda, mida si
 
 ## Privaatsus
 
-Vestlusi serveris ei säilitata. Kui sulged vestluse, on see kadunud.
+Vestlusi serveris ei säilitata — need on ainult sinu avatud brauseri vahekaardis. Vestluspaneeli sulgemine vestlust ei kustuta; see tühjeneb, kui klõpsad **Uus vestlus**, lähed teise andmebaasi või laadid lehe uuesti.
 
 ## Näidisküsimused
 

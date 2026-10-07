@@ -16,7 +16,7 @@ Andmemudeli määratlemiseks kasutajaliideses vaata [Objektitüübid](/et/seadis
 
 **Mitme väärtusega parameetrid** — Ühel parameetri nimel võib olla mitu väärtust. Objektil võib olla mitu silti, telefoninumbrit või failimanust, kõik salvestatuna sama parameetri nime alla.
 
-**Hierarhiline struktuur** — Objektidel võivad olla ülem-alam seosed. Alam-objektil võib olla mitu ülemat, mis tähendab, et see ilmub samaaegselt mitmes kontekstis ilma dubleerimiseta.
+**Hierarhiline struktuur** — Objektidel võivad olla ülem-alam seosed. Alam-objektil võib olla mitu ülemobjekti, mis tähendab, et see ilmub samaaegselt mitmes kontekstis ilma dubleerimiseta.
 
 **Viited** — Objektid saavad viidata teistele objektidele viiteparameetrite kaudu, luues ühendatud andmegraafi.
 
@@ -28,7 +28,7 @@ Andmemudeli määratlemiseks kasutajaliideses vaata [Objektitüübid](/et/seadis
 
 Objektid on korraldatud hierarhiatesse, kasutades süsteemparameetrit `_parent`.
 
-**Mitu ülemat** — Objektil võib olla rohkem kui üks ülem ja see ilmub igas kontekstis alam-objektina ilma dubleerimiseta. Dokument võib samaaegselt kuuluda nii projektile kui ka osakonnale.
+**Mitu ülemobjekti** — Objektil võib olla rohkem kui üks ülemobjekt ja see ilmub igas kontekstis alam-objektina ilma dubleerimiseta. Dokument võib samaaegselt kuuluda nii projektile kui ka osakonnale.
 
 **Alam-objektide loomine** — Kui kasutad ülemobjekti lehel nuppu „Lisa", seatakse `_parent` automaatselt. Alam-objektide loomiseks on vaja vähemalt `_expander` õigusi ülemobjektile (`_editor` ja `_owner` sisaldavad `_expander` õigusi).
 
@@ -48,11 +48,11 @@ Igal objektil on selgesõnaline juurdepääsukontroll. Õigused seatakse, viidat
 | `_editor` | Saab vaadata ja muuta kõiki parameetreid peale õiguste parameetrite enda. |
 | `_expander` | Saab vaadata objekti ja luua selle alla alam-objekte. |
 | `_viewer` | Ainult lugemine — saab vaadata objekti ja selle parameetreid. |
-| `_noaccess` | Selgesõnaliselt kõik juurdepääsud keelatud. Tühistab kõik teised samale objektile seatud õiguste parameetrid. Ei kandu `_inheritrights` kaudu alam-objektidele edasi. |
+| `_noaccess` | Eemaldab selgesõnaliselt kõik õigused sellel objektil, ka ülemobjektidelt päritud õigused. Tühistab kõik teised samale objektile seatud õiguste parameetrid. Ei peida objekti, mis on jagatud kui `domain` või `public`. Ei kandu `_inheritrights` kaudu alam-objektidele edasi. |
 
 ### Jagamine
 
-Parameeter `_sharing` kontrollib nähtavust individuaalsete kasutajaõiguste piires:
+Parameeter `_sharing` kontrollib nähtavust lisaks individuaalsetele kasutajaõigustele:
 
 | Väärtus | Kes saab vaadata |
 |---|---|
@@ -72,7 +72,7 @@ Muutmiseks on alati vaja `_editor` või `_owner` õigusi, sõltumata jagamistase
 
 ### Õiguste pärimine
 
-Sea objektil `_inheritrights: true`, et pärida õigused oma ülemobjektilt. Otse alam-objektile määratud õigused tühistavad päritavad õigused. Kasuta `_noaccess`, et blokeerida kasutaja, kes muidu päriks juurdepääsu ülemobjektilt.
+Sea objektil `_inheritrights: true`, et pärida õigused oma ülemobjektilt. Päritud õigused lisanduvad otse alam-objektile määratud õigustele — kasutajale jääb neist kõrgem. Kasuta `_noaccess`, et blokeerida kasutaja, kes muidu päriks juurdepääsu ülemobjektilt.
 
 ::: info
 Õiguste hindamise järjekord: selgesõnalised õigused objektil → päritavad õigused ülemobjektilt → `_sharing` tase. `_noaccess` tühistab kõik teised samale objektile kehtivad õigused — sealhulgas otsesed positiivsed õigused. See ei kandu `_inheritrights` kaudu alam-objektidele edasi; pärandatakse ainult `_viewer`, `_expander`, `_editor` ja `_owner`.

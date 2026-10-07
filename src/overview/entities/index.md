@@ -48,7 +48,7 @@ Every entity has explicit access control. Rights are set by referencing a person
 | `_editor` | Can view and edit all properties except the rights properties themselves. |
 | `_expander` | Can view the entity and create child entities under it. |
 | `_viewer` | Read-only — can view the entity and its properties. |
-| `_noaccess` | Explicitly denied all access on this entity. Overrides all other rights properties set on the same entity. Not propagated to children via `_inheritrights`. |
+| `_noaccess` | Explicitly removes all rights on this entity, including rights inherited from parents. Overrides all other rights properties set on the same entity. Does not hide an entity shared as `domain` or `public`. Not propagated to children via `_inheritrights`. |
 
 ### Sharing
 
@@ -72,7 +72,7 @@ Setting `_sharing: public` makes the entity visible to anyone on the internet wi
 
 ### Rights Inheritance
 
-Set `_inheritrights: true` on an entity to inherit rights from its parent. Rights defined directly on the child override inherited ones. Use `_noaccess` to block a user who would otherwise inherit access from a parent.
+Set `_inheritrights: true` on an entity to inherit rights from its parent. Inherited rights are added to the rights defined directly on the child — a user keeps the higher of the two. Use `_noaccess` to block a user who would otherwise inherit access from a parent.
 
 ::: info
 Right evaluation order: explicit rights on the entity → inherited rights from parent → `_sharing` level. `_noaccess` overrides all other rights on the same entity — including direct positive rights. It is not propagated to children via `_inheritrights`; only `_viewer`, `_expander`, `_editor`, and `_owner` are inherited.

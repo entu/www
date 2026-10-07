@@ -66,7 +66,7 @@ Never commit API keys to source control. Use environment variables or a secrets 
 
 ## Performance
 
-**Index frequently queried properties** by enabling `search` on the property definition. System properties `_type` and `_parent` are already indexed.
+**Make properties findable with `q`** by enabling `search` on the property definition — only those values go into the full-text search index. Filters on `_type.string`, `_parent.reference` and `name.string` use database indexes.
 
 **Avoid unnecessary aggregation** — regular GET requests return cached data. Only use `GET /api/{db}/entity/{_id}/aggregate` when you need fresh formula values after external changes.
 
@@ -75,7 +75,7 @@ Never commit API keys to source control. Use environment variables or a secrets 
 **Check status codes:**
 - `401` — Refresh authentication token
 - `403` — User lacks permissions; check entity rights
-- `404` — Entity/property not found or no access
+- `404` — Entity/property not found
 - `400` — Validate request body structure
 
 Retry `5xx` errors with exponential backoff. Do not retry `4xx` errors.

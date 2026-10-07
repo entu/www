@@ -29,7 +29,9 @@ Response:
       }
     }
   ],
-  "token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9..."
+  "user": {},
+  "token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9...",
+  "expires": "2026-01-01T12:00:00.000Z"
 }
 ```
 
@@ -58,16 +60,18 @@ curl -X POST "https://entu.app/api/mydatabase/entity" \
   ]'
 ```
 
-Response returns the created entity ID and all created property objects (file properties also include a signed S3 upload URL):
+Response returns the created entity ID and an array of all created property objects, including system properties such as `_owner` and `_created` (file properties also include a signed S3 upload URL):
 
 ```json
 {
   "_id": "6798938432faaba00f8fc72f",
-  "properties": {
-    "_type": [{ "_id": "...", "reference": "507f1f77bcf86cd799439011" }],
-    "name":  [{ "_id": "...", "string": "My First Entity" }],
-    "description": [{ "_id": "...", "string": "Created via API" }]
-  }
+  "properties": [
+    { "_id": "...", "type": "_type", "reference": "507f1f77bcf86cd799439011" },
+    { "_id": "...", "type": "name", "string": "My First Entity" },
+    { "_id": "...", "type": "description", "string": "Created via API" },
+    { "_id": "...", "type": "_owner", "reference": "..." },
+    { "_id": "...", "type": "_created", "reference": "...", "datetime": "..." }
+  ]
 }
 ```
 
@@ -100,7 +104,7 @@ The response wraps the entity under an `entity` key:
 {
   "entity": {
     "_id": "6798938432faaba00f8fc72f",
-    "name": [{ "_id": "...", "type": "name", "string": "My First Entity" }]
+    "name": [{ "_id": "...", "string": "My First Entity" }]
   }
 }
 ```

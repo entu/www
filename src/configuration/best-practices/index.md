@@ -19,7 +19,7 @@ Prefix related properties to group them visually: `address_street`, `address_cit
 
 ## Data Modeling
 
-**Design entity types around your query patterns.** If you frequently filter by `status`, enable `search` on that property definition.
+**Design entity types around your query patterns.** If users often find entities by typing a value such as a `status` or a code into full-text search, enable `search` on that property definition. Filtering by a property value in a query works without it.
 
 **Use references for related data** that changes frequently — don't duplicate values across entities when a reference will do.
 

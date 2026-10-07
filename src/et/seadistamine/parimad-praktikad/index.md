@@ -19,7 +19,7 @@ Grupeeri seotud parameetrid ühise eesliitega: `address_street`, `address_city`,
 
 ## Andmete modelleerimine
 
-**Disaini objektitüübid oma päringumustrite järgi.** Kui filtreerid sageli `status`-e järgi, luba sellel parameetri definitsioonil `search`.
+**Disaini objektitüübid oma päringumustrite järgi.** Kui kasutajad leiavad objekte sageli, sisestades täistekstiotsingusse väärtuse nagu `status` või kood, luba sellel parameetri definitsioonil `search`. Päringus parameetri väärtuse järgi filtreerimine töötab ka ilma selleta.
 
 **Kasuta viiteid seotud andmete jaoks**, mis muutuvad sageli — ära dubleeri väärtusi objektide vahel, kui viide sobib.
 

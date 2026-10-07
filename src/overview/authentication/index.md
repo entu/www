@@ -24,7 +24,7 @@ Use your existing Google account to sign in. If you are already signed into Goog
 
 ### Apple
 
-Sign in with your Apple ID. Apple gives you the option to hide your real email address and use a private relay address instead. Entu works with both — what matters is that the same address is used consistently. Requires an Apple ID with two-factor authentication enabled.
+Sign in with your Apple ID. Apple gives you the option to hide your real email address and use a private relay address instead. Entu works with both, because it recognises you by your Apple account, not by the email address. Requires an Apple ID with two-factor authentication enabled.
 
 ### Smart-ID
 
@@ -45,6 +45,8 @@ Passkeys are a modern alternative to passwords — faster, phishing-resistant, a
 When you sign in, your device confirms your identity using whatever it normally uses to unlock — Face ID, Touch ID, Windows Hello, a fingerprint scanner, or a hardware security key like a YubiKey. Nothing is typed and nothing can be intercepted.
 
 Passkeys sync across your devices through your platform's keychain (iCloud Keychain on Apple devices, Google Password Manager on Android, or a password manager that supports passkeys). You can register multiple passkeys — one per device — on the same account. Passkeys are managed from your person entity in the Entu UI.
+
+A passkey works like any other sign-in method: one passkey signs you in to every database you belong to. When you are invited to another database, accept the invitation with your passkey and it is added to your person entity there too. While signed in with a passkey you can also create a new database — the signup page itself does not offer passkey sign-in, because a passkey is added to a person that already exists.
 
 **Best for:** Frequent users who want the fastest and most secure sign-in experience.
 

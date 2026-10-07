@@ -22,7 +22,7 @@ On ka vahepealne tase (**laiendaja**), mis lubab kellelgi sinu kirjete alla uusi
 
 Igal kirjel on omad juurdepääsuõigused — **Raamatukogu** jagamine ei ava iseenesest ühtegi raamatut selle sees.
 
-Et mitte jagada tuhandet raamatut ükshaaval, saab kirjel sisse lülitada **õiguste pärimise** ülemobjektilt. Lülita see raamatutel sisse, määra õigused üks kord Raamatukogul, ja iga raamat järgib neid — nii praegu kui ka siis, kui Raamatukogu õigused hiljem muutuvad. Otse kirjele määratud õigused on päritud õigustest alati tugevamad, nii et üksiku tundliku kirje saab ikkagi eraldi lukku panna (või avada).
+Et mitte jagada tuhandet raamatut ükshaaval, saab kirjel sisse lülitada **õiguste pärimise** ülemobjektilt. Lülita see raamatutel sisse, määra õigused üks kord Raamatukogul, ja iga raamat järgib neid — nii praegu kui ka siis, kui Raamatukogu õigused hiljem muutuvad. Otse kirjele määratud õigused lisanduvad päritud õigustele ning kui määrad inimesele otse **ligipääsu puudumise**, ei pääse ta kirjele ligi ka siis, kui ülemobjekt teda lubab — nii saab üksiku tundliku kirje ikkagi eraldi lukku panna (või avada).
 
 See ongi soovitatav viis juurdepääsu haldamiseks: anna õigused ülemobjektil, lülita selle all olevatel kirjetel pärimine sisse — ja haldad kõike ühest kohast.
 
@@ -30,9 +30,9 @@ See ongi soovitatav viis juurdepääsu haldamiseks: anna õigused ülemobjektil,
 
 1. Loo talle **isiku** kirje.
 2. Sisesta tema e-posti aadress.
-3. Klõpsa **Saada kutse** — ta saab lingi, logib sisse oma Google'i/Apple'i/e-postiga ja näeb täpselt seda, mida sina jagasid. Ei midagi enamat.
+3. Klõpsa **Saada kutse** — ta saab lingi, logib sisse ükskõik millise pakutud viisiga (Google, Apple, e-post, turvavõti või Eesti ID) ja näeb täpselt seda, mida sina jagasid. Ei midagi enamat. Link kehtib 24 tundi.
 
 ## Avalikuks tegemine
 
-Kirje saab teha nähtavaks ka **kõigile sinu andmebaasi kasutajatele** või koguni **avalikult internetis** — kasulik näiteks muuseumi avaliku kataloogi puhul. Avalik nähtavus on ainult lugemiseks ning alati teadlik valik, mitte kunagi vaikeseade.
+Kirje saab teha nähtavaks ka **kõigile sinu andmebaasi kasutajatele** või koguni **avalikult internetis** — kasulik näiteks muuseumi avaliku kataloogi puhul. Seal näidatakse ainult avalikuks märgitud parameetreid. Avalik nähtavus on ainult lugemiseks ning alati teadlik valik — kuid avaliku kirje alla lisatud uued kirjed on alguses samuti avalikud.
 

@@ -8,7 +8,7 @@ Menüüd on külgribal kuvatavad navigatsioonipunktid. Iga menüüelement viib o
 
 Kui menüüelement on aktiivne (praegune lehe URL vastab selle päringule), kuvatakse tööriistaribal nupp „Uus …" nende objektitüüpide jaoks, mille `add_from` viitab sellele menüüle.
 
-Objektitüübid saavad seada `add_from` ka viitama teisele **objektitüübile** või **konkreetsele objekti eksemplarile** — sel juhul ilmub selle tüübi eksemplari või konkreetse objekti vaatamisel nupp „Lisa alam-objekt". See muudab `add_from` töötavaks kahes kontekstis: menüütaseme loomine ja ülem-alam loomine.
+Objektitüübid saavad seada `add_from` ka viitama teisele **objektitüübile** või **konkreetsele objekti eksemplarile** — sel juhul ilmub selle tüübi eksemplari või konkreetse objekti vaatamisel nupp „Lisa …" kasutajatele, kellel on sellele objektile `_expander` õigused. Konkreetsele objektile viitavad tüübid on eelisjärjekorras: selle objektitüübile viitavaid tüüpe pakutakse ainult siis, kui ükski tüüp konkreetsele objektile ei viita. See muudab `add_from` töötavaks kahes kontekstis: menüütaseme loomine ja ülem-alam loomine.
 
 ## Menüü parameetrid
 
@@ -16,13 +16,13 @@ Objektitüübid saavad seada `add_from` ka viitama teisele **objektitüübile** 
 |---|---|
 | `name` | Külgribal kuvatav nimetus. |
 | `group` | Grupeerib menüüelemendid nimega sektsiooni päise alla. Sama `group` väärtusega elemendid kuvatakse koos. |
-| `ordinal` | Numbriline järjestus grupis. Väiksemad numbrid ilmuvad ees. |
-| `query` | URL-päringu string, mis määratleb, milliseid objekte see menüü kuvab. Kui praeguse lehe URL algab selle päringuga, tõstetakse menüüelement aktiivsena esile. |
+| `ordinal` | Numbriline järjestus grupis. Väiksemad numbrid ilmuvad ees. Grupid järjestatakse nende elementide keskmise `ordinal` väärtuse järgi. |
+| `query` | URL-päringu string, mis määratleb, milliseid objekte see menüü kuvab. Kui praeguse lehe URL algab selle päringuga, tõstetakse menüüelement aktiivsena esile. Kui väärtus algab `http` või `/`, on element hoopis link, mis avaneb uuel vahekaardil; selles asendatakse `{DATABASE}` ja `{LOCALE}` praeguse andmebaasi ja kasutajaliidese keelega. |
 
 Parameeter `query` kasutab standardset objektifiltri süntaksit. Täieliku süntaksi kohta vaata [API → Päringu viide](/et/api/paringu-viide/).
 
 ::: info
-Menüüde ja objektitüüpide vaheline seos on kahepoolne: menüü määratleb, mida kuvada, ja objektitüübi `add_from` parameeter viitab menüüle, et nupp „Lisa" ilmuks, kui see menüü on aktiivne.
+Menüüde ja objektitüüpide vaheline seos on kahepoolne: menüü määratleb, mida kuvada, ja objektitüübi `add_from` parameeter viitab menüüle, et nupp „Uus …" ilmuks, kui see menüü on aktiivne.
 :::
 
 ## Menüü seadistamise näide
@@ -36,7 +36,7 @@ Tüüpiline külgriba projektijuhtimise rakendusele:
 | Arved | Rahandus | 1 | `_type.string=invoice&sort=-date.date` |
 | Inimesed | Haldus | 1 | `_type.string=person&sort=name.string` |
 
-Et lubada seda tüüpi objektide loomist menüüst, sea objektitüübi `add_from` viitama menüüobjektile. Kui see menüü on aktiivne, ilmub tööriistaribal nupp „Lisa".
+Et lubada seda tüüpi objektide loomist menüüst, sea objektitüübi `add_from` viitama menüüobjektile. Kui see menüü on aktiivne, ilmub tööriistaribal nupp „Uus …".
 
 ## Juurdepääsukontroll
 

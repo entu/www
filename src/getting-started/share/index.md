@@ -22,7 +22,7 @@ There's also an in-between level (**expander**) that lets someone add new entrie
 
 Every entry carries its own access rights — sharing your **Library** does not by itself open every book inside it.
 
-To avoid sharing a thousand books one by one, an entry can be set to **inherit rights** from its parent. Turn that on for the books, set the rights once on the Library, and every book follows it — now and when the Library's rights change later. Rights set directly on an entry always win over inherited ones, so a single sensitive entry can still be locked down (or opened up) on its own.
+To avoid sharing a thousand books one by one, an entry can be set to **inherit rights** from its parent. Turn that on for the books, set the rights once on the Library, and every book follows it — now and when the Library's rights change later. Rights set directly on an entry are added to the inherited ones, and a direct **no access** right shuts a person out even when the parent lets them in — so a single sensitive entry can still be locked down (or opened up) on its own.
 
 This is the recommended way to manage access: grant rights on the parent, enable inheritance on the entries under it, and you manage everything in one place.
 
@@ -30,9 +30,9 @@ This is the recommended way to manage access: grant rights on the parent, enable
 
 1. Create a **Person** entry for them.
 2. Enter their email address.
-3. Click **Send Invitation** — they get a link, sign in with their own Google/Apple/email, and see exactly what you've shared. Nothing more.
+3. Click **Send Invite** — they get a link, sign in with any of the offered options (Google, Apple, email, a passkey, or an Estonian ID), and see exactly what you've shared. Nothing more. The link is valid for 24 hours.
 
 ## Making something public
 
-You can also mark an entry as visible to **everyone in your database**, or even **publicly on the internet** — useful for a museum's public catalogue. Public visibility is read-only, and it's always an explicit choice, never a default.
+You can also mark an entry as visible to **everyone in your database**, or even **publicly on the internet** — useful for a museum's public catalogue. Only the properties marked public are shown there. Public visibility is read-only and always an explicit choice — though new entries added under a public entry start out public too.
 

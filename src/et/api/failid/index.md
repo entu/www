@@ -26,35 +26,42 @@ Failide üleslaadimine kasutab turvalist kahesammulist voogu:
 
 **1. samm — Loo failiparameeter**
 
-Postita faili metaandmed objektile. API vastab parameetriobjektiga, mis sisaldab välja `upload` allkirjastatud URL-i ja nõutavate päistega.
+Postita faili metaandmed objektile (`POST /api/{db}/entity/{_id}` — keha on massiiv nagu iga parameetri kirjutamisel). Loodud parameeter tuleb tagasi vastuse massiivis `properties` koos väljaga `upload`, mis sisaldab allkirjastatud URL-i ja nõutavaid päiseid.
 
 ```json
-{
-  "type": "photo",
-  "filename": "cover.jpg",
-  "filesize": 1937,
-  "filetype": "image/jpeg"
-}
+[
+  {
+    "type": "photo",
+    "filename": "cover.jpg",
+    "filesize": 1937,
+    "filetype": "image/jpeg"
+  }
+]
 ```
 
 Vastus:
 ```json
 {
-  "_id": "507f1f77bcf86cd799439011",
-  "type": "photo",
-  "filename": "cover.jpg",
-  "filesize": 1937,
-  "filetype": "image/jpeg",
-  "upload": {
-    "url": "https://s3.amazonaws.com/bucket/path?signature...",
-    "method": "PUT",
-    "headers": {
-      "ACL": "private",
-      "Content-Disposition": "inline;filename=\"cover.jpg\"",
-      "Content-Length": 1937,
-      "Content-Type": "image/jpeg"
+  "_id": "6798938432faaba00f8fc72f",
+  "properties": [
+    {
+      "_id": "507f1f77bcf86cd799439011",
+      "type": "photo",
+      "filename": "cover.jpg",
+      "filesize": 1937,
+      "filetype": "image/jpeg",
+      "upload": {
+        "url": "https://s3.amazonaws.com/bucket/path?signature...",
+        "method": "PUT",
+        "headers": {
+          "ACL": "private",
+          "Content-Disposition": "inline;filename=\"cover.jpg\"",
+          "Content-Length": 1937,
+          "Content-Type": "image/jpeg"
+        }
+      }
     }
-  }
+  ]
 }
 ```
 
@@ -99,7 +106,7 @@ Loo objekti `photo` parameetri esimesest failist ruudukujuline pisipilt:
 GET /api/{db}/entity/{_id}/thumbnail/{size}
 ```
 
-Endpoint võtab esimese `photo` faili, renderdab selle, kärbib keskelt ruuduks (cover-sobitus) ja toodab **JPEG**-i. Toetatud on nii **pildid** (`image/*`, välja arvatud SVG) kui ka **PDF**-failid — PDF-i puhul renderdatakse esimene lehekülg.
+Endpoint võtab esimese `photo` faili, renderdab selle, kärbib keskelt ruuduks (cover-sobitus) ja toodab **JPEG**-i. Toetatud on nii **pildid** (JPEG, PNG, GIF, BMP, TIFF) kui ka **PDF**-failid — PDF-i puhul renderdatakse esimene lehekülg. Üle 25 MB lähtefailid ja üle 40 megapiksli pildid lükatakse tagasi.
 
 Tee `size` peab olema üks lubatud väärtustest (ruudu laius ja kõrgus pikslites):
 
@@ -122,9 +129,10 @@ Loodud pisipildid salvestatakse objektihoidlasse, seega on esimene päring antud
 | Vastus | Tähendus |
 |---|---|
 | `200` | JSON `{ url }` allkirjastatud pisipildi URL-iga |
-| `400` | Vigane `size`, toetamata failitüüp või faili ei õnnestunud dekodeerida |
+| `400` | Vigane `size`, toetamata failitüüp, liiga suur pilt või faili ei õnnestunud dekodeerida |
 | `403` | Puudub juurdepääs objektile |
-| `404` | Objekti ei leitud või sellel puudub `photo` |
+| `404` | Objekti ei leitud, sellel puudub `photo` või fail puudub salvestusest |
+| `413` | Lähtefail on suurem kui 25 MB |
 
 ### Parameetri pisipilt
 
@@ -134,7 +142,7 @@ Loo ruudukujuline pisipilt **mis tahes** üksikust failiparameetrist — mitte a
 GET /api/{db}/property/{_id}/thumbnail/{size}
 ```
 
-Kui objekti endpoint kasutab alati objekti esimest `photo` faili, siis see endpoint teeb pisipildi konkreetsest failiparameetrist, millele viitad. Muus osas on käitumine identne: kärbib keskelt ruuduks (cover-sobitus) ja toodab **JPEG**-i. Toetatud on nii **pildid** (`image/*`) kui ka **PDF**-failid — PDF-i puhul renderdatakse esimene lehekülg. See toidab kasutajaliideses failinime kohal hõljudes kuvatavat pisipildi eelvaadet.
+Kui objekti endpoint kasutab alati objekti esimest `photo` faili, siis see endpoint teeb pisipildi konkreetsest failiparameetrist, millele viitad. Muus osas on käitumine identne: kärbib keskelt ruuduks (cover-sobitus) ja toodab **JPEG**-i. Toetatud on nii **pildid** (JPEG, PNG, GIF, BMP, TIFF) kui ka **PDF**-failid — PDF-i puhul renderdatakse esimene lehekülg. See toidab kasutajaliideses failinime kohal hõljudes kuvatavat pisipildi eelvaadet.
 
 Tee `size` peab olema üks lubatud väärtustest (ruudu laius ja kõrgus pikslites):
 
@@ -157,9 +165,10 @@ Loodud pisipildid salvestatakse objektihoidlasse, seega on esimene päring antud
 | Vastus | Tähendus |
 |---|---|
 | `200` | JSON `{ url }` allkirjastatud pisipildi URL-iga |
-| `400` | Vigane `size`, parameeter ei ole eelvaadatav fail (ei ole pilt ega PDF) või faili ei õnnestunud dekodeerida |
+| `400` | Vigane `size`, parameeter ei ole eelvaadatav fail (ei ole pilt ega PDF), liiga suur pilt või faili ei õnnestunud dekodeerida |
 | `403` | Puudub juurdepääs parameetrile |
-| `404` | Parameetrit ei leitud |
+| `404` | Parameetrit või selle objekti ei leitud või fail puudub salvestusest |
+| `413` | Lähtefail on suurem kui 25 MB |
 
 ## Failiparameetri kustutamine
 
