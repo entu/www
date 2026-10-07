@@ -28,7 +28,7 @@ GET /api/{db}
 | `entities` | `usage` — existing entities (an estimate); `deleted` — entities ever deleted; `limit` — entity limit, `0` if not set |
 | `properties` | `usage` — current property values; `deleted` — soft-deleted values |
 | `requests` | `usage` — API requests this month; `limit` — only a scale for display (the usage rounded up on its leading digit), not an enforced limit |
-| `tokens` | `usage` — [AI](/api/ai/) tokens used this month; `limit` — the monthly AI token limit, 100 000 if not set |
+| `tokens` | `usage` — [Entu AI](/configuration/ai/) tokens used this month; `limit` — the monthly AI token limit, 100 000 if not set |
 | `files` | `usage` — bytes in live files; `deleted` — bytes in deleted files still in storage; `limit` — storage limit in bytes, `0` if not set |
 | `dbSize` | Database data plus index size in bytes |
 

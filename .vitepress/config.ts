@@ -34,7 +34,6 @@ const SLUG_MAP: [string, string][] = [
   ['configuration/mcp', 'seadistamine/mcp'],
   ['configuration', 'seadistamine'],
   ['examples', 'kasutusnaited'],
-  ['db-mutations', 'andmebaasi-mutatsioonid'],
   ['terms', 'kasutustingimused'],
   ['api/quickstart', 'api/kiire-algus'],
   ['api/authentication', 'api/autentimine'],
@@ -232,8 +231,6 @@ export default defineConfig({
               { text: 'Valemid', link: '/et/api/valemid/' },
               { text: 'Failid', link: '/et/api/failid/' },
               { text: 'Andmebaas', link: '/et/api/andmebaas/' },
-              { text: 'AI assistent', link: '/et/api/ai/' },
-              { text: 'Andmebaasi mutatsioonid', link: '/et/andmebaasi-mutatsioonid/' },
               { text: 'API viide', link: 'https://api.entu.app/docs' }
             ]
           }
@@ -316,8 +313,6 @@ export default defineConfig({
           { text: 'Formulas', link: '/api/formulas/' },
           { text: 'Files', link: '/api/files/' },
           { text: 'Database', link: '/api/database/' },
-          { text: 'AI Assistant', link: '/api/ai/' },
-          { text: 'Database Mutations', link: '/db-mutations/' },
           { text: 'API Reference', link: 'https://api.entu.app/docs' }
         ]
       }

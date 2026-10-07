@@ -68,7 +68,7 @@ JWT tokenid on seotud IP-aadressiga, mida kasutati tokeni väljastamisel. Kui su
 Vahemällu salvesta JWT ja kasuta seda uuesti päringutes. Mandaadi vahetamine iga kõne puhul on ebaotstarbekas — uuenda ainult siis, kui token läheneb aegumisele.
 :::
 
-Iga Entu JWT kannab `use` väidet, mis ütleb, milleks token on. REST API, GraphQL ja MCP avanevad ainult `use: access` tokeniga — need tulevad aadressidelt `GET /api/auth`, `/api/auth/refresh` ja [OAuth serverist](#oauth-server); sessioonitoken või kutse lükatakse seal tagasi. Enne selle väite lisamist väljastatud tokenitel `use` puudub ja neid aktsepteeritakse kuni 2026-11-06.
+Iga Entu JWT kannab `use` väidet, mis ütleb, milleks token on. REST API ja MCP avanevad ainult `use: access` tokeniga — need tulevad aadressidelt `GET /api/auth`, `/api/auth/refresh` ja [OAuth serverist](#oauth-server); sessioonitoken või kutse lükatakse seal tagasi. Enne selle väite lisamist väljastatud tokenitel `use` puudub ja neid aktsepteeritakse kuni 2026-11-06.
 
 ## Tokeni uuendamine
 

@@ -49,5 +49,5 @@ Vestlusi serveris ei säilitata — need on ainult sinu avatud brauseri vahekaar
 - *„Lisa arvele summa väli, mis arvutatakse arveridade põhjal"*
 
 ::: tip
-Soovid assistendiga programmiliselt suhelda? Vaata aluseks olevaid lõpp-punkte lehelt [AI assistendi API](/et/api/ai/).
+Soovid oma AI tööriistaga andmebaasiga töötada? Ühenda see [MCP serveri](/et/seadistamine/mcp/) kaudu.
 :::

@@ -68,7 +68,7 @@ JWT tokens are bound to the IP address used when the token was issued. If your I
 Cache the JWT and reuse it across requests. Exchanging the credential on every call is wasteful — only refresh when the token nears expiry.
 :::
 
-Every Entu JWT carries a `use` claim naming what it is for. Only `use: access` tokens — from `GET /api/auth`, `/api/auth/refresh` and the [OAuth server](#oauth-server) — open the REST API, GraphQL and MCP; a session token or an invite is refused there. Tokens issued before the claim was added have no `use` and are accepted until 2026-11-06.
+Every Entu JWT carries a `use` claim naming what it is for. Only `use: access` tokens — from `GET /api/auth`, `/api/auth/refresh` and the [OAuth server](#oauth-server) — open the REST API and MCP; a session token or an invite is refused there. Tokens issued before the claim was added have no `use` and are accepted until 2026-11-06.
 
 ## Refreshing a Token
 

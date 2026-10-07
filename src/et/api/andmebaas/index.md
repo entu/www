@@ -28,7 +28,7 @@ GET /api/{db}
 | `entities` | `usage` — olemasolevad objektid (hinnang); `deleted` — kunagi kustutatud objektid; `limit` — objektide limiit, `0`, kui pole määratud |
 | `properties` | `usage` — kehtivad parameetriväärtused; `deleted` — kustutatud väärtused |
 | `requests` | `usage` — selle kuu API päringud; `limit` — ainult kuvamise skaala (kasutus, ümardatud üles esimese numbri järgi), mitte jõustatav limiit |
-| `tokens` | `usage` — selle kuu [AI](/et/api/ai/) tokenid; `limit` — kuu AI tokenite limiit, 100 000, kui pole määratud |
+| `tokens` | `usage` — selle kuu [Entu AI](/et/seadistamine/ai/) tokenid; `limit` — kuu AI tokenite limiit, 100 000, kui pole määratud |
 | `files` | `usage` — kehtivate failide maht baitides; `deleted` — kustutatud, kuid veel salvestuses olevate failide maht baitides; `limit` — salvestusmahu limiit baitides, `0`, kui pole määratud |
 | `dbSize` | Andmebaasi andmete ja indeksite maht baitides |
 

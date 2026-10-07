@@ -49,5 +49,5 @@ Conversations are not stored on the server — they live only in your open brows
 - *"Add invoice total field calculated from invoice rows"*
 
 ::: tip
-Integrating with the assistant programmatically? See the [AI Assistant API](/api/ai/) for the underlying endpoints.
+Want your own AI tool to work with your database? Connect it through the [MCP server](/configuration/mcp/).
 :::
