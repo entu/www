@@ -47,7 +47,7 @@ Every entity has explicit access control. Rights are set by referencing a person
 | Property | Access level |
 |---|---|
 | `_owner` | Full control — view, edit all properties, delete the entity, manage rights, create children. |
-| `_editor` | Can view and edit all properties except the rights properties themselves and login credentials (`entu_user`, `entu_api_key`, `entu_passkey`) — those need `_owner`, or the person editing their own entity. |
+| `_editor` | Can view and edit all properties except the rights properties themselves and login credentials (`entu_user`, `entu_api_key`) — those need `_owner`, or the person editing their own entity. |
 | `_expander` | Can view the entity and create child entities under it. |
 | `_viewer` | Read-only — can view the entity and its properties. |
 | `_noaccess` | Explicitly removes all rights on this entity, including rights inherited from parents. Overrides all other rights properties set on the same entity. Does not hide an entity shared as `domain` or `public`. Not propagated to children via `_inheritrights`. |

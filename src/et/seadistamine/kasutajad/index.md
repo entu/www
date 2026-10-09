@@ -11,7 +11,7 @@ Isikuobjektid esindavad Entus kasutajakontosid. Iga isik saab autentida ja talle
 1. Loo uus objekt tüübiga **Person**
 2. Sisesta isiku e-posti aadress väljale `email`
 3. Klõpsa välja `entu_user` juures **Saada kutse** — kutse saadetakse sellele aadressile koos lingiga, mis kehtib 24 tundi
-4. Isik avab lingi ja logib sisse ükskõik millise valikuga — pääsuvõti (olemasolev või uus), Apple, Google, e-post, Smart-ID, Mobiil-ID või ID-kaart. Sisselogimine seotakse isikuobjektiga: pääsuvõtme puhul `entu_passkey`, teiste valikute puhul `entu_user` parameetrina
+4. Isik avab lingi ja logib sisse ükskõik millise valikuga — pääsuvõti (olemasolev või uus), Apple, Google, e-post, Smart-ID, Mobiil-ID või ID-kaart. Sisselogimine seotakse isikuobjektiga `entu_user` parameetrina
 
 Kutse saatmiseks või tühistamiseks on vaja isikuobjektil `_owner` õigusi — või oma isikuobjektil `_editor` õigusi. Ootel kutse kuvatakse tekstina *Kutse saadetud aadressile …* koos nupuga **Tühista kutse**.
 
@@ -27,7 +27,7 @@ Täieliku õiguste tabeli ja jagamise võimaluste kohta vaata [Objektid → Juur
 
 ## Kasutajate automaatne loomine
 
-Kui soovid lubada juurdepääsu kõigile sisselogijatele, saab Entu automaatselt luua neile isikuobjekti esmakordsel sisselogimisel — käsitsi seadistamist pole vaja. Pääsuvõtmega sisselogimine loob isiku `entu_passkey` parameetriga, iga muu sisselogimisviis `entu_user` parameetriga. Isiku `email` ja `name` täidetakse, kui sisselogimine need edastab.
+Kui soovid lubada juurdepääsu kõigile sisselogijatele, saab Entu automaatselt luua neile isikuobjekti esmakordsel sisselogimisel — käsitsi seadistamist pole vaja. Isik luuakse sisselogimisviisiga — pääsuvõtme või mis tahes muu valikuga — tema `entu_user` parameetrina. Isiku `email` ja `name` täidetakse, kui sisselogimine need edastab.
 
 ::: warning
 Automaatselt loodud kasutajad on tavalised kasutajad. Neil on juurdepääs kõigile objektidele ja parameetritele, mis kasutavad `domain` jagamist. Enne selle lubamist veendu, et sinu jagamissätted on tahtlikud.
@@ -48,7 +48,7 @@ Automaatse loomise käivitamiseks peavad kõik järgmised tingimused olema täid
 1. Objektil `database` on parameeter `add_user`, mis viitab ülemobjektile, kuhu luuakse uued isikuobjektid (nt kausta „Kasutajad")
 2. Andmebaasis on olemas isikuobjekti tüübi definitsioon (`_type: entity`, `name: person`)
 3. Autentimispäring sisaldab `db` päringuparameetrit
-4. Ükski andmebaasi isikuobjekt pole selle sisselogimisega veel seotud — puudub vastav `entu_user` (sama teenusepakkuja konto või ainult sama e-postiga kirje) ja vastav `entu_passkey`
+4. Ükski andmebaasi isikuobjekt pole selle sisselogimisega veel seotud — puudub vastav `entu_user` (sama teenusepakkuja konto või pääsuvõti või ainult sama e-postiga kirje)
 5. Sisselogimisega ei võeta vastu kutset
 
 Pärast loomist seatakse uus isikuobjekt automaatselt oma `_editor`-iks — nii saavad kasutajad kohe oma profiili parameetreid uuendada.

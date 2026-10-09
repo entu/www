@@ -30,7 +30,7 @@ Request body — required; send `{}` for the defaults:
 
 You need `_owner` rights on the entity, and `_expander` rights on every `_parent` that is copied.
 
-Every current property value is copied — including `_parent`, `_sharing` and the rights properties — and you are added as `_owner`. Counter values are copied as they are, not renumbered. Formula values are not copied; each copy computes its own. Like any new entity, a copy also gets the entity type's default parents and the default values of properties it does not have. Not copied: files, `entu_user`, `entu_api_key` and `entu_passkey` credentials, billing properties, `_created` (each copy gets its own), `_mid` and the names in `ignoredProperties`. Duplicating does not trigger [webhooks](/configuration/plugins/#plugin-types).
+Every current property value is copied — including `_parent`, `_sharing` and the rights properties — and you are added as `_owner`. Counter values are copied as they are, not renumbered. Formula values are not copied; each copy computes its own. Like any new entity, a copy also gets the entity type's default parents and the default values of properties it does not have. Not copied: files, `entu_user` and `entu_api_key` credentials, billing properties, `_created` (each copy gets its own), `_mid` and the names in `ignoredProperties`. Duplicating does not trigger [webhooks](/configuration/plugins/#plugin-types).
 
 The response is an array with one item per copy, each shaped like the response of `POST /api/{db}/entity`: the new `_id` and the written `properties`.
 

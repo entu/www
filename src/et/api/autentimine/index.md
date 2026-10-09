@@ -48,10 +48,10 @@ Kutse vastuvõtmiseks lisa ajutise tokeni vahetamisel `invite={INVITE_TOKEN}`: s
 
 Pääsuvõti on sisselogimisviis nagu teisedki, Entu pääsuvõtme lehel (`lang` sellele ei rakendu):
 
-- `/api/auth/passkey` logib sisse olemasoleva pääsuvõtmega. Kasutaja tuvastatakse isikuobjekti pääsuvõtme (`entu_passkey`) järgi igas andmebaasis, kus see on.
+- `/api/auth/passkey` logib sisse olemasoleva pääsuvõtmega. Kasutaja tuvastatakse pääsuvõtme `entu_user` väärtuse järgi igas andmebaasis, kus see on.
 - `/api/auth/passkey/register` loob kasutaja seadmes uue pääsuvõtme ja logib sellega sisse — kasuta seda registreerumiseks, kutse vastuvõtmiseks uue pääsuvõtmega või oma isikuobjektile pääsuvõtme lisamiseks.
 
-Mõlemad lõpevad ajutise tokeniga `GET /api/auth` jaoks ja võtavad `next` parameetri samamoodi. `uid` on pääsuvõtme ID ja `provider` on `passkey`. Kui pääsuvõtmega võetakse vastu kutse, luuakse isikuobjekt automaatselt või luuakse uus andmebaas, salvestatakse see pääsuvõti isikuobjektile. Pääsuvõti ise nime ei hoia: `user.name` on isiku nimi esimeses andmebaasis tähestiku järjekorras, kus isikul nimi on.
+Mõlemad lõpevad ajutise tokeniga `GET /api/auth` jaoks ja võtavad `next` parameetri samamoodi. Kui pääsuvõtmega võetakse vastu kutse, luuakse isikuobjekt automaatselt või luuakse uus andmebaas, salvestatakse see pääsuvõti isikuobjektile. Pääsuvõti ise nime ei hoia: `user.name` on isiku nimi esimeses andmebaasis tähestiku järjekorras, kus isikul nimi on.
 
 ## Autentimise voog
 
@@ -198,18 +198,22 @@ Koodid on ühekordsed ja aeguvad viie minutiga. Kui token aegub, käivita voog u
 
 Autentimisvolitused salvestatakse parameetritena objektil. Vaikimisi kasutatakse neid isikuobjektidel — iga isikuobjekt esindab inimkasutajat. Kuid samu parameetreid saab lisada mis tahes objektitüübile, mis võimaldab ka automatiseeritud toimijatel autentida. IoT seadistuses `robot` objekt, digitaalreklaami süsteemis `screen` objekt või serveripoolse integratsiooni jaoks mõeldud `service` objekt — kõigil võib olla oma API võti ja kõik saavad iseseisvalt autentida.
 
+Salvestatud väärtusi kasutatakse ainult sisselogimiseks. Kõikjal mujal — API vastustes, GraphQL-is, filtrites, sortimisel, otsingus, valemites ja ajaloos — näidatakse sisselogimisandmetest ainult varjatud kuju:
+
+| Parameeter | Näidatakse |
+|---|---|
+| `entu_user` | `string`: sisselogimise e-post (ID-kaardi puhul ilma `@eesti.ee`-ta) või pääsuvõtme seadme nimi; `provider`; ootel kutse puhul `invite: true` |
+| `entu_api_key` | `string`: `***` |
+
+Ainsad erandid on loomise ja muutmise vastused: uus API võti tagastatakse ühe korra avatekstina ja kutse token tagastatakse ainult isikule endale (**Lisa sisselogimisviis**).
+
 ### `entu_user`
 
-- Salvestab pakkuja kasutaja ID koos muu OAuth-pakkuja tagastatud infoga (nt e-post)
+- Salvestab ühe sisselogimisviisi: `provider` ja pakkuja kasutaja ID väljana `uid`, koos muu OAuth-pakkuja tagastatud infoga (nt e-post)
 - Seatakse automaatselt, kui esmakordsel sisselogimisel luuakse uus isikuobjekt
 - Selle kirjutamine mis tahes `string` väärtusega salvestab hoopis 24 tundi kehtiva kutse; olemasoleval objektil saadab väärtus `send-invite` kutse lingi ka objekti `email` aadressile (`400 No email`, kui seda pole) — vaata [Kasutajad → Kasutajate lisamine](/et/seadistamine/kasutajad/#kasutajate-lisamine)
-
-### `entu_passkey`
-
-- Salvestab pääsuvõtme ID ja avaliku võtme — privaatvõti ei lahku kunagi kasutaja seadmest
-- Lisatakse, kui pääsuvõtmega logitakse sisse kutse vastuvõtmiseks (sh oma isikuobjektil **Lisa sisselogimisviis**), kasutaja automaatsel loomisel või uue andmebaasi loomisel — otse seda kirjutada ei saa; ühel objektil võib olla mitu pääsuvõtit
+- Sisselogimise väljad seatakse ainult sisselogimisel — kutse vastuvõtmisel (sh oma isikuobjektil **Lisa sisselogimisviis**), kasutaja automaatsel loomisel või uue andmebaasi loomisel — otse neid kirjutada ei saa; ühel objektil võib olla mitu sisselogimisviisi
 - Saab kustutada nagu iga parameetri väärtust
-- Sama pääsuvõtit saab hoida mitmes andmebaasis, ühe identiteedina üle kogu Entu; pääsuvõtme ID, mis on Entus juba teise avaliku võtmega registreeritud, lükatakse tagasi
 
 ### `entu_api_key`
 

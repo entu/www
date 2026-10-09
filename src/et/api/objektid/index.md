@@ -30,7 +30,7 @@ Päringu keha — kohustuslik; vaikeväärtuste jaoks saada `{}`:
 
 Vaja on `_owner` õigusi objektile ja `_expander` õigusi igale kopeeritavale `_parent`-ile.
 
-Kopeeritakse iga kehtiv parameetriväärtus — ka `_parent`, `_sharing` ja õiguste parameetrid — ning sind lisatakse `_owner`-iks. Loenduri väärtused kopeeritakse nii, nagu need on, uusi numbreid ei anta. Valemite väärtusi ei kopeerita; iga koopia arvutab enda omad. Nagu iga uus objekt, saab koopia ka objektitüübi vaikimisi ülemobjektid ja nende parameetrite vaikeväärtused, mida tal pole. Ei kopeerita: faile, `entu_user`, `entu_api_key` ja `entu_passkey` volitusi, arveldusparameetreid, `_created`-i (iga koopia saab oma), `_mid`-i ega `ignoredProperties` nimesid. Dubleerimine ei käivita [veebikonkse](/et/seadistamine/pluginad/#pluginate-tuubid).
+Kopeeritakse iga kehtiv parameetriväärtus — ka `_parent`, `_sharing` ja õiguste parameetrid — ning sind lisatakse `_owner`-iks. Loenduri väärtused kopeeritakse nii, nagu need on, uusi numbreid ei anta. Valemite väärtusi ei kopeerita; iga koopia arvutab enda omad. Nagu iga uus objekt, saab koopia ka objektitüübi vaikimisi ülemobjektid ja nende parameetrite vaikeväärtused, mida tal pole. Ei kopeerita: faile, `entu_user` ja `entu_api_key` volitusi, arveldusparameetreid, `_created`-i (iga koopia saab oma), `_mid`-i ega `ignoredProperties` nimesid. Dubleerimine ei käivita [veebikonkse](/et/seadistamine/pluginad/#pluginate-tuubid).
 
 Vastus on massiiv, milles on iga koopia kohta üks element samal kujul nagu `POST /api/{db}/entity` vastus: uus `_id` ja kirjutatud `properties`.
 

@@ -48,10 +48,10 @@ To accept an invite, add `invite={INVITE_TOKEN}` when exchanging the temporary t
 
 A passkey is a login provider like the others, on the Entu passkey page (`lang` does not apply):
 
-- `/api/auth/passkey` signs in with an existing passkey. The user is matched by the passkey on their person entity (`entu_passkey`) in every database that holds it.
+- `/api/auth/passkey` signs in with an existing passkey. The user is matched by the passkey's `entu_user` value in every database that holds it.
 - `/api/auth/passkey/register` creates a new passkey on the user's device and signs in with it — use it to sign up, to accept an invite with a new passkey, or to add a passkey to one's own person.
 
-Both end in a temporary token for `GET /api/auth` and take `next` the same way. `uid` is the passkey's credential ID and `provider` is `passkey`. Accepting an invite, creating a person automatically or creating a new database with a passkey stores that passkey on the person. A passkey stores no name: `user.name` is the person's name in the first database, alphabetically, that has one.
+Both end in a temporary token for `GET /api/auth` and take `next` the same way. Accepting an invite, creating a person automatically or creating a new database with a passkey stores that passkey on the person. A passkey stores no name: `user.name` is the person's name in the first database, alphabetically, that has one.
 
 ## Authentication Flow
 
@@ -198,18 +198,22 @@ Codes are single use and expire after five minutes. When the token expires, run 
 
 Authentication credentials are stored as properties on an entity. By default these are used on person entities — each person entity represents a human user. But the same properties can be added to any entity type, which lets non-human actors authenticate too. A `robot` entity in an IoT setup, a `screen` entity in a digital signage system, or a `service` entity for a backend integration can all have their own API key and authenticate independently.
 
+The stored values are used only for signing in. Everywhere else — API responses, GraphQL, filters, sorting, search, formulas and history — a credential shows only its masked form:
+
+| Property | Shown as |
+|---|---|
+| `entu_user` | `string`: the login's email (ID-card logins without `@eesti.ee`) or a passkey's device label; `provider`; `invite: true` while an invite is pending |
+| `entu_api_key` | `string`: `***` |
+
+The only exceptions are the create and edit responses: a new API key is returned once in plain text, and an invite token is returned only to the person it is for (**Add Login Method**).
+
 ### `entu_user`
 
-- Stores the provider user ID along with other info returned by the OAuth provider (such as email)
+- Stores one login: `provider` and the provider user ID as `uid`, along with other info returned by the OAuth provider (such as email)
 - Set automatically when a new person entity is created on first login
 - Writing it with any `string` stores an invite instead, valid 24 hours; on an existing entity the value `send-invite` also emails the invite link to the entity's `email` (`400 No email` without one) — see [Users → Adding Users](/configuration/users/#adding-users)
-
-### `entu_passkey`
-
-- Stores a passkey's credential ID and public key — the private key never leaves the user's device
-- Added by signing in with a passkey to accept an invite (including **Add Login Method** on one's own person), by automatic user creation or by creating a new database — never written directly; one entity can have several passkeys
+- Login fields are set only by a sign-in — accepting an invite (including **Add Login Method** on one's own person), automatic user creation or creating a new database — never written directly; one entity can have several logins
 - Can be deleted like any property value
-- The same passkey can be stored in several databases, as one identity across Entu; a credential ID registered anywhere in Entu with another public key is refused
 
 ### `entu_api_key`
 

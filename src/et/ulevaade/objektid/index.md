@@ -47,7 +47,7 @@ Igal objektil on selgesõnaline juurdepääsukontroll. Õigused seatakse, viidat
 | Parameeter | Juurdepääsu tase |
 |---|---|
 | `_owner` | Täielik kontroll — vaata, muuda kõiki parameetreid, kustuta objekt, halda õigusi, loo alam-objekte. |
-| `_editor` | Saab vaadata ja muuta kõiki parameetreid peale õiguste parameetrite enda ja sisselogimisandmete (`entu_user`, `entu_api_key`, `entu_passkey`) — nende jaoks on vaja `_owner` õigust või et isik muudaks iseenda objekti. |
+| `_editor` | Saab vaadata ja muuta kõiki parameetreid peale õiguste parameetrite enda ja sisselogimisandmete (`entu_user`, `entu_api_key`) — nende jaoks on vaja `_owner` õigust või et isik muudaks iseenda objekti. |
 | `_expander` | Saab vaadata objekti ja luua selle alla alam-objekte. |
 | `_viewer` | Ainult lugemine — saab vaadata objekti ja selle parameetreid. |
 | `_noaccess` | Eemaldab selgesõnaliselt kõik õigused sellel objektil, ka ülemobjektidelt päritud õigused. Tühistab kõik teised samale objektile seatud õiguste parameetrid. Ei peida objekti, mis on jagatud kui `domain` või `public`. Ei kandu `_inheritrights` kaudu alam-objektidele edasi. |
