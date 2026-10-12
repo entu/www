@@ -29,7 +29,7 @@ Your database is a **private space** that holds your data — only you can see i
 
 Click the sign-in provider you want to use — the options become clickable once the name is available:
 
-- **New passkey** — your device creates a new passkey, which you use with your fingerprint, face recognition, or device PIN.
+- **Passkey** — create a new passkey on your device, or use one you already have for Entu; you use it with your fingerprint, face recognition, or device PIN.
 - **Apple or Google** — one click if you are already signed in on your device.
 - **E-mail** — we send you a link; clicking it signs you in.
 - **Smart-ID, Mobile-ID, or ID-Card** — Estonian e-identity options.

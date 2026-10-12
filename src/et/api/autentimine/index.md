@@ -40,18 +40,13 @@ curl -X GET "https://entu.app/api/auth" \
 
 Toetatud pakkujad: `passkey`, `apple`, `google`, `e-mail`, `smart-id`, `mobile-id`, `id-card`
 
-Ilma `next` URL-ita (vaata [Kolmanda osapoole rakenduse integratsioon](#kolmanda-osapoole-rakenduse-integratsioon)) tuleb ajutine token tagasi JSON-ina `{ "key": "..." }`. Lisa `lang=en` või `lang=et`, et määrata OAuth.ee sisselogimislehe keel; ilma selleta valib OAuth.ee ise.
+Ilma `next` URL-ita (vaata [Kolmanda osapoole rakenduse integratsioon](#kolmanda-osapoole-rakenduse-integratsioon)) tuleb ajutine token tagasi JSON-ina `{ "key": "..." }`. Lisa `lang=en` või `lang=et`, et määrata OAuth.ee sisselogimislehe keel; ilma selleta valib OAuth.ee ise. `passkey` puhul see ei rakendu.
 
 Pakkuja tagastab kasutaja ID ja profiiliinfo, mis viiakse vastavusse objekti `entu_user` parameetriga. Esmakordsel sisselogimisel saab isikuobjekti luua automaatselt — vaata [Kasutajad → Kasutajate automaatne loomine](/et/seadistamine/kasutajad/#kasutajate-automaatne-loomine). Sisselogimine, mis ei vasta ühelegi andmebaasile, saab samuti tokeni, tühja `accounts` loendiga; selle tokeniga saab luua uue andmebaasi.
 
 Kutse vastuvõtmiseks lisa ajutise tokeni vahetamisel `invite={INVITE_TOKEN}`: sisselogimine seotakse kutsutud isikuobjektiga ja ilma `db`-ta piiratakse JWT kutse andmebaasiga. Kui sisselogimine on selles andmebaasis juba teise isikuga seotud, kutset vastu ei võeta ja vastuses on `"conflict": "invite"`. Vigane, aegunud või juba kasutatud kutse — või kutse, mis on `db`-st erineva andmebaasi jaoks — lükatakse tagasi veaga `400 Invalid or expired invite`; kasutatud kutse logib sisse ainult isiku, kellele see oli mõeldud.
 
-Pääsuvõti on sisselogimisviis nagu teisedki, Entu pääsuvõtme lehel (`lang` sellele ei rakendu):
-
-- `/api/auth/passkey` logib sisse olemasoleva pääsuvõtmega. Kasutaja tuvastatakse pääsuvõtme `entu_user` väärtuse järgi igas andmebaasis, kus see on.
-- `/api/auth/passkey/register` loob kasutaja seadmes uue pääsuvõtme ja logib sellega sisse — kasuta seda registreerumiseks, kutse vastuvõtmiseks uue pääsuvõtmega või oma isikuobjektile pääsuvõtme lisamiseks.
-
-Mõlemad lõpevad ajutise tokeniga `GET /api/auth` jaoks ja võtavad `next` parameetri samamoodi. Kui pääsuvõtmega võetakse vastu kutse, luuakse isikuobjekt automaatselt või luuakse uus andmebaas, salvestatakse see pääsuvõti isikuobjektile. Pääsuvõti ise nime ei hoia: `user.name` on isiku nimi esimeses andmebaasis tähestiku järjekorras, kus isikul nimi on.
+Pääsuvõti ise nime ei hoia, seega on `passkey` sisselogimise järel `user.name` isiku nimi esimeses andmebaasis tähestiku järjekorras, kus isikul nimi on.
 
 ## Autentimise voog
 

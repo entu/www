@@ -97,6 +97,8 @@ To overwrite a specific existing value rather than adding a new one, include its
 
 This replaces the value of that exact property object: the old value is soft-deleted and the new value gets a new `_id`. Without `_id`, a new value is always added alongside any existing ones.
 
+The `_id` must be a current value of the same entity, otherwise the request fails with `400` and nothing is written. The new value may have another `type` or `language`; overwriting then needs the rights to delete the old value as well as to add the new one — for example `_owner` to replace a rights value, and `_type` can only be replaced by another `_type`.
+
 ## Multi-Value Properties
 
 When a property definition has `list: true`, multiple values can exist under the same property name. Each value is a separate property object with its own `_id`.

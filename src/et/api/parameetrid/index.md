@@ -97,6 +97,8 @@ Konkreetse olemasoleva väärtuse ülekirjutamiseks (mitte uue lisamiseks), lisa
 
 See asendab selle täpse parameetriobjekti väärtuse: vana väärtus kustutatakse pehmelt ja uus väärtus saab uue `_id`. Ilma `_id`-ta lisatakse alati uus väärtus olemasolevate kõrvale.
 
+`_id` peab olema sama objekti kehtiv väärtus, muidu vastatakse `400` ja midagi ei salvestata. Uuel väärtusel võib olla teine `type` või `language`; siis on ülekirjutamiseks vaja nii vana väärtuse kustutamise kui ka uue lisamise õigusi — näiteks õiguste väärtuse asendamiseks `_owner`-it ning `_type`-i saab asendada ainult teise `_type`-iga.
+
 ## Mitme väärtusega parameetrid
 
 Kui parameetri definitsioonil on `list: true`, võib sama parameetri nime all eksisteerida mitu väärtust. Iga väärtus on eraldi parameetriobjekt oma `_id`-ga.

@@ -29,7 +29,7 @@ Sinu andmebaas on **privaatne ruum** sinu andmete jaoks — kuni sa kedagi ei ku
 
 Klõpsa sisselogimisviisil, mida soovid kasutada — valikud muutuvad klõpsatavaks, kui nimi on vaba:
 
-- **Uus pääsuvõti** — sinu seade loob uue pääsuvõtme, mida kasutad sõrmejälje, näotuvastuse või seadme PIN-koodiga.
+- **Pääsuvõti** — loo oma seadmes uus pääsuvõti või kasuta Entu jaoks juba olemasolevat; seda kasutad sõrmejälje, näotuvastuse või seadme PIN-koodiga.
 - **Apple või Google** — üks klõps, kui oled seadmes juba sisse logitud.
 - **E-post** — saadame sulle lingi; sellel klõpsamine logibki sisse.
 - **Smart-ID, Mobiil-ID või ID-kaart** — Eesti e-identiteedi valikud.

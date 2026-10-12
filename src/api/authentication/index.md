@@ -40,18 +40,13 @@ curl -X GET "https://entu.app/api/auth" \
 
 Supported providers: `passkey`, `apple`, `google`, `e-mail`, `smart-id`, `mobile-id`, `id-card`
 
-Without a `next` URL (see [Third-Party App Integration](#third-party-app-integration)), the temporary token comes back as JSON `{ "key": "..." }`. Add `lang=en` or `lang=et` to set the language of the OAuth.ee sign-in page; without it OAuth.ee chooses.
+Without a `next` URL (see [Third-Party App Integration](#third-party-app-integration)), the temporary token comes back as JSON `{ "key": "..." }`. Add `lang=en` or `lang=et` to set the language of the OAuth.ee sign-in page; without it OAuth.ee chooses. It does not apply to `passkey`.
 
 The provider returns a user ID and profile info that is matched against the entity's `entu_user` property. On first login, a person entity can be created automatically — see [Users → Automatic User Creation](/configuration/users/#automatic-user-creation). A sign-in that matches no database still gets a token, with an empty `accounts` list; that token can create a new database.
 
 To accept an invite, add `invite={INVITE_TOKEN}` when exchanging the temporary token: the sign-in is linked to the invited person entity, and without `db` the JWT is limited to the invite's database. If the sign-in is already linked to another person in that database, the invite is not accepted and the response includes `"conflict": "invite"`. An invalid, expired or already used invite — or one for another database than `db` — is rejected with `400 Invalid or expired invite`; a used invite only still signs in the person it was for.
 
-A passkey is a login provider like the others, on the Entu passkey page (`lang` does not apply):
-
-- `/api/auth/passkey` signs in with an existing passkey. The user is matched by the passkey's `entu_user` value in every database that holds it.
-- `/api/auth/passkey/register` creates a new passkey on the user's device and signs in with it — use it to sign up, to accept an invite with a new passkey, or to add a passkey to one's own person.
-
-Both end in a temporary token for `GET /api/auth` and take `next` the same way. Accepting an invite, creating a person automatically or creating a new database with a passkey stores that passkey on the person. A passkey stores no name: `user.name` is the person's name in the first database, alphabetically, that has one.
+A passkey stores no name, so after a `passkey` sign-in `user.name` is the person's name in the first database, alphabetically, that has one.
 
 ## Authentication Flow
 
