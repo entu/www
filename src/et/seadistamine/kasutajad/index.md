@@ -27,7 +27,7 @@ Täieliku õiguste tabeli ja jagamise võimaluste kohta vaata [Objektid → Juur
 
 ## Kasutajate automaatne loomine
 
-Kui soovid lubada juurdepääsu kõigile sisselogijatele, saab Entu automaatselt luua neile isikuobjekti esmakordsel sisselogimisel — käsitsi seadistamist pole vaja. Isik luuakse sisselogimisviisiga — pääsuvõtme või mis tahes muu valikuga — tema `entu_user` parameetrina. Isiku `email` ja `name` täidetakse, kui sisselogimine need edastab.
+Kui soovid lubada juurdepääsu kõigile sisselogijatele, saab Entu automaatselt luua neile isikuobjekti esmakordsel sisselogimisel — käsitsi seadistamist pole vaja. Isik luuakse sisselogimisviisiga — Entus juba kasutatud pääsuvõtme või mis tahes muu valikuga — tema `entu_user` parameetrina. Isiku `email` ja `name` täidetakse, kui sisselogimine need edastab.
 
 ::: warning
 Automaatselt loodud kasutajad on tavalised kasutajad. Neil on juurdepääs kõigile objektidele ja parameetritele, mis kasutavad `domain` jagamist. Enne selle lubamist veendu, et sinu jagamissätted on tahtlikud.

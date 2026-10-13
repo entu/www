@@ -27,7 +27,7 @@ See [Entities → Access Rights](/overview/entities/#access-rights) for the full
 
 ## Automatic User Creation
 
-If you want to allow access to everyone who signs in, Entu can automatically create a person entity for them on first login — no manual setup required. The person is created with the sign-in — a passkey or any other option — as its `entu_user` credential. The person's `email` and `name` are filled in when the sign-in provides them.
+If you want to allow access to everyone who signs in, Entu can automatically create a person entity for them on first login — no manual setup required. The person is created with the sign-in — a passkey already used for Entu, or any other option — as its `entu_user` credential. The person's `email` and `name` are filled in when the sign-in provides them.
 
 ::: warning
 Auto-created users are regular users. They will have access to all entities and properties that use `domain` sharing. Make sure your sharing settings are intentional before enabling this.
