@@ -116,19 +116,22 @@ The `size` path segment must be one of the allowed values (width and height of t
 
 Any other value returns `400`. Restricting to an allowlist bounds the number of cached variants per file.
 
-The response contains a time-limited signed `url` (valid for 60 seconds), the same shape as a file download:
+The response contains a time-limited signed `url` (valid for 60 seconds), the same shape as a file download, and the thumbnail's dominant `color`:
 
 ```json
 {
-  "url": "https://s3.amazonaws.com/bucket/path?signature..."
+  "url": "https://s3.amazonaws.com/bucket/path?signature...",
+  "color": "#3a5f8c"
 }
 ```
+
+`color` is the image's main color as `#rrggbb`, computed when the thumbnail is generated. It prefers a colorful tone over white backgrounds, black borders and grays, so a book cover on white paper gives the artwork's color. Entu uses it to tint an entity's header. It is omitted when no color could be determined.
 
 Generated thumbnails are cached in object storage, so the first request for a given file and size is slower (generation) and subsequent ones are served from cache. The source entity's access rules are enforced on every request.
 
 | Response | Meaning |
 |---|---|
-| `200` | JSON `{ url }` with the signed thumbnail URL |
+| `200` | JSON `{ url, color }` with the signed thumbnail URL and its dominant color |
 | `400` | Invalid `size`, unsupported file type, image too large, or the file could not be decoded |
 | `403` | No access to the entity |
 | `404` | Entity not found, it has no `photo`, or the file is missing from storage |
@@ -142,13 +145,13 @@ Generate a square thumbnail from **any** individual file property — not just `
 GET /api/{db}/property/{_id}/thumbnail/{size}
 ```
 
-Where the entity endpoint always uses the entity's first `photo` file, this endpoint thumbnails the specific file property you reference. Behaviour is otherwise identical: it center-crops to a square (cover fit) and produces a **JPEG** from an image (JPEG, PNG, GIF, BMP, TIFF) or the first page of a PDF. `size` must be `50`, `200` or `400` — any other value returns `400`. The response is `{ url }`, a signed URL valid for 60 seconds, and generated thumbnails are cached in object storage. This is what powers the filename-hover thumbnail preview in the UI.
+Where the entity endpoint always uses the entity's first `photo` file, this endpoint thumbnails the specific file property you reference. Behaviour is otherwise identical: it center-crops to a square (cover fit) and produces a **JPEG** from an image (JPEG, PNG, GIF, BMP, TIFF) or the first page of a PDF. `size` must be `50`, `200` or `400` — any other value returns `400`. The response is `{ url, color }` — a signed URL valid for 60 seconds and the thumbnail's dominant color — and generated thumbnails are cached in object storage. This is what powers the filename-hover thumbnail preview in the UI.
 
 The property's access rules are enforced on every request — the same access check as `GET /api/{db}/property/{_id}`.
 
 | Response | Meaning |
 |---|---|
-| `200` | JSON `{ url }` with the signed thumbnail URL |
+| `200` | JSON `{ url, color }` with the signed thumbnail URL and its dominant color |
 | `400` | Invalid `size`, the property is not a previewable file (not an image or PDF), image too large, or the file could not be decoded |
 | `403` | No access to the property |
 | `404` | Property or its entity not found, or the file is missing from storage |

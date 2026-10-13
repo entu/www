@@ -116,19 +116,22 @@ Tee `size` peab olema üks lubatud väärtustest (ruudu laius ja kõrgus pikslit
 
 Mis tahes muu väärtus tagastab `400`. Lubatud väärtuste loend piirab failikohaste vahemällu salvestatud variantide arvu.
 
-Vastus sisaldab ajalimiidiga allkirjastatud välja `url` (kehtib 60 sekundit), sama kujul nagu faili allalaadimine:
+Vastus sisaldab ajalimiidiga allkirjastatud välja `url` (kehtib 60 sekundit), sama kujul nagu faili allalaadimine, ja pisipildi põhivärvi `color`:
 
 ```json
 {
-  "url": "https://s3.amazonaws.com/bucket/path?signature..."
+  "url": "https://s3.amazonaws.com/bucket/path?signature...",
+  "color": "#3a5f8c"
 }
 ```
+
+`color` on pildi põhivärv kujul `#rrggbb`, mis arvutatakse pisipildi loomisel. Eelistatakse värvilist tooni valgele taustale, mustadele servadele ja hallidele, nii et valgel paberil raamatukaanest saadakse kujunduse värv. Entu kasutab seda objekti päise toonimiseks. Kui värvi ei õnnestu määrata, väli puudub.
 
 Loodud pisipildid salvestatakse objektihoidlasse, seega on esimene päring antud faili ja suuruse kohta aeglasem (genereerimine) ning järgmised serveeritakse vahemälust. Igal päringul kehtivad samad juurdepääsureeglid mis lähteobjektil.
 
 | Vastus | Tähendus |
 |---|---|
-| `200` | JSON `{ url }` allkirjastatud pisipildi URL-iga |
+| `200` | JSON `{ url, color }` allkirjastatud pisipildi URL-i ja selle põhivärviga |
 | `400` | Vigane `size`, toetamata failitüüp, liiga suur pilt või faili ei õnnestunud dekodeerida |
 | `403` | Puudub juurdepääs objektile |
 | `404` | Objekti ei leitud, sellel puudub `photo` või fail puudub salvestusest |
@@ -142,13 +145,13 @@ Loo ruudukujuline pisipilt **mis tahes** üksikust failiparameetrist — mitte a
 GET /api/{db}/property/{_id}/thumbnail/{size}
 ```
 
-Kui objekti endpoint kasutab alati objekti esimest `photo` faili, siis see endpoint teeb pisipildi konkreetsest failiparameetrist, millele viitad. Muus osas on käitumine identne: see kärbib keskelt ruuduks (cover-sobitus) ja toodab **JPEG**-i pildist (JPEG, PNG, GIF, BMP, TIFF) või PDF-i esimesest leheküljest. `size` peab olema `50`, `200` või `400` — mis tahes muu väärtus tagastab `400`. Vastus on `{ url }`, 60 sekundit kehtiv allkirjastatud URL, ja loodud pisipildid salvestatakse vahemäluna objektihoidlasse. See toidab kasutajaliideses failinime kohal hõljudes kuvatavat pisipildi eelvaadet.
+Kui objekti endpoint kasutab alati objekti esimest `photo` faili, siis see endpoint teeb pisipildi konkreetsest failiparameetrist, millele viitad. Muus osas on käitumine identne: see kärbib keskelt ruuduks (cover-sobitus) ja toodab **JPEG**-i pildist (JPEG, PNG, GIF, BMP, TIFF) või PDF-i esimesest leheküljest. `size` peab olema `50`, `200` või `400` — mis tahes muu väärtus tagastab `400`. Vastus on `{ url, color }` — 60 sekundit kehtiv allkirjastatud URL ja pisipildi põhivärv — ja loodud pisipildid salvestatakse vahemäluna objektihoidlasse. See toidab kasutajaliideses failinime kohal hõljudes kuvatavat pisipildi eelvaadet.
 
 Igal päringul kehtivad parameetri juurdepääsureeglid — sama juurdepääsukontroll nagu `GET /api/{db}/property/{_id}`.
 
 | Vastus | Tähendus |
 |---|---|
-| `200` | JSON `{ url }` allkirjastatud pisipildi URL-iga |
+| `200` | JSON `{ url, color }` allkirjastatud pisipildi URL-i ja selle põhivärviga |
 | `400` | Vigane `size`, parameeter ei ole eelvaadatav fail (ei ole pilt ega PDF), liiga suur pilt või faili ei õnnestunud dekodeerida |
 | `403` | Puudub juurdepääs parameetrile |
 | `404` | Parameetrit või selle objekti ei leitud või fail puudub salvestusest |
