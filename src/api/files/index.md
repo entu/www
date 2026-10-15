@@ -106,7 +106,7 @@ Generate a square thumbnail from the first file of an entity's `photo` property:
 GET /api/{db}/entity/{_id}/thumbnail/{size}
 ```
 
-The endpoint takes the first `photo` file, renders it, center-crops it to a square (cover fit), and produces a **JPEG**. Both **images** (JPEG, PNG, GIF, BMP, TIFF) and **PDF** sources are supported — for PDFs, the first page is rendered. Source files over 25 MB or images over 40 megapixels are refused.
+The endpoint takes the first `photo` file, renders it, center-crops it to a square (cover fit), and produces a **JPEG**. Both **images** (JPEG, PNG, GIF, BMP, TIFF, WebP, AVIF, HEIC) and **PDF** sources are supported — for PDFs, the first page is rendered. Source files over 25 MB or images over 40 megapixels are refused.
 
 The `size` path segment must be one of the allowed values (width and height of the square, in pixels):
 
@@ -145,7 +145,7 @@ Generate a square thumbnail from **any** individual file property — not just `
 GET /api/{db}/property/{_id}/thumbnail/{size}
 ```
 
-Where the entity endpoint always uses the entity's first `photo` file, this endpoint thumbnails the specific file property you reference. Behaviour is otherwise identical: it center-crops to a square (cover fit) and produces a **JPEG** from an image (JPEG, PNG, GIF, BMP, TIFF) or the first page of a PDF. `size` must be `50`, `200` or `400` — any other value returns `400`. The response is `{ url, color }` — a signed URL valid for 60 seconds and the thumbnail's dominant color — and generated thumbnails are cached in object storage. This is what powers the filename-hover thumbnail preview in the UI.
+Where the entity endpoint always uses the entity's first `photo` file, this endpoint thumbnails the specific file property you reference. Behaviour is otherwise identical: it center-crops to a square (cover fit) and produces a **JPEG** from an image (JPEG, PNG, GIF, BMP, TIFF, WebP, AVIF, HEIC) or the first page of a PDF. `size` must be `50`, `200` or `400` — any other value returns `400`. The response is `{ url, color }` — a signed URL valid for 60 seconds and the thumbnail's dominant color — and generated thumbnails are cached in object storage. This is what powers the filename-hover thumbnail preview in the UI.
 
 The property's access rules are enforced on every request — the same access check as `GET /api/{db}/property/{_id}`.
 

@@ -106,7 +106,7 @@ Loo objekti `photo` parameetri esimesest failist ruudukujuline pisipilt:
 GET /api/{db}/entity/{_id}/thumbnail/{size}
 ```
 
-Endpoint võtab esimese `photo` faili, renderdab selle, kärbib keskelt ruuduks (cover-sobitus) ja toodab **JPEG**-i. Toetatud on nii **pildid** (JPEG, PNG, GIF, BMP, TIFF) kui ka **PDF**-failid — PDF-i puhul renderdatakse esimene lehekülg. Üle 25 MB lähtefailid ja üle 40 megapiksli pildid lükatakse tagasi.
+Endpoint võtab esimese `photo` faili, renderdab selle, kärbib keskelt ruuduks (cover-sobitus) ja toodab **JPEG**-i. Toetatud on nii **pildid** (JPEG, PNG, GIF, BMP, TIFF, WebP, AVIF, HEIC) kui ka **PDF**-failid — PDF-i puhul renderdatakse esimene lehekülg. Üle 25 MB lähtefailid ja üle 40 megapiksli pildid lükatakse tagasi.
 
 Tee `size` peab olema üks lubatud väärtustest (ruudu laius ja kõrgus pikslites):
 
@@ -145,7 +145,7 @@ Loo ruudukujuline pisipilt **mis tahes** üksikust failiparameetrist — mitte a
 GET /api/{db}/property/{_id}/thumbnail/{size}
 ```
 
-Kui objekti endpoint kasutab alati objekti esimest `photo` faili, siis see endpoint teeb pisipildi konkreetsest failiparameetrist, millele viitad. Muus osas on käitumine identne: see kärbib keskelt ruuduks (cover-sobitus) ja toodab **JPEG**-i pildist (JPEG, PNG, GIF, BMP, TIFF) või PDF-i esimesest leheküljest. `size` peab olema `50`, `200` või `400` — mis tahes muu väärtus tagastab `400`. Vastus on `{ url, color }` — 60 sekundit kehtiv allkirjastatud URL ja pisipildi põhivärv — ja loodud pisipildid salvestatakse vahemäluna objektihoidlasse. See toidab kasutajaliideses failinime kohal hõljudes kuvatavat pisipildi eelvaadet.
+Kui objekti endpoint kasutab alati objekti esimest `photo` faili, siis see endpoint teeb pisipildi konkreetsest failiparameetrist, millele viitad. Muus osas on käitumine identne: see kärbib keskelt ruuduks (cover-sobitus) ja toodab **JPEG**-i pildist (JPEG, PNG, GIF, BMP, TIFF, WebP, AVIF, HEIC) või PDF-i esimesest leheküljest. `size` peab olema `50`, `200` või `400` — mis tahes muu väärtus tagastab `400`. Vastus on `{ url, color }` — 60 sekundit kehtiv allkirjastatud URL ja pisipildi põhivärv — ja loodud pisipildid salvestatakse vahemäluna objektihoidlasse. See toidab kasutajaliideses failinime kohal hõljudes kuvatavat pisipildi eelvaadet.
 
 Igal päringul kehtivad parameetri juurdepääsureeglid — sama juurdepääsukontroll nagu `GET /api/{db}/property/{_id}`.
 
