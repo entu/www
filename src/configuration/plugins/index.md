@@ -69,11 +69,23 @@ Webhook delivery is not guaranteed. If your endpoint is down or returns an error
 
 Entu provides a set of ready-made plugins hosted at [github.com/entu/plugins](https://github.com/entu/plugins). Configure them by creating a plugin entity and setting its `url` to the corresponding plugin URL.
 
+### Updating Existing Entities
+
+The source import plugins (Ester, Open Library, Discogs, MusicBrainz, TMDB, BoardGameGeek, IGDB, Brickset, Numista) also work as `entity-edit` plugins: create a second plugin entity with the same `url` and type `entity-edit`, and attach it to the entity type. Opened from an existing entity, the plugin searches for the entity's ISBN or barcode, if it has one. After you pick a result, it shows every property side by side — the current values and the values from the source — and you choose for each one:
+
+- **Single-value property** — *Keep* or *Overwrite* when both sides have a value; equal values are greyed out.
+- **List property** — every current value can be kept or deleted, and every source value added or skipped; a source value the entity already has is greyed out.
+- **Property the source doesn't return** — its values are shown too, so you can keep or delete them.
+
+Values the source returns for properties the entity type doesn't define are listed separately; there, current values can only be kept. Formula, `readonly` and system properties are never shown or changed. Saving writes only the chosen changes and reloads the entity.
+
 ### System
 
 #### CSV Import
 
 Bulk-import entities from a spreadsheet. Upload a CSV file, preview the rows, choose which ones to import, and map each CSV column to an entity property. Supports a wide range of text encodings, so legacy exports from older systems work without manual conversion — the encoding is detected automatically and can be changed. The header row is not skipped; leave it unselected. Only properties without a formula that are not `readonly` can be mapped.
+
+To update existing entities, map a column holding entity IDs to `_id`. A row with an `_id` updates that entity — mapped columns replace the property's current values, empty cells keep them — and a row without one creates a new entity. With `_id` mapped, choose whether properties not mapped to any column are kept or deleted; deleting asks for confirmation first. Rows are colored by result: green for created or updated, red when the row failed (the `_id` doesn't exist, is of another entity type, or you can't edit it).
 
 #### Schema Templates
 

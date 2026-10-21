@@ -138,6 +138,10 @@ The entity type's `_sharing` acts as a cap on how broadly property definitions c
 Setting `_sharing` on a property definition only controls whether that property appears in the `domain` or `public` view of an entity. It does not affect who can access the entity itself — entity-level access is governed by `_sharing` and rights properties on the entity instance.
 :::
 
+::: info
+Changing the entity type's `_sharing`, or a property definition's `name`, `_sharing`, `search`, `formula` (or `multilingual` on a formula), updates all existing entities of that type in the background, so the change can take a few minutes to show on large types. Labels, descriptions and other form settings apply immediately.
+:::
+
 ::: tip
 For a full worked example of an entity type with properties, see [Use-Case Examples](/examples/).
 :::

@@ -69,11 +69,23 @@ Veebikonksu kohaletoimetamine pole garanteeritud. Kui sinu lõpp-punkt on maas v
 
 Entu pakub valmis pluginate komplekti, mida majutatakse aadressil [github.com/entu/plugins](https://github.com/entu/plugins). Seadista need, luues plugina objekti ja seades selle `url`-iks vastava plugina URL.
 
+### Olemasolevate objektide uuendamine
+
+Allikast importivad pluginad (Ester, Open Library, Discogs, MusicBrainz, TMDB, BoardGameGeek, IGDB, Brickset, Numista) töötavad ka `entity-edit` pluginatena: loo sama `url`-iga teine plugina objekt tüübiga `entity-edit` ja seo see objektitüübiga. Olemasoleva objekti juurest avades otsib plugin objekti ISBN-i või vöötkoodi järgi, kui see objektil on. Kui valid tulemuse, näitab plugin kõiki parameetreid kõrvuti — praegused väärtused ja allika väärtused — ning igaühe kohta otsustad ise:
+
+- **Ühe väärtusega parameeter** — *Säilita* või *Asenda*, kui väärtus on mõlemal pool; võrdsed väärtused on hallid.
+- **Loendiparameeter** — iga praeguse väärtuse saab säilitada või kustutada ning iga allika väärtuse lisada või vahele jätta; allika väärtus, mis objektil juba on, on hall.
+- **Parameeter, mida allikas ei tagasta** — ka selle väärtused on näha, et saaksid need säilitada või kustutada.
+
+Allika väärtused parameetritele, mida objektitüübis pole, on eraldi loetelus; seal saab praeguseid väärtusi ainult säilitada. Valemiga, `readonly` ja süsteemseid parameetreid ei näidata ega muudeta. Salvestamine kirjutab ainult valitud muudatused ja laadib objekti uuesti.
+
 ### Süsteem
 
 #### CSV import
 
 Objektide hulgiimport tabelist. Lae üles CSV-fail, vaata read eelvaates üle, vali importima minevad read ja vastenda iga CSV-veerg objekti parameetriga. Toetab laias valikus tekstikodeeringuid, seega töötavad vanemad süsteemidest pärit ekspordid ilma käsitsi teisendamiseta — kodeering tuvastatakse automaatselt ja seda saab muuta. Päiserida vahele ei jäeta; jäta see valimata. Vastendada saab ainult parameetreid, millel pole valemit ega `readonly` seadet.
+
+Olemasolevate objektide uuendamiseks vastenda objektide ID-dega veerg parameetriga `_id`. `_id`-ga rida uuendab seda objekti — vastendatud veerud asendavad parameetri praegused väärtused, tühjad lahtrid jätavad need alles — ja `_id`-ta rida loob uue objekti. Kui `_id` on vastendatud, vali, kas veeruga sidumata parameetrid säilitatakse või kustutatakse; kustutamine küsib enne kinnitust. Read värvitakse tulemuse järgi: roheline, kui objekt loodi või uuendati, punane, kui rida ebaõnnestus (`_id`-ga objekti pole, see on teist tüüpi või sul pole muutmisõigust).
 
 #### Skeemimallid
 

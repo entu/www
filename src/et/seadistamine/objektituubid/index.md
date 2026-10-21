@@ -138,6 +138,10 @@ Objektitüübi `_sharing` piirab, kui laialdaselt parameetrite definitsioonid an
 `_sharing` seadmine parameetri definitsioonil kontrollib ainult seda, kas see parameeter ilmub objekti `domain` või `public` vaates. See ei mõjuta seda, kes pääseb objektile ligi — objektitasemel juurdepääsu kontrollib `_sharing` ja õiguste parameetrid objekti eksemplaril.
 :::
 
+::: info
+Objektitüübi `_sharing`-i või parameetri definitsiooni `name`-i, `_sharing`-i, `search`-i, `formula` (või valemi puhul `multilingual`) muutmine uuendab taustal kõiki selle tüübi olemasolevaid objekte, nii et suurte tüüpide puhul võib muudatuse nähtavaks saamine võtta mõne minuti. Sildid, kirjeldused ja muud vormi seaded rakenduvad kohe.
+:::
+
 ::: tip
 Täieliku töönäite saamiseks objektitüübist koos parameetritega vaata [Kasutusnäited](/et/kasutusnaited/).
 :::
