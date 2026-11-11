@@ -30,12 +30,12 @@ Kogu seadistamine toimub Entu kasutajaliideses — koodi ega konfiguratsioonifai
 
 | Parameeter | Kirjeldus |
 |---|---|
-| `add_from` | Kontrollib, kust seda tüüpi objekte saab luua. Viita **menüü** objektile, et kuvada see tüüp tööriistaribal nupus „Uus …", kui see menüü on aktiivne. Viita **objektitüübile**, et lubada selle tüüpi objekte lisada alam-objektina mis tahes selle tüübi eksemplari alla. Viita **konkreetsele objektile**, et lubada luua seda tüüpi ainult selle konkreetse objekti alam-objektina — sellisel objektil pakutakse siis ainult neid tüüpe, mitte tema objektitüübi kaudu lisatuid. Ilma selleta ei paku nupud „Uus …" ja „Lisa …" kunagi seda tüüpi. |
+| `add_from` | Kontrollib, kuhu saab seda tüüpi objekte nupuga „Lisa …" alam-objektina luua. Viita **objektitüübile**, et lubada selle tüüpi objekte lisada alam-objektina mis tahes selle tüübi eksemplari alla. Viita **konkreetsele objektile**, et lubada luua seda tüüpi ainult selle konkreetse objekti alam-objektina — sellisel objektil pakutakse siis ainult neid tüüpe, mitte tema objektitüübi kaudu lisatuid. Et pakkuda seda tüüpi menüü nupu „Uus …" all, sea hoopis menüü `add_entity` — vaata [Menüüd](/et/seadistamine/menuud/). |
 | `default_parent` | Kui luuakse seda tüüpi uus objekt, lisatakse siin määratud objekt automaatselt täiendava `_parent`-na. Kasulik uute kirjete suunamiseks fikseeritud kausta sõltumata sellest, kuhu kasutaja klikkis „Lisa". |
 | `plugin` | Lisab plugina selle tüüpi objektidele. Vaata [Pluginad](/et/seadistamine/pluginad/). |
 
 ::: warning
-Kui `add_from` ei ole seatud, pole kasutajatel kasutajaliidesest võimalust seda tüüpi objekte luua. Viita vähemalt ühele menüüle, objektitüübile või konkreetsele objektile.
+Kui see tüüp ei ole ühegi menüü `add_entity` all ega ole tal `add_from` seatud, pole kasutajatel kasutajaliidesest võimalust seda tüüpi objekte luua. Lisa see vähemalt ühele menüüle või viita `add_from` abil objektitüübile või konkreetsele objektile.
 :::
 
 Selle tüübi juurdepääsukontrolli kohta vaata [Nähtavus](#nahtavus) alt.

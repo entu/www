@@ -27,7 +27,7 @@ Create plugin entities in the Configuration area, then reference them from the e
 | Type | When triggered | What happens |
 |---|---|---|
 | `entity-edit` | Edit drawer opened for an **existing** entity | Plugin URL loaded as an iframe tab. URL receives `account`, `entity`, `locale`, `token`. |
-| `entity-add` | Edit drawer opened to **create** a new entity | Plugin URL loaded as an iframe tab. URL receives `account`, `type`, `parent` (if adding as child), `locale`, `token`. |
+| `entity-add` | Edit drawer opened to **create** a new entity | Plugin URL loaded as an iframe tab. URL receives `account`, `type`, `parent` (if adding as child or from a menu with `add_parent`), `locale`, `token`. |
 | `entity-edit-webhook` | An **existing** entity of this type is **saved**, or one of its property values is deleted | Server POSTs `{ db, plugin, entity: { _id }, token }` to the plugin URL. Token is a short-lived JWT (1 min). Fire-and-forget. |
 | `entity-add-webhook` | A **new** entity of this type is **created** (not by duplicating) | Same server-side POST as above, triggered on creation. |
 
@@ -40,7 +40,7 @@ When Entu loads a UI plugin in the iframe, it appends these query parameters to 
 | `account` | Database identifier |
 | `entity` | Entity ID (for `entity-edit`) |
 | `type` | Entity type ID (for `entity-add`) |
-| `parent` | Parent entity ID (for `entity-add` when creating a child) |
+| `parent` | Parent entity ID (for `entity-add` when creating a child), or the menu's `add_parent` IDs comma-separated when creating from a menu; add one `_parent` per ID |
 | `locale` | Current UI language code |
 | `token` | The current user's access token (JWT) for making API calls on their behalf |
 

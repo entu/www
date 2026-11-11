@@ -65,7 +65,8 @@ Your team juggles a dozen projects, and "what's the status?" is answered by scro
 | `name` | `project` |
 | `label` | `Project` |
 | `description` | `A client project or internal initiative` |
-| `add_from` | *(reference to the "Projects" menu)* |
+
+To create projects from the sidebar, set `add_entity` on the "Projects" [menu](/configuration/menus/) to reference this entity type.
 
 ### Property definitions
 

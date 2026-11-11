@@ -30,12 +30,12 @@ All configuration happens through the Entu UI — no code or config files.
 
 | Param | Description |
 |---|---|
-| `add_from` | Controls where entities of this type can be created. Reference a **menu** entity to show this type in the "New …" button when that menu is active. Reference an **entity type** to allow adding this type as a child on any instance of that type. Reference a **specific entity** to allow creating this type only as a child of that specific entity — an entity referenced this way is then offered only those types, not the ones added through its entity type. Without this, the "New …" and "Add …" buttons will never offer this type. |
+| `add_from` | Controls where entities of this type can be created as children with the "Add …" button. Reference an **entity type** to allow adding this type as a child on any instance of that type. Reference a **specific entity** to allow creating this type only as a child of that specific entity — an entity referenced this way is then offered only those types, not the ones added through its entity type. To offer this type under the "New …" button of a menu, set the menu's `add_entity` instead — see [Menus](/configuration/menus/). |
 | `default_parent` | When a new entity of this type is created, the entity set here is automatically added as an additional `_parent`. Useful for routing new records into a fixed folder regardless of where the user clicked "Add". |
 | `plugin` | Attaches a plugin to run on entities of this type. See [Plugins](/configuration/plugins/). |
 
 ::: warning
-If `add_from` is not set, users will have no way to create entities of this type through the UI. Reference at least one menu, entity type, or specific entity.
+If this type is neither in any menu's `add_entity` nor has `add_from` set, users will have no way to create entities of this type through the UI. Add it to at least one menu, or reference an entity type or specific entity in `add_from`.
 :::
 
 To control who can see entities of this type, see [Visibility](#visibility) below.

@@ -65,7 +65,8 @@ Sinu tiim žongleerib tosina projektiga ja küsimusele "mis seis on?" vastatakse
 | `name` | `project` |
 | `label` | `Projekt` |
 | `description` | `Kliendiprojekt või sisemine algatus` |
-| `add_from` | *(viide "Projektid" menüüle)* |
+
+Et projekte saaks luua külgribalt, sea [menüü](/et/seadistamine/menuud/) "Projektid" `add_entity` viitama sellele objektitüübile.
 
 ### Parameetri definitsioonid
 

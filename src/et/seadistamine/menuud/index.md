@@ -6,9 +6,9 @@ description: "Seadista Entu külgriba menüüobjektidega — iga kirje viitab fi
 
 Menüüd on külgribal kuvatavad navigatsioonipunktid. Iga menüüelement viib objektide filtreeritud nimekirjani. Need on tüübi `menu` objektid — loo need Seadistamise alas.
 
-Kui menüüelement on aktiivne (praegune lehe URL vastab selle päringule), kuvatakse tööriistaribal nupp „Uus …" nende objektitüüpide jaoks, mille `add_from` viitab sellele menüüle.
+Menüü määrab ka, mida sealt luua saab. Kui menüüelement on aktiivne (praegune lehe URL vastab selle päringule), pakutakse selle `add_entity` objektitüüpe tööriistariba nupu „Uus …" all ja [käsupaletis](/et/alustamine/kasupalett/) — ühe tüübi korral kannab nupp selle nime (nt „Uus projekt"), mitme korral avab nupp „Uus …" valiku. Iga nii loodud objekt lisatakse menüü `add_parent` objektide alla.
 
-Objektitüübid saavad seada `add_from` ka viitama teisele **objektitüübile** või **konkreetsele objekti eksemplarile** — sel juhul ilmub selle tüübi eksemplari või konkreetse objekti vaatamisel nupp „Lisa …" kasutajatele, kellel on sellele objektile `_expander` õigused. Konkreetsele objektile viitavad tüübid on eelisjärjekorras: selle objektitüübile viitavaid tüüpe pakutakse ainult siis, kui ükski tüüp konkreetsele objektile ei viita. See muudab `add_from` töötavaks kahes kontekstis: menüütaseme loomine ja ülem-alam loomine.
+Olemasoleva objekti alla alam-objekti loomine seadistatakse hoopis objektitüübil: selle `add_from` viitab **objektitüübile** või **konkreetsele objektile** ning sellel objektil ilmub nupp „Lisa …" kasutajatele, kellel on sellele `_expander` õigused. Vaata [Objektitüübid → Käitumine](/et/seadistamine/objektituubid/#objektituubi-parameetrid).
 
 ## Menüü parameetrid
 
@@ -18,6 +18,8 @@ Objektitüübid saavad seada `add_from` ka viitama teisele **objektitüübile** 
 | `group` | Grupeerib menüüelemendid nimega sektsiooni päise alla. Sama `group` väärtusega elemendid kuvatakse koos. |
 | `ordinal` | Numbriline järjestus grupis. Väiksemad numbrid ilmuvad ees. Grupid järjestatakse nende elementide keskmise `ordinal` väärtuse järgi. |
 | `query` | URL-päringu string, mis määratleb, milliseid objekte see menüü kuvab. Kui praeguse lehe URL algab selle päringuga, tõstetakse menüüelement aktiivsena esile. Kui väärtus algab `http` või `/`, on element hoopis link, mis avaneb uuel vahekaardil; selles asendatakse `{DATABASE}` ja `{LOCALE}` praeguse andmebaasi ja kasutajaliidese keelega. |
+| `add_entity` | Lisatavad objektitüübid — viidete loend objektitüüpidele, mida sellest menüüst luua saab. Kui menüü on aktiivne, kuvatakse need nupu „Uus …" all ja käsupaletis. |
+| `add_parent` | Uute objektide ülemobjektid — viidete loend objektidele, mille alla lisatakse iga sellest menüüst loodud objekt, lisaks tema objektitüübi `default_parent`-ile. Iga ülemobjekt kehtib menüü kõigile `add_entity` tüüpidele. Kasutajal peavad olema igaühele neist `_expander` õigused, muidu salvestamine ebaõnnestub. Uued objektid pärivad nendelt ülemobjektidelt õigused ja jagamise nagu tavaliselt. |
 
 Parameeter `query` kasutab standardset objektifiltri süntaksit. Täieliku süntaksi kohta vaata [API → Päringu viide](/et/api/paringu-viide/).
 
@@ -32,7 +34,11 @@ Tüüpiline külgriba projektijuhtimise rakendusele:
 | Arved | Rahandus | 1 | `_type.string=invoice&sort=-date.date` |
 | Inimesed | Haldus | 1 | `_type.string=person&sort=name.string` |
 
-Et lubada mingit tüüpi objektide loomist menüüst, sea objektitüübi `add_from` viitama menüüobjektile. Kui see menüü on aktiivne, ilmub tööriistaribal nupp „Uus …".
+Et lubada menüüst **Ülesanded** ülesandeid luua, sea selle `add_entity` viitama objektitüübile `task`. Kui see menüü on aktiivne, kuvab tööriistariba nuppu „Uus ülesanne". Et iga uus ülesanne läheks projekti kausta alla, sea menüü `add_parent` viitama sellele kaustale.
+
+::: tip
+Uued objektid ilmuvad menüü loendisse ainult siis, kui need vastavad selle `query`-le. Kui menüü kasutab `add_parent`-it, lisa see päringusse (nt `_type.string=task&_parent.reference=<kausta id>`), et loend näitaks sellest loodud objekte.
+:::
 
 ## Juurdepääsukontroll
 

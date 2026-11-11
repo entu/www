@@ -6,9 +6,9 @@ description: "Configure the Entu sidebar with menu entities — each item links 
 
 Menus are the navigation items shown in the sidebar. Each menu item links to a filtered list of entities. They are entities of type `menu` — create them in the Configuration area.
 
-When a menu item is active (current page URL matches its query), entity types whose `add_from` references that menu will show a "New …" button in the toolbar.
+A menu also decides what can be created from it. When a menu item is active (current page URL matches its query), the entity types in its `add_entity` are offered under the "New …" button in the toolbar and in the [command palette](/getting-started/palette/) — with one type the button names it (e.g. "New Project"), with several it opens a "New …" popup to pick from. Every entity created this way is added under the menu's `add_parent` entities.
 
-Entity types can also set `add_from` to reference another **entity type** or a **specific entity instance** — in that case an "Add …" button appears when viewing an instance of that type or that specific entity, respectively, for users with `_expander` rights on it. Types that reference the specific entity take precedence: types that reference its entity type are offered only when none do. This makes `add_from` work across two contexts: menu-level creation and parent–child creation.
+Creating a child under an existing entity is configured on the entity type instead: its `add_from` references an **entity type** or a **specific entity**, and an "Add …" button appears on that entity for users with `_expander` rights on it. See [Entity Types → Behaviour](/configuration/entity-types/#entity-type-parameters).
 
 ## Menu Parameters
 
@@ -18,6 +18,8 @@ Entity types can also set `add_from` to reference another **entity type** or a *
 | `group` | Groups menu items under a named section header. Items with the same `group` value are shown together. |
 | `ordinal` | Numeric sort order within the group. Lower numbers appear first. Groups are ordered by the average `ordinal` of their items. |
 | `query` | URL query string that defines what entities this menu shows. When the current page URL starts with this query, the menu item is highlighted as active. A value starting with `http` or `/` makes the item a link that opens in a new tab instead; `{DATABASE}` and `{LOCALE}` in it are replaced with the current database and UI language. |
+| `add_entity` | Addable entity types — a list of references to the entity types that can be created from this menu. While the menu is active, they appear under the "New …" button and in the command palette. |
+| `add_parent` | Parents of new entities — a list of references to entities that every entity created from this menu is added under, in addition to its entity type's `default_parent`. Each one applies to every `add_entity` type of the menu. The user needs `_expander` rights on each of them, otherwise saving fails. New entities inherit rights and sharing from these parents as usual. |
 
 The `query` parameter uses the standard entity filter syntax. See [API → Query Reference](/api/query-reference/) for the full syntax.
 
@@ -32,7 +34,11 @@ A typical sidebar for a project management application:
 | Invoices | Finance | 1 | `_type.string=invoice&sort=-date.date` |
 | People | Admin | 1 | `_type.string=person&sort=name.string` |
 
-To allow creating entities of a type from a menu, set the entity type's `add_from` to reference the menu entity. When that menu is active, the "New …" button appears in the toolbar.
+To allow creating tasks from the **Tasks** menu, set its `add_entity` to the `task` entity type. When that menu is active, the toolbar shows a "New Task" button. To file every new task under a project folder, also set the menu's `add_parent` to that folder.
+
+::: tip
+New entities show up in the menu's list only if they match its `query`. When the menu sets `add_parent`, include it in the query (e.g. `_type.string=task&_parent.reference=<folder id>`) so the list shows what is created from it.
+:::
 
 ## Access Control
 

@@ -27,7 +27,7 @@ Loo plugina objektid Seadistamise alas, seejärel viita neile objektitüübi `pl
 | Tüüp | Käivitatakse | Mis juhtub |
 |---|---|---|
 | `entity-edit` | Muutmissahtel avati **olemasoleva** objekti jaoks | Plugina URL laaditakse iframi vahekaardina. URL saab `account`, `entity`, `locale`, `token`. |
-| `entity-add` | Muutmissahtel avati **uue** objekti **loomiseks** | Plugina URL laaditakse iframi vahekaardina. URL saab `account`, `type`, `parent` (kui lisatakse alam-objektina), `locale`, `token`. |
+| `entity-add` | Muutmissahtel avati **uue** objekti **loomiseks** | Plugina URL laaditakse iframi vahekaardina. URL saab `account`, `type`, `parent` (kui lisatakse alam-objektina või `add_parent`'iga menüüst), `locale`, `token`. |
 | `entity-edit-webhook` | Seda tüüpi **olemasolev** objekt on **salvestatud** või selle mõni parameetriväärtus kustutatud | Server saadab POST-i `{ db, plugin, entity: { _id }, token }` plugina URL-ile. Token on lühiealine JWT (1 min). Tulista-ja-unusta. |
 | `entity-add-webhook` | Seda tüüpi **uus** objekt on **loodud** (mitte dubleerimisega) | Sama serveripoolne POST nagu eespool, käivitatakse loomisel. |
 
@@ -40,7 +40,7 @@ Kui Entu laadib kasutajaliidese plugina iframes, lisab see plugina URL-ile need 
 | `account` | Andmebaasi identifikaator |
 | `entity` | Objekti ID (`entity-edit` jaoks) |
 | `type` | Objektitüübi ID (`entity-add` jaoks) |
-| `parent` | Ülemobjekti ID (`entity-add` puhul alam-objekti loomisel) |
+| `parent` | Ülemobjekti ID (`entity-add` puhul alam-objekti loomisel) või menüüst loomisel menüü `add_parent` ID-d komadega eraldatult; iga ID kohta lisatakse üks `_parent` |
 | `locale` | Praeguse kasutajaliidese keelekood |
 | `token` | Praeguse kasutaja juurdepääsutoken (JWT) API-kõnede tegemiseks tema nimel |
 
