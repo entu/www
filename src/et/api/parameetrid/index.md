@@ -154,6 +154,7 @@ Tagastab eduka kustutamise korral `{ "deleted": true }`. Kustutamine on pehme ku
 | Muud `_`-ga algavad süsteemsed parameetrid (nt `_created`) | Ei saa kustutada |
 | Serveri hallatavad arveldusparameetrid (`billing_*`) | Ei saa kustutada |
 | `_owner`, `_editor`, `_expander`, `_viewer`, `_noaccess`, `_sharing`, `_inheritrights`, `_parent` | Nõuab `_owner` õigusi objektil |
+| `entu_user`, `entu_api_key` | Nõuab `_owner` õigusi objektil või et kustutaja on see objekt ise (isik eemaldab oma sisselogimisviisi) |
 | `_owner` (viimane) | Ei saa kustutada — vähemalt üks `_owner` peab jääma |
 | `_parent` | Nõuab ka `_expander` õigusi viidataval ülemobjektil |
 

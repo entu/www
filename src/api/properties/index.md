@@ -154,6 +154,7 @@ Returns `{ "deleted": true }` on success. Deletion is a soft-delete — the prop
 | Other system properties starting with `_` (e.g. `_created`) | Cannot be deleted |
 | Server-managed billing properties (`billing_*`) | Cannot be deleted |
 | `_owner`, `_editor`, `_expander`, `_viewer`, `_noaccess`, `_sharing`, `_inheritrights`, `_parent` | Requires `_owner` rights on the entity |
+| `entu_user`, `entu_api_key` | Requires `_owner` rights on the entity, or being that entity (a person removing their own login) |
 | `_owner` (last one) | Cannot be deleted — at least one `_owner` must remain |
 | `_parent` | Also requires `_expander` rights on the referenced parent entity |
 

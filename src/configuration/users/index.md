@@ -52,3 +52,15 @@ All of the following must be true for auto-creation to trigger:
 5. The sign-in is not accepting an invite
 
 After creation, the new person entity is automatically set as its own `_editor` — so users can update their own profile properties right away.
+
+## Entu Support Access
+
+When you need help with a problem, you can let Entu support see and change all data in your database for a limited time. Support staff have no login in your database. They get in only while your grant runs.
+
+1. Open the `database` entity
+2. In the **Entu support access** section, choose **Allow for 1 day**, **7 days** or **30 days**
+3. To stop sooner, choose **End access now** — access ends at once
+
+Only the database entity's `_owner` can grant or end access. The grant is the `support_until` property on the database entity, and it can be set up to a year ahead.
+
+While the grant runs, support has full rights on every entity and property in the database. Support can't add or remove login methods or API keys, change `add_user`, or change the grant itself. Every change support makes is recorded in the entity's history and marked as made by Entu support. When the grant ends, so does access, even in the middle of a session.

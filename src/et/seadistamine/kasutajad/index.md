@@ -52,3 +52,15 @@ Automaatse loomise käivitamiseks peavad kõik järgmised tingimused olema täid
 5. Sisselogimisega ei võeta vastu kutset
 
 Pärast loomist seatakse uus isikuobjekt automaatselt oma `_editor`-iks — nii saavad kasutajad kohe oma profiili parameetreid uuendada.
+
+## Entu kasutajatoe ligipääs
+
+Kui vajad probleemi lahendamisel abi, saad lubada Entu kasutajatoel piiratud ajaks näha ja muuta kõiki oma andmebaasi andmeid. Kasutajatoel pole sinu andmebaasis sisselogimist. Ligipääs on neil ainult sinu antud loa kehtimise ajal.
+
+1. Ava objekt `database`
+2. Vali jaotises **Entu kasutajatoe ligipääs** **Luba 1 päevaks**, **7 päevaks** või **30 päevaks**
+3. Varem lõpetamiseks vali **Lõpeta ligipääs kohe** — ligipääs lõpeb kohe
+
+Loa saab anda ja lõpetada ainult andmebaasi objekti `_owner`. Luba on andmebaasi objekti parameeter `support_until` ja selle saab määrata kuni aasta ette.
+
+Loa kehtimise ajal on kasutajatoel kõik õigused andmebaasi kõigile objektidele ja parameetritele. Kasutajatugi ei saa lisada ega eemaldada sisselogimisviise ega API võtmeid, muuta parameetrit `add_user` ega muuta luba ennast. Iga kasutajatoe tehtud muudatus salvestatakse objekti ajalukku märkega, et selle tegi Entu kasutajatugi. Loa lõppedes lõpeb ka ligipääs, isegi kui sessioon on pooleli.

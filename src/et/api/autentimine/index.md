@@ -48,6 +48,8 @@ Kutse vastuvõtmiseks lisa ajutise tokeni vahetamisel `invite={INVITE_TOKEN}`: s
 
 Pääsuvõti ise nime ei hoia, seega on `passkey` sisselogimise järel `user.name` isiku nimi esimeses andmebaasis tähestiku järjekorras, kus isikul nimi on.
 
+Entu kasutajatoe töötajatele loetleb vastus eraldi massiivis `support` ka andmebaasid, mille omanik on andnud [kasutajatoe ligipääsu](/et/seadistamine/kasutajad/#entu-kasutajatoe-ligipaas): `[{ "_id": "db", "name": "db", "until": "2026-12-01T10:00:00.000Z", "user": { "_id": "..." } }]`. `user._id` on andmebaasi objekt, mille nimel kasutajatugi seal tegutseb. Need andmebaasid pole kunagi `accounts` loendis ega tokenis: iga päringut kontrollitakse loa vastu, nii et loa lõpetamine mõjub kohe. Kasutajatoeks loetakse ainult Smart-ID sisselogimist ja [OAuth serveri](#oauth-server) token ei ole seda kunagi.
+
 ## Autentimise voog
 
 1. Autendi OAuth-pakkuja või API võtmega
@@ -74,7 +76,7 @@ curl -X GET "https://entu.app/api/auth/refresh" \
   -H "Authorization: Bearer YOUR_CURRENT_TOKEN"
 ```
 
-Vastusel on sama kuju nagu `GET /api/auth` puhul — `accounts`, `user`, `token` ja `expires`. Allkiri ja IP-seos kontrollitakse ning ligipääs kontodele valideeritakse andmebaaside vastu uuesti — pakkuja või pääsuvõtmega sisselogimise korral otsitakse andmebaasid identiteedi järgi uuesti, nii et uuendatud token sisaldab ka pärast sisselogimist lisandunud või loodud andmebaase. Kui ükski andmebaas pole enam ligipääsetav, ebaõnnestub uuendamine veaga `401 No accessible accounts`. IP-seoseta tokenit — [OAuth serveri](#oauth-server) tokenit — uuendada ei saa: see lükatakse tagasi veaga `401 Invalid token`.
+Vastusel on sama kuju nagu `GET /api/auth` puhul — `accounts`, `support`, `user`, `token` ja `expires`. Allkiri ja IP-seos kontrollitakse ning ligipääs kontodele valideeritakse andmebaaside vastu uuesti — pakkuja või pääsuvõtmega sisselogimise korral otsitakse andmebaasid identiteedi järgi uuesti, nii et uuendatud token sisaldab ka pärast sisselogimist lisandunud või loodud andmebaase. Kui ükski andmebaas pole enam ligipääsetav, ebaõnnestub uuendamine veaga `401 No accessible accounts`. IP-seoseta tokenit — [OAuth serveri](#oauth-server) tokenit — uuendada ei saa: see lükatakse tagasi veaga `401 Invalid token`.
 
 Uuendamine hoiab sessiooni elus, kui uuendad regulaarselt, kuid kehtib kaks piirangut:
 

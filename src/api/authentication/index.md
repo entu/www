@@ -48,6 +48,8 @@ To accept an invite, add `invite={INVITE_TOKEN}` when exchanging the temporary t
 
 A passkey stores no name, so after a `passkey` sign-in `user.name` is the person's name in the first database, alphabetically, that has one.
 
+For Entu support staff, the response also lists the databases whose owners granted [support access](/configuration/users/#entu-support-access) as a separate `support` array: `[{ "_id": "db", "name": "db", "until": "2026-12-01T10:00:00.000Z", "user": { "_id": "..." } }]`. `user._id` is the database entity, which support acts as there. These databases are never in `accounts` or in the token: every request is checked against the grant, so ending it takes effect at once. Only a Smart-ID sign-in counts as support, and an [OAuth server](#oauth-server) token never does.
+
 ## Authentication Flow
 
 1. Authenticate using your OAuth provider or API key
@@ -74,7 +76,7 @@ curl -X GET "https://entu.app/api/auth/refresh" \
   -H "Authorization: Bearer YOUR_CURRENT_TOKEN"
 ```
 
-The response has the same shape as `GET /api/auth` — `accounts`, `user`, `token`, and `expires`. The signature and IP binding are enforced, and account access is re-validated against the databases — for a provider or passkey sign-in, databases are looked up again by identity, so the refreshed token includes databases joined or created since sign-in. If no database is accessible any more, refresh fails with `401 No accessible accounts`. A token without an IP binding — one from the [OAuth server](#oauth-server) — cannot be refreshed: it is rejected with `401 Invalid token`.
+The response has the same shape as `GET /api/auth` — `accounts`, `support`, `user`, `token`, and `expires`. The signature and IP binding are enforced, and account access is re-validated against the databases — for a provider or passkey sign-in, databases are looked up again by identity, so the refreshed token includes databases joined or created since sign-in. If no database is accessible any more, refresh fails with `401 No accessible accounts`. A token without an IP binding — one from the [OAuth server](#oauth-server) — cannot be refreshed: it is rejected with `401 Invalid token`.
 
 Refresh keeps a session alive as long as you refresh regularly, but two limits apply:
 
