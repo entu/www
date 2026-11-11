@@ -1,26 +1,29 @@
 ---
-description: "Ühenda Claude, ChatGPT või mõni muu MCP klient Entu andmebaasiga — lugemistööriistad ja elav skeemiressurss, filtreeritud sisselogitud kasutaja õiguste järgi."
+description: "Ühenda Claude, ChatGPT või mõni muu MCP klient oma Entu andmebaasidega — lugemistööriistad ja elav skeemiressurss, filtreeritud sisselogitud kasutaja õiguste järgi."
 ---
 
 # MCP server
 
-Entu räägib [Model Context Protocol](https://modelcontextprotocol.io) keelt, nii et AI assistent saab andmebaasi otse lugeda, ilma et sa peaksid andmeid vestlusesse kopeerima. Igal andmebaasil on oma otspunkt:
+Entu räägib [Model Context Protocol](https://modelcontextprotocol.io) keelt, nii et AI assistent saab sinu andmebaase otse lugeda, ilma et sa peaksid andmeid vestlusesse kopeerima. Otspunkte on kaks:
 
 ```
+https://mcp.entu.app
 https://mcp.entu.app/{andmebaas}
 ```
 
-Kõik, mida assistent näeb, on filtreeritud sisselogija õiguste järgi. Ilma tokenita loeb ta ainult avalikke objekte — sama, mida näeks sinu andmebaasi anonüümne külastaja.
+Esimene ulatub andmebaasideni, mille sisselogimisel valid; teine alati sellesse ühte andmebaasi. Kõik, mida assistent näeb, on filtreeritud sisselogija õiguste järgi.
 
 ## Ühendamine
 
 Enamik kliente vajab vaid URL-i. Claude Code'is:
 
 ```bash
-claude mcp add --transport http entu https://mcp.entu.app/minuandmebaas
+claude mcp add --transport http entu https://mcp.entu.app
 ```
 
-Privaatsete andmete jaoks logi sisse. Kliendid, mis toetavad OAuthi — nende seas Claude'i ja ChatGPT konnektorid — avastavad Entu [OAuth serveri](/et/api/autentimine/#oauth-server) URL-i põhjal ja avavad brauseri. Midagi ei kopeerita ja assistent saab ainult sinu enda ligipääsu.
+Kliendid, mis toetavad OAuthi — nende seas Claude'i ja ChatGPT konnektorid — avastavad Entu [OAuth serveri](/et/api/autentimine/#oauth-server) URL-i põhjal ja avavad brauseri. Sisselogimisviisi valid Entu enda lehel, pääsuvõti kaasa arvatud. Aadressiga `https://mcp.entu.app` näitab Entu seejärel andmebaase, kus sa oled kasutaja, ja sa märgid need, mida assistent lugeda tohib; andmebaasiga aadressi puhul kinnitad selle ühe. Midagi ei kopeerita ja assistent saab ainult sinu enda ligipääsu. Andmebaase, millele sul on ligipääs ainult [Entu kasutajatoe ligipääsu](/et/seadistamine/kasutajad/#entu-kasutajatoe-ligipaas) kaudu, ei pakuta kunagi.
+
+Ühe andmebaasi otspunkt töötab ka sisse logimata: siis loeb assistent ainult avalikke objekte — sama, mida näeks selle andmebaasi anonüümne külastaja.
 
 Kui sinu klient OAuthi ei toeta, anna [JWT](/et/api/autentimine/) otse:
 
@@ -31,7 +34,7 @@ claude mcp add --transport http entu https://mcp.entu.app/minuandmebaas \
 
 ## Mida assistent teha saab
 
-Viis lugemistööriista, mis peegeldavad [REST API-t](/et/api/paringu-viide/):
+Viis lugemistööriista, mis peegeldavad [REST API-t](/et/api/paringu-viide/). Igaüks võtab argumendi `db`, mis nimetab loetava andmebaasi ja on piiratud selle ühenduse andmebaasidega:
 
 | Tööriist | Otstarve |
 |---|---|
@@ -45,7 +48,7 @@ Server on **ainult lugemiseks**. Assistent oskab sinu andmete kohta vastata, nei
 
 ## Skeemiressurss
 
-Server pakub ka ressurssi `entu://schema`, mis loetleb kõik objektitüübid ja parameetrite definitsioonid, mida sisselogitud kasutaja näha tohib, koos siltidega igas seadistatud keeles. Assistendid loevad selle enne, kui vastavad küsimustele andmebaasi sisu kohta — just see lubab neil kasutada sinu enda sõnavara: `isik` jääb `isik`uks koos oma tegelike parameetritega, mitte oletuseks selle kohta, milline üks inimese kirje välja näeb.
+Server pakub ka igale andmebaasile ressurssi `entu://{andmebaas}/schema`, mis loetleb kõik objektitüübid ja parameetrite definitsioonid, mida sisselogitud kasutaja näha tohib, koos siltidega igas seadistatud keeles. Assistendid loevad selle enne, kui vastavad küsimustele andmebaasi sisu kohta — just see lubab neil kasutada sinu enda sõnavara: `isik` jääb `isik`uks koos oma tegelike parameetritega, mitte oletuseks selle kohta, milline üks inimese kirje välja näeb.
 
 Loetelu arvestab ka õigusi, nii et kaks sama andmebaasiga ühendunud inimest võivad näha erinevat skeemi.
 

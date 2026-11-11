@@ -121,7 +121,7 @@ Entu on ka OAuth 2.1 autoriseerimisserver. Selle asemel et ise `next` edasi-taga
 Kõik OAuth otspunktid asuvad API päritolul `https://api.entu.app` — `entu.app/api/…` alias siin ei sobi, sest avastusdokumendid peavad olema väljastaja juurkaustas.
 
 ::: info
-Iga autoriseerimine on seotud ühe andmebaasiga. Anna andmebaasi nimi `db` parameetrina või täielik URL `resource` parameetrina, kus andmebaas on esimene teeosa (nt `https://mcp.entu.app/mydatabase`). `resource` host peab olema API enda domeenis; muud ei arvestata.
+Autoriseerimise sidumiseks ühe andmebaasiga anna selle nimi `db` parameetrina või täielik URL `resource` parameetrina, kus andmebaas on esimene teeosa (nt `https://mcp.entu.app/mydatabase`). `resource` host peab olema API enda domeenis; muud ei arvestata. Pärast sisselogimist palub Entu kasutajal alati kinnitada: nimetatud andmebaasi näidatakse üksinda, ilma selleta näeb kasutaja andmebaase, kus ta on kasutaja, ja token kehtib neis, mille ta märgib. Andmebaase, millele tal on ligipääs ainult [kasutajatoe ligipääsu](/et/seadistamine/kasutajad/#entu-kasutajatoe-ligipaas) kaudu, ei pakuta kunagi.
 :::
 
 ### Avastus
@@ -159,11 +159,11 @@ https://api.entu.app/auth/authorize
   &db={ANDMEBAAS}
 ```
 
-PKCE on kohustuslik ja aktsepteeritud on ainult `S256`. Kasutaja logib sisse Entus ja seejärel saab sinu `redirect_uri` parameetrid `code` ja `state`.
+PKCE on kohustuslik ja aktsepteeritud on ainult `S256`. `db` ei ole kohustuslik (vaata ülal). Kasutaja logib sisse Entus ja seejärel saab sinu `redirect_uri` parameetrid `code` ja `state`. Kui kasutaja kinnituslehel keeldub, saab see hoopis `error=access_denied`.
 
-Ilma `provider` parameetrita küsib OAuth.ee kasutajalt, millist pakkujat kasutada. Selle valiku vahelejätmiseks lisa `&provider={PAKKUJA}` mõne [toetatud pakkujaga](#oauth) — näiteks `&provider=passkey` viib kasutaja otse pääsuvõtmega sisselogimisele. Pääsuvõtmega sisselogimine algab ainult nii.
+Ilma `provider` parameetrita näitab Entu oma sisselogimislehte, kus kasutaja valib pakkuja — pääsuvõti kaasa arvatud. Selle valiku vahelejätmiseks lisa `&provider={PAKKUJA}` mõne [toetatud pakkujaga](#oauth) — näiteks `&provider=passkey` viib kasutaja otse pääsuvõtmega sisselogimisele.
 
-Tundmatule `client_id` väärtusele või sellele registreerimata `redirect_uri` aadressile vastatakse veaga `400`. Kui mõlemad on korras, saadetakse iga muu probleem — vale `response_type`, puuduv PKCE, puuduv andmebaas, tundmatu pakkuja — tagasi sinu `redirect_uri` aadressile parameetritena `error` ja `error_description` koos sinu `state` väärtusega.
+Tundmatule `client_id` väärtusele või sellele registreerimata `redirect_uri` aadressile vastatakse veaga `400`. Kui mõlemad on korras, saadetakse iga muu probleem — vale `response_type`, puuduv PKCE, tundmatu pakkuja — tagasi sinu `redirect_uri` aadressile parameetritena `error` ja `error_description` koos sinu `state` väärtusega.
 
 ### Koodi vahetamine
 

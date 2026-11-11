@@ -1,26 +1,29 @@
 ---
-description: "Connect Claude, ChatGPT or any MCP client to an Entu database — read-only tools and a live schema resource, filtered by the signed-in user's rights."
+description: "Connect Claude, ChatGPT or any MCP client to your Entu databases — read-only tools and a live schema resource, filtered by the signed-in user's rights."
 ---
 
 # MCP Server
 
-Entu speaks the [Model Context Protocol](https://modelcontextprotocol.io), so an AI assistant can read a database directly instead of you pasting data into a chat. Each database has its own endpoint:
+Entu speaks the [Model Context Protocol](https://modelcontextprotocol.io), so an AI assistant can read your databases directly instead of you pasting data into a chat. There are two endpoints:
 
 ```
+https://mcp.entu.app
 https://mcp.entu.app/{database}
 ```
 
-Everything the assistant sees is filtered by the rights of whoever signed in. Without a token it reads public entities only — the same data an anonymous visitor to your database would see.
+The first reaches the databases you pick when you sign in; the second always reaches that one database. Everything the assistant sees is filtered by the rights of whoever signed in.
 
 ## Connecting
 
 Most clients only need the URL. In Claude Code:
 
 ```bash
-claude mcp add --transport http entu https://mcp.entu.app/mydatabase
+claude mcp add --transport http entu https://mcp.entu.app
 ```
 
-For private data, sign in. Clients that support OAuth — Claude and ChatGPT connectors among them — discover Entu's [OAuth server](/api/authentication/#oauth-server) from the URL and open a browser for you. Nothing is pasted, and the assistant only ever gets your own access.
+Clients that support OAuth — Claude and ChatGPT connectors among them — discover Entu's [OAuth server](/api/authentication/#oauth-server) from the URL and open a browser for you. You choose how to sign in on Entu's own page, passkey included. With `https://mcp.entu.app`, Entu then lists the databases you are a user in and you tick the ones the assistant may read; with a database in the URL, you confirm that one. Nothing is pasted, and the assistant only ever gets your own access. Databases you can open only through [Entu support access](/configuration/users/#entu-support-access) are never offered.
+
+The endpoint for one database also works without signing in: the assistant then reads public entities only — the same data an anonymous visitor to that database would see.
 
 If your client cannot do OAuth, pass a [JWT](/api/authentication/) directly:
 
@@ -31,7 +34,7 @@ claude mcp add --transport http entu https://mcp.entu.app/mydatabase \
 
 ## What the assistant can do
 
-Five read tools, mirroring the [REST API](/api/query-reference/):
+Five read tools, mirroring the [REST API](/api/query-reference/). Each takes a `db` argument naming the database to read, limited to the databases this connection reaches:
 
 | Tool | Purpose |
 |---|---|
@@ -45,7 +48,7 @@ The server is **read-only**. An assistant can answer questions about your data, 
 
 ## Schema resource
 
-The server also exposes a resource, `entu://schema`, listing every entity type and property definition the signed-in user may see, with labels in each configured language. Assistants read this before answering questions about what a database contains, which is what lets them use your own terminology — your `isik` type stays `isik`, with its real properties, rather than a guess at what a person record looks like.
+The server also exposes a resource per database, `entu://{database}/schema`, listing every entity type and property definition the signed-in user may see, with labels in each configured language. Assistants read this before answering questions about what a database contains, which is what lets them use your own terminology — your `isik` type stays `isik`, with its real properties, rather than a guess at what a person record looks like.
 
 The listing reflects rights too, so two people connecting to the same database can see different schemas.
 

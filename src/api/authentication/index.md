@@ -121,7 +121,7 @@ Entu is also an OAuth 2.1 authorization server. Instead of handling the `next` r
 All OAuth endpoints live on the API origin `https://api.entu.app` — the `entu.app/api/…` alias cannot be used here, because discovery documents must sit at the root of the issuer.
 
 ::: info
-Every authorization is scoped to one database. Pass the database name as `db`, or the full resource URL as `resource` with the database as its first path segment (e.g. `https://mcp.entu.app/mydatabase`). The `resource` host must be in the API's own domain; any other is ignored.
+To scope an authorization to one database, pass its name as `db`, or the full resource URL as `resource` with the database as its first path segment (e.g. `https://mcp.entu.app/mydatabase`). The `resource` host must be in the API's own domain; any other is ignored. After sign-in, Entu always asks the user to confirm: a named database is shown on its own, and without one the user sees the databases they are a user in, and the token covers the ones they tick. Databases open to them only through [support access](/configuration/users/#entu-support-access) are never offered.
 :::
 
 ### Discovery
@@ -159,11 +159,11 @@ https://api.entu.app/auth/authorize
   &db={DATABASE}
 ```
 
-PKCE is required and only `S256` is accepted. The user signs in on Entu, and your `redirect_uri` then receives `code` and `state`.
+PKCE is required and only `S256` is accepted. `db` is optional (see above). The user signs in on Entu, and your `redirect_uri` then receives `code` and `state`. If the user declines on the confirmation page, it receives `error=access_denied` instead.
 
-Without `provider`, OAuth.ee asks the user which provider to use. To skip that choice, add `&provider={PROVIDER}` with one of the [supported providers](#oauth) — for example `&provider=passkey` sends the user straight to the passkey sign-in. A passkey sign-in starts only this way.
+Without `provider`, Entu shows its own sign-in page, where the user picks a provider — passkey included. To skip that choice, add `&provider={PROVIDER}` with one of the [supported providers](#oauth) — for example `&provider=passkey` sends the user straight to the passkey sign-in.
 
-An unknown `client_id` or a `redirect_uri` not registered for it is answered with `400`. Once both check out, any other problem — wrong `response_type`, missing PKCE, no database, unknown provider — is sent back to your `redirect_uri` as `error` and `error_description`, with your `state`.
+An unknown `client_id` or a `redirect_uri` not registered for it is answered with `400`. Once both check out, any other problem — wrong `response_type`, missing PKCE, unknown provider — is sent back to your `redirect_uri` as `error` and `error_description`, with your `state`.
 
 ### Exchange the code
 
