@@ -52,6 +52,8 @@ Lugemis- ja muutmistööriistad, mis peegeldavad [REST API-t](/et/api/paringu-vi
 
 Muutmistööriistu pakutakse alles pärast sisselogimist. Iga kutse on üks muudatus — üks objekt kõigi oma väärtustega, üks väärtus, üks tüüp või üks parameetri definitsioon — ja sinu klient küsib enne käivitamist luba; kinnitamise järel rakendub see kohe. Entu kontrollib iga muudatuse juures sinu õigusi täpselt nagu veebirakenduses. Tulemus nimetab objekti ja selle tüübi ning loetleb iga kirjutatud või eemaldatud väärtuse, vana väärtus uue kõrval, et assistent saaks täpselt öelda, mis juhtus.
 
+Kliendid, mis toetavad [MCP Appsi](https://github.com/modelcontextprotocol/ext-apps) — nende seas Claude —, näitavad iga muudatust ka vestluses kaardina, mis põhineb Entu enda andmetel, mitte assistendi kokkuvõttel: mis loodi, muudeti või kustutati, iga väärtus oma parameetri sildi all koos läbikriipsutatud vana väärtusega uue kõrval ning nupp, mis avab objekti Entus. Teised kliendid näitavad tavalist tulemust.
+
 Mõned muudatused keelatakse ka täielike õigustega:
 
 - **Alam-objektidega objekte** ja objektitüüpe, mida mõni objekt veel kasutab, ei saa kustutada — kustuta või tõsta need enne ümber või kustuta objekt Entus.
