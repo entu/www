@@ -11,7 +11,7 @@ Entu AI is a chat assistant built into the Entu app. Open it with the **sparkles
 - **Answer configuration questions** — "Which properties does `person` have?", "Which entity types reference `project`?"
 - **Answer data questions** — search entities, read their values and change history, and fetch file download links, all within your rights
 - **Propose configuration changes** — create entity types, add or change property definitions, including [formula](/api/formulas/) properties
-- **Propose data changes** — create or update data entities, or delete individual property values
+- **Propose data changes** — create, update or delete data entities, or delete individual property values
 
 ## Reviewing and Applying Changes
 
@@ -36,7 +36,8 @@ Entu AI runs entirely with your own rights. It can only see what you can see and
 - Each database has a monthly AI token allowance — 100,000 tokens unless a different limit is set for the database. When it is used up, Entu AI answers with `Tokens limit reached` until the next month.
 - One message can be up to 8,000 characters, and only the latest 40 messages of the conversation are sent to the assistant.
 - One proposal can hold up to 25 operations.
-- System entity type definitions can't be changed through Entu AI.
+- System entity type definitions and their property definitions can't be changed through Entu AI.
+- Entu AI deletes an entity only when it has no child entities, and an entity type only when no entities use it — delete or move those first, or delete the entity yourself.
 
 ## Privacy
 

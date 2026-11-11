@@ -1,17 +1,17 @@
 ---
-description: "Ühenda Claude, ChatGPT või mõni muu MCP klient oma Entu andmebaasidega — lugemistööriistad ja elav skeemiressurss, filtreeritud sisselogitud kasutaja õiguste järgi."
+description: "Ühenda Claude, ChatGPT või mõni muu MCP klient oma Entu andmebaasidega — lugemis- ja muutmistööriistad ning elav skeemiressurss, sisselogitud kasutaja õigustega."
 ---
 
 # MCP server
 
-Entu räägib [Model Context Protocol](https://modelcontextprotocol.io) keelt, nii et AI assistent saab sinu andmebaase otse lugeda, ilma et sa peaksid andmeid vestlusesse kopeerima. Otspunkte on kaks:
+Entu räägib [Model Context Protocol](https://modelcontextprotocol.io) keelt, nii et AI assistent saab sinu andmebaase otse lugeda ja muuta, ilma et sa peaksid andmeid vestlusesse kopeerima. Otspunkte on kaks:
 
 ```
 https://mcp.entu.app
 https://mcp.entu.app/{andmebaas}
 ```
 
-Esimene ulatub andmebaasideni, mille sisselogimisel valid; teine alati sellesse ühte andmebaasi. Kõik, mida assistent näeb, on filtreeritud sisselogija õiguste järgi.
+Esimene ulatub andmebaasideni, mille sisselogimisel valid; teine alati sellesse ühte andmebaasi. Kõik, mida assistent näeb ja muudab, on piiratud sisselogija õigustega.
 
 ## Ühendamine
 
@@ -21,9 +21,9 @@ Enamik kliente vajab vaid URL-i. Claude Code'is:
 claude mcp add --transport http entu https://mcp.entu.app
 ```
 
-Kliendid, mis toetavad OAuthi — nende seas Claude'i ja ChatGPT konnektorid — avastavad Entu [OAuth serveri](/et/api/autentimine/#oauth-server) URL-i põhjal ja avavad brauseri. Sisselogimisviisi valid Entu enda lehel, pääsuvõti kaasa arvatud. Aadressiga `https://mcp.entu.app` näitab Entu seejärel andmebaase, kus sa oled kasutaja, ja sa märgid need, mida assistent lugeda tohib; andmebaasiga aadressi puhul kinnitad selle ühe. Midagi ei kopeerita ja assistent saab ainult sinu enda ligipääsu. Andmebaase, millele sul on ligipääs ainult [Entu kasutajatoe ligipääsu](/et/seadistamine/kasutajad/#entu-kasutajatoe-ligipaas) kaudu, ei pakuta kunagi.
+Kliendid, mis toetavad OAuthi — nende seas Claude'i ja ChatGPT konnektorid — avastavad Entu [OAuth serveri](/et/api/autentimine/#oauth-server) URL-i põhjal ja avavad brauseri. Sisselogimisviisi valid Entu enda lehel, pääsuvõti kaasa arvatud. Aadressiga `https://mcp.entu.app` näitab Entu seejärel andmebaase, kus sa oled kasutaja, ja sa märgid need, mida assistent lugeda ja muuta tohib; andmebaasiga aadressi puhul kinnitad selle ühe. Midagi ei kopeerita ja assistent saab ainult sinu enda ligipääsu. Andmebaase, millele sul on ligipääs ainult [Entu kasutajatoe ligipääsu](/et/seadistamine/kasutajad/#entu-kasutajatoe-ligipaas) kaudu, ei pakuta kunagi.
 
-Ühe andmebaasi otspunkt töötab ka sisse logimata: siis loeb assistent ainult avalikke objekte — sama, mida näeks selle andmebaasi anonüümne külastaja.
+Ühe andmebaasi otspunkt töötab ka sisse logimata: siis loeb assistent ainult avalikke objekte — sama, mida näeks selle andmebaasi anonüümne külastaja — ega saa muutmistööriistu.
 
 Kui sinu klient OAuthi ei toeta, anna [JWT](/et/api/autentimine/) otse:
 
@@ -34,7 +34,7 @@ claude mcp add --transport http entu https://mcp.entu.app/minuandmebaas \
 
 ## Mida assistent teha saab
 
-Viis lugemistööriista, mis peegeldavad [REST API-t](/et/api/paringu-viide/). Igaüks võtab argumendi `db`, mis nimetab loetava andmebaasi ja on piiratud selle ühenduse andmebaasidega:
+Lugemis- ja muutmistööriistad, mis peegeldavad [REST API-t](/et/api/paringu-viide/). Igaüks võtab argumendi `db`, mis nimetab loetava või muudetava andmebaasi ja on piiratud selle ühenduse andmebaasidega:
 
 | Tööriist | Otstarve |
 |---|---|
@@ -43,8 +43,20 @@ Viis lugemistööriista, mis peegeldavad [REST API-t](/et/api/paringu-viide/). I
 | `get_entity` | Üks objekt ID järgi |
 | `get_entity_history` | Kes mida ja millal muutis — vajab objektile otseseid õigusi |
 | `get_file_url` | Lühiajaline allalaadimislink failile |
+| `create_entity_type` | Uus objektitüüp |
+| `create_property_definition` | Uus parameetri definitsioon objektitüübile |
+| `create_entity` | Uus objekt |
+| `update_entity` | Objektile väärtuste lisamine või ühe asendamine |
+| `delete_entity` | Objekti kustutamine — vajab omaniku õigusi |
+| `delete_property` | Ühe väärtuse kustutamine |
 
-Server on **ainult lugemiseks**. Assistent oskab sinu andmete kohta vastata, neid kokku võtta ja omavahel seostada, aga ei saa midagi luua, muuta ega kustutada — selle asemel annab ta lingi objektile või otse selle muutmise või õiguste paneelile, et saaksid muudatuse ise teha.
+Muutmistööriistu pakutakse alles pärast sisselogimist. Iga kutse on üks muudatus — üks objekt kõigi oma väärtustega, üks väärtus, üks tüüp või üks parameetri definitsioon — ja sinu klient küsib enne käivitamist luba; kinnitamise järel rakendub see kohe. Entu kontrollib iga muudatuse juures sinu õigusi täpselt nagu veebirakenduses. Tulemus nimetab objekti ja selle tüübi ning loetleb iga kirjutatud või eemaldatud väärtuse, vana väärtus uue kõrval, et assistent saaks täpselt öelda, mis juhtus.
+
+Mõned muudatused keelatakse ka täielike õigustega:
+
+- **Alam-objektidega objekte** ja objektitüüpe, mida mõni objekt veel kasutab, ei saa kustutada — kustuta või tõsta need enne ümber või kustuta objekt Entus.
+- **Süsteemsed tüübid** — `database`, `entity`, `menu`, `plugin`, `property` ja iga tüüp, millel on parameeter `system` — ning nende parameetrite definitsioone ei saa luua, muuta ega kustutada.
+- **Süsteemseid parameetreid** — õigused, `_parent`, `_type` jms — ei saa määrata ega kustutada. Assistent annab selle asemel lingi objekti õiguste või ülemobjektide paneelile.
 
 ## Skeemiressurss
 

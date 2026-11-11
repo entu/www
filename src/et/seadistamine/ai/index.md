@@ -11,7 +11,7 @@ Entu AI on Entu rakendusse sisseehitatud vestlusassistent. Ava see tööriistari
 - **Vastata seadistusküsimustele** — „Millised parameetrid on tüübil `person`?", „Millised objektitüübid viitavad tüübile `project`?"
 - **Vastata andmeküsimustele** — otsida objekte, lugeda nende väärtusi ja muudatuste ajalugu ning hankida failide allalaadimislinke, alati sinu õiguste piires
 - **Pakkuda seadistusmuudatusi** — luua objektitüüpe, lisada või muuta parameetrite definitsioone, sealhulgas [valemiga](/et/api/valemid/) parameetreid
-- **Pakkuda andmemuudatusi** — luua või muuta andmeobjekte või kustutada üksikuid parameetriväärtusi
+- **Pakkuda andmemuudatusi** — luua, muuta või kustutada andmeobjekte või kustutada üksikuid parameetriväärtusi
 
 ## Muudatuste ülevaatamine ja rakendamine
 
@@ -36,7 +36,8 @@ Entu AI töötab täielikult sinu enda õigustega. Ta näeb ainult seda, mida si
 - Igal andmebaasil on igakuine AI tokenite kvoot — 100 000 tokenit, kui andmebaasile pole seatud teist piiri. Kui see on ära kasutatud, vastab Entu AI veaga `Tokens limit reached` kuni järgmise kuuni.
 - Üks sõnum võib olla kuni 8000 märki ja assistendile saadetakse ainult vestluse viimased 40 sõnumit.
 - Üks ettepanek võib sisaldada kuni 25 toimingut.
-- Süsteemseid objektitüüpide definitsioone Entu AI kaudu muuta ei saa.
+- Süsteemseid objektitüüpide definitsioone ja nende parameetrite definitsioone Entu AI kaudu muuta ei saa.
+- Entu AI kustutab objekti ainult siis, kui sellel pole alam-objekte, ja objektitüübi ainult siis, kui ükski objekt seda ei kasuta — kustuta või tõsta need enne ümber või kustuta objekt ise.
 
 ## Privaatsus
 
