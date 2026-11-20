@@ -83,7 +83,7 @@ To assign the next counter value, send `counter` instead of a value:
 ]
 ```
 
-The server finds the value of that property name with the highest `number` in the whole database — all entity types share one sequence per name — and adds the step (`true` = 1, or the given number) to the last number in its `string`, keeping the text around it (`INV-41` → `INV-42`); leading zeros are not kept. With no earlier value the result is the step itself. Sending `counter` together with a `string` that contains a number keeps that string and sets `number` from its last number; leading zeros of that number are dropped from the string too (`INV-0042` → `INV-42`).
+The server finds the value of that property name with the highest `number` across the entity types that define it as a counter — they share one sequence per name — and adds the step (`true` = 1, or a whole number from 1 to 1000) to the last number in its `string`, keeping the text around it (`INV-41` → `INV-42`); leading zeros are not kept. With no earlier value the result is the step itself. Sending `counter` together with a `string` that contains a number keeps that string and sets `number` from its last number; leading zeros of that number are dropped from the string too (`INV-0042` → `INV-42`). A sent `string` without a number gets the step appended (`INV-` → `INV-1`). `counter` is accepted only for a property whose definition on the entity's type is of type `counter`; any other property returns `400`.
 
 ## Overwriting a Property Value
 

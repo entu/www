@@ -83,7 +83,7 @@ Järgmise loenduri väärtuse määramiseks saada väärtuse asemel `counter`:
 ]
 ```
 
-Server leiab kogu andmebaasist selle parameetrinime väärtuse, millel on suurim `number` — kõik objektitüübid jagavad ühe nime kohta ühte jada — ja liidab sammu (`true` = 1 või antud arv) selle `string`-i viimasele arvule, jättes ümbritseva teksti alles (`INV-41` → `INV-42`); eesolevaid nulle ei säilitata. Kui varasemat väärtust pole, on tulemuseks samm ise. Kui `counter` saadetakse koos arvu sisaldava `string`-iga, jääb see string alles ja `number` võetakse selle viimasest arvust; selle arvu eesolevad nullid eemaldatakse ka stringist (`INV-0042` → `INV-42`).
+Server leiab selle parameetrinime väärtuse, millel on suurim `number`, nende objektitüüpide seast, kus see parameeter on loendur — need jagavad ühe nime kohta ühte jada — ja liidab sammu (`true` = 1 või täisarv 1 kuni 1000) selle `string`-i viimasele arvule, jättes ümbritseva teksti alles (`INV-41` → `INV-42`); eesolevaid nulle ei säilitata. Kui varasemat väärtust pole, on tulemuseks samm ise. Kui `counter` saadetakse koos arvu sisaldava `string`-iga, jääb see string alles ja `number` võetakse selle viimasest arvust; selle arvu eesolevad nullid eemaldatakse ka stringist (`INV-0042` → `INV-42`). Kui saadetud `string`-is arvu pole, lisatakse samm selle lõppu (`INV-` → `INV-1`). `counter` võetakse vastu ainult parameetrile, mille definitsioon objekti tüübil on tüüpi `counter`; iga teine parameeter tagastab `400`.
 
 ## Parameetriväärtuse ülekirjutamine
 

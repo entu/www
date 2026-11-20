@@ -45,12 +45,14 @@ Lugemis- ja muutmistööriistad, mis peegeldavad [REST API-t](/et/api/paringu-vi
 | `get_file_url` | Lühiajaline allalaadimislink failile |
 | `create_entity_type` | Uus objektitüüp |
 | `create_property_definition` | Uus parameetri definitsioon objektitüübile |
-| `create_entity` | Uus objekt |
+| `create_entity` | Uus objekt koos failidega — vt [Failide üleslaadimine](#failide-uleslaadimine) |
 | `update_entity` | Objektile väärtuste lisamine või ühe asendamine |
 | `delete_entity` | Objekti kustutamine — vajab omaniku õigusi |
 | `delete_property` | Ühe väärtuse kustutamine |
 
 Muutmistööriistu pakutakse alles pärast sisselogimist. Iga kutse on üks muudatus — üks objekt kõigi oma väärtustega, üks väärtus, üks tüüp või üks parameetri definitsioon — ja sinu klient küsib enne käivitamist luba; kinnitamise järel rakendub see kohe. Entu kontrollib iga muudatuse juures sinu õigusi täpselt nagu veebirakenduses. Tulemus nimetab objekti ja selle tüübi ning loetleb iga kirjutatud või eemaldatud väärtuse, vana väärtus uue kõrval, et assistent saaks täpselt öelda, mis juhtus.
+
+Loenduri tüüpi parameeter täidetakse nagu veebirakenduses: assistent küsib järgmist numbrit, Entu annab selle ja tulemus näitab saadud numbrit.
 
 Kliendid, mis toetavad [MCP Appsi](https://github.com/modelcontextprotocol/ext-apps) — nende seas Claude —, näitavad iga muudatust ka vestluses kaardina, mis põhineb Entu enda andmetel, mitte assistendi kokkuvõttel: mis loodi, muudeti või kustutati, iga väärtus oma parameetri sildi all koos läbikriipsutatud vana väärtusega uue kõrval ning nupp, mis avab objekti Entus. Teised kliendid näitavad tavalist tulemust.
 

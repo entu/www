@@ -45,12 +45,14 @@ Read and write tools, mirroring the [REST API](/api/query-reference/). Each take
 | `get_file_url` | A short-lived download link for a file |
 | `create_entity_type` | A new entity type |
 | `create_property_definition` | A new property definition on an entity type |
-| `create_entity` | A new entity |
+| `create_entity` | A new entity, its files included — see [Uploading files](#uploading-files) |
 | `update_entity` | Add values to an entity, or replace one |
 | `delete_entity` | Delete an entity — needs owner rights |
 | `delete_property` | Delete a single value |
 
 Write tools are offered only once you have signed in. Each call is one change — one entity with all its values, one value, one type or one property definition — and your client asks you before it runs; once approved, it is applied immediately. Entu checks your rights for every change, exactly as in the web app. The result names the entity and its type and lists each value written or removed, with the old value next to the new one, so the assistant can tell you exactly what happened.
+
+A counter property is filled the way the web app fills it: the assistant asks for the next number and Entu draws it, and the result shows the number drawn.
 
 Clients that support [MCP Apps](https://github.com/modelcontextprotocol/ext-apps) — Claude among them — also show every change as a card in the conversation, drawn from Entu's own data rather than the assistant's summary: what was created, changed or deleted, each value under its property label with the old one crossed out next to the new one, and a button that opens the entity in Entu. Other clients show the plain result.
 
