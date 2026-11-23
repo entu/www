@@ -142,6 +142,10 @@ Setting `_sharing` on a property definition only controls whether that property 
 Changing the entity type's `_sharing`, or a property definition's `name`, `_sharing`, `search`, `formula` (or `multilingual` on a formula), updates all existing entities of that type in the background, so the change can take a few minutes to show on large types. Labels, descriptions and other form settings apply immediately.
 :::
 
+::: warning Renaming a property
+Renaming a property definition (its `name`) moves the existing values on every entity of its entity types to the new name: each value is deleted and re-created under the new name, so entity history shows the rename, and each file is copied to its new value while the deleted value keeps the original. Values are moved only on entity types you can edit, and not when the entity type has another property with the old or new name, when it is a system type (`database`, `entity`, `menu`, `plugin`, `property`, `share_in`, `share_out`), or when the old or new name is a system (`_…`), login, billing or support access property. Shared entities are matched between databases by property name, so a shared property disappears from the receiving database until the definitions on both sides have the same name again. Formulas, menu queries, plugin settings and API clients that use the old name are not changed — update them yourself.
+:::
+
 ::: tip
 For a full worked example of an entity type with properties, see [Use-Case Examples](/examples/).
 :::

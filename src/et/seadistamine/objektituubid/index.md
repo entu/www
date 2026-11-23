@@ -142,6 +142,10 @@ Objektitüübi `_sharing` piirab, kui laialdaselt parameetrite definitsioonid an
 Objektitüübi `_sharing`-i või parameetri definitsiooni `name`-i, `_sharing`-i, `search`-i, `formula` (või valemi puhul `multilingual`) muutmine uuendab taustal kõiki selle tüübi olemasolevaid objekte, nii et suurte tüüpide puhul võib muudatuse nähtavaks saamine võtta mõne minuti. Sildid, kirjeldused ja muud vormi seaded rakenduvad kohe.
 :::
 
+::: warning Parameetri ümbernimetamine
+Parameetri definitsiooni ümbernimetamine (`name`-i muutmine) viib selle objektitüüpide kõigi objektide olemasolevad väärtused uue nime alla: iga väärtus kustutatakse ja luuakse uue nimega uuesti, nii et objekti ajalugu näitab ümbernimetamist, ja iga fail kopeeritakse uuele väärtusele, kustutatud väärtus jääb algse failiga. Väärtused viiakse üle ainult objektitüüpidel, mida sul on õigus muuta, ja mitte siis, kui objektitüübil on teine vana või uue nimega parameeter, kui see on süsteemne tüüp (`database`, `entity`, `menu`, `plugin`, `property`, `share_in`, `share_out`) või kui vana või uus nimi on süsteemne (`_…`), sisselogimise, arveldamise või tugiteenuse ligipääsu parameeter. Jagatud objektide parameetrid seotakse andmebaaside vahel nime järgi, nii et jagatud parameeter kaob vastuvõtvast andmebaasist seniks, kuni mõlema poole definitsioonidel on jälle sama nimi. Vana nime kasutavaid valemeid, menüüde päringuid, pluginate seadeid ja API kliente ei muudeta — uuenda need ise.
+:::
+
 ::: tip
 Täieliku töönäite saamiseks objektitüübist koos parameetritega vaata [Kasutusnäited](/et/kasutusnaited/).
 :::
