@@ -62,6 +62,16 @@ The `_sharing` property controls visibility beyond individual user rights:
 | `domain` | All authenticated users in the database, regardless of explicit rights. |
 | `public` | Anyone, including unauthenticated visitors. |
 
+Which property values a reader gets depends on who they are, not only on the entity's `_sharing`:
+
+| Reader | Sees |
+|---|---|
+| User with a right on the entity | All properties |
+| Other user signed in to this database, on a `domain` or `public` entity | Properties shared as `domain` or `public` |
+| Anyone else, on a `public` entity | Properties shared as `public` |
+
+A property's own sharing is set on its definition — see [Entity Types → Visibility](/configuration/entity-types/#visibility).
+
 Editing always requires `_editor` or `_owner` rights regardless of sharing level.
 
 ::: info

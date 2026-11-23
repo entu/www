@@ -62,6 +62,16 @@ Parameeter `_sharing` kontrollib nähtavust lisaks individuaalsetele kasutajaõi
 | `domain` | Kõik autenditud kasutajad andmebaasis, sõltumata selgesõnalistest õigustest. |
 | `public` | Kõik, sealhulgas autentimata külastajad. |
 
+Milliseid parameetreid lugeja näeb, sõltub lisaks objekti `_sharing` väärtusele ka sellest, kes ta on:
+
+| Lugeja | Näeb |
+|---|---|
+| Kasutaja, kellel on objektil õigus | Kõiki parameetreid |
+| Muu sellesse andmebaasi sisse loginud kasutaja, `domain` või `public` objektil | Parameetreid, mis on jagatud kui `domain` või `public` |
+| Kõik teised, `public` objektil | Parameetreid, mis on jagatud kui `public` |
+
+Parameetri enda jagamine määratakse selle definitsioonil — vaata [Objektitüübid → Nähtavus](/et/seadistamine/objektituubid/#nahtavus).
+
 Muutmiseks on alati vaja `_editor` või `_owner` õigusi, sõltumata jagamistasemest.
 
 ::: info

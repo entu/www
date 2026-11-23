@@ -63,4 +63,4 @@ Kui vajad probleemi lahendamisel abi, saad lubada Entu kasutajatoel piiratud aja
 
 Loa saab anda ja lõpetada ainult andmebaasi objekti `_owner`. Luba on andmebaasi objekti parameeter `support_until` ja selle saab määrata kuni aasta ette.
 
-Loa kehtimise ajal on kasutajatoel kõik õigused andmebaasi kõigile objektidele ja parameetritele. Kasutajatugi ei saa lisada ega eemaldada sisselogimisviise ega API võtmeid, muuta parameetrit `add_user` ega muuta luba ennast. Iga kasutajatoe tehtud muudatus salvestatakse objekti ajalukku märkega, et selle tegi Entu kasutajatugi. Loa lõppedes lõpeb ka ligipääs, isegi kui sessioon on pooleli.
+Loa kehtimise ajal on kasutajatoel kõik õigused andmebaasi kõigile objektidele ja parameetritele. Kasutajatugi ei saa lisada ega eemaldada sisselogimisviise ega API võtmeid, muuta parameetrit `add_user` ega muuta luba ennast. Iga kasutajatoe tehtud muudatus salvestatakse objekti ajalukku märkega, et selle tegi Entu kasutajatugi. Kasutajatoe loodud objektil pole `_owner`-it — sellel on ülemobjektilt päritud õigused, nii et kui see õigusi ei päri, lisa need ise. Loa lõppedes lõpeb ka ligipääs, isegi kui sessioon on pooleli.

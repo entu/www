@@ -63,4 +63,4 @@ When you need help with a problem, you can let Entu support see and change all d
 
 Only the database entity's `_owner` can grant or end access. The grant is the `support_until` property on the database entity, and it can be set up to a year ahead.
 
-While the grant runs, support has full rights on every entity and property in the database. Support can't add or remove login methods or API keys, change `add_user`, or change the grant itself. Every change support makes is recorded in the entity's history and marked as made by Entu support. When the grant ends, so does access, even in the middle of a session.
+While the grant runs, support has full rights on every entity and property in the database. Support can't add or remove login methods or API keys, change `add_user`, or change the grant itself. Every change support makes is recorded in the entity's history and marked as made by Entu support. An entity support creates gets no `_owner` — it has the rights it inherits from its parent, so give it rights yourself if it doesn't inherit any. When the grant ends, so does access, even in the middle of a session.
