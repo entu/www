@@ -47,6 +47,7 @@ Lugemis- ja muutmistööriistad, mis peegeldavad [REST API-t](/et/api/paringu-vi
 | `create_property_definition` | Uus parameetri definitsioon objektitüübile |
 | `create_entity` | Uus objekt koos failidega — vt [Failide üleslaadimine](#failide-uleslaadimine) |
 | `update_entity` | Objektile väärtuste lisamine või ühe asendamine |
+| `add_file` | Objektile faili lisamine või ühe asendamine — vt [Failide üleslaadimine](#failide-uleslaadimine) |
 | `delete_entity` | Objekti kustutamine — vajab omaniku õigusi |
 | `delete_property` | Ühe väärtuse kustutamine |
 
@@ -60,7 +61,13 @@ Mõned muudatused keelatakse ka täielike õigustega:
 
 - **Alam-objektidega objekte** ja objektitüüpe, mida mõni objekt veel kasutab, ei saa kustutada — kustuta või tõsta need enne ümber või kustuta objekt Entus.
 - **Süsteemsed tüübid** — `database`, `entity`, `menu`, `plugin`, `property` ja iga tüüp, millel on parameeter `system` — ning nende parameetrite definitsioone ei saa luua, muuta ega kustutada.
-- **Süsteemseid parameetreid** — õigused, `_parent`, `_type` jms — ei saa määrata ega kustutada. Assistent annab selle asemel lingi objekti õiguste või ülemobjektide paneelile.
+- **Süsteemseid parameetreid** — õigused, `_type` jms — ei saa määrata ega kustutada. Assistent annab selle asemel lingi objekti õiguste paneelile. Erand on ülemobjektid, mis käituvad nagu iga teine väärtus: assistent saab objektile lisada ükskõik kui palju ülemobjekte, nii loomisel kui hiljem, ühe asendada, et objekt mujale tõsta, ja objekti omaniku puhul ühe eemaldada.
+
+## Failide üleslaadimine
+
+Fail lisatakse kahe sammuga, nagu [REST API-s](/et/api/failid/): muudatus salvestab objektile faili nime, suuruse ja tüübi ning tagastab allkirjastatud üleslaadimislingi, seejärel saadab assistent faili sisu sellele lingile HTTP `PUT` päringuga. Uus objekt saab oma failid `create_entity` kutsega, iga faili jaoks oma lingiga; olemasolevale objektile lisatakse iga fail eraldi `add_file` kutsega. Link kehtib 10 minutit — piisavalt kaua, et klient jõuaks enne üleslaadimist sinult luba küsida.
+
+Seega saab faile üles laadida ainult assistent, kes ise HTTP päringuid teeb — Claude Code, Codex või koodi käivitamise tööriistaga assistent, mille võrk ulatub Entu failihoidlani. Ainult vestlev assistent annab selle asemel lingi objektile, et laadiksid faili Entus ise üles. Kui üleslaadimine ebaõnnestub, kustutab assistent tühja failiväärtuse `delete_property` abil.
 
 ## Skeemiressurss
 

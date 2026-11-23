@@ -47,6 +47,7 @@ Read and write tools, mirroring the [REST API](/api/query-reference/). Each take
 | `create_property_definition` | A new property definition on an entity type |
 | `create_entity` | A new entity, its files included — see [Uploading files](#uploading-files) |
 | `update_entity` | Add values to an entity, or replace one |
+| `add_file` | Add a file to an entity, or replace one — see [Uploading files](#uploading-files) |
 | `delete_entity` | Delete an entity — needs owner rights |
 | `delete_property` | Delete a single value |
 
@@ -60,7 +61,13 @@ Some changes are refused even with full rights:
 
 - **Entities with child entities**, and entity types that entities still use, can't be deleted — delete or move those first, or delete the entity in Entu.
 - **System types** — `database`, `entity`, `menu`, `plugin`, `property` and any type carrying a `system` property — and their property definitions can't be created, changed or deleted.
-- **System properties** — rights, `_parent`, `_type` and the like — can't be set or deleted. The assistant links you to the entity's rights or parents drawer instead.
+- **System properties** — rights, `_type` and the like — can't be set or deleted. The assistant links you to the entity's rights drawer instead. Parents are the exception and work like any other value: the assistant can add any number of parents, when creating an entity or later, replace one to move the entity, and remove one if you own the entity.
+
+## Uploading files
+
+Files take two steps, the same as in the [REST API](/api/files/): the write stores the file's name, size and type on the entity and returns a signed upload link, and the assistant then sends the file's bytes to that link with an HTTP `PUT`. A new entity gets its files in its `create_entity` call, with one upload link per file; an existing entity gets each file with its own `add_file` call. A link works for 10 minutes, long enough for your client to ask you before the upload runs.
+
+So only an assistant that can send HTTP requests itself can upload — Claude Code, Codex, or an assistant with a code-execution tool whose network reaches Entu's file storage. One that can only chat links you to the entity instead, so you upload the file in Entu. If an upload fails, the assistant removes the empty file value with `delete_property`.
 
 ## Schema resource
 
