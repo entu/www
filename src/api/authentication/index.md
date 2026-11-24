@@ -55,33 +55,44 @@ For Entu support staff, the response also lists the databases whose owners grant
 1. Authenticate using your OAuth provider or API key
 2. Exchange the credential at `GET /api/auth` for a JWT token
 3. Use the JWT in `Authorization: Bearer <token>` on all subsequent requests
-4. Refresh before the 12-hour expiry (see [Refreshing a Token](#refreshing-a-token))
+4. Before the 12-hour expiry, [refresh](#refreshing-a-token) a provider or passkey sign-in, or exchange your API key again
 
 ::: warning
-JWT tokens are bound to the IP address used when the token was issued. If your IP changes (e.g. switching networks, VPN, or mobile roaming), the token is immediately rejected with `401 Invalid token` and you must re-authenticate. Cache tokens per IP context if your environment changes addresses frequently. Tokens from the [OAuth server](#oauth-server) are the exception — they are not bound to an IP.
+JWT tokens are bound to the IP address used when the token was issued. If your IP changes (e.g. switching networks, VPN, or mobile roaming), the token is immediately rejected with `401 Invalid token`. A provider or passkey sign-in then [refreshes](#refreshing-a-token) and retries the request; with an API key, exchange the key again. Tokens from the [OAuth server](#oauth-server) are the exception — they are not bound to an IP.
 :::
 
 ::: tip
-Cache the JWT and reuse it across requests. Exchanging the credential on every call is wasteful — only refresh when the token nears expiry.
+Cache the JWT and reuse it across requests. Exchanging the credential on every call is wasteful — only renew when the token nears expiry or is refused.
 :::
 
 Every Entu JWT carries a `use` claim naming what it is for. Only `use: access` tokens — from `GET /api/auth`, `/api/auth/refresh` and the [OAuth server](#oauth-server) — open the REST API and MCP; a session token or an invite is refused there. Tokens issued before the claim was added have no `use` and are accepted until 2026-11-06.
 
 ## Refreshing a Token
 
-Instead of re-authenticating, exchange a still-valid (or recently expired) token for a fresh 12-hour one at `GET /api/auth/refresh`:
+A provider or passkey sign-in at `GET /api/auth` also returns a `refreshToken`. Trade it for a fresh 12-hour token, before the old one expires or after it is refused (for example when your IP changed):
 
 ```bash
 curl -X GET "https://entu.app/api/auth/refresh" \
-  -H "Authorization: Bearer YOUR_CURRENT_TOKEN"
+  -H "Authorization: Bearer YOUR_REFRESH_TOKEN"
 ```
 
-The response has the same shape as `GET /api/auth` — `accounts`, `support`, `user`, `token`, and `expires`. The signature and IP binding are enforced, and account access is re-validated against the databases — for a provider or passkey sign-in, databases are looked up again by identity, so the refreshed token includes databases joined or created since sign-in. If no database is accessible any more, refresh fails with `401 No accessible accounts`. A token without an IP binding — one from the [OAuth server](#oauth-server) — cannot be refreshed: it is rejected with `401 Invalid token`.
+The response has the same shape as `GET /api/auth` — `accounts`, `support`, `user`, `token`, `expires` — plus the next `refreshToken`. The new token is bound to the IP the refresh came from. Databases are looked up again by the sign-in's login on every refresh, so the token includes databases joined or created since sign-in and drops those you were removed from.
 
-Refresh keeps a session alive as long as you refresh regularly, but two limits apply:
+Each refresh token works once: store the new one, and don't refresh from two places at once — presenting an already used refresh token is treated as theft and ends the sign-in. A refresh token works for 7 days, and no sign-in lasts more than 30 days however often it is refreshed. After either, or when no database is accessible any more, refresh fails with `401 Invalid refresh token` and the user signs in again.
 
-- **Idle limit (14 days)** — measured from the presented token's own issue time. A token left unused (not refreshed) for more than 14 days is rejected with `401 Token too old, re-authenticate`. A client that refreshes within each 12-hour window never hits this.
-- **Absolute limit (30 days)** — measured from your original sign-in, which the token carries unchanged through every refresh. Once that is over 30 days old, refresh is rejected with `401 Session expired, re-authenticate` and you must sign in again — no matter how often you refreshed.
+An API key gets no refresh token — the key itself is the long-lived credential, so exchange it at `GET /api/auth` again. Entu support staff get none either and sign in again when their token ends, as a refresh token works from any address.
+
+## Signing Out
+
+Revoke the refresh token to end the sign-in, so it can't be used even if it was copied:
+
+```bash
+curl -X POST "https://entu.app/api/auth/revoke" \
+  -H "Content-Type: application/json" \
+  -d '{ "token": "YOUR_REFRESH_TOKEN" }'
+```
+
+An access token already issued keeps working until it expires, at most 12 hours. The answer is `200` whether or not the token was still valid. OAuth clients use the same endpoint — see [Sign out an OAuth client](#sign-out-an-oauth-client).
 
 ## Third-Party App Integration
 
@@ -105,10 +116,10 @@ The session token is short-lived (5 minutes), single use, and bound to the user'
 const response = await fetch('https://entu.app/api/auth', {
   headers: { Authorization: `Bearer ${sessionToken}` }
 })
-const { token } = await response.json()
+const { token, refreshToken } = await response.json()
 ```
 
-The exchange must originate from the same browser that completed the login — server-side exchange will fail because the IP will not match.
+The exchange must originate from the same browser that completed the login — server-side exchange will fail because the IP will not match. Keep the `refreshToken` to [refresh](#refreshing-a-token) the token, and [revoke](#signing-out) it when the user signs out.
 
 ::: warning Security note
 Always validate the `next` URL in your app before using the token. Only accept HTTPS URLs and reject any redirect to an origin you do not control.
@@ -179,17 +190,41 @@ curl -X POST "https://api.entu.app/auth/token" \
 {
   "access_token": "eyJhbGciOi...",
   "token_type": "Bearer",
-  "expires_in": 43200
+  "expires_in": 43200,
+  "refresh_token": "eyJhbGciOi..."
 }
 ```
 
-The `access_token` is an ordinary Entu JWT — use it exactly as described above.
+The `access_token` is an ordinary Entu JWT — use it exactly as described above. Keep the `refresh_token` as secret as a password: it renews the sign-in without the user.
 
 ::: info
-Unlike other Entu tokens, this one is not bound to an IP address — your backend can exchange the code and the token works from any machine. For the same reason it cannot be renewed at `/api/auth/refresh` (see [Refreshing a Token](#refreshing-a-token)).
+Unlike other Entu tokens, this one is not bound to an IP address — your backend can exchange the code and the token works from any machine. It is renewed with its refresh token, not at `/api/auth/refresh`.
 :::
 
-Codes are single use and expire after five minutes. When the token expires, run the flow again.
+Codes are single use and expire after five minutes.
+
+### Refresh an OAuth token
+
+Before the access token expires, trade the refresh token for a new pair:
+
+```bash
+curl -X POST "https://api.entu.app/auth/token" \
+  -d "grant_type=refresh_token" \
+  -d "refresh_token={REFRESH_TOKEN}"
+```
+
+The response has the same shape as the code exchange. Each refresh token works once — store the new one it returns. Presenting an already used one is treated as theft and ends the sign-in, so a client must not refresh from two places at once.
+
+The databases are checked again on every refresh: the new token covers only those the user confirmed and is still a user in, and refresh fails with `invalid_grant` once none is left. A refresh token works for 7 days, and no sign-in lasts more than 30 days however often it is refreshed — after either, refresh fails with `invalid_grant` and the user signs in again through [Authorize](#authorize). An access token never runs past the end of its sign-in, so the last one can be shorter than 12 hours.
+
+### Sign out an OAuth client
+
+```bash
+curl -X POST "https://api.entu.app/auth/revoke" \
+  -d "token={REFRESH_TOKEN}"
+```
+
+Ends the sign-in, so its refresh token stops working. An access token already issued keeps working until it expires, at most 12 hours. The answer is `200` whether or not the token was still valid.
 
 ## Auth Properties
 

@@ -23,6 +23,8 @@ claude mcp add --transport http entu https://mcp.entu.app
 
 Kliendid, mis toetavad OAuthi — nende seas Claude'i ja ChatGPT konnektorid — avastavad Entu [OAuth serveri](/et/api/autentimine/#oauth-server) URL-i põhjal ja avavad brauseri. Sisselogimisviisi valid Entu enda lehel, pääsuvõti kaasa arvatud. Aadressiga `https://mcp.entu.app` näitab Entu seejärel andmebaase, kus sa oled kasutaja, ja sa märgid need, mida assistent lugeda ja muuta tohib; andmebaasiga aadressi puhul kinnitad selle ühe. Midagi ei kopeerita ja assistent saab ainult sinu enda ligipääsu. Andmebaase, millele sul on ligipääs ainult [Entu kasutajatoe ligipääsu](/et/seadistamine/kasutajad/#entu-kasutajatoe-ligipaas) kaudu, ei pakuta kunagi.
 
+Seejärel uueneb ühendus taustal ise, nii et sa jääd sisselogituks seni, kuni assistenti kasutatakse vähemalt iga 7 päeva järel, kõige kauem 30 päeva; pärast seda avab klient brauseri uueks sisselogimiseks. Iga uuendamine kontrollib sinu andmebaase uuesti, nii et andmebaas, kust sind eemaldati, kukub välja.
+
 Ühe andmebaasi otspunkt töötab ka sisse logimata: siis loeb assistent ainult avalikke objekte — sama, mida näeks selle andmebaasi anonüümne külastaja — ega saa muutmistööriistu.
 
 Kui sinu klient OAuthi ei toeta, anna [JWT](/et/api/autentimine/) otse:

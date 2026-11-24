@@ -55,33 +55,44 @@ Entu kasutajatoe töötajatele loetleb vastus eraldi massiivis `support` ka andm
 1. Autendi OAuth-pakkuja või API võtmega
 2. Vaheta mandaat aadressil `GET /api/auth` JWT tokeni vastu
 3. Kasuta JWT-d päisena `Authorization: Bearer <token>` kõigis järgnevates päringutes
-4. Uuenda enne 12-tunnise kehtivuse lõppu (vaata [Tokeni uuendamine](#tokeni-uuendamine))
+4. Enne 12-tunnise kehtivuse lõppu [uuenda](#tokeni-uuendamine) pakkuja või pääsuvõtmega sisselogimist või vaheta API võti uuesti
 
 ::: warning
-JWT tokenid on seotud IP-aadressiga, mida kasutati tokeni väljastamisel. Kui su IP muutub (nt võrgu vahetus, VPN või mobiilroaming), lükatakse token kohe tagasi veaga `401 Invalid token` ja sa pead uuesti autentima. Vahemällu salvesta tokenid IP-konteksti kohta, kui sinu keskkond vahetab sageli aadresse. Erand on [OAuth serveri](#oauth-server) tokenid — need ei ole IP-aadressiga seotud.
+JWT tokenid on seotud IP-aadressiga, mida kasutati tokeni väljastamisel. Kui su IP muutub (nt võrgu vahetus, VPN või mobiilroaming), lükatakse token kohe tagasi veaga `401 Invalid token`. Pakkuja või pääsuvõtmega sisselogimine [uuendab](#tokeni-uuendamine) siis tokenit ja kordab päringut; API võtme puhul vaheta võti uuesti. Erand on [OAuth serveri](#oauth-server) tokenid — need ei ole IP-aadressiga seotud.
 :::
 
 ::: tip
-Vahemällu salvesta JWT ja kasuta seda uuesti päringutes. Mandaadi vahetamine iga kõne puhul on ebaotstarbekas — uuenda ainult siis, kui token läheneb aegumisele.
+Vahemällu salvesta JWT ja kasuta seda uuesti päringutes. Mandaadi vahetamine iga kõne puhul on ebaotstarbekas — uuenda ainult siis, kui token läheneb aegumisele või lükatakse tagasi.
 :::
 
 Iga Entu JWT kannab `use` väidet, mis ütleb, milleks token on. REST API ja MCP avanevad ainult `use: access` tokeniga — need tulevad aadressidelt `GET /api/auth`, `/api/auth/refresh` ja [OAuth serverist](#oauth-server); sessioonitoken või kutse lükatakse seal tagasi. Enne selle väite lisamist väljastatud tokenitel `use` puudub ja neid aktsepteeritakse kuni 2026-11-06.
 
 ## Tokeni uuendamine
 
-Uuesti autentimise asemel vaheta veel kehtiv (või hiljuti aegunud) token värske 12-tunnise vastu aadressil `GET /api/auth/refresh`:
+Pakkuja või pääsuvõtmega sisselogimine aadressil `GET /api/auth` tagastab ka `refreshToken` väärtuse. Vaheta see värske 12-tunnise tokeni vastu enne, kui vana aegub, või pärast seda, kui see tagasi lükati (näiteks kui su IP muutus):
 
 ```bash
 curl -X GET "https://entu.app/api/auth/refresh" \
-  -H "Authorization: Bearer YOUR_CURRENT_TOKEN"
+  -H "Authorization: Bearer YOUR_REFRESH_TOKEN"
 ```
 
-Vastusel on sama kuju nagu `GET /api/auth` puhul — `accounts`, `support`, `user`, `token` ja `expires`. Allkiri ja IP-seos kontrollitakse ning ligipääs kontodele valideeritakse andmebaaside vastu uuesti — pakkuja või pääsuvõtmega sisselogimise korral otsitakse andmebaasid identiteedi järgi uuesti, nii et uuendatud token sisaldab ka pärast sisselogimist lisandunud või loodud andmebaase. Kui ükski andmebaas pole enam ligipääsetav, ebaõnnestub uuendamine veaga `401 No accessible accounts`. IP-seoseta tokenit — [OAuth serveri](#oauth-server) tokenit — uuendada ei saa: see lükatakse tagasi veaga `401 Invalid token`.
+Vastusel on sama kuju nagu `GET /api/auth` puhul — `accounts`, `support`, `user`, `token`, `expires` — ning lisaks järgmine `refreshToken`. Uus token on seotud IP-aadressiga, kust uuendus tuli. Andmebaasid otsitakse igal uuendamisel sisselogimise järgi uuesti, nii et token sisaldab pärast sisselogimist lisandunud või loodud andmebaase ja jätab välja need, kust sind eemaldati.
 
-Uuendamine hoiab sessiooni elus, kui uuendad regulaarselt, kuid kehtib kaks piirangut:
+Iga uuendustoken töötab ühe korra: salvesta uus ja ära uuenda kahest kohast korraga — juba kasutatud uuendustokeni esitamist käsitletakse vargusena ja see lõpetab sisselogimise. Uuendustoken kehtib 7 päeva ja ükski sisselogimine ei kesta üle 30 päeva, sõltumata sellest, kui tihti seda uuendatakse. Kummagi järel või siis, kui ükski andmebaas pole enam ligipääsetav, ebaõnnestub uuendamine veaga `401 Invalid refresh token` ja kasutaja logib uuesti sisse.
 
-- **Jõudeoleku piir (14 päeva)** — mõõdetakse esitatud tokeni enda väljastusajast. Token, mida pole üle 14 päeva uuendatud, lükatakse tagasi veaga `401 Token too old, re-authenticate`. Klient, mis uuendab iga 12-tunnise akna jooksul, ei jõua selle piirini.
-- **Absoluutne piir (30 päeva)** — mõõdetakse algsest sisselogimisest, mille token kannab läbi iga uuenduse muutmata. Kui see on üle 30 päeva vana, lükatakse uuendus tagasi veaga `401 Session expired, re-authenticate` ja tuleb uuesti sisse logida — sõltumata sellest, kui tihti uuendasid.
+API võti uuendustokenit ei saa — võti ise on pikaajaline mandaat, nii et vaheta see uuesti aadressil `GET /api/auth`. Entu kasutajatugi ei saa seda samuti ja logib tokeni aegudes uuesti sisse, sest uuendustoken töötab igalt aadressilt.
+
+## Väljalogimine
+
+Tühista uuendustoken, et sisselogimine lõpetada ja seda ei saaks kasutada ka siis, kui see on kopeeritud:
+
+```bash
+curl -X POST "https://entu.app/api/auth/revoke" \
+  -H "Content-Type: application/json" \
+  -d '{ "token": "YOUR_REFRESH_TOKEN" }'
+```
+
+Juba väljastatud juurdepääsutoken töötab kuni aegumiseni, kõige rohkem 12 tundi. Vastus on `200` sõltumata sellest, kas token veel kehtis. OAuth kliendid kasutavad sama otspunkti — vaata [OAuth kliendi väljalogimine](#oauth-kliendi-valjalogimine).
 
 ## Kolmanda osapoole rakenduse integratsioon
 
@@ -105,10 +116,10 @@ Sessioonitoken on lühiajaline (5 minutit), ühekordne ja seotud kasutaja brause
 const response = await fetch('https://entu.app/api/auth', {
   headers: { Authorization: `Bearer ${sessionToken}` }
 })
-const { token } = await response.json()
+const { token, refreshToken } = await response.json()
 ```
 
-Vahetus peab tulema samast brauserist, mis lõpetas sisselogimise — serveripoolne vahetus ebaõnnestub, kuna IP ei lange kokku.
+Vahetus peab tulema samast brauserist, mis lõpetas sisselogimise — serveripoolne vahetus ebaõnnestub, kuna IP ei lange kokku. Hoia `refreshToken` alles, et tokenit [uuendada](#tokeni-uuendamine), ja [tühista](#valjalogimine) see, kui kasutaja välja logib.
 
 ::: warning Turvanõue
 Kinnita oma rakenduses alati `next` URL enne tokeni kasutamist. Aktsepteeri ainult HTTPS URL-e ja keeldu suunamisest originaalile, mida sa ei kontrolli.
@@ -179,17 +190,41 @@ curl -X POST "https://api.entu.app/auth/token" \
 {
   "access_token": "eyJhbGciOi...",
   "token_type": "Bearer",
-  "expires_in": 43200
+  "expires_in": 43200,
+  "refresh_token": "eyJhbGciOi..."
 }
 ```
 
-`access_token` on tavaline Entu JWT — kasuta seda täpselt nagu ülal kirjeldatud.
+`access_token` on tavaline Entu JWT — kasuta seda täpselt nagu ülal kirjeldatud. Hoia `refresh_token` sama salajasena kui salasõna: sellega uueneb sisselogimine ilma kasutajata.
 
 ::: info
-Erinevalt teistest Entu tokenitest ei ole see token IP-aadressiga seotud — sinu server võib koodi vahetada ja token töötab igast masinast. Samal põhjusel ei saa seda uuendada aadressil `/api/auth/refresh` (vaata [Tokeni uuendamine](#tokeni-uuendamine)).
+Erinevalt teistest Entu tokenitest ei ole see token IP-aadressiga seotud — sinu server võib koodi vahetada ja token töötab igast masinast. Seda uuendatakse uuendustokeniga, mitte aadressil `/api/auth/refresh`.
 :::
 
-Koodid on ühekordsed ja aeguvad viie minutiga. Kui token aegub, käivita voog uuesti.
+Koodid on ühekordsed ja aeguvad viie minutiga.
+
+### OAuth tokeni uuendamine
+
+Enne kui juurdepääsutoken aegub, vaheta uuendustoken uue paari vastu:
+
+```bash
+curl -X POST "https://api.entu.app/auth/token" \
+  -d "grant_type=refresh_token" \
+  -d "refresh_token={REFRESH_TOKEN}"
+```
+
+Vastusel on sama kuju nagu koodi vahetamisel. Iga uuendustoken töötab ühe korra — salvesta uus, mille vastus tagastab. Juba kasutatud tokeni esitamist käsitletakse vargusena ja see lõpetab sisselogimise, nii et klient ei tohi uuendada kahest kohast korraga.
+
+Andmebaasid kontrollitakse igal uuendamisel uuesti: uus token kehtib ainult neis, mille kasutaja kinnitas ja kus ta on endiselt kasutaja, ning kui ühtegi ei jää, ebaõnnestub uuendamine veaga `invalid_grant`. Uuendustoken kehtib 7 päeva ja ükski sisselogimine ei kesta üle 30 päeva, sõltumata sellest, kui tihti seda uuendatakse — kummagi järel ebaõnnestub uuendamine veaga `invalid_grant` ja kasutaja logib [Autoriseerimise](#autoriseerimine) kaudu uuesti sisse. Juurdepääsutoken ei kehti kunagi kauem kui sisselogimine, nii et viimane võib olla lühem kui 12 tundi.
+
+### OAuth kliendi väljalogimine
+
+```bash
+curl -X POST "https://api.entu.app/auth/revoke" \
+  -d "token={REFRESH_TOKEN}"
+```
+
+Lõpetab sisselogimise, nii et selle uuendustoken lakkab töötamast. Juba väljastatud juurdepääsutoken töötab kuni aegumiseni, kõige rohkem 12 tundi. Vastus on `200` sõltumata sellest, kas token veel kehtis.
 
 ## Autentimisparameetrid
 

@@ -23,6 +23,8 @@ claude mcp add --transport http entu https://mcp.entu.app
 
 Clients that support OAuth — Claude and ChatGPT connectors among them — discover Entu's [OAuth server](/api/authentication/#oauth-server) from the URL and open a browser for you. You choose how to sign in on Entu's own page, passkey included. With `https://mcp.entu.app`, Entu then lists the databases you are a user in and you tick the ones the assistant may read and change; with a database in the URL, you confirm that one. Nothing is pasted, and the assistant only ever gets your own access. Databases you can open only through [Entu support access](/configuration/users/#entu-support-access) are never offered.
 
+The connection then renews itself in the background, so you stay signed in as long as the assistant is used at least every 7 days, for up to 30 days; after that the client opens the browser for a new sign-in. Each renewal checks your databases again, so one you are removed from drops out.
+
 The endpoint for one database also works without signing in: the assistant then reads public entities only — the same data an anonymous visitor to that database would see — and gets no write tools.
 
 If your client cannot do OAuth, pass a [JWT](/api/authentication/) directly:

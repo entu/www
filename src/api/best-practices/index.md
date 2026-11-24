@@ -58,7 +58,7 @@ Upload directly to S3 using the signed URL — don't proxy files through your ow
 
 ## Token Management
 
-**Cache JWT tokens** — valid for 12 hours. Reuse them instead of requesting new ones per operation. Refresh before expiry via `GET /api/auth/refresh`.
+**Cache JWT tokens** — valid for 12 hours. Reuse them instead of requesting new ones per operation. Before expiry, exchange your API key again at `GET /api/auth`; a sign-in renews its token with its [refresh token](/api/authentication/#refreshing-a-token).
 
 ::: warning
 Never commit API keys to source control. Use environment variables or a secrets manager. If a key is exposed, delete it from the person entity and generate a new one immediately.
