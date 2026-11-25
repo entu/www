@@ -55,10 +55,10 @@ For Entu support staff, the response also lists the databases whose owners grant
 1. Authenticate using your OAuth provider or API key
 2. Exchange the credential at `GET /api/auth` for a JWT token
 3. Use the JWT in `Authorization: Bearer <token>` on all subsequent requests
-4. Before the 12-hour expiry, [refresh](#refreshing-a-token) a provider or passkey sign-in, or exchange your API key again
+4. Before the 12-hour expiry, exchange your API key again, or sign in again — the Entu webapp and app [refresh](#refreshing-a-token) instead
 
 ::: warning
-JWT tokens are bound to the IP address used when the token was issued. If your IP changes (e.g. switching networks, VPN, or mobile roaming), the token is immediately rejected with `401 Invalid token`. A provider or passkey sign-in then [refreshes](#refreshing-a-token) and retries the request; with an API key, exchange the key again. Tokens from the [OAuth server](#oauth-server) are the exception — they are not bound to an IP.
+JWT tokens are bound to the IP address used when the token was issued. If your IP changes (e.g. switching networks, VPN, or mobile roaming), the token is immediately rejected with `401 Invalid token`. The Entu webapp and app then [refresh](#refreshing-a-token) and retry the request; with an API key, exchange the key again. Tokens from the [OAuth server](#oauth-server) are the exception — they are not bound to an IP.
 :::
 
 ::: tip
@@ -69,7 +69,7 @@ Every Entu JWT carries a `use` claim naming what it is for. Only `use: access` t
 
 ## Refreshing a Token
 
-A provider or passkey sign-in at `GET /api/auth` also returns a `refreshToken`. Trade it for a fresh 12-hour token, before the old one expires or after it is refused (for example when your IP changed):
+A sign-in in the Entu webapp or app also returns a `refreshToken` from `GET /api/auth` — a third-party app signing in through `next` gets none and uses the [OAuth server](#oauth-server) instead. Trade it for a fresh 12-hour token, before the old one expires or after it is refused (for example when your IP changed):
 
 ```bash
 curl -X GET "https://entu.app/api/auth/refresh" \
@@ -119,7 +119,7 @@ const response = await fetch('https://entu.app/api/auth', {
 const { token, refreshToken } = await response.json()
 ```
 
-The exchange must originate from the same browser that completed the login — server-side exchange will fail because the IP will not match. Keep the `refreshToken` to [refresh](#refreshing-a-token) the token, and [revoke](#signing-out) it when the user signs out.
+The exchange must originate from the same browser that completed the login — server-side exchange will fail because the IP will not match. The token is not refreshable: when it expires after 12 hours, sign the user in again, or use the [OAuth server](#oauth-server), whose tokens come with a refresh token.
 
 ::: warning Security note
 Always validate the `next` URL in your app before using the token. Only accept HTTPS URLs and reject any redirect to an origin you do not control.

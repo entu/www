@@ -55,10 +55,10 @@ Entu kasutajatoe töötajatele loetleb vastus eraldi massiivis `support` ka andm
 1. Autendi OAuth-pakkuja või API võtmega
 2. Vaheta mandaat aadressil `GET /api/auth` JWT tokeni vastu
 3. Kasuta JWT-d päisena `Authorization: Bearer <token>` kõigis järgnevates päringutes
-4. Enne 12-tunnise kehtivuse lõppu [uuenda](#tokeni-uuendamine) pakkuja või pääsuvõtmega sisselogimist või vaheta API võti uuesti
+4. Enne 12-tunnise kehtivuse lõppu vaheta API võti uuesti või logi uuesti sisse — Entu veebirakendus ja rakendus [uuendavad](#tokeni-uuendamine) hoopis tokenit
 
 ::: warning
-JWT tokenid on seotud IP-aadressiga, mida kasutati tokeni väljastamisel. Kui su IP muutub (nt võrgu vahetus, VPN või mobiilroaming), lükatakse token kohe tagasi veaga `401 Invalid token`. Pakkuja või pääsuvõtmega sisselogimine [uuendab](#tokeni-uuendamine) siis tokenit ja kordab päringut; API võtme puhul vaheta võti uuesti. Erand on [OAuth serveri](#oauth-server) tokenid — need ei ole IP-aadressiga seotud.
+JWT tokenid on seotud IP-aadressiga, mida kasutati tokeni väljastamisel. Kui su IP muutub (nt võrgu vahetus, VPN või mobiilroaming), lükatakse token kohe tagasi veaga `401 Invalid token`. Entu veebirakendus ja rakendus [uuendavad](#tokeni-uuendamine) siis tokenit ja kordavad päringut; API võtme puhul vaheta võti uuesti. Erand on [OAuth serveri](#oauth-server) tokenid — need ei ole IP-aadressiga seotud.
 :::
 
 ::: tip
@@ -69,7 +69,7 @@ Iga Entu JWT kannab `use` väidet, mis ütleb, milleks token on. REST API ja MCP
 
 ## Tokeni uuendamine
 
-Pakkuja või pääsuvõtmega sisselogimine aadressil `GET /api/auth` tagastab ka `refreshToken` väärtuse. Vaheta see värske 12-tunnise tokeni vastu enne, kui vana aegub, või pärast seda, kui see tagasi lükati (näiteks kui su IP muutus):
+Sisselogimine Entu veebirakenduses või rakenduses tagastab aadressilt `GET /api/auth` ka `refreshToken` väärtuse — kolmanda osapoole rakendus, mis logib sisse `next` kaudu, seda ei saa ja kasutab hoopis [OAuth serverit](#oauth-server). Vaheta see värske 12-tunnise tokeni vastu enne, kui vana aegub, või pärast seda, kui see tagasi lükati (näiteks kui su IP muutus):
 
 ```bash
 curl -X GET "https://entu.app/api/auth/refresh" \
@@ -119,7 +119,7 @@ const response = await fetch('https://entu.app/api/auth', {
 const { token, refreshToken } = await response.json()
 ```
 
-Vahetus peab tulema samast brauserist, mis lõpetas sisselogimise — serveripoolne vahetus ebaõnnestub, kuna IP ei lange kokku. Hoia `refreshToken` alles, et tokenit [uuendada](#tokeni-uuendamine), ja [tühista](#valjalogimine) see, kui kasutaja välja logib.
+Vahetus peab tulema samast brauserist, mis lõpetas sisselogimise — serveripoolne vahetus ebaõnnestub, kuna IP ei lange kokku. Tokenit uuendada ei saa: kui see 12 tunni pärast aegub, logi kasutaja uuesti sisse või kasuta [OAuth serverit](#oauth-server), mille tokenitega tuleb kaasa uuendustoken.
 
 ::: warning Turvanõue
 Kinnita oma rakenduses alati `next` URL enne tokeni kasutamist. Aktsepteeri ainult HTTPS URL-e ja keeldu suunamisest originaalile, mida sa ei kontrolli.
